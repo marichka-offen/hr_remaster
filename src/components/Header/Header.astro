@@ -1,0 +1,32 @@
+---
+import './Header.scss'
+import { Icon } from 'astro-icon/components'
+---
+
+<header class='header'>
+    <div class='header__inner'>
+        <div class='header__logo'>
+            <a href='/'>
+                <h1>
+                    <span class='header__title'>History Reconsidered</span>
+                    <span class='header__subtitle'
+                        >Military History & Research</span
+                    >
+                </h1>
+            </a>
+        </div>
+        <nav class='header__nav'>
+            <a class='header__nav-link' href=''>Home</a>
+            <a class='header__nav-link' href=''>Articles</a>
+            <a class='header__nav-link' href=''>Book</a>
+            <a class='header__nav-link' href=''>About</a>
+            <a class='header__nav-link' href=''>Contact</a>
+            <button class='header__nav-search' aria-label='Search the articles'
+                ><Icon name='search' /></button
+            >
+        </nav>
+        <button class='header__nav-mobile' aria-label='Open mobile navigation'
+            ><Icon name='burger' /></button
+        >
+    </div>
+</header>
