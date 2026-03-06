@@ -1,4 +1,5 @@
 ---
+import MobileNav from '@components/MobileNav/MobileNav'
 import './Header.scss'
 import { Icon } from 'astro-icon/components'
 ---
@@ -25,9 +26,25 @@ import { Icon } from 'astro-icon/components'
                 ><Icon name='search' /></button
             >
         </nav>
-        <button class='header__nav-mobile' aria-label='Open mobile navigation'
-            ><Icon name='burger' /></button
+        <button
+            class='header__nav-mobile'
+            aria-label='Open mobile navigation'
+            data-mobile-nav-button
         >
-        <!-- TODO: PORTAL MOBILE NAV ??? -->
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </header>
+
+<MobileNav client:only='react' />
+
+<script>
+    const mobileMenuButton = document.querySelector('[data-mobile-nav-button]')
+
+    mobileMenuButton?.addEventListener('click', () => {
+        mobileMenuButton.classList.toggle('header__nav-mobile--active')
+        document.dispatchEvent(new CustomEvent('toggle-mobile-nav'))
+    })
+</script>
