@@ -40,7 +40,7 @@
     }
 
     &__subtitle {
-        color: var(--orange);
+        color: var(--gold);
         font-family: var(--tertiary-font);
         font-size: 10px;
         font-style: normal;
@@ -56,7 +56,7 @@
         gap: 32px;
 
         &-link {
-            color: var(--azure);
+            color: var(--navy);
             font-family: var(--tertiary-font);
             font-size: 14px;
             font-style: normal;
@@ -64,11 +64,38 @@
             line-height: 170%;
             letter-spacing: 1px;
             text-transform: uppercase;
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--gold);
+                transition: width var(--transition);
+            }
+
+            &:hover {
+                color: var(--gold);
+
+                &::after {
+                    width: 100%;
+                }
+            }
         }
 
         &-search {
             width: 36px;
             height: 36px;
+            transition: var(--transition);
+            border-radius: 50%;
+            overflow: hidden;
+
+            &:hover {
+                // TODO: Figure out hover state for search button
+            }
         }
 
         &-mobile {

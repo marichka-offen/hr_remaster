@@ -1,5 +1,4 @@
 :root {
-    --azure: #152334;
     --navy: #1a2332;
     --navy-light: #243044;
     --gold: #c4973b;
@@ -8,11 +7,11 @@
     --burgundy-light: #a63245;
     --parchment: #f5f0e8;
     --parchment-dark: #e8e0d2;
-    --orange: #D69200;
     --text: #2d2d2d;
     --text-light: #5a5a5a;
     --text-muted: #8a8275;
     --white: #fefcf9;
+    --black: #131a24;
     --shadow-sm: 0 1px 3px rgba(26, 35, 50, 0.08);
     --shadow-md: 0 4px 12px rgba(26, 35, 50, 0.1);
     --shadow-lg: 0 8px 30px rgba(26, 35, 50, 0.12);
