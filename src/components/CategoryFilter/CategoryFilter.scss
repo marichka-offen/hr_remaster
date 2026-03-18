@@ -1,0 +1,32 @@
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 48px;
+
+    &__pill {
+        font-family: var(--tertiary-font);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 8px 20px;
+        border: 1.5px solid var(--navy);
+        border-radius: 2px;
+        background: transparent;
+        color: var(--navy);
+        cursor: pointer;
+        transition: var(--transition);
+
+        &:hover {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        &--active {
+            background: var(--navy);
+            color: var(--white);
+        }
+    }
+}

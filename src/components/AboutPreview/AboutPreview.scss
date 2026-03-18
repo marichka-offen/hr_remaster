@@ -1,0 +1,113 @@
+.about-preview {
+    background: var(--white);
+    border-top: 1px solid var(--parchment-dark);
+    border-bottom: 1px solid var(--parchment-dark);
+
+    &__container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 24px;
+
+        @media (max-width: 768px) {
+            padding: 56px 20px;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 64px;
+        align-items: center;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+    }
+
+    &__image {
+        aspect-ratio: 3 / 4;
+        background: linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%);
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(196, 151, 59, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            max-width: 240px;
+            aspect-ratio: 1;
+        }
+    }
+
+    &__initials {
+        font-family: var(--secondary-font);
+        font-size: 80px;
+        font-weight: 800;
+        color: rgba(196, 151, 59, 0.15);
+        user-select: none;
+    }
+
+    &__name {
+        font-family: var(--secondary-font);
+        font-size: clamp(24px, 3vw, 32px);
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 8px;
+        line-height: 1.2;
+    }
+
+    &__role {
+        font-family: var(--tertiary-font);
+        font-size: 12px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 600;
+        margin-bottom: 24px;
+        display: block;
+    }
+
+    &__text p {
+        font-size: 18px;
+        color: var(--text-light);
+        margin-bottom: 16px;
+        line-height: 1.7;
+    }
+
+    &__link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--tertiary-font);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--burgundy);
+        margin-top: 8px;
+        transition: var(--transition);
+
+        svg {
+            width: 16px;
+            height: 16px;
+            transition: transform var(--transition);
+        }
+
+        &:hover {
+            color: var(--gold);
+
+            svg {
+                transform: translateX(6px);
+            }
+        }
+    }
+}

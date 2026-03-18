@@ -1,0 +1,175 @@
+.hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 72px;
+    background: var(--navy);
+
+    &__bg {
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(135deg, rgba(26, 35, 50, 0.88) 0%, rgba(26, 35, 50, 0.6) 50%, rgba(139, 38, 53, 0.7) 100%),
+            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(196,151,59,0.06)" stroke-width="1"/></pattern></defs><rect width="400" height="400" fill="url(%23grid)"/></svg>');
+        background-size: cover, 200px 200px;
+    }
+
+    &__texture {
+        position: absolute;
+        inset: 0;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+        background-size: 256px 256px;
+    }
+
+    &__content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 48px 24px;
+        max-width: 800px;
+    }
+
+    &__label {
+        font-family: var(--tertiary-font);
+        font-size: 12px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 24px;
+        font-weight: 600;
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease forwards 0.2s;
+    }
+
+    &__title {
+        font-family: var(--secondary-font);
+        font-size: clamp(42px, 7vw, 80px);
+        font-weight: 800;
+        color: var(--white);
+        line-height: 1.05;
+        letter-spacing: -1px;
+        margin-bottom: 28px;
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease forwards 0.4s;
+    }
+
+    &__divider {
+        width: 60px;
+        height: 2px;
+        background: var(--gold);
+        margin: 0 auto 28px;
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease forwards 0.5s;
+    }
+
+    &__quote {
+        font-family: var(--primary-font);
+        font-style: italic;
+        font-size: clamp(18px, 2.5vw, 24px);
+        color: rgba(255, 255, 255, 0.7);
+        max-width: 600px;
+        margin: 0 auto 40px;
+        line-height: 1.5;
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease forwards 0.6s;
+
+        &-author {
+            display: block;
+            font-style: normal;
+            font-size: 14px;
+            color: var(--gold);
+            margin-top: 12px;
+            font-family: var(--tertiary-font);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    }
+
+    &__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--tertiary-font);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--white);
+        border: 1.5px solid var(--gold);
+        padding: 14px 36px;
+        transition: var(--transition);
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease forwards 0.8s;
+
+        svg {
+            width: 16px;
+            height: 16px;
+            transition: transform var(--transition);
+        }
+
+        &:hover {
+            background: var(--gold);
+            color: var(--navy);
+
+            svg {
+                transform: translateX(4px);
+            }
+        }
+    }
+
+    &__scroll {
+        position: absolute;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease forwards 1s;
+
+        &::before {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            margin: 0 auto;
+            animation: scrollPulse 2s ease infinite;
+        }
+    }
+}
+
+@keyframes heroFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        min-height: 70vh;
+
+        &__title {
+            letter-spacing: 0;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        margin-top: 60px;
+    }
+}

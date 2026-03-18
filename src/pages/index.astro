@@ -1,9 +1,81 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
+import HomeHero from '@components/HomeHero/HomeHero.astro'
+import FeaturedArticle from '@components/FeaturedArticle/FeaturedArticle.astro'
+import { ArticleCardGrid } from '@components/ArticleCardGrid'
+import AboutPreview from '@components/AboutPreview/AboutPreview.astro'
+import BookPreview from '@components/BookPreview/BookPreview.astro'
+import type { ArticleMeta } from '@types/article'
+
+// TODO: Replace with Sanity fetch — allArticlesQuery
+const articles: ArticleMeta[] = [
+    {
+        title: "Gooch's American Regiment, 1740–1742",
+        slug: 'goochs-american-regiment',
+        category: 'Colonial America',
+        tags: ['Kent Militia'],
+        period: '1775',
+        excerpt: 'A reconsideration of one of the earliest American military formations and its significance in colonial military history.',
+        readTime: '8 min read',
+        heroGradient: 'war',
+    },
+    {
+        title: 'Maryland in the Colonial Era',
+        slug: 'maryland-colonial-era',
+        category: 'Colonial America',
+        tags: ['Colonial History'],
+        period: 'MD',
+        excerpt: 'Exploring the rich military heritage of Maryland from its founding through the Revolutionary period.',
+        readTime: '10 min read',
+        heroGradient: 'colony',
+    },
+    {
+        title: 'Irish Military History',
+        slug: 'irish-military-history',
+        category: 'European History',
+        tags: ['Irish History'],
+        period: 'IRL',
+        excerpt: 'The long and complex military tradition of Ireland, from ancient warriors to modern conflicts.',
+        readTime: '12 min read',
+        heroGradient: 'politics',
+    },
+    {
+        title: 'Dutch Military Heritage',
+        slug: 'dutch-military-heritage',
+        category: 'European History',
+        tags: ['Dutch History'],
+        period: 'NL',
+        excerpt: "The Netherlands' often overlooked but significant contributions to European military history.",
+        readTime: '9 min read',
+        heroGradient: 'trade',
+    },
+    {
+        title: 'Scottish Military Traditions',
+        slug: 'scottish-military-traditions',
+        category: 'British Isles',
+        tags: ['Scottish History'],
+        period: 'SCT',
+        excerpt: 'From Highland clans to renowned regiments — the martial heritage that shaped Scotland.',
+        readTime: '11 min read',
+    },
+    {
+        title: 'The Hussites',
+        slug: 'the-hussites',
+        category: 'Medieval History',
+        tags: ['Medieval'],
+        period: 'HUS',
+        excerpt: 'The revolutionary military tactics and religious fervor of the Hussite Wars in 15th century Bohemia.',
+        readTime: '14 min read',
+    },
+]
 ---
 
-<SiteLayout title='Home' description='Welcome'>
-    <main>
-        <h1>Home page content here</h1>
+<SiteLayout title="History Reconsidered" description="Reconsidering significant historical decisions and actions with rigorous research and source-supported analysis.">
+    <main id="main">
+        <HomeHero />
+        <FeaturedArticle />
+        <ArticleCardGrid client:load articles={articles} />
+        <AboutPreview />
+        <BookPreview />
     </main>
 </SiteLayout>
