@@ -1,40 +1,60 @@
 ---
 import './FeaturedArticle.scss'
+
+interface FeaturedArticleData {
+    title: string
+    slug: { current: string }
+    subtitle?: string
+    period?: string
+    excerpt?: string
+    readTime?: string
+    heroGradient?: string
+    topic?: { name: string }
+}
+
+interface Props {
+    label?: string
+    heading?: string
+    article: FeaturedArticleData
+}
+
+const { label, heading, article } = Astro.props
+const articleUrl = `/articles/${article.slug.current}`
+const tagLine = [article.topic?.name, article.subtitle].filter(Boolean).join(' · ')
 ---
 
 <section class="featured">
     <div class="featured__container">
         <div class="featured__header">
-            <div class="featured__label">Featured</div>
-            <h2 class="featured__heading">Latest Research</h2>
+            {label && <div class="featured__label">{label}</div>}
+            {heading && <h2 class="featured__heading">{heading}</h2>}
             <div class="featured__line"></div>
         </div>
 
         <div class="featured__card">
             <div class="featured__image">
-                <span class="featured__image-placeholder">1914</span>
+                <span class="featured__image-placeholder">{article.period ?? ''}</span>
                 <div class="featured__image-overlay">Featured Article</div>
             </div>
             <div class="featured__body">
-                <span class="featured__tag">European Military History &middot; WWI Era</span>
-                <h3 class="featured__title">The Czechoslovak Legion, 1914&ndash;1920</h3>
-                <p class="featured__excerpt">
-                    The extraordinary story of Czech and Slovak immigrants who formed a
-                    military organization under Russian officers &mdash; and earned
-                    nationhood for the Czechoslovak people through an epic 4,000-mile
-                    journey across Russia.
-                </p>
+                {tagLine && <span class="featured__tag">{tagLine}</span>}
+                <h3 class="featured__title">{article.title}</h3>
+                {article.excerpt && (
+                    <p class="featured__excerpt">{article.excerpt}</p>
+                )}
                 <div class="featured__meta">
-                    <span>
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
-                        15 min read
-                    </span>
+                    {article.readTime && (
+                        <span>
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
+                            {article.readTime}
+                        </span>
+                    )}
                     <span>
                         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
                         By Lee Offen
                     </span>
                 </div>
-                <a href="#" class="featured__link">
+                <a href={articleUrl} class="featured__link">
                     Read Article
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                 </a>

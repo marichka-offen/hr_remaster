@@ -2,6 +2,19 @@
 import MobileNav from '@components/MobileNav/MobileNav'
 import './Header.scss'
 import { Icon } from 'astro-icon/components'
+
+interface NavLink {
+    label: string
+    href: string
+}
+
+interface Props {
+    logoTitle?: string
+    logoSubtitle?: string
+    navLinks: NavLink[]
+}
+
+const { logoTitle, logoSubtitle, navLinks } = Astro.props
 ---
 
 <header class='header'>
@@ -9,19 +22,17 @@ import { Icon } from 'astro-icon/components'
         <div class='header__logo'>
             <a href='/'>
                 <h1>
-                    <span class='header__title'>History Reconsidered</span>
+                    <span class='header__title'>{logoTitle ?? 'History Reconsidered'}</span>
                     <span class='header__subtitle'
-                        >Military History & Research</span
+                        >{logoSubtitle ?? 'Military History & Research'}</span
                     >
                 </h1>
             </a>
         </div>
         <nav class='header__nav'>
-            <a class='header__nav-link' href=''>Home</a>
-            <a class='header__nav-link' href=''>Articles</a>
-            <a class='header__nav-link' href=''>Book</a>
-            <a class='header__nav-link' href=''>About</a>
-            <a class='header__nav-link' href=''>Contact</a>
+            {navLinks.map((link) => (
+                <a class='header__nav-link' href={link.href}>{link.label}</a>
+            ))}
             <button class='header__nav-search' aria-label='Search the articles'
                 ><Icon name='search' /></button
             >
@@ -38,7 +49,7 @@ import { Icon } from 'astro-icon/components'
     </div>
 </header>
 
-<MobileNav client:only='react' />
+<MobileNav client:only='react' navLinks={navLinks} />
 
 <script>
     const mobileMenuButton = document.querySelector('[data-mobile-nav-button]')

@@ -43,9 +43,11 @@ const ArticleCard = memo(function ArticleCard({ article }: ArticleCardProps) {
 
 interface Props {
     articles: ArticleMeta[]
+    label?: string
+    heading?: string
 }
 
-export default function ArticleCardGrid({ articles }: Props) {
+export default function ArticleCardGrid({ articles, label, heading }: Props) {
     const [activeCategory, setActiveCategory] = useState('All')
 
     const categories = useMemo(() => {
@@ -66,8 +68,8 @@ export default function ArticleCardGrid({ articles }: Props) {
         <section id="articles">
             <div className="articles__container">
                 <div className="articles__header">
-                    <div className="articles__label">Archive</div>
-                    <h2 className="articles__heading">History Articles</h2>
+                    <div className="articles__label">{label ?? 'Archive'}</div>
+                    <h2 className="articles__heading">{heading ?? 'History Articles'}</h2>
                     <div className="articles__line"></div>
                 </div>
 

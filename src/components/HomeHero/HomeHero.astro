@@ -1,24 +1,41 @@
 ---
 import './HomeHero.scss'
+
+interface Props {
+    label?: string
+    title: string
+    quote?: string
+    quoteAuthor?: string
+    ctaText?: string
+    ctaLink?: string
+}
+
+const { label, title, quote, quoteAuthor, ctaText, ctaLink } = Astro.props
 ---
 
 <section class="hero">
     <div class="hero__bg"></div>
     <div class="hero__texture"></div>
     <div class="hero__content">
-        <div class="hero__label">Est. 2010 &middot; Military History Journal</div>
-        <h1 class="hero__title">History<br />Reconsidered</h1>
+        {label && <div class="hero__label">{label}</div>}
+        <h1 class="hero__title" set:html={title} />
         <div class="hero__divider"></div>
-        <blockquote class="hero__quote">
-            "The further backward you look, the further forward you can see."
-            <span class="hero__quote-author">&mdash; Winston Churchill</span>
-        </blockquote>
-        <a href="#articles" class="hero__cta">
-            Explore Articles
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-        </a>
+        {quote && (
+            <blockquote class="hero__quote">
+                "{quote}"
+                {quoteAuthor && (
+                    <span class="hero__quote-author">&mdash; {quoteAuthor}</span>
+                )}
+            </blockquote>
+        )}
+        {ctaText && (
+            <a href={ctaLink ?? '#articles'} class="hero__cta">
+                {ctaText}
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        )}
     </div>
     <div class="hero__scroll"></div>
 </section>

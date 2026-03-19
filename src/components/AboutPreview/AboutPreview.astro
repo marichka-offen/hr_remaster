@@ -1,31 +1,39 @@
 ---
 import './AboutPreview.scss'
+
+interface Props {
+    name: string
+    role?: string
+    bio?: any[]
+    initials?: string
+    linkText?: string
+    linkUrl?: string
+}
+
+const { name, role, bio, initials, linkText, linkUrl } = Astro.props
 ---
 
 <section class="about-preview">
     <div class="about-preview__container">
         <div class="about-preview__grid">
             <div class="about-preview__image">
-                <span class="about-preview__initials">LO</span>
+                <span class="about-preview__initials">{initials ?? ''}</span>
             </div>
             <div class="about-preview__text">
-                <h3 class="about-preview__name">Lee Offen</h3>
-                <span class="about-preview__role">Military Historian &amp; Retired Soldier</span>
-                <p>
-                    A lifelong student of military history and a retired soldier, Lee
-                    brings both academic rigor and personal experience to his writing.
-                    Every article is thoroughly sourced, respecting the intelligence of
-                    the reader.
-                </p>
-                <p>
-                    History Reconsidered examines significant historical decisions and
-                    actions that deserve another look &mdash; events that have never
-                    been examined or haven't been examined thoroughly enough.
-                </p>
-                <a href="/about" class="about-preview__link">
-                    Read Full Bio
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                </a>
+                <h3 class="about-preview__name">{name}</h3>
+                {role && <span class="about-preview__role">{role}</span>}
+                {bio?.map((block: any) => {
+                    if (block._type === 'block') {
+                        const text = block.children?.map((c: any) => c.text).join('') ?? ''
+                        return <p>{text}</p>
+                    }
+                })}
+                {linkText && (
+                    <a href={linkUrl ?? '/about'} class="about-preview__link">
+                        {linkText}
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    </a>
+                )}
             </div>
         </div>
     </div>

@@ -2,7 +2,16 @@ import { useEffect, useState } from 'react'
 import './MobileNav.scss'
 import { useScrollLock } from '@hooks/useScrollLock'
 
-export default function MobileNav() {
+interface NavLink {
+    label: string
+    href: string
+}
+
+interface Props {
+    navLinks: NavLink[]
+}
+
+export default function MobileNav({ navLinks }: Props) {
 
     const [menuOpen, setMenuOpen] = useState(false)
     const { lock, unlock } = useScrollLock()
@@ -21,12 +30,9 @@ export default function MobileNav() {
 
     return (
         <div className={`mobile-nav ${menuOpen ? 'mobile-nav--open' : ''}`} id='mobileNav'>
-            <a className='mobile-nav__link' href="#">Home</a>
-            <a className='mobile-nav__link' href="#">Articles</a>
-            <a className='mobile-nav__link' href="#">Book</a>
-            <a className='mobile-nav__link' href="#">About</a>
-            <a className='mobile-nav__link' href="#">Contact</a>
+            {navLinks.map((link) => (
+                <a key={link.href} className='mobile-nav__link' href={link.href}>{link.label}</a>
+            ))}
         </div>
-
     )
 }

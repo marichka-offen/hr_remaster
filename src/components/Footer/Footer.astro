@@ -1,5 +1,32 @@
 ---
 import './Footer.scss'
+
+interface NavLink {
+    label: string
+    href: string
+}
+
+interface Props {
+    logoTitle?: string
+    logoSubtitle?: string
+    navLinks: NavLink[]
+    description?: string
+    topicsTitle?: string
+    topics?: NavLink[]
+    copyright?: string
+    copyrightNote?: string
+}
+
+const {
+    logoTitle,
+    logoSubtitle,
+    navLinks,
+    description,
+    topicsTitle,
+    topics = [],
+    copyright,
+    copyrightNote,
+} = Astro.props
 ---
 
 <footer class='footer'>
@@ -7,36 +34,33 @@ import './Footer.scss'
         <div class='footer__brand'>
             <div class='footer__brand-logo'>
                 <span class='footer__brand-logo-title'
-                    >History Reconsidered</span
+                    >{logoTitle ?? 'History Reconsidered'}</span
                 >
                 <span class='footer__brand-logo-subtitle'
-                    >Military History &amp; Research</span
+                    >{logoSubtitle ?? 'Military History & Research'}</span
                 >
             </div>
-            <p class='footer__brand-description'>
-                Reconsidering significant historical decisions and actions with
-                rigorous research and source-supported analysis.
-            </p>
+            {description && (
+                <p class='footer__brand-description'>{description}</p>
+            )}
         </div>
         <div class='footer__nav-group'>
             <h4 class='footer__nav-title'>Navigate</h4>
-            <a class='footer__nav-link' href='#'>Home</a>
-            <a class='footer__nav-link' href='#'>Articles</a>
-            <a class='footer__nav-link' href='#'>Book</a>
-            <a class='footer__nav-link' href='#'>About</a>
-            <a class='footer__nav-link' href='#'>Contact</a>
+            {navLinks.map((link) => (
+                <a class='footer__nav-link' href={link.href}>{link.label}</a>
+            ))}
         </div>
-        <div class='footer__nav-group'>
-            <h4 class='footer__nav-title'>Topics</h4>
-            <a class='footer__nav-link' href='#'>Colonial History</a>
-            <a class='footer__nav-link' href='#'>European Wars</a>
-            <a class='footer__nav-link' href='#'>British Isles</a>
-            <a class='footer__nav-link' href='#'>Medieval</a>
-            <a class='footer__nav-link' href='#'>World War I</a>
-        </div>
+        {topics.length > 0 && (
+            <div class='footer__nav-group'>
+                <h4 class='footer__nav-title'>{topicsTitle ?? 'Topics'}</h4>
+                {topics.map((topic) => (
+                    <a class='footer__nav-link' href={topic.href}>{topic.label}</a>
+                ))}
+            </div>
+        )}
     </div>
     <div class='footer__bottom'>
-        <span>© 2010–2026 History Reconsidered, LLC</span>
-        <span>All rights reserved</span>
+        <span>{copyright ?? '© 2010–2026 History Reconsidered, LLC'}</span>
+        <span>{copyrightNote ?? 'All rights reserved'}</span>
     </div>
 </footer>

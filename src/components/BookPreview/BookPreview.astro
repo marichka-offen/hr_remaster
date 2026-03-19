@@ -1,25 +1,34 @@
 ---
 import './BookPreview.scss'
+
+interface Props {
+    label?: string
+    coverLabel?: string
+    title: string
+    subtitle?: string
+    description?: string
+    ctaText?: string
+    ctaLink?: string
+}
+
+const { label, coverLabel, title, subtitle, description, ctaText, ctaLink } = Astro.props
 ---
 
 <section class="book-preview">
     <div class="book-preview__container">
         <div class="book-preview__inner">
             <div class="book-preview__cover">
-                <div class="book-preview__cover-label">Forthcoming</div>
-                <div class="book-preview__cover-title">None Shall Pass Us by in Silence</div>
-                <div class="book-preview__cover-author">The Czechoslovak Legion, 1914&ndash;1920</div>
+                {coverLabel && <div class="book-preview__cover-label">{coverLabel}</div>}
+                <div class="book-preview__cover-title">{title}</div>
+                {subtitle && <div class="book-preview__cover-author">{subtitle}</div>}
             </div>
             <div class="book-preview__info">
-                <div class="book-preview__info-label">Upcoming Book</div>
-                <h3>None Shall Pass Us by in Silence</h3>
-                <p>
-                    The full story of the Czechoslovak Legion &mdash; a military
-                    formation that fought across 4,000 miles of Russia, captured the
-                    imagination of Allied nations, and earned nationhood for the
-                    Czechoslovak people.
-                </p>
-                <a href="/book" class="book-preview__cta">Learn More</a>
+                {label && <div class="book-preview__info-label">{label}</div>}
+                <h3>{title}</h3>
+                {description && <p>{description}</p>}
+                {ctaText && (
+                    <a href={ctaLink ?? '/book'} class="book-preview__cta">{ctaText}</a>
+                )}
             </div>
         </div>
     </div>
