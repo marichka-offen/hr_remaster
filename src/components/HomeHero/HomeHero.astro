@@ -7,14 +7,18 @@ interface Props {
     title: string
     quote?: string
     quoteAuthor?: string
+    imageUrl?: string
+    imageAlt?: string
     cta?: CTA
 }
 
-const { label, title, quote, quoteAuthor, cta } = Astro.props
+const { label, title, quote, quoteAuthor, imageUrl, imageAlt, cta } = Astro.props
 ---
 
 <section class="hero">
-    <div class="hero__bg"></div>
+    <div class="hero__bg">
+        {imageUrl && <img src={imageUrl} alt={imageAlt ?? ''} class="hero__bg-img" />}
+    </div>
     <div class="hero__texture"></div>
     <div class="hero__content">
         {label && <div class="hero__label">{label}</div>}

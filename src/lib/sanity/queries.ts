@@ -12,6 +12,8 @@ export const pageBySlugQuery = `
         title,
         quote,
         quoteAuthor,
+        "imageUrl": image.asset.asset->url,
+        "imageAlt": image.alt,
         cta
       },
 
@@ -24,6 +26,8 @@ export const pageBySlugQuery = `
           "slug": slug.current,
           subtitle,
           period,
+          "imageUrl": image.asset.asset->url,
+          "imageAlt": image.alt,
           excerpt,
           readTime,
           heroGradient,
@@ -41,6 +45,8 @@ export const pageBySlugQuery = `
           "slug": slug.current,
           subtitle,
           period,
+          "imageUrl": image.asset.asset->url,
+          "imageAlt": image.alt,
           "category": topic->name,
           tags,
           excerpt,
@@ -109,6 +115,8 @@ export const allArticlesQuery = `
     period,
     "category": topic->name,
     tags,
+    "imageUrl": image.asset.asset->url,
+    "imageAlt": image.alt,
     excerpt,
     readTime,
     heroGradient

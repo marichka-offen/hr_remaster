@@ -16,9 +16,13 @@ export default function ArticleCard({ article }: Props) {
     return (
         <a href={`/articles/${article.slug}`} className="card">
             <div className="card__image">
-                <div className={`card__image-inner ${gradientClass}`}>
-                    <span>{abbreviation}</span>
-                </div>
+                {article.imageUrl ? (
+                    <img src={article.imageUrl} alt={article.imageAlt ?? article.title} className="card__image-inner" />
+                ) : (
+                    <div className={`card__image-inner ${gradientClass}`}>
+                        <span>{abbreviation}</span>
+                    </div>
+                )}
                 <div className="card__category">{article.category}</div>
             </div>
             <div className="card__body">

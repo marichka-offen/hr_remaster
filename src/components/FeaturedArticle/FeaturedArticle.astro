@@ -22,9 +22,11 @@ const tagLine = article.subtitle
 
         <div class='featured__card'>
             <div class='featured__image'>
-                <span class='featured__image-placeholder'
-                    >{article.period ?? ''}</span
-                >
+                {article.imageUrl ? (
+                    <img src={article.imageUrl} alt={article.imageAlt ?? article.title} class='featured__image-img' />
+                ) : (
+                    <span class='featured__image-placeholder'>{article.period ?? ''}</span>
+                )}
                 <div class='featured__image-overlay'>
                     {article.tags ? `${article.tags[0]}` : 'Featured Article'}
                 </div>

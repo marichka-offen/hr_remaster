@@ -29,6 +29,11 @@ export const hero = defineType({
             type: 'string',
         }),
         defineField({
+            name: 'image',
+            title: 'Background Image',
+            type: 'richImage',
+        }),
+        defineField({
             name: 'cta',
             title: 'Call to Action',
             type: 'cta',

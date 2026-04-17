@@ -45,6 +45,11 @@ export const article = defineType({
             options: { layout: 'tags' },
         }),
         defineField({
+            name: 'image',
+            title: 'Card Image',
+            type: 'richImage',
+        }),
+        defineField({
             name: 'excerpt',
             title: 'Excerpt',
             description: 'Short summary shown on article cards',
