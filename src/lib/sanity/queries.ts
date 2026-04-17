@@ -6,18 +6,17 @@ export const pageBySlugQuery = `
       _type,
       _key,
 
-      // heroSection
-      _type == "heroSection" => {
+      // hero
+      _type == "hero" => {
         label,
         title,
         quote,
         quoteAuthor,
-        ctaText,
-        ctaLink
+        cta
       },
 
-      // featuredArticleSection
-      _type == "featuredArticleSection" => {
+      // featured
+      _type == "featured" => {
         label,
         heading,
         article-> {
@@ -32,8 +31,8 @@ export const pageBySlugQuery = `
         }
       },
 
-      // articlesGridSection
-      _type == "articlesGridSection" => {
+      // articleGrid
+      _type == "articleGrid" => {
         label,
         heading,
         showCategoryFilter,
@@ -51,25 +50,26 @@ export const pageBySlugQuery = `
         cta
       },
 
-      // aboutPreviewSection
-      _type == "aboutPreviewSection" => {
+      // authorCard
+      _type == "authorCard" => {
         name,
         role,
         bio,
+        "imageUrl": image.asset.asset->url,
+        "imageAlt": image.alt,
+        "imageCaption": image.caption,
         initials,
-        linkText,
-        linkUrl
+        cta
       },
 
-      // bookPreviewSection
-      _type == "bookPreviewSection" => {
+      // bookPromo
+      _type == "bookPromo" => {
         label,
         coverLabel,
         title,
         subtitle,
         description,
-        ctaText,
-        ctaLink
+        cta
       }
     }
   }
