@@ -21,7 +21,7 @@ export const featuredArticleSection = defineType({
       name: 'article',
       title: 'Featured Article',
       type: 'reference',
-      to: [{type: 'article'}],
+      to: [{type: 'articles'}],
       validation: (rule) => rule.required(),
     }),
   ],

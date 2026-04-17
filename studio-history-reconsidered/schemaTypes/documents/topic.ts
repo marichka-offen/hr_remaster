@@ -2,8 +2,8 @@ import {defineType, defineField} from 'sanity'
 import {TagIcon} from '@sanity/icons'
 
 export const topic = defineType({
-  name: 'topic',
-  title: 'Topic',
+  name: 'topics',
+  title: 'Topics',
   type: 'document',
   icon: TagIcon,
   fields: [

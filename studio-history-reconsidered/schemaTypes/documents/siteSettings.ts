@@ -97,7 +97,7 @@ export const siteSettings = defineType({
                   name: 'topic',
                   title: 'Topic',
                   type: 'reference',
-                  to: [{type: 'topic'}],
+                  to: [{type: 'topics'}],
                 }),
                 defineField({
                   name: 'label',

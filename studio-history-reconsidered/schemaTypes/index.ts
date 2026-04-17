@@ -1,8 +1,12 @@
 // Documents
 import {page} from './documents/page'
 import {siteSettings} from './documents/siteSettings'
+import {sections} from './documents/sections'
 import {article} from './documents/article'
 import {topic} from './documents/topic'
+
+// Objects
+import {cta} from './objects/cta'
 
 // Sections
 import {heroSection} from './sections/heroSection'
@@ -15,8 +19,12 @@ export const schemaTypes = [
   // Documents
   page,
   siteSettings,
+  sections,
   article,
   topic,
+
+  // Objects
+  cta,
 
   // Sections (object types used within page sections arrays)
   heroSection,

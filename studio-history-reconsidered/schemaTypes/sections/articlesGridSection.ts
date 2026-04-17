@@ -17,10 +17,33 @@ export const articlesGridSection = defineType({
       description: 'e.g. "History Articles"',
       type: 'string',
     }),
+    defineField({
+      name: 'showCategoryFilter',
+      title: 'Show Category Filter',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'articles',
+      title: 'Articles',
+      description: 'Select which articles to display. Leave empty to show all.',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'articles'}]}],
+    }),
+    defineField({
+      name: 'cta',
+      title: 'Call to Action',
+      type: 'cta',
+    }),
   ],
   preview: {
-    prepare() {
-      return {title: 'Articles Grid', subtitle: 'All articles with category filter'}
+    select: {articleCount: 'articles'},
+    prepare({articleCount}) {
+      const count = articleCount?.length ?? 0
+      return {
+        title: 'Articles Grid',
+        subtitle: count > 0 ? `${count} selected` : 'All articles',
+      }
     },
   },
 })
