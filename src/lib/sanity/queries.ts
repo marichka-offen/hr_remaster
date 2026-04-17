@@ -22,20 +22,33 @@ export const pageBySlugQuery = `
         heading,
         article-> {
           title,
-          slug,
+          "slug": slug.current,
           subtitle,
           period,
           excerpt,
           readTime,
           heroGradient,
-          topic-> { name }
+          "category": topic->name
         }
       },
 
       // articlesGridSection
       _type == "articlesGridSection" => {
         label,
-        heading
+        heading,
+        showCategoryFilter,
+        articles[]-> {
+          title,
+          "slug": slug.current,
+          subtitle,
+          period,
+          "category": topic->name,
+          tags,
+          excerpt,
+          readTime,
+          heroGradient
+        },
+        cta
       },
 
       // aboutPreviewSection
@@ -89,7 +102,7 @@ export const siteSettingsQuery = `
 `
 
 export const allArticlesQuery = `
-  *[_type == "article"] | order(_createdAt desc) {
+  *[_type == "articles"] | order(_createdAt desc) {
     title,
     "slug": slug.current,
     subtitle,

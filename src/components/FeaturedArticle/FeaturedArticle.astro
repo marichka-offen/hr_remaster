@@ -1,62 +1,87 @@
 ---
 import './FeaturedArticle.scss'
-
-interface FeaturedArticleData {
-    title: string
-    slug: { current: string }
-    subtitle?: string
-    period?: string
-    excerpt?: string
-    readTime?: string
-    heroGradient?: string
-    topic?: { name: string }
-}
+import type { ArticleMeta } from '@app-types/article'
 
 interface Props {
     label?: string
     heading?: string
-    article: FeaturedArticleData
+    article: ArticleMeta
 }
 
 const { label, heading, article } = Astro.props
-const articleUrl = `/articles/${article.slug.current}`
-const tagLine = [article.topic?.name, article.subtitle].filter(Boolean).join(' · ')
+const articleUrl = `/articles/${article.slug}`
+const tagLine = article.subtitle
 ---
 
-<section class="featured">
-    <div class="featured__container">
-        <div class="featured__header">
-            {label && <div class="featured__label">{label}</div>}
-            {heading && <h2 class="featured__heading">{heading}</h2>}
-            <div class="featured__line"></div>
+<section class='featured'>
+    <div class='featured__container'>
+        <div class='featured__header'>
+            {label && <div class='featured__label'>{label}</div>}
+            {heading && <h2 class='featured__heading'>{heading}</h2>}
         </div>
 
-        <div class="featured__card">
-            <div class="featured__image">
-                <span class="featured__image-placeholder">{article.period ?? ''}</span>
-                <div class="featured__image-overlay">Featured Article</div>
+        <div class='featured__card'>
+            <div class='featured__image'>
+                <span class='featured__image-placeholder'
+                    >{article.period ?? ''}</span
+                >
+                <div class='featured__image-overlay'>
+                    {article.tags ? `${article.tags[0]}` : 'Featured Article'}
+                </div>
             </div>
-            <div class="featured__body">
-                {tagLine && <span class="featured__tag">{tagLine}</span>}
-                <h3 class="featured__title">{article.title}</h3>
-                {article.excerpt && (
-                    <p class="featured__excerpt">{article.excerpt}</p>
-                )}
-                <div class="featured__meta">
-                    {article.readTime && (
-                        <span>
-                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
-                            {article.readTime}
-                        </span>
-                    )}
+            <div class='featured__body'>
+                {tagLine && <span class='featured__tag'>{tagLine}</span>}
+                <h3 class='featured__title'>{article.title}</h3>
+                {
+                    article.excerpt && (
+                        <p class='featured__excerpt'>{article.excerpt}</p>
+                    )
+                }
+                <div class='featured__meta'>
+                    {
+                        article.readTime && (
+                            <span>
+                                <svg
+                                    width='14'
+                                    height='14'
+                                    fill='none'
+                                    stroke='currentColor'
+                                    stroke-width='2'
+                                    viewBox='0 0 24 24'
+                                >
+                                    <>
+                                        <circle cx='12' cy='12' r='10' />
+                                        <path d='M12 6v6l4 2' />
+                                    </>
+                                </svg>
+                                {article.readTime}
+                            </span>
+                        )
+                    }
                     <span>
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+                        <svg
+                            width='14'
+                            height='14'
+                            fill='none'
+                            stroke='currentColor'
+                            stroke-width='2'
+                            viewBox='0 0 24 24'
+                            ><path
+                                d='M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z'
+                            ></path></svg
+                        >
                         By Lee Offen
                     </span>
                 </div>
-                <a href={articleUrl} class="featured__link">
+                <a href={articleUrl} class='featured__link'>
                     Read Article
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    <svg
+                        fill='none'
+                        stroke='currentColor'
+                        stroke-width='2'
+                        viewBox='0 0 24 24'
+                        ><path d='M5 12h14M12 5l7 7-7 7'></path></svg
+                    >
                 </a>
             </div>
         </div>

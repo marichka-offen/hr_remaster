@@ -4,7 +4,7 @@ export interface ArticleMeta {
     subtitle?: string
     period?: string
     category: string
-    tags: string[]
+    tags?: string[]
     heroGradient?: string
     layoutType?: 'prose' | 'timeline'
     excerpt?: string

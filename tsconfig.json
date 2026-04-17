@@ -27,7 +27,7 @@
             "@tokens/*": [
                 "src/design-tokens/*"
             ],
-            "@types/*": [
+            "@app-types/*": [
                 "src/types/*"
             ]
         }
