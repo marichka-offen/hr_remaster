@@ -2,7 +2,7 @@
 import SiteLayout from '@layouts/SiteLayout.astro'
 import { sanityClient } from '@lib/sanity/client'
 import { pageBySlugQuery } from '@lib/sanity/queries'
-const pageData = await sanityClient.fetch(pageBySlugQuery, { slug: 'book' })
+const pageData = await sanityClient.fetch(pageBySlugQuery, { slug: 'books' })
 
 const sections = pageData?.sections ?? []
 const pageTitle = pageData?.title ?? 'History Reconsidered'

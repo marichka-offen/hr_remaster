@@ -1,23 +1,74 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
+import ArticleCardGrid from '@components/ArticleCardGrid/ArticleCardGrid'
 import { sanityClient } from '@lib/sanity/client'
-import { pageBySlugQuery } from '@lib/sanity/queries'
-const pageData = await sanityClient.fetch(pageBySlugQuery, { slug: 'articles' })
+import { allArticlesQuery } from '@lib/sanity/queries'
 
-const sections = pageData?.sections ?? []
-const pageTitle = pageData?.title ?? 'History Reconsidered'
-const pageDescription = pageData?.description ?? ''
+const articles = await sanityClient.fetch(allArticlesQuery)
 ---
 
-<SiteLayout title={pageTitle} description={pageDescription}>
+<SiteLayout title='Articles' description='Browse all articles'>
     <main id='main'>
-        {
-            sections.map((section: any) => {
-                switch (section._type) {
-                    default:
-                        return null
-                }
-            })
+        <section class='articles-page'>
+            <div class='articles-page__container'>
+                <div class='articles-page__header'>
+                    <p class='articles-page__label'>Archive</p>
+                    <h1 class='articles-page__heading'>All Articles</h1>
+                    <div class='articles-page__line'></div>
+                </div>
+                <ArticleCardGrid
+                    articles={articles}
+                    showCategoryFilter={true}
+                    client:load
+                />
+            </div>
+        </section>
+    </main>
+</SiteLayout>
+
+<style lang='scss'>
+    .articles-page {
+        background: var(--parchment);
+        min-height: 100vh;
+
+        &__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+
+            @media (max-width: 768px) {
+                padding: 56px 20px;
+            }
         }
-    </main></SiteLayout
->
+
+        &__header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        &__label {
+            font-family: var(--tertiary-font);
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        &__heading {
+            font-family: var(--secondary-font);
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.2;
+        }
+
+        &__line {
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+            margin: 20px auto 0;
+        }
+    }
+</style>

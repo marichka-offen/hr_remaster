@@ -30,8 +30,10 @@ export const pageBySlugQuery = `
           "imageAlt": image.alt,
           excerpt,
           readTime,
-          heroGradient,
-          "category": topic->name
+          "category": topic->name,
+          "topicSlug": topic->slug.current,
+          "gradientFrom": topic->gradientFrom,
+          "gradientTo": topic->gradientTo
         }
       },
 
@@ -48,10 +50,12 @@ export const pageBySlugQuery = `
           "imageUrl": image.asset.asset->url,
           "imageAlt": image.alt,
           "category": topic->name,
+          "topicSlug": topic->slug.current,
+          "gradientFrom": topic->gradientFrom,
+          "gradientTo": topic->gradientTo,
           tags,
           excerpt,
-          readTime,
-          heroGradient
+          readTime
         },
         cta
       },
@@ -74,6 +78,8 @@ export const pageBySlugQuery = `
         coverLabel,
         title,
         subtitle,
+        "coverImageUrl": coverImage.asset.asset->url,
+        "coverImageAlt": coverImage.alt,
         description,
         cta
       }
@@ -82,7 +88,7 @@ export const pageBySlugQuery = `
 `
 
 export const siteSettingsQuery = `
-  *[_type == "siteSettings"][0] {
+  *[_id == "siteSettings"][0] {
     header {
       logoTitle,
       logoSubtitle,
@@ -99,7 +105,7 @@ export const siteSettingsQuery = `
       topicsTitle,
       topics[] {
         "label": coalesce(label, topic->name),
-        "href": "/" + topic->slug.current
+        "href": "/articles?topic=" + topic->slug.current
       },
       copyright,
       copyrightNote
@@ -114,11 +120,13 @@ export const allArticlesQuery = `
     subtitle,
     period,
     "category": topic->name,
+    "topicSlug": topic->slug.current,
     tags,
     "imageUrl": image.asset.asset->url,
     "imageAlt": image.alt,
     excerpt,
     readTime,
-    heroGradient
+    "gradientFrom": topic->gradientFrom,
+    "gradientTo": topic->gradientTo
   }
 `

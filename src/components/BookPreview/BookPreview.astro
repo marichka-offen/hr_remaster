@@ -7,21 +7,27 @@ interface Props {
     coverLabel?: string
     title: string
     subtitle?: string
+    coverImageUrl?: string
+    coverImageAlt?: string
     description?: string
     cta?: CTA
 }
 
-const { label, coverLabel, title, subtitle, description, cta } = Astro.props
+const { label, coverLabel, title, subtitle, coverImageUrl, coverImageAlt, description, cta } = Astro.props
 ---
 
 <section class="book-preview">
     <div class="book-preview__container">
         <div class="book-preview__inner">
-            <div class="book-preview__cover">
-                {coverLabel && <div class="book-preview__cover-label">{coverLabel}</div>}
-                <div class="book-preview__cover-title">{title}</div>
-                {subtitle && <div class="book-preview__cover-author">{subtitle}</div>}
-            </div>
+            {coverImageUrl ? (
+                <img src={coverImageUrl} alt={coverImageAlt ?? title} class="book-preview__cover-img" />
+            ) : (
+                <div class="book-preview__cover">
+                    {coverLabel && <div class="book-preview__cover-label">{coverLabel}</div>}
+                    <div class="book-preview__cover-title">{title}</div>
+                    {subtitle && <div class="book-preview__cover-author">{subtitle}</div>}
+                </div>
+            )}
             <div class="book-preview__info">
                 {label && <div class="book-preview__info-label">{label}</div>}
                 <h3>{title}</h3>

@@ -30,6 +30,12 @@ export const bookPromo = defineType({
             type: 'string',
         }),
         defineField({
+            name: 'coverImage',
+            title: 'Cover Image',
+            description: 'Book cover image. When provided, replaces the text-based cover.',
+            type: 'richImage',
+        }),
+        defineField({
             name: 'description',
             title: 'Description',
             type: 'text',

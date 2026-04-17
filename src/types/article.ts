@@ -4,10 +4,12 @@ export interface ArticleMeta {
     subtitle?: string
     period?: string
     category: string
+    topicSlug?: string
     tags?: string[]
     imageUrl?: string
     imageAlt?: string
-    heroGradient?: string
+    gradientFrom?: string
+    gradientTo?: string
     layoutType?: 'prose' | 'timeline'
     excerpt?: string
     readTime?: string

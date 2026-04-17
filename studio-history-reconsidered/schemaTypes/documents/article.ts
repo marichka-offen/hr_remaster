@@ -62,18 +62,6 @@ export const article = defineType({
             description: 'e.g. "12 min read"',
             type: 'string',
         }),
-        defineField({
-            name: 'heroGradient',
-            title: 'Hero Gradient',
-            type: 'string',
-            description: 'Will be auto-assigned per topic in the future',
-            options: {
-                list: [
-                    { title: 'Default', value: 'default' },
-                ],
-            },
-            initialValue: 'default',
-        }),
     ],
     preview: {
         select: {

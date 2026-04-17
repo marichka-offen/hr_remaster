@@ -40,6 +40,14 @@
         }
     }
 
+    &__cover-img {
+        aspect-ratio: 2 / 3;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 2px;
+        box-shadow: 8px 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
     &__cover {
         background: linear-gradient(135deg, var(--burgundy) 0%, #5a1520 100%);
         aspect-ratio: 2 / 3;

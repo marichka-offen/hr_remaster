@@ -1,0 +1,10 @@
+[
+  {"_type":"topics","name":"Colonial History","slug":{"_type":"slug","current":"colonial-history"},"gradientFrom":"#4a3828","gradientTo":"#6b4c30"},
+  {"_type":"topics","name":"Czechoslovak Legion","slug":{"_type":"slug","current":"czechoslovak-legion"},"gradientFrom":"#2a3a52","gradientTo":"#4a3040"},
+  {"_type":"topics","name":"Dutch History","slug":{"_type":"slug","current":"dutch-history"},"gradientFrom":"#2e4a3a","gradientTo":"#1a3050"},
+  {"_type":"topics","name":"Hussites","slug":{"_type":"slug","current":"hussites"},"gradientFrom":"#5a3a20","gradientTo":"#3a2a18"},
+  {"_type":"topics","name":"Irish History","slug":{"_type":"slug","current":"irish-history"},"gradientFrom":"#2a4a30","gradientTo":"#1a3828"},
+  {"_type":"topics","name":"Kent Militia","slug":{"_type":"slug","current":"kent-militia"},"gradientFrom":"#3a3a50","gradientTo":"#28283a"},
+  {"_type":"topics","name":"Maryland","slug":{"_type":"slug","current":"maryland"},"gradientFrom":"#4a2a2a","gradientTo":"#3a1a30"},
+  {"_type":"topics","name":"Scottish History","slug":{"_type":"slug","current":"scottish-history"},"gradientFrom":"#1a2a4a","gradientTo":"#2a3a5a"}
+]

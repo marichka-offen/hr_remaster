@@ -1,17 +1,18 @@
 import './ArticleCard.scss'
 import type { ArticleMeta } from '@app-types/article'
 
-const GRADIENT_MAP: Record<string, string> = {
-    default: 'card-img-default',
-}
+const DEFAULT_GRADIENT = 'linear-gradient(135deg, #3a3040 0%, #2a4a52 100%)'
 
 interface Props {
     article: ArticleMeta
 }
 
 export default function ArticleCard({ article }: Props) {
-    const gradientClass = GRADIENT_MAP[article.heroGradient ?? ''] ?? GRADIENT_MAP['default']
     const abbreviation = article.period ?? article.title.slice(0, 3).toUpperCase()
+
+    const gradient = article.gradientFrom && article.gradientTo
+        ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
+        : DEFAULT_GRADIENT
 
     return (
         <a href={`/articles/${article.slug}`} className="card">
@@ -19,7 +20,7 @@ export default function ArticleCard({ article }: Props) {
                 {article.imageUrl ? (
                     <img src={article.imageUrl} alt={article.imageAlt ?? article.title} className="card__image-inner" />
                 ) : (
-                    <div className={`card__image-inner ${gradientClass}`}>
+                    <div className="card__image-inner" style={{ background: gradient }}>
                         <span>{abbreviation}</span>
                     </div>
                 )}
