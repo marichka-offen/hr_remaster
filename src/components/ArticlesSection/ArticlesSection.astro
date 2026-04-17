@@ -2,18 +2,17 @@
 import ArticleCardGrid from '@components/ArticleCardGrid/ArticleCardGrid'
 import './ArticlesSection.scss'
 import type { ArticleMeta } from '@app-types/article'
+import type { CTA } from '@app-types/cta'
 
 interface Props {
     label?: string
     heading?: string
     articles: ArticleMeta[]
     showCategoryFilter?: boolean
-    ctaText?: string
-    ctaLink?: string
-    ctaNewTab?: boolean
+    cta?: CTA
 }
 
-const { label, heading, articles, showCategoryFilter, ctaText, ctaLink, ctaNewTab } = Astro.props
+const { label, heading, articles, showCategoryFilter, cta } = Astro.props
 ---
 
 <section id="articles">
@@ -26,9 +25,9 @@ const { label, heading, articles, showCategoryFilter, ctaText, ctaLink, ctaNewTa
 
         <ArticleCardGrid client:load articles={articles} showCategoryFilter={showCategoryFilter} />
 
-        {ctaText && ctaLink && (
+        {cta?.text && cta?.link && (
             <div class="articles__cta">
-                <a href={ctaLink} class="articles__cta-link" {...(ctaNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>{ctaText}</a>
+                <a href={cta.link} class="articles__cta-link" {...(cta.openInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>{cta.text}</a>
             </div>
         )}
     </div>

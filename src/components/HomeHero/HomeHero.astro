@@ -1,16 +1,16 @@
 ---
 import './HomeHero.scss'
+import type { CTA } from '@app-types/cta'
 
 interface Props {
     label?: string
     title: string
     quote?: string
     quoteAuthor?: string
-    ctaText?: string
-    ctaLink?: string
+    cta?: CTA
 }
 
-const { label, title, quote, quoteAuthor, ctaText, ctaLink } = Astro.props
+const { label, title, quote, quoteAuthor, cta } = Astro.props
 ---
 
 <section class="hero">
@@ -28,9 +28,9 @@ const { label, title, quote, quoteAuthor, ctaText, ctaLink } = Astro.props
                 )}
             </blockquote>
         )}
-        {ctaText && (
-            <a href={ctaLink ?? '#articles'} class="hero__cta">
-                {ctaText}
+        {cta?.text && (
+            <a href={cta.link ?? '#articles'} class="hero__cta" {...(cta.openInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>
+                {cta.text}
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                 </svg>

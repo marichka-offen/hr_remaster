@@ -1,23 +1,29 @@
 ---
 import './AboutPreview.scss'
+import type { CTA } from '@app-types/cta'
 
 interface Props {
     name: string
     role?: string
     bio?: any[]
+    imageUrl?: string
+    imageAlt?: string
     initials?: string
-    linkText?: string
-    linkUrl?: string
+    cta?: CTA
 }
 
-const { name, role, bio, initials, linkText, linkUrl } = Astro.props
+const { name, role, bio, imageUrl, imageAlt, initials, cta } = Astro.props
 ---
 
 <section class="about-preview">
     <div class="about-preview__container">
         <div class="about-preview__grid">
             <div class="about-preview__image">
-                <span class="about-preview__initials">{initials ?? ''}</span>
+                {imageUrl ? (
+                    <img src={imageUrl} alt={imageAlt ?? name} class="about-preview__portrait" />
+                ) : (
+                    <span class="about-preview__initials">{initials ?? ''}</span>
+                )}
             </div>
             <div class="about-preview__text">
                 <h3 class="about-preview__name">{name}</h3>
@@ -28,9 +34,9 @@ const { name, role, bio, initials, linkText, linkUrl } = Astro.props
                         return <p>{text}</p>
                     }
                 })}
-                {linkText && (
-                    <a href={linkUrl ?? '/about'} class="about-preview__link">
-                        {linkText}
+                {cta?.text && (
+                    <a href={cta.link ?? '/about'} class="about-preview__link" {...(cta.openInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>
+                        {cta.text}
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                     </a>
                 )}

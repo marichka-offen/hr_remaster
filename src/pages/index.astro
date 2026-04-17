@@ -21,18 +21,17 @@ const pageDescription = pageData?.description ?? ''
     <main id="main">
         {sections.map((section: any) => {
             switch (section._type) {
-                case 'heroSection':
+                case 'hero':
                     return (
                         <HomeHero
                             label={section.label}
                             title={section.title}
                             quote={section.quote}
                             quoteAuthor={section.quoteAuthor}
-                            ctaText={section.ctaText}
-                            ctaLink={section.ctaLink}
+                            cta={section.cta}
                         />
                     )
-                case 'featuredArticleSection':
+                case 'featured':
                     return section.article ? (
                         <FeaturedArticle
                             label={section.label}
@@ -40,30 +39,29 @@ const pageDescription = pageData?.description ?? ''
                             article={section.article}
                         />
                     ) : null
-                case 'articlesGridSection':
+                case 'articleGrid':
                     return (
                         <ArticlesSection
                             articles={section.articles?.length ? section.articles : articles}
                             label={section.label}
                             heading={section.heading}
                             showCategoryFilter={section.showCategoryFilter}
-                            ctaText={section.cta?.text}
-                            ctaLink={section.cta?.link}
-                            ctaNewTab={section.cta?.openInNewTab}
+                            cta={section.cta}
                         />
                     )
-                case 'aboutPreviewSection':
+                case 'authorCard':
                     return (
                         <AboutPreview
                             name={section.name}
                             role={section.role}
                             bio={section.bio}
+                            imageUrl={section.imageUrl}
+                            imageAlt={section.imageAlt}
                             initials={section.initials}
-                            linkText={section.linkText}
-                            linkUrl={section.linkUrl}
+                            cta={section.cta}
                         />
                     )
-                case 'bookPreviewSection':
+                case 'bookPromo':
                     return (
                         <BookPreview
                             label={section.label}
@@ -71,8 +69,7 @@ const pageDescription = pageData?.description ?? ''
                             title={section.title}
                             subtitle={section.subtitle}
                             description={section.description}
-                            ctaText={section.ctaText}
-                            ctaLink={section.ctaLink}
+                            cta={section.cta}
                         />
                     )
                 default:
