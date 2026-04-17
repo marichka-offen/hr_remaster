@@ -2,12 +2,12 @@
 import SiteLayout from '@layouts/SiteLayout.astro'
 import HomeHero from '@components/HomeHero/HomeHero.astro'
 import FeaturedArticle from '@components/FeaturedArticle/FeaturedArticle.astro'
-import { ArticleCardGrid } from '@components/ArticleCardGrid'
+import ArticlesSection from '@components/ArticlesSection/ArticlesSection.astro'
 import AboutPreview from '@components/AboutPreview/AboutPreview.astro'
 import BookPreview from '@components/BookPreview/BookPreview.astro'
 import { sanityClient } from '@lib/sanity/client'
 import { pageBySlugQuery, allArticlesQuery } from '@lib/sanity/queries'
-import type { ArticleMeta } from '@types/article'
+import type { ArticleMeta } from '@app-types/article'
 
 const pageData = await sanityClient.fetch(pageBySlugQuery, { slug: 'home' })
 const articles: ArticleMeta[] = await sanityClient.fetch(allArticlesQuery)
@@ -42,11 +42,14 @@ const pageDescription = pageData?.description ?? ''
                     ) : null
                 case 'articlesGridSection':
                     return (
-                        <ArticleCardGrid
-                            client:load
-                            articles={articles}
+                        <ArticlesSection
+                            articles={section.articles?.length ? section.articles : articles}
                             label={section.label}
                             heading={section.heading}
+                            showCategoryFilter={section.showCategoryFilter}
+                            ctaText={section.cta?.text}
+                            ctaLink={section.cta?.link}
+                            ctaNewTab={section.cta?.openInNewTab}
                         />
                     )
                 case 'aboutPreviewSection':

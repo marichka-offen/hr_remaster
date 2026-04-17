@@ -1,0 +1,35 @@
+---
+import ArticleCardGrid from '@components/ArticleCardGrid/ArticleCardGrid'
+import './ArticlesSection.scss'
+import type { ArticleMeta } from '@app-types/article'
+
+interface Props {
+    label?: string
+    heading?: string
+    articles: ArticleMeta[]
+    showCategoryFilter?: boolean
+    ctaText?: string
+    ctaLink?: string
+    ctaNewTab?: boolean
+}
+
+const { label, heading, articles, showCategoryFilter, ctaText, ctaLink, ctaNewTab } = Astro.props
+---
+
+<section id="articles">
+    <div class="articles__container">
+        <div class="articles__header">
+            {label && <div class="articles__label">{label}</div>}
+            {heading && <h2 class="articles__heading">{heading}</h2>}
+            <div class="articles__line"></div>
+        </div>
+
+        <ArticleCardGrid client:load articles={articles} showCategoryFilter={showCategoryFilter} />
+
+        {ctaText && ctaLink && (
+            <div class="articles__cta">
+                <a href={ctaLink} class="articles__cta-link" {...(ctaNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>{ctaText}</a>
+            </div>
+        )}
+    </div>
+</section>
