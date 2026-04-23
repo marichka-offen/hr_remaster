@@ -1,4 +1,5 @@
 ---
+import Button from '@components/Button/Button.astro'
 import './HomeHero.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -12,34 +13,47 @@ interface Props {
     cta?: CTA
 }
 
-const { label, title, quote, quoteAuthor, imageUrl, imageAlt, cta } = Astro.props
+const { label, title, quote, quoteAuthor, imageUrl, imageAlt, cta } =
+    Astro.props
 ---
 
-<section class="hero">
-    <div class="hero__bg">
-        {imageUrl && <img src={imageUrl} alt={imageAlt ?? ''} class="hero__bg-img" />}
+<section class='hero'>
+    <div class='hero__bg'>
+        {
+            imageUrl && (
+                <img src={imageUrl} alt={imageAlt ?? ''} class='hero__bg-img' />
+            )
+        }
     </div>
-    <div class="hero__texture"></div>
-    <div class="hero__content">
-        {label && <div class="hero__label">{label}</div>}
-        <h1 class="hero__title" set:html={title} />
-        <div class="hero__divider"></div>
-        {quote && (
-            <blockquote class="hero__quote">
-                "{quote}"
-                {quoteAuthor && (
-                    <span class="hero__quote-author">&mdash; {quoteAuthor}</span>
-                )}
-            </blockquote>
-        )}
-        {cta?.text && (
-            <a href={cta.link ?? '#articles'} class="hero__cta" {...(cta.openInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>
-                {cta.text}
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-            </a>
-        )}
+    <div class='hero__texture'></div>
+    <div class='hero__content'>
+        {label && <div class='hero__label'>{label}</div>}
+        <h1 class='hero__title' set:html={title} />
+        <div class='hero__divider'></div>
+        {
+            quote && (
+                <blockquote class='hero__quote'>
+                    "{quote}"
+                    {quoteAuthor && (
+                        <span class='hero__quote-author'>
+                            &mdash; {quoteAuthor}
+                        </span>
+                    )}
+                </blockquote>
+            )
+        }
+        {
+            cta?.text && (
+                <Button
+                    variant='outline-gold'
+                    size='lg'
+                    onTone='dark'
+                    href={cta.link ?? '#articles'}
+                    text={cta.text}
+                    openInNewTab={cta.openInNewTab}
+                />
+            )
+        }
     </div>
-    <div class="hero__scroll"></div>
+    <div class='hero__scroll'></div>
 </section>

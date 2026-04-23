@@ -1,4 +1,5 @@
 ---
+import Button from '@components/Button/Button.astro'
 import './BookPreview.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -33,7 +34,13 @@ const { label, coverLabel, title, subtitle, coverImageUrl, coverImageAlt, descri
                 <h3>{title}</h3>
                 {description && <p>{description}</p>}
                 {cta?.text && (
-                    <a href={cta.link ?? '/book'} class="book-preview__cta" {...(cta.openInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>{cta.text}</a>
+                    <Button
+                        variant='solid-gold'
+                        onTone='dark'
+                        href={cta.link ?? '/book'}
+                        text={cta.text}
+                        openInNewTab={cta.openInNewTab}
+                    />
                 )}
             </div>
         </div>

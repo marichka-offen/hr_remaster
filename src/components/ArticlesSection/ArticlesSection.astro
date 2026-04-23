@@ -1,5 +1,6 @@
 ---
 import ArticleCardGrid from '@components/ArticleCardGrid/ArticleCardGrid'
+import Button from '@components/Button/Button.astro'
 import './ArticlesSection.scss'
 import type { ArticleMeta } from '@app-types/article'
 import type { CTA } from '@app-types/cta'
@@ -27,7 +28,14 @@ const { label, heading, articles, showCategoryFilter, cta } = Astro.props
 
         {cta?.text && cta?.link && (
             <div class="articles__cta">
-                <a href={cta.link} class="articles__cta-link" {...(cta.openInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>{cta.text}</a>
+                <Button
+                    variant='outline-navy'
+                    onTone='light'
+                    icon={false}
+                    href={cta.link}
+                    text={cta.text}
+                    openInNewTab={cta.openInNewTab}
+                />
             </div>
         )}
     </div>

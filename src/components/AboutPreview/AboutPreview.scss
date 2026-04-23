@@ -48,6 +48,10 @@
         }
     }
 
+    &__portrait {
+        width: 100%;
+    }
+
     &__initials {
         font-family: var(--secondary-font);
         font-size: 80px;

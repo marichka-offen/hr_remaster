@@ -1,4 +1,5 @@
 ---
+import Button from '@components/Button/Button.astro'
 import './FeaturedArticle.scss'
 import type { ArticleMeta } from '@app-types/article'
 
@@ -75,16 +76,12 @@ const tagLine = article.subtitle
                         By Lee Offen
                     </span>
                 </div>
-                <a href={articleUrl} class='featured__link'>
-                    Read Article
-                    <svg
-                        fill='none'
-                        stroke='currentColor'
-                        stroke-width='2'
-                        viewBox='0 0 24 24'
-                        ><path d='M5 12h14M12 5l7 7-7 7'></path></svg
-                    >
-                </a>
+                <Button
+                    variant='text'
+                    onTone='dark'
+                    href={articleUrl}
+                    text='Read Article'
+                />
             </div>
         </div>
     </div>

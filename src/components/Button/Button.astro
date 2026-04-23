@@ -1,0 +1,40 @@
+---
+import './Button.scss'
+
+interface Props {
+    variant: 'outline-gold' | 'outline-navy' | 'solid-gold' | 'text'
+    size?: 'sm' | 'md' | 'lg'
+    icon?: boolean
+    onTone: 'light' | 'dark'
+    href?: string
+    text?: string
+    openInNewTab?: boolean
+}
+
+const { variant, size = 'md', icon = true, onTone, href, text, openInNewTab } = Astro.props
+const Tag = href ? 'a' : 'div'
+---
+
+<Tag
+    class=`button ${variant && 'button__variant--'+variant} ${size && 'button__size--'+size} ${onTone && 'button__tone--'+onTone}`
+    {...(href && { href })}
+    {...(openInNewTab && {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+    })}
+>
+    {text && <span>{text}</span>}
+    <slot />
+    {
+        icon && (
+            <svg
+                fill='none'
+                stroke='currentColor'
+                stroke-width='2'
+                viewBox='0 0 24 24'
+            >
+                <path d='M5 12h14M12 5l7 7-7 7' />
+            </svg>
+        )
+    }
+</Tag>

@@ -1,4 +1,5 @@
 ---
+import Button from '@components/Button/Button.astro'
 import './AboutPreview.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -35,10 +36,13 @@ const { name, role, bio, imageUrl, imageAlt, initials, cta } = Astro.props
                     }
                 })}
                 {cta?.text && (
-                    <a href={cta.link ?? '/about'} class="about-preview__link" {...(cta.openInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}>
-                        {cta.text}
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                    </a>
+                    <Button
+                        variant='text'
+                        onTone='light'
+                        href={cta.link ?? '/about'}
+                        text={cta.text}
+                        openInNewTab={cta.openInNewTab}
+                    />
                 )}
             </div>
         </div>

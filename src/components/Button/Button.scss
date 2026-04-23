@@ -1,0 +1,122 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--tertiary-font);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+
+    svg {
+        width: 16px;
+        height: 16px;
+        transition: transform var(--transition);
+    }
+
+    &:hover svg {
+        transform: translateX(4px);
+    }
+
+    // Sizes
+    &__size--sm {
+        font-size: 11px;
+        padding: 10px 24px;
+
+        svg {
+            width: 14px;
+            height: 14px;
+        }
+    }
+
+    &__size--md {
+        font-size: 12px;
+        padding: 14px 32px;
+    }
+
+    &__size--lg {
+        font-size: 13px;
+        padding: 14px 36px;
+    }
+
+    // Variants
+    &__variant--outline-gold {
+        color: var(--gold);
+        border: 1.5px solid var(--gold);
+        background: transparent;
+
+        &:hover {
+            background: var(--gold);
+            color: var(--navy);
+        }
+    }
+
+    &__variant--outline-navy {
+        color: var(--navy);
+        border: 1px solid var(--navy);
+        background: transparent;
+
+        &:hover {
+            background: var(--navy);
+            color: var(--white);
+        }
+    }
+
+    &__variant--solid-gold {
+        color: var(--navy);
+        background: var(--gold);
+        border: 1.5px solid var(--gold);
+
+        &:hover {
+            background: var(--gold-light);
+            border-color: var(--gold-light);
+        }
+    }
+
+    &__variant--text {
+        color: var(--burgundy);
+        background: none;
+        border: none;
+        padding-left: 0;
+        padding-right: 0;
+
+        &:hover {
+            color: var(--gold);
+        }
+
+        svg {
+            transition: transform var(--transition);
+        }
+
+        &:hover svg {
+            transform: translateX(6px);
+        }
+    }
+
+    // Tone overrides
+    &__tone--dark {
+        &.button__variant--outline-gold {
+            color: var(--white);
+        }
+
+        &.button__variant--text {
+            color: var(--gold);
+
+            &:hover {
+                color: var(--gold-light);
+            }
+        }
+    }
+
+    &__tone--light {
+        &.button__variant--text {
+            color: var(--burgundy);
+
+            &:hover {
+                color: var(--gold);
+            }
+        }
+    }
+}
