@@ -1,7 +1,9 @@
 ---
+import Logo from '@components/Logo/Logo.astro'
+import NavLink from '@components/NavLink/NavLink.astro'
 import './Footer.scss'
 
-interface NavLink {
+interface NavLinkItem {
     label: string
     href: string
 }
@@ -9,10 +11,10 @@ interface NavLink {
 interface Props {
     logoTitle?: string
     logoSubtitle?: string
-    navLinks: NavLink[]
+    navLinks: NavLinkItem[]
     description?: string
     topicsTitle?: string
-    topics?: NavLink[]
+    topics?: NavLinkItem[]
     copyright?: string
     copyrightNote?: string
 }
@@ -32,14 +34,7 @@ const {
 <footer class='footer'>
     <div class='footer__inner'>
         <div class='footer__brand'>
-            <div class='footer__brand-logo'>
-                <span class='footer__brand-logo-title'
-                    >{logoTitle ?? 'History Reconsidered'}</span
-                >
-                <span class='footer__brand-logo-subtitle'
-                    >{logoSubtitle ?? 'Military History & Research'}</span
-                >
-            </div>
+            <Logo title={logoTitle} subtitle={logoSubtitle} size="sm" tone="dark" />
             {description && (
                 <p class='footer__brand-description'>{description}</p>
             )}
@@ -47,14 +42,14 @@ const {
         <div class='footer__nav-group'>
             <h4 class='footer__nav-title'>Navigate</h4>
             {navLinks.map((link) => (
-                <a class='footer__nav-link' href={link.href}>{link.label}</a>
+                <NavLink href={link.href} label={link.label} />
             ))}
         </div>
         {topics.length > 0 && (
             <div class='footer__nav-group'>
                 <h4 class='footer__nav-title'>{topicsTitle ?? 'Topics'}</h4>
                 {topics.map((topic) => (
-                    <a class='footer__nav-link' href={topic.href}>{topic.label}</a>
+                    <NavLink href={topic.href} label={topic.label} />
                 ))}
             </div>
         )}

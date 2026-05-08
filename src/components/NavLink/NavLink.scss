@@ -1,0 +1,37 @@
+.nav-link {
+    color: var(--navy);
+    font-family: var(--tertiary-font);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 170%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gold);
+        transition: width var(--transition);
+    }
+
+    &:hover,
+    &--active {
+        color: var(--gold);
+
+        &::after {
+            width: 100%;
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 4px;
+        border-radius: 2px;
+    }
+}

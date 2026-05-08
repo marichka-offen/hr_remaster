@@ -1,0 +1,19 @@
+---
+import './NavLink.scss'
+
+interface Props {
+    href: string
+    label: string
+    active?: boolean
+}
+
+const { href, label, active = false } = Astro.props
+---
+
+<a
+    class={`nav-link${active ? ' nav-link--active' : ''}`}
+    href={href}
+    aria-current={active ? 'page' : undefined}
+>
+    {label}
+</a>

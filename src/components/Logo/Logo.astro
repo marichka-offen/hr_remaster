@@ -1,0 +1,24 @@
+---
+import './Logo.scss'
+
+interface Props {
+    title?: string
+    subtitle?: string
+    size?: 'lg' | 'sm'
+    tone?: 'light' | 'dark'
+    href?: string
+}
+
+const {
+    title = 'History Reconsidered',
+    subtitle = 'Military History & Research',
+    size = 'lg',
+    tone = 'light',
+    href = '/',
+} = Astro.props
+---
+
+<a class={`logo logo--${size} logo--${tone}`} href={href}>
+    <span class="logo__title">{title}</span>
+    <span class="logo__subtitle">{subtitle}</span>
+</a>

@@ -1,0 +1,23 @@
+---
+import { Icon as AstroIcon } from 'astro-icon/components'
+
+type IconName = 'arrow' | 'search' | 'burger' | 'favicon'
+
+interface Props {
+    name: IconName
+    size?: number
+    color?: string
+    class?: string
+}
+
+const { name, size = 20, color, class: className } = Astro.props
+---
+
+<AstroIcon
+    name={name}
+    width={size}
+    height={size}
+    style={color ? `color: ${color}` : undefined}
+    class={className}
+    aria-hidden="true"
+/>

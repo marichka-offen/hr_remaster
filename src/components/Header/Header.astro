@@ -1,9 +1,11 @@
 ---
 import MobileNav from '@components/MobileNav/MobileNav'
+import Icon from '@components/Icon/Icon.astro'
+import Logo from '@components/Logo/Logo.astro'
+import NavLink from '@components/NavLink/NavLink.astro'
 import './Header.scss'
-import { Icon } from 'astro-icon/components'
 
-interface NavLink {
+interface NavLinkItem {
     label: string
     href: string
 }
@@ -11,30 +13,24 @@ interface NavLink {
 interface Props {
     logoTitle?: string
     logoSubtitle?: string
-    navLinks: NavLink[]
+    navLinks: NavLinkItem[]
 }
 
 const { logoTitle, logoSubtitle, navLinks } = Astro.props
+const currentPath = Astro.url.pathname
 ---
 
 <header class='header'>
     <div class='header__inner'>
         <div class='header__logo'>
-            <a href='/'>
-                <h1>
-                    <span class='header__title'>{logoTitle ?? 'History Reconsidered'}</span>
-                    <span class='header__subtitle'
-                        >{logoSubtitle ?? 'Military History & Research'}</span
-                    >
-                </h1>
-            </a>
+            <Logo title={logoTitle} subtitle={logoSubtitle} size="lg" tone="light" />
         </div>
         <nav class='header__nav'>
             {navLinks.map((link) => (
-                <a class='header__nav-link' href={link.href}>{link.label}</a>
+                <NavLink href={link.href} label={link.label} active={currentPath === link.href} />
             ))}
             <button class='header__nav-search' aria-label='Search the articles'
-                ><Icon name='search' /></button
+                ><Icon name='search' size={20} /></button
             >
         </nav>
         <button

@@ -118,30 +118,4 @@
         }
     }
 
-    &__link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-family: var(--tertiary-font);
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--gold);
-        transition: var(--transition);
-
-        svg {
-            width: 16px;
-            height: 16px;
-            transition: transform var(--transition);
-        }
-
-        &:hover {
-            color: var(--gold-light);
-
-            svg {
-                transform: translateX(6px);
-            }
-        }
-    }
 }
