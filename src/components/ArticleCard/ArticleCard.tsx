@@ -1,4 +1,5 @@
 import './ArticleCard.scss'
+import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage'
 import type { ArticleMeta } from '@app-types/article'
 
 const DEFAULT_GRADIENT = 'linear-gradient(135deg, #3a3040 0%, #2a4a52 100%)'
@@ -8,7 +9,7 @@ interface Props {
 }
 
 export default function ArticleCard({ article }: Props) {
-    const abbreviation = article.period ?? article.title.slice(0, 3).toUpperCase()
+    const code = article.period ?? article.title.slice(0, 3).toUpperCase()
 
     const gradient = article.gradientFrom && article.gradientTo
         ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
@@ -20,11 +21,9 @@ export default function ArticleCard({ article }: Props) {
                 {article.imageUrl ? (
                     <img src={article.imageUrl} alt={article.imageAlt ?? article.title} className="card__image-inner" />
                 ) : (
-                    <div className="card__image-inner" style={{ background: gradient }}>
-                        <span>{abbreviation}</span>
-                    </div>
+                    <PlaceholderImage gradient={gradient} code={code} aspect="card" />
                 )}
-                <div className="card__category">{article.category}</div>
+                {article.category && <div className="card__category">{article.category}</div>}
             </div>
             <div className="card__body">
                 <h3 className="card__title">{article.title}</h3>

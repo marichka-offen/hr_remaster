@@ -1,5 +1,6 @@
 ---
 import Button from '@components/Button/Button.astro'
+import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage.astro'
 import './AboutPreview.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -23,7 +24,11 @@ const { name, role, bio, imageUrl, imageAlt, initials, cta } = Astro.props
                 {imageUrl ? (
                     <img src={imageUrl} alt={imageAlt ?? name} class="about-preview__portrait" />
                 ) : (
-                    <span class="about-preview__initials">{initials ?? ''}</span>
+                    <PlaceholderImage
+                        gradient="linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%)"
+                        code={initials ?? ''}
+                        aspect="portrait"
+                    />
                 )}
             </div>
             <div class="about-preview__text">

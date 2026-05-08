@@ -27,7 +27,6 @@
 
     &__image {
         aspect-ratio: 3 / 4;
-        background: linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%);
         border-radius: 2px;
         display: flex;
         align-items: center;
@@ -50,14 +49,6 @@
 
     &__portrait {
         width: 100%;
-    }
-
-    &__initials {
-        font-family: var(--secondary-font);
-        font-size: 80px;
-        font-weight: 800;
-        color: rgba(196, 151, 59, 0.15);
-        user-select: none;
     }
 
     &__name {

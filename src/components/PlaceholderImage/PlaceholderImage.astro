@@ -1,0 +1,17 @@
+---
+import './PlaceholderImage.scss'
+
+interface Props {
+    gradient: string
+    code: string
+    category?: string
+    aspect?: 'square' | 'portrait' | 'landscape' | 'card'
+}
+
+const { gradient, code, category, aspect = 'landscape' } = Astro.props
+---
+
+<div class={`placeholder placeholder--${aspect}`} style={`background: ${gradient}`}>
+    <span class="placeholder__code">{code}</span>
+    {category && <div class="placeholder__category">{category}</div>}
+</div>

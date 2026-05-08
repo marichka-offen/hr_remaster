@@ -1,6 +1,7 @@
 ---
 import Button from '@components/Button/Button.astro'
 import SectionHeader from '@components/SectionHeader/SectionHeader.astro'
+import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage.astro'
 import './FeaturedArticle.scss'
 import type { ArticleMeta } from '@app-types/article'
 
@@ -13,6 +14,11 @@ interface Props {
 const { label, heading, article } = Astro.props
 const articleUrl = `/articles/${article.slug}`
 const tagLine = article.subtitle
+const gradient = article.gradientFrom && article.gradientTo
+    ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
+    : 'linear-gradient(135deg, var(--navy-light) 0%, var(--burgundy) 100%)'
+const code = article.period ?? ''
+const overlayCategory = article.tags ? article.tags[0] : 'Featured Article'
 ---
 
 <section class='featured'>
@@ -26,11 +32,9 @@ const tagLine = article.subtitle
                 {article.imageUrl ? (
                     <img src={article.imageUrl} alt={article.imageAlt ?? article.title} class='featured__image-img' />
                 ) : (
-                    <span class='featured__image-placeholder'>{article.period ?? ''}</span>
+                    <PlaceholderImage gradient={gradient} code={code} aspect="landscape" />
                 )}
-                <div class='featured__image-overlay'>
-                    {article.tags ? `${article.tags[0]}` : 'Featured Article'}
-                </div>
+                <div class='featured__image-overlay'>{overlayCategory}</div>
             </div>
             <div class='featured__body'>
                 {tagLine && <span class='featured__tag'>{tagLine}</span>}

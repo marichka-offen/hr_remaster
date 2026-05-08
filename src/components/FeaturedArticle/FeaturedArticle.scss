@@ -34,7 +34,6 @@
     &__image {
         position: relative;
         min-height: 400px;
-        background: linear-gradient(135deg, var(--navy-light) 0%, var(--burgundy) 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -52,15 +51,6 @@
         position: absolute;
         top: 0;
         left: 0;
-    }
-
-    &__image-placeholder {
-        font-family: var(--secondary-font);
-        font-size: 120px;
-        font-weight: 800;
-        color: rgba(196, 151, 59, 0.1);
-        line-height: 1;
-        user-select: none;
     }
 
     &__image-overlay {
