@@ -1,5 +1,6 @@
 ---
 import Button from '@components/Button/Button.astro'
+import SectionHeader from '@components/SectionHeader/SectionHeader.astro'
 import './FeaturedArticle.scss'
 import type { ArticleMeta } from '@app-types/article'
 
@@ -17,8 +18,7 @@ const tagLine = article.subtitle
 <section class='featured'>
     <div class='featured__container'>
         <div class='featured__header'>
-            {label && <div class='featured__label'>{label}</div>}
-            {heading && <h2 class='featured__heading'>{heading}</h2>}
+            <SectionHeader label={label} heading={heading} align="center" />
         </div>
 
         <div class='featured__card'>

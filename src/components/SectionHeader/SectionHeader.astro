@@ -1,0 +1,17 @@
+---
+import './SectionHeader.scss'
+
+interface Props {
+    label?: string
+    heading?: string
+    align?: 'left' | 'center' | 'right'
+}
+
+const { label, heading, align = 'center' } = Astro.props
+---
+
+<div class={`section-header section-header--${align}`}>
+    {label && <div class="section-header__label">{label}</div>}
+    {heading && <h2 class="section-header__heading">{heading}</h2>}
+    <div class="section-header__line"></div>
+</div>
