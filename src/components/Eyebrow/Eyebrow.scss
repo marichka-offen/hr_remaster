@@ -1,0 +1,36 @@
+.eyebrow {
+    font-family: var(--tertiary-font);
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1;
+
+    &--sm {
+        font-size: 11px;
+        letter-spacing: 4px;
+    }
+
+    &--md {
+        font-size: 12px;
+        letter-spacing: 5px;
+    }
+
+    &--gold {
+        color: var(--gold);
+    }
+
+    &--white {
+        color: var(--white);
+    }
+
+    &--left {
+        text-align: left;
+    }
+
+    &--center {
+        text-align: center;
+    }
+
+    &--right {
+        text-align: right;
+    }
+}

@@ -1,0 +1,13 @@
+---
+import './SectionTitle.scss'
+
+interface Props {
+    tone?: 'light' | 'dark'
+}
+
+const { tone = 'light' } = Astro.props
+---
+
+<h2 class={`section-title section-title--${tone}`}>
+    <slot />
+</h2>

@@ -1,0 +1,15 @@
+---
+import './Eyebrow.scss'
+
+interface Props {
+    align?: 'left' | 'center' | 'right'
+    color?: 'gold' | 'white'
+    size?: 'sm' | 'md'
+}
+
+const { align = 'center', color = 'gold', size = 'sm' } = Astro.props
+---
+
+<div class={`eyebrow eyebrow--${color} eyebrow--${align} eyebrow--${size}`}>
+    <slot />
+</div>

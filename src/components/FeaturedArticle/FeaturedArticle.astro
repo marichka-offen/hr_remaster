@@ -2,6 +2,7 @@
 import Button from '@components/Button/Button.astro'
 import SectionHeader from '@components/SectionHeader/SectionHeader.astro'
 import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage.astro'
+import CategoryChip from '@components/CategoryChip/CategoryChip.astro'
 import './FeaturedArticle.scss'
 import type { ArticleMeta } from '@app-types/article'
 
@@ -34,7 +35,9 @@ const overlayCategory = article.tags ? article.tags[0] : 'Featured Article'
                 ) : (
                     <PlaceholderImage gradient={gradient} code={code} aspect="landscape" />
                 )}
-                <div class='featured__image-overlay'>{overlayCategory}</div>
+                <div class='featured__image-overlay'>
+                    <CategoryChip label={overlayCategory} variant="overlay" />
+                </div>
             </div>
             <div class='featured__body'>
                 {tagLine && <span class='featured__tag'>{tagLine}</span>}

@@ -1,5 +1,6 @@
 import './ArticleCard.scss'
 import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage'
+import CategoryChip from '@components/CategoryChip/CategoryChip'
 import type { ArticleMeta } from '@app-types/article'
 
 const DEFAULT_GRADIENT = 'linear-gradient(135deg, #3a3040 0%, #2a4a52 100%)'
@@ -23,7 +24,11 @@ export default function ArticleCard({ article }: Props) {
                 ) : (
                     <PlaceholderImage gradient={gradient} code={code} aspect="card" />
                 )}
-                {article.category && <div className="card__category">{article.category}</div>}
+                {article.category && (
+                    <div className="card__category">
+                        <CategoryChip label={article.category} variant="overlay" />
+                    </div>
+                )}
             </div>
             <div className="card__body">
                 <h3 className="card__title">{article.title}</h3>

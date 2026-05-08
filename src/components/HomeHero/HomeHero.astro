@@ -1,5 +1,7 @@
 ---
 import Button from '@components/Button/Button.astro'
+import Eyebrow from '@components/Eyebrow/Eyebrow.astro'
+import HairlineDivider from '@components/HairlineDivider/HairlineDivider.astro'
 import './HomeHero.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -27,9 +29,9 @@ const { label, title, quote, quoteAuthor, imageUrl, imageAlt, cta } =
     </div>
     <div class='hero__texture'></div>
     <div class='hero__content'>
-        {label && <div class='hero__label'>{label}</div>}
+        {label && <Eyebrow color="gold" size="md" align="center">{label}</Eyebrow>}
         <h1 class='hero__title' set:html={title} />
-        <div class='hero__divider'></div>
+        <HairlineDivider width={60} color="gold" align="center" />
         {
             quote && (
                 <blockquote class='hero__quote'>

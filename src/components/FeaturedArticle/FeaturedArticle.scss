@@ -57,15 +57,6 @@
         position: absolute;
         top: 24px;
         left: 24px;
-        font-family: var(--tertiary-font);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--gold);
-        font-weight: 600;
-        background: rgba(26, 35, 50, 0.8);
-        padding: 6px 14px;
-        backdrop-filter: blur(4px);
     }
 
     &__body {

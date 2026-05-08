@@ -1,17 +1,21 @@
 ---
+import Eyebrow from '@components/Eyebrow/Eyebrow.astro'
+import SectionTitle from '@components/SectionTitle/SectionTitle.astro'
+import HairlineDivider from '@components/HairlineDivider/HairlineDivider.astro'
 import './SectionHeader.scss'
 
 interface Props {
     label?: string
     heading?: string
     align?: 'left' | 'center' | 'right'
+    tone?: 'light' | 'dark'
 }
 
-const { label, heading, align = 'center' } = Astro.props
+const { label, heading, align = 'center', tone = 'light' } = Astro.props
 ---
 
 <div class={`section-header section-header--${align}`}>
-    {label && <div class="section-header__label">{label}</div>}
-    {heading && <h2 class="section-header__heading">{heading}</h2>}
-    <div class="section-header__line"></div>
+    {label && <Eyebrow align={align} color="gold" size="sm">{label}</Eyebrow>}
+    {heading && <SectionTitle tone={tone}>{heading}</SectionTitle>}
+    <HairlineDivider width={40} color="gold" align={align} />
 </div>
