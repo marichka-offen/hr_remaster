@@ -1,0 +1,21 @@
+.article-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--tertiary-font);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    &__dot {
+        opacity: 0.4;
+    }
+
+    &--light {
+        color: var(--text-muted);
+    }
+
+    &--dark {
+        color: rgba(255, 255, 255, 0.4);
+    }
+}

@@ -1,12 +1,13 @@
 import './ArticleCard.scss'
 import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage'
 import CategoryChip from '@components/CategoryChip/CategoryChip'
-import type { ArticleMeta } from '@app-types/article'
+import ArticleMeta from '@components/ArticleMeta/ArticleMeta'
+import type { ArticleMeta as ArticleMetaType } from '@app-types/article'
 
 const DEFAULT_GRADIENT = 'linear-gradient(135deg, #3a3040 0%, #2a4a52 100%)'
 
 interface Props {
-    article: ArticleMeta
+    article: ArticleMetaType
 }
 
 export default function ArticleCard({ article }: Props) {
@@ -36,8 +37,7 @@ export default function ArticleCard({ article }: Props) {
                     <p className="card__excerpt">{article.excerpt}</p>
                 )}
                 <div className="card__meta">
-                    {article.readTime && <span>{article.readTime}</span>}
-                    {article.tags && <span>{article.tags[0]}</span>}
+                    <ArticleMeta readTime={article.readTime} tag={article.tags?.[0]} tone="light" />
                 </div>
             </div>
         </a>

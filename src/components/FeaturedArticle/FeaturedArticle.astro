@@ -3,13 +3,14 @@ import Button from '@components/Button/Button.astro'
 import SectionHeader from '@components/SectionHeader/SectionHeader.astro'
 import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage.astro'
 import CategoryChip from '@components/CategoryChip/CategoryChip.astro'
+import ArticleMeta from '@components/ArticleMeta/ArticleMeta.astro'
 import './FeaturedArticle.scss'
-import type { ArticleMeta } from '@app-types/article'
+import type { ArticleMeta as ArticleMetaType } from '@app-types/article'
 
 interface Props {
     label?: string
     heading?: string
-    article: ArticleMeta
+    article: ArticleMetaType
 }
 
 const { label, heading, article } = Astro.props
@@ -48,40 +49,7 @@ const overlayCategory = article.tags ? article.tags[0] : 'Featured Article'
                     )
                 }
                 <div class='featured__meta'>
-                    {
-                        article.readTime && (
-                            <span>
-                                <svg
-                                    width='14'
-                                    height='14'
-                                    fill='none'
-                                    stroke='currentColor'
-                                    stroke-width='2'
-                                    viewBox='0 0 24 24'
-                                >
-                                    <>
-                                        <circle cx='12' cy='12' r='10' />
-                                        <path d='M12 6v6l4 2' />
-                                    </>
-                                </svg>
-                                {article.readTime}
-                            </span>
-                        )
-                    }
-                    <span>
-                        <svg
-                            width='14'
-                            height='14'
-                            fill='none'
-                            stroke='currentColor'
-                            stroke-width='2'
-                            viewBox='0 0 24 24'
-                            ><path
-                                d='M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z'
-                            ></path></svg
-                        >
-                        By Lee Offen
-                    </span>
+                    <ArticleMeta readTime={article.readTime} tag={article.tags?.[0]} tone="dark" />
                 </div>
                 <Button
                     variant='text'

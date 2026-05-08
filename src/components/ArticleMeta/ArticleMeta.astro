@@ -1,0 +1,23 @@
+---
+import './ArticleMeta.scss'
+
+interface Props {
+    readTime?: string
+    tag?: string
+    tone?: 'light' | 'dark'
+}
+
+const { readTime, tag, tone = 'light' } = Astro.props
+const items = [readTime, tag].filter(Boolean) as string[]
+---
+
+{items.length > 0 && (
+    <div class={`article-meta article-meta--${tone}`}>
+        {items.map((item, i) => (
+            <>
+                {i > 0 && <span class="article-meta__dot" aria-hidden="true">·</span>}
+                <span>{item}</span>
+            </>
+        ))}
+    </div>
+)}

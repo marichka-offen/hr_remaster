@@ -76,14 +76,6 @@
 
     &__meta {
         margin-top: auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-family: var(--tertiary-font);
-        font-size: 11px;
-        color: var(--text-muted);
-        letter-spacing: 1px;
-        text-transform: uppercase;
         padding-top: 16px;
         border-top: 1px solid var(--parchment-dark);
     }
