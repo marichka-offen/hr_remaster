@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import ArticleCard from '@components/ArticleCard/ArticleCard'
-import CategoryFilter from '@components/CategoryFilter/CategoryFilter'
+import ArticleCard from '@components/composite/ArticleCard/ArticleCard'
+import CategoryFilter from '@components/composite/CategoryFilter/CategoryFilter'
 import './ArticleCardGrid.scss'
 import type { ArticleMeta } from '@app-types/article'
 

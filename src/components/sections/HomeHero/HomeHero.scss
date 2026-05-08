@@ -66,27 +66,11 @@
         animation: heroFadeUp 0.8s ease forwards 0.5s;
     }
 
-    &__quote {
-        font-family: var(--primary-font);
-        font-style: italic;
-        font-size: clamp(18px, 2.5vw, 24px);
-        color: rgba(255, 255, 255, 0.7);
+    &__content .quote-block {
         max-width: 600px;
         margin: 0 auto 40px;
-        line-height: 1.5;
         opacity: 0;
         animation: heroFadeUp 0.8s ease forwards 0.6s;
-
-        &-author {
-            display: block;
-            font-style: normal;
-            font-size: 14px;
-            color: var(--gold);
-            margin-top: 12px;
-            font-family: var(--tertiary-font);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
     }
 
     &__scroll {

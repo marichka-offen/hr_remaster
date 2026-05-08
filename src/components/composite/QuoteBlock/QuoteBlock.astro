@@ -1,0 +1,16 @@
+---
+import './QuoteBlock.scss'
+
+interface Props {
+    quote: string
+    author?: string
+    tone?: 'light' | 'dark'
+}
+
+const { quote, author, tone = 'dark' } = Astro.props
+---
+
+<blockquote class={`quote-block quote-block--${tone}`}>
+    "{quote}"
+    {author && <span class="quote-block__author">&mdash; {author}</span>}
+</blockquote>

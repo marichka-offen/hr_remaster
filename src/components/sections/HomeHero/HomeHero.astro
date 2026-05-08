@@ -1,7 +1,8 @@
 ---
-import Button from '@components/Button/Button.astro'
-import Eyebrow from '@components/Eyebrow/Eyebrow.astro'
-import HairlineDivider from '@components/HairlineDivider/HairlineDivider.astro'
+import Button from '@components/base/Button/Button.astro'
+import Eyebrow from '@components/base/Eyebrow/Eyebrow.astro'
+import HairlineDivider from '@components/base/HairlineDivider/HairlineDivider.astro'
+import QuoteBlock from '@components/composite/QuoteBlock/QuoteBlock.astro'
 import './HomeHero.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -32,18 +33,7 @@ const { label, title, quote, quoteAuthor, imageUrl, imageAlt, cta } =
         {label && <Eyebrow color="gold" size="md" align="center">{label}</Eyebrow>}
         <h1 class='hero__title' set:html={title} />
         <HairlineDivider width={60} color="gold" align="center" />
-        {
-            quote && (
-                <blockquote class='hero__quote'>
-                    "{quote}"
-                    {quoteAuthor && (
-                        <span class='hero__quote-author'>
-                            &mdash; {quoteAuthor}
-                        </span>
-                    )}
-                </blockquote>
-            )
-        }
+        {quote && <QuoteBlock quote={quote} author={quoteAuthor} tone="dark" />}
         {
             cta?.text && (
                 <Button

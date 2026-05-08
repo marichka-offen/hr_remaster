@@ -1,9 +1,10 @@
 ---
-import Button from '@components/Button/Button.astro'
-import SectionHeader from '@components/SectionHeader/SectionHeader.astro'
-import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage.astro'
-import CategoryChip from '@components/CategoryChip/CategoryChip.astro'
-import ArticleMeta from '@components/ArticleMeta/ArticleMeta.astro'
+import Button from '@components/base/Button/Button.astro'
+import Eyebrow from '@components/base/Eyebrow/Eyebrow.astro'
+import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
+import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage.astro'
+import CategoryChip from '@components/base/CategoryChip/CategoryChip.astro'
+import ArticleMeta from '@components/base/ArticleMeta/ArticleMeta.astro'
 import './FeaturedArticle.scss'
 import type { ArticleMeta as ArticleMetaType } from '@app-types/article'
 
@@ -41,7 +42,7 @@ const overlayCategory = article.tags ? article.tags[0] : 'Featured Article'
                 </div>
             </div>
             <div class='featured__body'>
-                {tagLine && <span class='featured__tag'>{tagLine}</span>}
+                {tagLine && <Eyebrow color="gold" size="sm" align="left">{tagLine}</Eyebrow>}
                 <h3 class='featured__title'>{article.title}</h3>
                 {
                     article.excerpt && (

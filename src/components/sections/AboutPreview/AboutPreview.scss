@@ -60,15 +60,8 @@
         line-height: 1.2;
     }
 
-    &__role {
-        font-family: var(--tertiary-font);
-        font-size: 12px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--gold);
-        font-weight: 600;
+    &__text .eyebrow {
         margin-bottom: 24px;
-        display: block;
     }
 
     &__text p {

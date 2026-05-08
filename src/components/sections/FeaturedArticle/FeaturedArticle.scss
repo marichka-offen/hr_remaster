@@ -74,13 +74,7 @@
         }
     }
 
-    &__tag {
-        font-family: var(--tertiary-font);
-        font-size: 10px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--gold);
-        font-weight: 600;
+    &__body .eyebrow {
         margin-bottom: 16px;
     }
 

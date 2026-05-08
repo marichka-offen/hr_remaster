@@ -1,7 +1,7 @@
 import './ArticleCard.scss'
-import PlaceholderImage from '@components/PlaceholderImage/PlaceholderImage'
-import CategoryChip from '@components/CategoryChip/CategoryChip'
-import ArticleMeta from '@components/ArticleMeta/ArticleMeta'
+import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
+import CategoryChip from '@components/base/CategoryChip/CategoryChip'
+import ArticleMeta from '@components/base/ArticleMeta/ArticleMeta'
 import type { ArticleMeta as ArticleMetaType } from '@app-types/article'
 
 const DEFAULT_GRADIENT = 'linear-gradient(135deg, #3a3040 0%, #2a4a52 100%)'
