@@ -1,0 +1,29 @@
+---
+import './PhilosophyBlock.scss'
+
+interface Props {
+    quote: string
+    body?: any[]
+}
+
+const { quote, body } = Astro.props
+---
+
+<section class="philosophy">
+    <div class="philosophy__container">
+        <div class="philosophy__quote-wrap">
+            <span class="philosophy__mark">&ldquo;</span>
+            <blockquote class="philosophy__quote">{quote}</blockquote>
+        </div>
+        {body?.length ? (
+            <div class="philosophy__body">
+                {body.map((block: any) => {
+                    if (block._type === 'block') {
+                        const text = block.children?.map((c: any) => c.text).join('') ?? ''
+                        return text ? <p>{text}</p> : null
+                    }
+                })}
+            </div>
+        ) : null}
+    </div>
+</section>

@@ -1,23 +1,33 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
 import { sanityClient } from '@lib/sanity/client'
-import { pageBySlugQuery } from '@lib/sanity/queries'
-const pageData = await sanityClient.fetch(pageBySlugQuery, { slug: 'contact' })
+import { contactQuery } from '@lib/sanity/queries'
 
-const sections = pageData?.sections ?? []
-const pageTitle = pageData?.title ?? 'History Reconsidered'
-const pageDescription = pageData?.description ?? ''
+const data = await sanityClient.fetch(contactQuery)
+
+const pageTitle = data?.title ?? 'Contact'
+const pageDescription = data?.description ?? ''
 ---
 
 <SiteLayout title={pageTitle} description={pageDescription}>
-    <main id='main'>
-        {
-            sections.map((section: any) => {
-                switch (section._type) {
-                    default:
-                        return null
-                }
-            })
+    <main id="main">
+        <section class="contact-page">
+            <div class="contact-page__container">
+                <p>Contact — coming soon</p>
+            </div>
+        </section>
+    </main>
+</SiteLayout>
+
+<style lang="scss">
+    .contact-page {
+        background: var(--parchment);
+        min-height: 100vh;
+
+        &__container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
         }
-    </main></SiteLayout
->
+    }
+</style>

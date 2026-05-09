@@ -1,23 +1,18 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
+import PageSections from '@components/sections/PageSections/PageSections.astro'
 import { sanityClient } from '@lib/sanity/client'
-import { pageBySlugQuery } from '@lib/sanity/queries'
-const pageData = await sanityClient.fetch(pageBySlugQuery, { slug: 'about' })
+import { aboutQuery } from '@lib/sanity/queries'
+
+const pageData = await sanityClient.fetch(aboutQuery)
 
 const sections = pageData?.sections ?? []
-const pageTitle = pageData?.title ?? 'History Reconsidered'
+const pageTitle = pageData?.title ?? 'About'
 const pageDescription = pageData?.description ?? ''
 ---
 
 <SiteLayout title={pageTitle} description={pageDescription}>
-    <main id='main'>
-        {
-            sections.map((section: any) => {
-                switch (section._type) {
-                    default:
-                        return null
-                }
-            })
-        }
-    </main></SiteLayout
->
+    <main id="main">
+        <PageSections sections={sections} />
+    </main>
+</SiteLayout>

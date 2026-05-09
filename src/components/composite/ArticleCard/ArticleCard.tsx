@@ -1,7 +1,6 @@
 import './ArticleCard.scss'
 import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
 import CategoryChip from '@components/base/CategoryChip/CategoryChip'
-import ArticleMeta from '@components/base/ArticleMeta/ArticleMeta'
 import type { ArticleMeta as ArticleMetaType } from '@app-types/article'
 
 const DEFAULT_GRADIENT = 'linear-gradient(135deg, #3a3040 0%, #2a4a52 100%)'
@@ -25,9 +24,9 @@ export default function ArticleCard({ article }: Props) {
                 ) : (
                     <PlaceholderImage gradient={gradient} code={code} aspect="card" />
                 )}
-                {article.category && (
-                    <div className="card__category">
-                        <CategoryChip label={article.category} variant="overlay" />
+                {article.tags?.[0] && (
+                    <div className="card__chip">
+                        <CategoryChip label={article.tags[0]} variant="overlay" />
                     </div>
                 )}
             </div>
@@ -37,7 +36,8 @@ export default function ArticleCard({ article }: Props) {
                     <p className="card__excerpt">{article.excerpt}</p>
                 )}
                 <div className="card__meta">
-                    <ArticleMeta readTime={article.readTime} tag={article.tags?.[0]} tone="light" />
+                    {article.readTime && <span className="card__read-time">{article.readTime}</span>}
+                    {article.category && <span className="card__category-label">{article.category}</span>}
                 </div>
             </div>
         </a>

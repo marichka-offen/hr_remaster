@@ -42,9 +42,13 @@ export const authorCard = defineType({
         }),
     ],
     preview: {
-        select: { title: 'name' },
-        prepare({ title }) {
-            return { title: title || 'Author Preview', subtitle: 'Author' }
+        select: { title: 'name', subtitle: 'role', media: 'image' },
+        prepare({ title, subtitle, media }) {
+            return {
+                title: title || 'Author Preview',
+                subtitle: subtitle || 'Author Preview section',
+                media,
+            }
         },
     },
 })

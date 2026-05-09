@@ -1,5 +1,6 @@
 ---
-import Button from '@components/base/Button/Button.astro'
+import Button from '@components/base/Button/Button'
+import CoverFrame from '@components/composite/CoverFrame/CoverFrame.astro'
 import './BookPreview.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -23,11 +24,11 @@ const { label, coverLabel, title, subtitle, coverImageUrl, coverImageAlt, descri
             {coverImageUrl ? (
                 <img src={coverImageUrl} alt={coverImageAlt ?? title} class="book-preview__cover-img" />
             ) : (
-                <div class="book-preview__cover">
+                <CoverFrame inset={10} class="book-preview__cover">
                     {coverLabel && <div class="book-preview__cover-label">{coverLabel}</div>}
                     <div class="book-preview__cover-title">{title}</div>
                     {subtitle && <div class="book-preview__cover-author">{subtitle}</div>}
-                </div>
+                </CoverFrame>
             )}
             <div class="book-preview__info">
                 {label && <div class="book-preview__info-label">{label}</div>}

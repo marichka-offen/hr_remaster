@@ -29,6 +29,9 @@
             ],
             "@app-types/*": [
                 "src/types/*"
+            ],
+            "@icons/*": [
+                "src/icons/*"
             ]
         }
     }

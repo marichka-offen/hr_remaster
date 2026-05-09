@@ -1,0 +1,31 @@
+---
+import Button from '@components/base/Button/Button'
+import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
+import './PageCta.scss'
+import type { CTA } from '@app-types/cta'
+
+interface Props {
+    label?: string
+    heading: string
+    subtext?: string
+    cta?: CTA
+}
+
+const { label, heading, subtext, cta } = Astro.props
+---
+
+<section class="page-cta">
+    <div class="page-cta__container">
+        <SectionHeader label={label ?? ''} heading={heading} align="center" />
+        {subtext && <p class="page-cta__subtext">{subtext}</p>}
+        {cta?.text && (
+            <Button
+                variant="solid-navy"
+                onTone="light"
+                href={cta.link ?? '/articles'}
+                text={cta.text}
+                openInNewTab={cta.openInNewTab}
+            />
+        )}
+    </div>
+</section>

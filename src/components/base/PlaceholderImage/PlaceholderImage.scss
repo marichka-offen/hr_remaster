@@ -30,14 +30,17 @@
         user-select: none;
         line-height: 1;
 
-        .placeholder--card &,
-        .placeholder--landscape & {
+        .placeholder--card & {
             font-size: 60px;
+        }
+
+        .placeholder--landscape & {
+            font-size: clamp(60px, 8vw, 120px);
         }
 
         .placeholder--square &,
         .placeholder--portrait & {
-            font-size: 80px;
+            font-size: clamp(60px, 10vw, 80px);
         }
     }
 

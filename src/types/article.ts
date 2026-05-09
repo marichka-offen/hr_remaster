@@ -14,3 +14,14 @@ export interface ArticleMeta {
     excerpt?: string
     readTime?: string
 }
+
+export interface Article extends ArticleMeta {
+    body?: any[]
+    author?: {
+        name: string
+        role?: string
+        bio?: any[]
+        imageUrl?: string
+        initials?: string
+    }
+}

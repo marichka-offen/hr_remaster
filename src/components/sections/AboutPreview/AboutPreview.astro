@@ -1,7 +1,8 @@
 ---
-import Button from '@components/base/Button/Button.astro'
-import Eyebrow from '@components/base/Eyebrow/Eyebrow.astro'
-import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage.astro'
+import Button from '@components/base/Button/Button'
+import Eyebrow from '@components/base/Eyebrow/Eyebrow'
+import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
+import CoverFrame from '@components/composite/CoverFrame/CoverFrame.astro'
 import './AboutPreview.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -21,7 +22,7 @@ const { name, role, bio, imageUrl, imageAlt, initials, cta } = Astro.props
 <section class="about-preview">
     <div class="about-preview__container">
         <div class="about-preview__grid">
-            <div class="about-preview__image">
+            <CoverFrame inset={8} class="about-preview__image">
                 {imageUrl ? (
                     <img src={imageUrl} alt={imageAlt ?? name} class="about-preview__portrait" />
                 ) : (
@@ -31,7 +32,7 @@ const { name, role, bio, imageUrl, imageAlt, initials, cta } = Astro.props
                         aspect="portrait"
                     />
                 )}
-            </div>
+            </CoverFrame>
             <div class="about-preview__text">
                 <h3 class="about-preview__name">{name}</h3>
                 {role && <Eyebrow color="gold" size="sm" align="left">{role}</Eyebrow>}

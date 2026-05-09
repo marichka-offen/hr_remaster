@@ -64,6 +64,17 @@
         }
     }
 
+    &__variant--solid-navy {
+        color: var(--white);
+        background: var(--navy);
+        border: 1.5px solid var(--navy);
+
+        &:hover {
+            background: var(--navy-light);
+            border-color: var(--navy-light);
+        }
+    }
+
     &__variant--solid-gold {
         color: var(--navy);
         background: var(--gold);

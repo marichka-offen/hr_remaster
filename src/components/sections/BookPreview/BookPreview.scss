@@ -62,13 +62,6 @@
         position: relative;
         overflow: hidden;
 
-        &::before {
-            content: '';
-            position: absolute;
-            inset: 10px;
-            border: 1px solid rgba(196, 151, 59, 0.25);
-        }
-
         @media (max-width: 768px) {
             max-width: 200px;
             margin: 0 auto;

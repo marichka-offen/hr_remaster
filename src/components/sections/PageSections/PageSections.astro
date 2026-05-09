@@ -1,0 +1,109 @@
+---
+import HomeHero from '@components/sections/HomeHero/HomeHero.astro'
+import FeaturedArticle from '@components/sections/FeaturedArticle/FeaturedArticle.astro'
+import ArticlesSection from '@components/sections/ArticlesSection/ArticlesSection.astro'
+import AboutPreview from '@components/sections/AboutPreview/AboutPreview.astro'
+import AuthorBio from '@components/sections/AuthorBio/AuthorBio.astro'
+import BookPreview from '@components/sections/BookPreview/BookPreview.astro'
+import PhilosophyBlock from '@components/sections/PhilosophyBlock/PhilosophyBlock.astro'
+import PageCta from '@components/sections/PageCta/PageCta.astro'
+import type { ArticleMeta } from '@app-types/article'
+
+interface Props {
+    sections: any[]
+    articles?: ArticleMeta[]
+}
+
+const { sections, articles = [] } = Astro.props
+---
+
+{sections.map((section: any) => {
+    switch (section._type) {
+        case 'hero':
+            return (
+                <HomeHero
+                    label={section.label}
+                    title={section.title}
+                    quote={section.quote}
+                    quoteAuthor={section.quoteAuthor}
+                    imageUrl={section.imageUrl}
+                    imageAlt={section.imageAlt}
+                    cta={section.cta}
+                />
+            )
+        case 'featured':
+            return section.article ? (
+                <FeaturedArticle
+                    label={section.label}
+                    heading={section.heading}
+                    article={section.article}
+                />
+            ) : null
+        case 'articleGrid':
+            return (
+                <ArticlesSection
+                    articles={section.articles?.length ? section.articles : articles}
+                    label={section.label}
+                    heading={section.heading}
+                    showCategoryFilter={section.showCategoryFilter}
+                    cta={section.cta}
+                />
+            )
+        case 'authorCard':
+            return (
+                <AboutPreview
+                    name={section.name}
+                    role={section.role}
+                    bio={section.bio}
+                    imageUrl={section.imageUrl}
+                    imageAlt={section.imageAlt}
+                    initials={section.initials}
+                    cta={section.cta}
+                />
+            )
+        case 'bookPromo':
+            return (
+                <BookPreview
+                    label={section.label}
+                    coverLabel={section.coverLabel}
+                    title={section.title}
+                    subtitle={section.subtitle}
+                    coverImageUrl={section.coverImageUrl}
+                    coverImageAlt={section.coverImageAlt}
+                    description={section.description}
+                    cta={section.cta}
+                />
+            )
+        case 'authorBio':
+            return (
+                <AuthorBio
+                    label={section.label}
+                    name={section.name}
+                    role={section.role}
+                    bio={section.bio}
+                    imageUrl={section.imageUrl}
+                    imageAlt={section.imageAlt}
+                    initials={section.initials}
+                    credentials={section.credentials}
+                />
+            )
+        case 'philosophyBlock':
+            return (
+                <PhilosophyBlock
+                    quote={section.quote}
+                    body={section.body}
+                />
+            )
+        case 'pageCta':
+            return (
+                <PageCta
+                    label={section.label}
+                    heading={section.heading}
+                    subtext={section.subtext}
+                    cta={section.cta}
+                />
+            )
+        default:
+            return null
+    }
+})}

@@ -1,0 +1,162 @@
+---
+import SiteLayout from '@layouts/SiteLayout.astro'
+import AboutPreview from '@components/sections/AboutPreview/AboutPreview.astro'
+import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
+import CategoryChip from '@components/base/CategoryChip/CategoryChip'
+import ArticleMeta from '@components/base/ArticleMeta/ArticleMeta'
+import DropCap from '@components/base/DropCap/DropCap'
+import { sanityClient } from '@lib/sanity/client'
+import { articleBySlugQuery, allArticlesQuery } from '@lib/sanity/queries'
+import type { Article, ArticleMeta as ArticleMetaType } from '@app-types/article'
+
+export async function getStaticPaths() {
+    const articles: ArticleMetaType[] = await sanityClient.fetch(allArticlesQuery)
+    return articles.map((article) => ({ params: { slug: article.slug } }))
+}
+
+const { slug } = Astro.params
+const article: Article = await sanityClient.fetch(articleBySlugQuery, { slug })
+
+if (!article) return Astro.redirect('/articles')
+
+const gradient = article.gradientFrom && article.gradientTo
+    ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
+    : 'linear-gradient(135deg, var(--navy-light) 0%, var(--burgundy) 100%)'
+---
+
+<SiteLayout title={article.title} description={article.excerpt ?? ''}>
+    <main id="main" class="article-detail">
+        <div class="article-detail__hero">
+            {article.imageUrl ? (
+                <img src={article.imageUrl} alt={article.imageAlt ?? article.title} class="article-detail__hero-img" />
+            ) : (
+                <PlaceholderImage gradient={gradient} code={article.period ?? ''} aspect="landscape" />
+            )}
+            <div class="article-detail__hero-overlay">
+                <CategoryChip label={article.category} variant="overlay" />
+            </div>
+        </div>
+
+        <div class="article-detail__container">
+            <header class="article-detail__header">
+                {article.subtitle && <p class="article-detail__subtitle">{article.subtitle}</p>}
+                <h1 class="article-detail__title">{article.title}</h1>
+                <ArticleMeta readTime={article.readTime} tag={article.tags?.[0]} tone="light" />
+            </header>
+
+            <div class="article-detail__body">
+                {article.body?.map((block: any, i: number) => {
+                    if (block._type !== 'block') return null
+                    const text = block.children?.map((c: any) => c.text).join('') ?? ''
+                    if (!text) return null
+                    if (block.style === 'h2') return <h2>{text}</h2>
+                    if (block.style === 'h3') return <h3>{text}</h3>
+                    if (block.style === 'blockquote') return <blockquote>{text}</blockquote>
+                    return (
+                        <p>
+                            {i === 0 ? <DropCap>{text[0]}</DropCap> : null}
+                            {i === 0 ? text.slice(1) : text}
+                        </p>
+                    )
+                })}
+            </div>
+        </div>
+
+        {article.author && (
+            <AboutPreview
+                name={article.author.name}
+                role={article.author.role}
+                bio={article.author.bio}
+                imageUrl={article.author.imageUrl}
+                initials={article.author.initials}
+            />
+        )}
+    </main>
+</SiteLayout>
+
+<style lang="scss">
+    .article-detail {
+        &__hero {
+            position: relative;
+            height: 480px;
+            overflow: hidden;
+            margin-top: 72px;
+
+            @media (max-width: 768px) {
+                height: 280px;
+            }
+        }
+
+        &__hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &__hero-overlay {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+        }
+
+        &__container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 56px 24px 80px;
+        }
+
+        &__header {
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--parchment-dark);
+        }
+
+        &__subtitle {
+            font-family: var(--tertiary-font);
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        &__title {
+            font-family: var(--secondary-font);
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        &__body {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-light);
+
+            p { margin-bottom: 24px; }
+            h2 {
+                font-family: var(--secondary-font);
+                font-size: clamp(22px, 3vw, 30px);
+                font-weight: 700;
+                color: var(--navy);
+                margin: 48px 0 20px;
+            }
+            h3 {
+                font-family: var(--secondary-font);
+                font-size: clamp(18px, 2.5vw, 24px);
+                font-weight: 700;
+                color: var(--navy);
+                margin: 36px 0 16px;
+            }
+            blockquote {
+                border-left: 3px solid var(--gold);
+                padding-left: 24px;
+                font-style: italic;
+                color: var(--text-muted);
+                margin: 32px 0;
+            }
+        }
+    }
+</style>

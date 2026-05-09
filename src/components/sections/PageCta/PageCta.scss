@@ -1,0 +1,26 @@
+.page-cta {
+    background: var(--white);
+    border-top: 1px solid var(--parchment-dark);
+
+    &__container {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 80px 24px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+
+        @media (max-width: 768px) {
+            padding: 56px 20px;
+        }
+    }
+
+    &__subtext {
+        font-size: 17px;
+        color: var(--text-light);
+        line-height: 1.7;
+        margin-top: -8px;
+    }
+}

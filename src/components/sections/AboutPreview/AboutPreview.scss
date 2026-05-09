@@ -31,15 +31,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        overflow: hidden;
-
-        &::after {
-            content: '';
-            position: absolute;
-            inset: 8px;
-            border: 1px solid rgba(196, 151, 59, 0.2);
-        }
 
         @media (max-width: 768px) {
             max-width: 240px;

@@ -1,0 +1,38 @@
+---
+import SiteLayout from '@layouts/SiteLayout.astro'
+import { sanityClient } from '@lib/sanity/client'
+import { bookBySlugQuery, allBooksQuery } from '@lib/sanity/queries'
+
+export async function getStaticPaths() {
+    const books = await sanityClient.fetch(allBooksQuery)
+    return books.map((book: any) => ({ params: { slug: book.slug } }))
+}
+
+const { slug } = Astro.params
+const book = await sanityClient.fetch(bookBySlugQuery, { slug })
+
+if (!book) return Astro.redirect('/books')
+---
+
+<SiteLayout title={book.title} description={book.excerpt ?? ''}>
+    <main id="main">
+        <section class="book-detail">
+            <div class="book-detail__container">
+                <p>Book detail — coming soon</p>
+            </div>
+        </section>
+    </main>
+</SiteLayout>
+
+<style lang="scss">
+    .book-detail {
+        background: var(--parchment);
+        min-height: 100vh;
+
+        &__container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+        }
+    }
+</style>

@@ -1,3 +1,5 @@
+import Clock from '@icons/clock'
+import Pen from '@icons/pen'
 import './ArticleMeta.scss'
 
 interface Props {
@@ -7,17 +9,23 @@ interface Props {
 }
 
 export default function ArticleMeta({ readTime, tag, tone = 'light' }: Props) {
-    const items = [readTime, tag].filter(Boolean) as string[]
-    if (!items.length) return null
+    if (!readTime && !tag) return null
 
     return (
         <div className={`article-meta article-meta--${tone}`}>
-            {items.map((item, i) => (
-                <>
-                    {i > 0 && <span className="article-meta__dot" aria-hidden="true">·</span>}
-                    <span key={item}>{item}</span>
-                </>
-            ))}
+            {readTime && (
+                <span className="article-meta__item">
+                    <Clock />
+                    {readTime}
+                </span>
+            )}
+            {readTime && tag && <span className="article-meta__dot" aria-hidden="true">·</span>}
+            {tag && (
+                <span className="article-meta__item">
+                    <Pen />
+                    {tag}
+                </span>
+            )}
         </div>
     )
 }

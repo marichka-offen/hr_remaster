@@ -1,0 +1,14 @@
+---
+import './CoverFrame.scss'
+
+interface Props {
+    inset?: number
+    class?: string
+}
+
+const { inset = 10, class: className } = Astro.props
+---
+
+<div class={`cover-frame${className ? ` ${className}` : ''}`} style={`--inset: ${inset}px`}>
+    <slot />
+</div>

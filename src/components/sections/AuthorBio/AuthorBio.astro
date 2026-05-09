@@ -1,0 +1,77 @@
+---
+import Eyebrow from '@components/base/Eyebrow/Eyebrow'
+import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
+import CoverFrame from '@components/composite/CoverFrame/CoverFrame.astro'
+import CredentialCard from '@components/composite/CredentialCard/CredentialCard.astro'
+import './AuthorBio.scss'
+import type { CTA } from '@app-types/cta'
+
+interface Credential {
+    icon: string
+    label: string
+    title: string
+    description?: string
+}
+
+interface Props {
+    label?: string
+    name: string
+    role?: string
+    bio?: any[]
+    imageUrl?: string
+    imageAlt?: string
+    initials?: string
+    credentials?: Credential[]
+}
+
+const { label, name, role, bio, imageUrl, imageAlt, initials, credentials } = Astro.props
+---
+
+<section class="author-bio">
+    <div class="author-bio__hero">
+        <div class="author-bio__container">
+            <div class="author-bio__grid">
+                <CoverFrame inset={8} class="author-bio__image">
+                    {imageUrl ? (
+                        <img src={imageUrl} alt={imageAlt ?? name} class="author-bio__portrait" />
+                    ) : (
+                        <PlaceholderImage
+                            gradient="linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%)"
+                            code={initials ?? ''}
+                            aspect="portrait"
+                        />
+                    )}
+                </CoverFrame>
+                <div class="author-bio__text">
+                    {label && <Eyebrow color="gold" size="sm" align="left">{label}</Eyebrow>}
+                    <h2 class="author-bio__name">{name}</h2>
+                    {role && <p class="author-bio__role">{role}</p>}
+                    <div class="author-bio__divider"></div>
+                    {bio?.map((block: any) => {
+                        if (block._type === 'block') {
+                            const text = block.children?.map((c: any) => c.text).join('') ?? ''
+                            return text ? <p class="author-bio__bio">{text}</p> : null
+                        }
+                    })}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {credentials?.length ? (
+        <div class="author-bio__credentials">
+            <div class="author-bio__container">
+                <div class="author-bio__cards">
+                    {credentials.map((c) => (
+                        <CredentialCard
+                            icon={c.icon as any}
+                            label={c.label}
+                            title={c.title}
+                            description={c.description}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    ) : null}
+</section>
