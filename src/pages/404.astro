@@ -1,0 +1,80 @@
+---
+import SiteLayout from '@layouts/SiteLayout.astro'
+import Button from '@components/base/Button/Button'
+---
+
+<SiteLayout title="Page Not Found" description="The page you're looking for doesn't exist.">
+    <main id="main" class="not-found">
+        <div class="not-found__bg"></div>
+        <div class="not-found__content">
+            <p class="not-found__eyebrow">404</p>
+            <h1 class="not-found__title">Page Not Found</h1>
+            <div class="not-found__divider"></div>
+            <p class="not-found__message">The page you're looking for has been lost to history.</p>
+            <Button variant="outline-gold" onTone="dark" href="/articles" text="Explore Articles" />
+        </div>
+    </main>
+</SiteLayout>
+
+<style lang="scss">
+    .not-found {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        background: var(--navy);
+
+        &__bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(139, 38, 53, 0.6) 100%);
+            pointer-events: none;
+        }
+
+        &__content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        &__eyebrow {
+            font-family: var(--secondary-font);
+            font-size: clamp(100px, 20vw, 180px);
+            font-weight: 800;
+            color: rgba(196, 151, 59, 0.12);
+            line-height: 1;
+            user-select: none;
+            margin-bottom: -24px;
+        }
+
+        &__title {
+            font-family: var(--secondary-font);
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.1;
+        }
+
+        &__divider {
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        &__message {
+            font-family: var(--primary-font);
+            font-style: italic;
+            font-size: clamp(18px, 2.5vw, 22px);
+            color: rgba(255, 255, 255, 0.55);
+            max-width: 400px;
+            line-height: 1.6;
+        }
+    }
+</style>

@@ -1,19 +1,55 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
+import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
 import { sanityClient } from '@lib/sanity/client'
 import { contactQuery } from '@lib/sanity/queries'
 
-const data = await sanityClient.fetch(contactQuery)
+const data = await sanityClient.fetch(contactQuery).catch(() => null)
 
 const pageTitle = data?.title ?? 'Contact'
 const pageDescription = data?.description ?? ''
+const heading = data?.heading ?? 'Get in Touch'
+const subheading = data?.subheading ?? "For research inquiries, speaking engagements, or general correspondence — send a message and we'll respond as soon as possible."
+const label = data?.label ?? 'Contact'
 ---
 
 <SiteLayout title={pageTitle} description={pageDescription}>
     <main id="main">
         <section class="contact-page">
             <div class="contact-page__container">
-                <p>Contact — coming soon</p>
+                <div class="contact-page__header">
+                    <SectionHeader label={label} heading={heading} align="center" />
+                    <p class="contact-page__subheading">{subheading}</p>
+                </div>
+
+                <form class="contact-form" name="contact" method="POST" data-netlify="true">
+                    <input type="hidden" name="form-name" value="contact" />
+
+                    <div class="contact-form__row">
+                        <div class="contact-form__field">
+                            <label class="contact-form__label" for="name">Name</label>
+                            <input class="contact-form__input" type="text" id="name" name="name" placeholder="Your name" required />
+                        </div>
+                        <div class="contact-form__field">
+                            <label class="contact-form__label" for="email">Email</label>
+                            <input class="contact-form__input" type="email" id="email" name="email" placeholder="your@email.com" required />
+                        </div>
+                    </div>
+
+                    <div class="contact-form__field">
+                        <label class="contact-form__label" for="message">Message</label>
+                        <textarea class="contact-form__textarea" id="message" name="message" placeholder="Your message..." rows="6" required></textarea>
+                    </div>
+
+                    <div class="contact-form__footer">
+                        <button class="contact-form__submit" type="submit">
+                            Send Message
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
             </div>
         </section>
     </main>
@@ -28,6 +64,121 @@ const pageDescription = data?.description ?? ''
             max-width: 760px;
             margin: 0 auto;
             padding: 120px 24px 80px;
+
+            @media (max-width: 768px) {
+                padding: 80px 20px 56px;
+            }
+        }
+
+        &__header {
+            margin-bottom: 56px;
+        }
+
+        &__subheading {
+            font-family: var(--primary-font);
+            font-size: 18px;
+            color: var(--text-light);
+            line-height: 1.7;
+            text-align: center;
+            max-width: 560px;
+            margin: 24px auto 0;
+        }
+    }
+
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        &__row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+
+            @media (max-width: 600px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        &__field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        &__label {
+            font-family: var(--tertiary-font);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        &__input,
+        &__textarea {
+            font-family: var(--primary-font);
+            font-size: 17px;
+            color: var(--text);
+            background: var(--white);
+            border: 1px solid var(--parchment-dark);
+            padding: 14px 18px;
+            border-radius: 2px;
+            width: 100%;
+            transition: border-color 0.2s ease;
+            outline: none;
+
+            &::placeholder {
+                color: var(--text-muted);
+                opacity: 0.6;
+            }
+
+            &:focus {
+                border-color: var(--gold);
+            }
+        }
+
+        &__textarea {
+            resize: vertical;
+            min-height: 160px;
+        }
+
+        &__footer {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 8px;
+        }
+
+        &__submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--tertiary-font);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--navy);
+            border: 1.5px solid var(--navy);
+            padding: 14px 32px;
+            cursor: pointer;
+            transition: var(--transition);
+
+            svg {
+                width: 16px;
+                height: 16px;
+                transition: transform var(--transition);
+            }
+
+            &:hover {
+                background: var(--navy-light);
+                border-color: var(--navy-light);
+
+                svg {
+                    transform: translateX(4px);
+                }
+            }
         }
     }
 </style>
