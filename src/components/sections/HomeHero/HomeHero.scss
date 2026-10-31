@@ -1,3 +1,5 @@
+@use '@tokens/mixins' as *;
+
 .hero {
     min-height: 85vh;
     display: flex;
@@ -5,14 +7,15 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-    margin-top: 72px;
+    margin-top: var(--header-height);
     background: var(--navy);
+    @include on-dark;
 
     &__bg {
         position: absolute;
         inset: 0;
         background:
-            linear-gradient(135deg, rgba(26, 35, 50, 0.88) 0%, rgba(26, 35, 50, 0.6) 50%, rgba(139, 38, 53, 0.7) 100%),
+            var(--overlay-hero),
             url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(196,151,59,0.06)" stroke-width="1"/></pattern></defs><rect width="400" height="400" fill="url(%23grid)"/></svg>');
         background-size: cover, 200px 200px;
     }
@@ -38,55 +41,55 @@
         position: relative;
         z-index: 2;
         text-align: center;
-        padding: 48px 24px;
-        max-width: 800px;
+        padding: var(--space-8) var(--gutter);
+        max-width: var(--container-md);
     }
 
     &__content .eyebrow {
-        margin-bottom: 24px;
+        margin-bottom: var(--space-5);
         opacity: 0;
-        animation: heroFadeUp 0.8s ease forwards 0.2s;
+        animation: heroFadeUp var(--duration-slow) var(--ease-standard) forwards 0.2s;
     }
 
     &__title {
         font-family: var(--secondary-font);
-        font-size: clamp(42px, 7vw, 80px);
-        font-weight: 800;
+        font-size: var(--text-display);
+        font-weight: var(--weight-extrabold);
         color: var(--white);
-        line-height: 1.05;
-        letter-spacing: -1px;
-        margin-bottom: 28px;
+        line-height: var(--leading-tight);
+        letter-spacing: var(--tracking-tight);
+        margin-bottom: var(--space-6);
         opacity: 0;
-        animation: heroFadeUp 0.8s ease forwards 0.4s;
+        animation: heroFadeUp var(--duration-slow) var(--ease-standard) forwards 0.4s;
     }
 
     &__content .hairline {
-        margin: 0 auto 28px;
+        margin: 0 auto var(--space-6);
         opacity: 0;
-        animation: heroFadeUp 0.8s ease forwards 0.5s;
+        animation: heroFadeUp var(--duration-slow) var(--ease-standard) forwards 0.5s;
     }
 
     &__content .quote-block {
-        max-width: 600px;
-        margin: 0 auto 40px;
+        max-width: var(--container-sm);
+        margin: 0 auto var(--space-7);
         opacity: 0;
-        animation: heroFadeUp 0.8s ease forwards 0.6s;
+        animation: heroFadeUp var(--duration-slow) var(--ease-standard) forwards 0.6s;
     }
 
     &__scroll {
         position: absolute;
-        bottom: 32px;
+        bottom: var(--space-6);
         left: 50%;
         transform: translateX(-50%);
         z-index: 2;
         opacity: 0;
-        animation: heroFadeUp 0.8s ease forwards 1s;
+        animation: heroFadeUp var(--duration-slow) var(--ease-standard) forwards 1s;
 
         &::before {
             content: '';
             display: block;
             width: 1px;
-            height: 48px;
+            height: var(--space-8);
             background: linear-gradient(to bottom, var(--gold), transparent);
             margin: 0 auto;
             animation: scrollPulse 2s ease infinite;
@@ -97,7 +100,7 @@
 @keyframes heroFadeUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(var(--space-5));
     }
 
     to {
@@ -118,18 +121,12 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $bp-md) {
     .hero {
         min-height: 70vh;
 
         &__title {
-            letter-spacing: 0;
+            letter-spacing: var(--tracking-normal);
         }
-    }
-}
-
-@media (max-width: 480px) {
-    .hero {
-        margin-top: 60px;
     }
 }

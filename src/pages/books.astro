@@ -1,10 +1,15 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
 import PageSections from '@components/sections/PageSections/PageSections.astro'
+import BookCard from '@components/composite/BookCard/BookCard'
+import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
 import { sanityClient } from '@lib/sanity/client'
-import { booksPageQuery } from '@lib/sanity/queries'
+import { booksPageQuery, allBooksQuery } from '@lib/sanity/queries'
 
-const pageData = await sanityClient.fetch(booksPageQuery)
+const [pageData, books] = await Promise.all([
+    sanityClient.fetch(booksPageQuery).catch(() => null),
+    sanityClient.fetch(allBooksQuery).catch(() => []),
+])
 
 const sections = pageData?.sections ?? []
 const pageTitle = pageData?.title ?? 'Books'
@@ -16,24 +21,68 @@ const pageDescription = pageData?.description ?? ''
         <PageSections sections={sections} />
         <section class="books-page">
             <div class="books-page__container">
-                <p>Books listing — coming soon</p>
+                {sections.length === 0 && (
+                    <div class="books-page__header">
+                        <SectionHeader label="The Library" heading="Books" align="center" />
+                    </div>
+                )}
+                {books.length > 0 ? (
+                    <div class="books-page__grid">
+                        {books.map((book: any) => (
+                            <BookCard book={book} />
+                        ))}
+                    </div>
+                ) : (
+                    <p class="books-page__empty">No books found.</p>
+                )}
             </div>
         </section>
     </main>
 </SiteLayout>
 
 <style lang="scss">
+    @use '@tokens/mixins' as *;
+
     .books-page {
         background: var(--parchment);
 
         &__container {
-            max-width: 1200px;
+            max-width: var(--container-lg);
             margin: 0 auto;
-            padding: 80px 24px 80px;
+            padding: var(--page-top) var(--gutter) var(--section-y);
+        }
 
-            @media (max-width: 768px) {
-                padding: 56px 20px;
+        &__header {
+            margin-bottom: var(--space-8);
+        }
+
+        &__grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-5);
+
+            @media (max-width: $bp-lg) {
+                grid-template-columns: repeat(3, 1fr);
             }
+
+            @media (max-width: $bp-md) {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-4);
+            }
+
+            @media (max-width: $bp-sm) {
+                grid-template-columns: 1fr;
+                max-width: 320px;
+                margin-inline: auto;
+            }
+        }
+
+        &__empty {
+            font-family: var(--primary-font);
+            font-style: italic;
+            color: var(--text-muted);
+            text-align: center;
+            padding: var(--space-10) 0;
         }
     }
 </style>

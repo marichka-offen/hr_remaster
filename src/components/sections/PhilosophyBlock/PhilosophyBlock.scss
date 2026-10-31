@@ -1,50 +1,46 @@
 .philosophy {
     background: var(--parchment);
-    border-top: 1px solid var(--parchment-dark);
-    border-bottom: 1px solid var(--parchment-dark);
+    border-top: var(--border-thin) solid var(--parchment-dark);
+    border-bottom: var(--border-thin) solid var(--parchment-dark);
 
     &__container {
-        max-width: 760px;
+        max-width: var(--container-md);
         margin: 0 auto;
-        padding: 80px 24px;
+        padding: var(--section-y) var(--gutter);
         text-align: center;
-
-        @media (max-width: 768px) {
-            padding: 56px 20px;
-        }
     }
 
     &__quote-wrap {
         position: relative;
-        margin-bottom: 40px;
+        margin-bottom: var(--space-7);
     }
 
     &__mark {
         display: block;
         font-family: var(--secondary-font);
-        font-size: 80px;
-        color: var(--gold);
+        font-size: var(--text-display);
+        color: var(--accent);
         opacity: 0.3;
         line-height: 0.6;
-        margin-bottom: 16px;
+        margin-bottom: var(--space-4);
         user-select: none;
     }
 
     &__quote {
         font-family: var(--primary-font);
         font-style: italic;
-        font-size: clamp(20px, 3vw, 28px);
+        font-size: var(--text-xl);
         color: var(--navy);
-        line-height: 1.5;
-        font-weight: 600;
+        line-height: var(--leading-normal);
+        font-weight: var(--weight-semibold);
     }
 
     &__body {
         p {
-            font-size: 17px;
+            font-size: var(--text-md);
             color: var(--text-light);
-            line-height: 1.75;
-            margin-bottom: 16px;
+            line-height: var(--leading-relaxed);
+            margin-bottom: var(--space-4);
 
             &:last-child { margin-bottom: 0; }
         }

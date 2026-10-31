@@ -1,33 +1,182 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
+import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
 import { sanityClient } from '@lib/sanity/client'
 import { contactQuery } from '@lib/sanity/queries'
 
-const data = await sanityClient.fetch(contactQuery)
+const data = await sanityClient.fetch(contactQuery).catch(() => null)
 
 const pageTitle = data?.title ?? 'Contact'
 const pageDescription = data?.description ?? ''
+const heading = data?.heading ?? 'Get in Touch'
+const subheading = data?.subheading ?? "For research inquiries, speaking engagements, or general correspondence — send a message and we'll respond as soon as possible."
+const label = data?.label ?? 'Contact'
 ---
 
 <SiteLayout title={pageTitle} description={pageDescription}>
     <main id="main">
         <section class="contact-page">
             <div class="contact-page__container">
-                <p>Contact — coming soon</p>
+                <div class="contact-page__header">
+                    <SectionHeader label={label} heading={heading} align="center" />
+                    <p class="contact-page__subheading">{subheading}</p>
+                </div>
+
+                <form class="contact-form" name="contact" method="POST" data-netlify="true">
+                    <input type="hidden" name="form-name" value="contact" />
+
+                    <div class="contact-form__row">
+                        <div class="contact-form__field">
+                            <label class="contact-form__label" for="name">Name</label>
+                            <input class="contact-form__input" type="text" id="name" name="name" placeholder="Your name" required />
+                        </div>
+                        <div class="contact-form__field">
+                            <label class="contact-form__label" for="email">Email</label>
+                            <input class="contact-form__input" type="email" id="email" name="email" placeholder="your@email.com" required />
+                        </div>
+                    </div>
+
+                    <div class="contact-form__field">
+                        <label class="contact-form__label" for="message">Message</label>
+                        <textarea class="contact-form__textarea" id="message" name="message" placeholder="Your message..." rows="6" required></textarea>
+                    </div>
+
+                    <div class="contact-form__footer">
+                        <button class="contact-form__submit" type="submit">
+                            Send Message
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
             </div>
         </section>
     </main>
 </SiteLayout>
 
 <style lang="scss">
+    @use '@tokens/mixins' as *;
+
     .contact-page {
         background: var(--parchment);
         min-height: 100vh;
 
         &__container {
-            max-width: 760px;
+            max-width: var(--container-md);
             margin: 0 auto;
-            padding: 120px 24px 80px;
+            padding: var(--page-top) var(--gutter) var(--section-y);
+        }
+
+        &__header {
+            margin-bottom: var(--space-8);
+        }
+
+        &__subheading {
+            font-family: var(--primary-font);
+            font-size: var(--text-md);
+            color: var(--text-light);
+            line-height: var(--leading-relaxed);
+            text-align: center;
+            max-width: var(--container-sm);
+            margin: var(--space-5) auto 0;
+        }
+    }
+
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+
+        &__row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-5);
+
+            @media (max-width: $bp-sm) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        &__field {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        &__label {
+            font-family: var(--tertiary-font);
+            font-size: var(--text-xs);
+            letter-spacing: var(--tracking-wider);
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: var(--weight-semibold);
+        }
+
+        &__input,
+        &__textarea {
+            font-family: var(--primary-font);
+            font-size: var(--text-md);
+            color: var(--text);
+            background: var(--white);
+            border: var(--border-thin) solid var(--text-muted);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-sm);
+            width: 100%;
+            transition: border-color var(--duration-fast) var(--ease-standard);
+
+            &::placeholder {
+                color: var(--text-muted);
+                opacity: 1;
+            }
+
+            &:focus {
+                border-color: var(--accent);
+            }
+        }
+
+        &__textarea {
+            resize: vertical;
+            min-height: 160px;
+        }
+
+        &__footer {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: var(--space-2);
+        }
+
+        &__submit {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-family: var(--tertiary-font);
+            font-size: var(--text-xs);
+            font-weight: var(--weight-semibold);
+            letter-spacing: var(--tracking-wider);
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--navy);
+            border: var(--border-thick) solid var(--navy);
+            padding: var(--space-4) var(--space-6);
+            cursor: pointer;
+            min-height: var(--tap-target);
+            transition: var(--transition-colors);
+
+            svg {
+                width: var(--icon-md);
+                height: var(--icon-md);
+                transition: transform var(--transition);
+            }
+
+            &:hover {
+                background: var(--navy-light);
+                border-color: var(--navy-light);
+
+                svg {
+                    transform: translateX(var(--space-1));
+                }
+            }
         }
     }
 </style>

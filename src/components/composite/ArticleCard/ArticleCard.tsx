@@ -3,7 +3,7 @@ import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage
 import CategoryChip from '@components/base/CategoryChip/CategoryChip'
 import type { ArticleMeta as ArticleMetaType } from '@app-types/article'
 
-const DEFAULT_GRADIENT = 'linear-gradient(135deg, #3a3040 0%, #2a4a52 100%)'
+const DEFAULT_GRADIENT = 'var(--gradient-article)'
 
 interface Props {
     article: ArticleMetaType

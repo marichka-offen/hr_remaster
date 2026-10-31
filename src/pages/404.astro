@@ -1,0 +1,83 @@
+---
+import SiteLayout from '@layouts/SiteLayout.astro'
+import Button from '@components/base/Button/Button'
+---
+
+<SiteLayout title="Page Not Found" description="The page you're looking for doesn't exist.">
+    <main id="main" class="not-found">
+        <div class="not-found__bg"></div>
+        <div class="not-found__content">
+            <p class="not-found__eyebrow">404</p>
+            <h1 class="not-found__title">Page Not Found</h1>
+            <div class="not-found__divider"></div>
+            <p class="not-found__message">The page you're looking for has been lost to history.</p>
+            <Button variant="outline-gold" onTone="dark" href="/articles" text="Explore Articles" />
+        </div>
+    </main>
+</SiteLayout>
+
+<style lang="scss">
+    @use '@tokens/mixins' as *;
+
+    .not-found {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        background: var(--navy);
+        @include on-dark;
+
+        &__bg {
+            position: absolute;
+            inset: 0;
+            background: var(--overlay-author);
+            pointer-events: none;
+        }
+
+        &__content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: var(--gutter);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-5);
+        }
+
+        &__eyebrow {
+            font-family: var(--secondary-font);
+            font-size: var(--text-decor);
+            font-weight: var(--weight-extrabold);
+            color: var(--gold-ghost);
+            line-height: var(--leading-none);
+            user-select: none;
+            margin-bottom: calc(-1 * var(--space-5));
+        }
+
+        &__title {
+            font-family: var(--secondary-font);
+            font-size: var(--text-2xl);
+            font-weight: var(--weight-bold);
+            color: var(--white);
+            line-height: var(--leading-tight);
+        }
+
+        &__divider {
+            width: var(--space-7);
+            height: var(--border-rule);
+            background: var(--gold);
+        }
+
+        &__message {
+            font-family: var(--primary-font);
+            font-style: italic;
+            font-size: var(--text-lg);
+            color: var(--text-on-dark-muted);
+            max-width: 400px;
+            line-height: var(--leading-relaxed);
+        }
+    }
+</style>

@@ -1,0 +1,9 @@
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+
+// Sets the colour roles for anything sitting on a dark background
+@mixin on-dark {
+    --accent: var(--gold);
+    --focus-ring: var(--gold);
+}

@@ -1,14 +1,16 @@
+@use '@tokens/mixins' as *;
+
 .articles__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: var(--space-6);
 
-    @media (max-width: 1024px) {
+    @media (max-width: $bp-lg) {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: $bp-md) {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: var(--space-5);
     }
 }

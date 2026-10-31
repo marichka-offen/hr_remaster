@@ -1,21 +1,21 @@
 .category-chip {
     font-family: var(--tertiary-font);
-    font-size: 9px;
-    letter-spacing: 2px;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wider);
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     display: inline-block;
 
     &--overlay {
         color: var(--white);
-        background: rgba(26, 35, 50, 0.75);
-        padding: 4px 10px;
+        background: var(--surface-overlay);
+        padding: var(--space-1) var(--space-3);
         backdrop-filter: blur(4px);
     }
 
     &--tag {
-        color: var(--gold);
-        border: 1px solid rgba(196, 151, 59, 0.4);
-        padding: 4px 10px;
+        color: var(--accent);
+        border: var(--border-thin) solid var(--gold-border);
+        padding: var(--space-1) var(--space-3);
     }
 }

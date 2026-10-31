@@ -27,7 +27,7 @@ const { name, role, bio, imageUrl, imageAlt, initials, cta } = Astro.props
                     <img src={imageUrl} alt={imageAlt ?? name} class="about-preview__portrait" />
                 ) : (
                     <PlaceholderImage
-                        gradient="linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%)"
+                        gradient="var(--gradient-portrait)"
                         code={initials ?? ''}
                         aspect="portrait"
                     />

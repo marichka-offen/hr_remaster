@@ -1,10 +1,10 @@
 .drop-cap {
     float: left;
     font-family: var(--secondary-font);
-    font-size: 80px;
-    font-weight: 700;
-    color: var(--gold);
+    font-size: var(--text-display);
+    font-weight: var(--weight-bold);
+    color: var(--accent);
     line-height: 0.75;
-    margin-right: 8px;
-    margin-top: 6px;
+    margin-right: var(--space-2);
+    margin-top: var(--space-2);
 }

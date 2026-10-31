@@ -1,29 +1,32 @@
+@use '@tokens/mixins' as *;
+
 .footer {
     background: var(--black);
-    color: rgba(255, 255, 255, 0.4);
-    padding: 56px 24px 32px;
+    @include on-dark;
+    color: var(--text-on-dark-muted);
+    padding: var(--space-9) var(--gutter) var(--space-6);
 
     &__inner {
-        max-width: 1200px;
+        max-width: var(--container-lg);
         margin: 0 auto;
         display: grid;
         grid-template-columns: 2fr 1fr 1fr;
-        gap: 48px;
+        gap: var(--space-8);
 
-        @media (max-width: 768px) {
+        @media (max-width: $bp-md) {
             grid-template-columns: 1fr;
-            gap: 32px;
+            gap: var(--space-6);
         }
     }
 
     &__brand {
         .logo {
-            margin-bottom: 16px;
+            margin-bottom: var(--space-4);
         }
 
         &-description {
-            font-size: 15px;
-            line-height: 1.6;
+            font-size: var(--text-md);
+            line-height: var(--leading-relaxed);
             max-width: 320px;
         }
     }
@@ -33,20 +36,19 @@
 
         &-title {
             font-family: var(--tertiary-font);
-            font-size: 11px;
-            letter-spacing: 3px;
+            font-size: var(--text-xs);
+            letter-spacing: var(--tracking-widest);
             text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 20px;
+            color: var(--accent);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-5);
         }
     }
 
     // Dark-tone override for NavLink in footer context
     .nav-link {
-        display: block;
-        color: rgba(255, 255, 255, 0.4);
-        padding: 6px 0;
+        display: flex;
+        color: var(--text-on-dark-muted);
 
         &::after {
             display: none;
@@ -58,19 +60,19 @@
     }
 
     &__bottom {
-        max-width: 1200px;
-        margin: 40px auto 0;
-        padding-top: 24px;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        max-width: var(--container-lg);
+        margin: var(--space-7) auto 0;
+        padding-top: var(--space-5);
+        border-top: var(--border-thin) solid var(--hairline-on-dark);
         display: flex;
         justify-content: space-between;
         font-family: var(--tertiary-font);
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.25);
+        font-size: var(--text-xs);
+        color: var(--text-on-dark-muted);
 
-        @media (max-width: 768px) {
+        @media (max-width: $bp-md) {
             flex-direction: column;
-            gap: 8px;
+            gap: var(--space-2);
         }
     }
 }

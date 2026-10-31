@@ -25,22 +25,22 @@
 
     &__code {
         font-family: var(--secondary-font);
-        font-weight: 800;
-        color: rgba(196, 151, 59, 0.12);
+        font-weight: var(--weight-extrabold);
+        color: var(--gold-ghost);
         user-select: none;
-        line-height: 1;
+        line-height: var(--leading-none);
 
         .placeholder--card & {
-            font-size: 60px;
+            font-size: var(--text-display);
         }
 
         .placeholder--landscape & {
-            font-size: clamp(60px, 8vw, 120px);
+            font-size: var(--text-decor);
         }
 
         .placeholder--square &,
         .placeholder--portrait & {
-            font-size: clamp(60px, 10vw, 80px);
+            font-size: var(--text-display);
         }
     }
 
