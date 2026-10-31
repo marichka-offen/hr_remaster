@@ -30,9 +30,9 @@ if (!book) return Astro.redirect('/books')
         min-height: 100vh;
 
         &__container {
-            max-width: 960px;
+            max-width: var(--container-book);
             margin: 0 auto;
-            padding: 120px 24px 80px;
+            padding: var(--page-top) var(--gutter) var(--section-y);
         }
     }
 </style>

@@ -1,5 +1,5 @@
 .hairline {
-    height: 2px;
+    height: var(--border-rule);
     flex-shrink: 0;
 
     &--gold {

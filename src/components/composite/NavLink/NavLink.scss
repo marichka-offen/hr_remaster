@@ -1,37 +1,34 @@
 .nav-link {
     color: var(--navy);
     font-family: var(--tertiary-font);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 170%;
-    letter-spacing: 1px;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-relaxed);
+    letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
     text-decoration: none;
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
 
     &::after {
         content: '';
         position: absolute;
-        bottom: -2px;
+        bottom: var(--space-2);
         left: 0;
         width: 0;
-        height: 2px;
-        background: var(--gold);
+        height: var(--border-rule);
+        background: var(--accent);
         transition: width var(--transition);
     }
 
     &:hover,
     &--active {
-        color: var(--gold);
+        color: var(--accent);
 
         &::after {
             width: 100%;
         }
-    }
-
-    &:focus-visible {
-        outline: 2px solid var(--gold);
-        outline-offset: 4px;
-        border-radius: 2px;
     }
 }

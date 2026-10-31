@@ -1,6 +1,6 @@
 .section-header {
     .eyebrow {
-        margin-bottom: 12px;
+        margin-bottom: var(--space-3);
     }
 
     .section-title {
@@ -8,7 +8,7 @@
     }
 
     .hairline {
-        margin-top: 20px;
+        margin-top: var(--space-5);
     }
 
     &--left {

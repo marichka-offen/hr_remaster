@@ -19,7 +19,7 @@ const articleUrl = `/articles/${article.slug}`
 const tagLine = article.subtitle
 const gradient = article.gradientFrom && article.gradientTo
     ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
-    : 'linear-gradient(135deg, var(--navy-light) 0%, var(--burgundy) 100%)'
+    : 'var(--gradient-featured)'
 const code = article.period ?? ''
 const overlayCategory = article.tags ? article.tags[0] : 'Featured Article'
 ---

@@ -1,32 +1,35 @@
+@use '@tokens/mixins' as *;
+
 .featured {
     background: var(--white);
-    border-bottom: 1px solid var(--parchment-dark);
+    border-bottom: var(--border-thin) solid var(--parchment-dark);
 
     &__container {
-        max-width: 1200px;
+        max-width: var(--container-lg);
         margin: 0 auto;
-        padding: 80px 24px;
+        padding: var(--section-y) var(--gutter);
     }
 
     &__header {
         text-align: center;
-        margin-bottom: 56px;
+        margin-bottom: var(--space-8);
     }
 
     &__card {
         display: grid;
         grid-template-columns: 1fr 1fr;
         background: var(--navy);
-        border-radius: 2px;
+        @include on-dark;
+        border-radius: var(--radius-sm);
         overflow: hidden;
         box-shadow: var(--shadow-lg);
-        transition: var(--transition);
+        transition: box-shadow var(--transition);
 
         &:hover {
             box-shadow: var(--shadow-hover);
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: $bp-lg) {
             grid-template-columns: 1fr;
         }
     }
@@ -39,7 +42,7 @@
         justify-content: center;
         overflow: hidden;
 
-        @media (max-width: 1024px) {
+        @media (max-width: $bp-lg) {
             min-height: 280px;
         }
     }
@@ -55,47 +58,43 @@
 
     &__image-overlay {
         position: absolute;
-        top: 24px;
-        left: 24px;
+        top: var(--space-5);
+        left: var(--space-5);
     }
 
     &__body {
-        padding: 56px 48px;
+        padding: var(--space-9) var(--space-8);
         display: flex;
         flex-direction: column;
         justify-content: center;
 
-        @media (max-width: 768px) {
-            padding: 32px 24px;
-        }
-
-        @media (max-width: 480px) {
-            padding: 28px 20px;
+        @media (max-width: $bp-md) {
+            padding: var(--space-6) var(--gutter);
         }
     }
 
     &__body .eyebrow {
-        margin-bottom: 16px;
+        margin-bottom: var(--space-4);
     }
 
     &__title {
         font-family: var(--secondary-font);
-        font-size: clamp(24px, 3vw, 34px);
-        font-weight: 700;
+        font-size: var(--text-xl);
+        font-weight: var(--weight-bold);
         color: var(--white);
-        line-height: 1.2;
-        margin-bottom: 20px;
+        line-height: var(--leading-tight);
+        margin-bottom: var(--space-5);
     }
 
     &__excerpt {
-        font-size: 18px;
-        color: rgba(255, 255, 255, 0.6);
-        line-height: 1.7;
-        margin-bottom: 32px;
+        font-size: var(--text-md);
+        color: var(--text-on-dark-secondary);
+        line-height: var(--leading-relaxed);
+        margin-bottom: var(--space-6);
     }
 
     &__meta {
-        margin-bottom: 28px;
+        margin-bottom: var(--space-6);
     }
 
 }

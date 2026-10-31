@@ -1,21 +1,21 @@
 .eyebrow {
     font-family: var(--tertiary-font);
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     text-transform: uppercase;
-    line-height: 1;
+    line-height: var(--leading-tight);
 
     &--sm {
-        font-size: 11px;
-        letter-spacing: 4px;
+        font-size: var(--text-xs);
+        letter-spacing: var(--tracking-widest);
     }
 
     &--md {
-        font-size: 12px;
-        letter-spacing: 5px;
+        font-size: var(--text-xs);
+        letter-spacing: var(--tracking-widest);
     }
 
     &--gold {
-        color: var(--gold);
+        color: var(--accent);
     }
 
     &--white {

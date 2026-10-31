@@ -5,28 +5,28 @@
 
     &__title {
         font-family: var(--secondary-font);
-        font-weight: 800;
-        line-height: 110%;
-        letter-spacing: 2px;
+        font-weight: var(--weight-extrabold);
+        line-height: var(--leading-tight);
+        letter-spacing: var(--tracking-wide);
         text-transform: uppercase;
     }
 
     &__subtitle {
         font-family: var(--tertiary-font);
-        font-size: 10px;
-        font-weight: 600;
-        line-height: 170%;
-        letter-spacing: 3px;
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+        line-height: var(--leading-relaxed);
+        letter-spacing: var(--tracking-widest);
         text-transform: uppercase;
-        color: var(--gold);
+        color: var(--accent);
     }
 
     &--lg &__title {
-        font-size: 22px;
+        font-size: var(--text-lg);
     }
 
     &--sm &__title {
-        font-size: 18px;
+        font-size: var(--text-md);
     }
 
     &--light &__title {

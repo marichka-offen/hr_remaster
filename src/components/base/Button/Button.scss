@@ -1,61 +1,63 @@
 .button {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--space-3);
+    min-height: var(--tap-target);
     font-family: var(--tertiary-font);
-    font-weight: 600;
-    letter-spacing: 2px;
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wider);
     text-transform: uppercase;
     cursor: pointer;
-    transition: var(--transition);
+    transition: var(--transition-colors);
     text-decoration: none;
 
     svg {
-        width: 16px;
-        height: 16px;
+        width: var(--icon-md);
+        height: var(--icon-md);
         transition: transform var(--transition);
     }
 
     &:hover svg {
-        transform: translateX(4px);
+        transform: translateX(var(--space-1));
     }
 
     // Sizes
     &__size--sm {
-        font-size: 11px;
-        padding: 10px 24px;
+        font-size: var(--text-xs);
+        padding: var(--space-2) var(--space-5);
 
         svg {
-            width: 14px;
-            height: 14px;
+            width: var(--icon-sm);
+            height: var(--icon-sm);
         }
     }
 
     &__size--md {
-        font-size: 12px;
-        padding: 14px 32px;
+        font-size: var(--text-xs);
+        padding: var(--space-3) var(--space-6);
     }
 
     &__size--lg {
-        font-size: 13px;
-        padding: 14px 36px;
+        font-size: var(--text-sm);
+        padding: var(--space-3) var(--space-6);
     }
 
     // Variants
     &__variant--outline-gold {
-        color: var(--gold);
-        border: 1.5px solid var(--gold);
+        color: var(--accent);
+        border: var(--border-thick) solid var(--accent);
         background: transparent;
 
         &:hover {
             background: var(--gold);
+            border-color: var(--gold);
             color: var(--navy);
         }
     }
 
     &__variant--outline-navy {
         color: var(--navy);
-        border: 1px solid var(--navy);
+        border: var(--border-thick) solid var(--navy);
         background: transparent;
 
         &:hover {
@@ -67,7 +69,7 @@
     &__variant--solid-navy {
         color: var(--white);
         background: var(--navy);
-        border: 1.5px solid var(--navy);
+        border: var(--border-thick) solid var(--navy);
 
         &:hover {
             background: var(--navy-light);
@@ -78,7 +80,7 @@
     &__variant--solid-gold {
         color: var(--navy);
         background: var(--gold);
-        border: 1.5px solid var(--gold);
+        border: var(--border-thick) solid var(--gold);
 
         &:hover {
             background: var(--gold-light);
@@ -94,7 +96,7 @@
         padding-right: 0;
 
         &:hover {
-            color: var(--gold);
+            color: var(--accent);
         }
 
         svg {
@@ -102,7 +104,7 @@
         }
 
         &:hover svg {
-            transform: translateX(6px);
+            transform: translateX(var(--space-2));
         }
     }
 
@@ -126,7 +128,7 @@
             color: var(--burgundy);
 
             &:hover {
-                color: var(--gold);
+                color: var(--gold-dark);
             }
         }
     }

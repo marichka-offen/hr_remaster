@@ -1,35 +1,36 @@
+@use '@tokens/mixins' as *;
+
 .header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
-    background: rgba(254, 252, 249, 0.92);
+    z-index: var(--z-header);
+    background: var(--surface-header);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(196, 151, 59, 0.15);
-    transition: var(--transition);
+    border-bottom: var(--border-thin) solid var(--gold-border);
 
     &__inner {
-        max-width: 1200px;
+        max-width: var(--container-lg);
         margin: 0 auto;
-        padding: 0 24px;
+        padding: 0 var(--gutter);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 72px;
+        height: var(--header-height);
     }
 
     &__nav {
         display: flex;
         align-items: center;
-        gap: 32px;
+        gap: var(--space-6);
 
         &-search {
-            width: 36px;
-            height: 36px;
-            transition: var(--transition);
-            border-radius: 50%;
+            width: var(--tap-target);
+            height: var(--tap-target);
+            transition: background-color var(--transition);
+            border-radius: var(--radius-full);
             overflow: hidden;
         }
 
@@ -37,28 +38,28 @@
             display: none;
         }
 
-        @media screen and (max-width: 768px) {
+        @media (max-width: $bp-md) {
             display: none;
 
             &-mobile {
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
-                width: 40px;
-                height: 32px;
+                width: var(--tap-target);
+                height: var(--tap-target);
                 justify-content: center;
                 align-items: center;
                 background: none;
                 border: none;
                 cursor: pointer;
-                padding: 4px;
+                padding: var(--space-1);
 
                 span {
                     display: block;
-                    width: 24px;
-                    height: 2px;
+                    width: var(--space-5);
+                    height: var(--border-rule);
                     background: var(--navy);
-                    transition: var(--transition);
+                    transition: transform var(--transition), opacity var(--transition);
                 }
 
                 &--active {

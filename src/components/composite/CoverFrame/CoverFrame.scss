@@ -6,7 +6,7 @@
         content: '';
         position: absolute;
         inset: var(--inset);
-        border: 1px solid rgba(196, 151, 59, 0.25);
+        border: var(--border-thin) solid var(--gold-border);
         z-index: 1;
         pointer-events: none;
     }

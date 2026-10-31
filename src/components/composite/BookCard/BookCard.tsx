@@ -2,7 +2,7 @@ import './BookCard.scss'
 import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
 import type { BookMeta } from '@app-types/book'
 
-const DEFAULT_GRADIENT = 'linear-gradient(160deg, #1a2332 0%, #8b2635 100%)'
+const DEFAULT_GRADIENT = 'var(--gradient-book)'
 
 interface Props {
     book: BookMeta

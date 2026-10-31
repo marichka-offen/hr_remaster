@@ -21,7 +21,7 @@ if (!article) return Astro.redirect('/articles')
 
 const gradient = article.gradientFrom && article.gradientTo
     ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
-    : 'linear-gradient(135deg, var(--navy-light) 0%, var(--burgundy) 100%)'
+    : 'var(--gradient-featured)'
 ---
 
 <SiteLayout title={article.title} description={article.excerpt ?? ''}>
@@ -75,14 +75,16 @@ const gradient = article.gradientFrom && article.gradientTo
 </SiteLayout>
 
 <style lang="scss">
+    @use '@tokens/mixins' as *;
+
     .article-detail {
         &__hero {
             position: relative;
             height: 480px;
             overflow: hidden;
-            margin-top: 72px;
+            margin-top: var(--header-height);
 
-            @media (max-width: 768px) {
+            @media (max-width: $bp-md) {
                 height: 280px;
             }
         }
@@ -95,67 +97,67 @@ const gradient = article.gradientFrom && article.gradientTo
 
         &__hero-overlay {
             position: absolute;
-            top: 24px;
-            left: 24px;
+            top: var(--space-5);
+            left: var(--space-5);
         }
 
         &__container {
-            max-width: 760px;
+            max-width: var(--container-md);
             margin: 0 auto;
-            padding: 56px 24px 80px;
+            padding: var(--space-9) var(--gutter) var(--section-y);
         }
 
         &__header {
-            margin-bottom: 48px;
-            padding-bottom: 32px;
-            border-bottom: 1px solid var(--parchment-dark);
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: var(--border-thin) solid var(--parchment-dark);
         }
 
         &__subtitle {
             font-family: var(--tertiary-font);
-            font-size: 11px;
-            letter-spacing: 4px;
+            font-size: var(--text-xs);
+            letter-spacing: var(--tracking-widest);
             text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 16px;
+            color: var(--accent);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-4);
         }
 
         &__title {
             font-family: var(--secondary-font);
-            font-size: clamp(32px, 5vw, 52px);
-            font-weight: 800;
+            font-size: var(--text-3xl);
+            font-weight: var(--weight-extrabold);
             color: var(--navy);
-            line-height: 1.1;
-            margin-bottom: 20px;
+            line-height: var(--leading-tight);
+            margin-bottom: var(--space-5);
         }
 
         &__body {
-            font-size: 18px;
-            line-height: 1.8;
+            font-size: var(--text-md);
+            line-height: var(--leading-relaxed);
             color: var(--text-light);
 
-            p { margin-bottom: 24px; }
+            p { margin-bottom: var(--space-5); }
             h2 {
                 font-family: var(--secondary-font);
-                font-size: clamp(22px, 3vw, 30px);
-                font-weight: 700;
+                font-size: var(--text-xl);
+                font-weight: var(--weight-bold);
                 color: var(--navy);
-                margin: 48px 0 20px;
+                margin: var(--space-8) 0 var(--space-5);
             }
             h3 {
                 font-family: var(--secondary-font);
-                font-size: clamp(18px, 2.5vw, 24px);
-                font-weight: 700;
+                font-size: var(--text-lg);
+                font-weight: var(--weight-bold);
                 color: var(--navy);
-                margin: 36px 0 16px;
+                margin: var(--space-6) 0 var(--space-4);
             }
             blockquote {
-                border-left: 3px solid var(--gold);
-                padding-left: 24px;
+                border-left: var(--border-rule) solid var(--accent);
+                padding-left: var(--space-5);
                 font-style: italic;
                 color: var(--text-muted);
-                margin: 32px 0;
+                margin: var(--space-6) 0;
             }
         }
     }
