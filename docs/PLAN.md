@@ -175,7 +175,7 @@ From `designs/about-book-pages`:
 - [x] AI: training crawlers blocked in robots.txt (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot, meta-externalagent) at Lee's request; search and AI search crawlers allowed. No llms.txt (no evidence AI search reads it)
 - [ ] SEO after launch: add the domain in Netlify, submit the sitemap in Google Search Console and Bing Webmaster Tools, test pages with Google's Rich Results Test; add publish dates to articles when the CMS has them
 - [ ] Images through `astro:assets` (responsive, lazy, WebP/AVIF)
-- [ ] **Print stylesheet.** The old site had a print button, and long sourced articles get printed
+- [x] **Print stylesheet** (`src/design-tokens/print.css`): navigation and interactive parts hidden, black on white, 11pt text, page-break rules (tables split only between rows), external link addresses printed, collapsed sections opened for printing, "Printed from" line. Checked by printing the Virginia article to PDF
 - [ ] axe and Lighthouse pass, plus a keyboard-only walkthrough
 - [x] **Search** with Pagefind 1.5.2: the index is built after `astro build` (`npm run build`), only articles and books are indexed (`data-pagefind-body`). Header button or Ctrl/Cmd+K opens a native `<dialog>` with live results, type labels and highlighted excerpts. Works on the built site (`npm run preview`), not in `npm run dev`
 

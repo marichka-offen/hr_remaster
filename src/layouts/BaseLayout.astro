@@ -1,6 +1,7 @@
 ---
 import '@tokens/tokens.css'
 import '@tokens/base.css'
+import '@tokens/print.css'
 
 const SITE_NAME = 'History Reconsidered'
 
@@ -83,5 +84,20 @@ const imageUrl = new URL(ogImage, Astro.site).href
     <body>
         <a class='skip-link' href='#main'>Skip to content</a>
         <slot />
+        <p class='print-source'>Printed from {canonical}</p>
+
+        <script>
+            // Collapsed sections (sources, timeline periods, details) would print empty, so open them all
+            // before printing and close the ones that were closed afterwards
+            let reopened: HTMLDetailsElement[] = []
+            window.addEventListener('beforeprint', () => {
+                reopened = Array.from(document.querySelectorAll<HTMLDetailsElement>('details:not([open])'))
+                reopened.forEach((details) => (details.open = true))
+            })
+            window.addEventListener('afterprint', () => {
+                reopened.forEach((details) => (details.open = false))
+                reopened = []
+            })
+        </script>
     </body>
 </html>

@@ -1,0 +1,176 @@
+/* Print and "Save as PDF". Articles are long and sourced, so they get printed: keep the reading text
+   and sources, drop navigation and interactive parts, and use black on white to save ink.
+   !important is used because print has to win over every component's screen styles */
+
+@page {
+    margin: 18mm 16mm 20mm;
+}
+
+@media print {
+    /* 1. Navigation and interactive parts */
+    .skip-link,
+    .header,
+    .footer,
+    .mobile-nav,
+    .search-trigger,
+    .search-dialog,
+    .toc,
+    .toc__toggle,
+    .toc__overlay,
+    .article-detail__toc,
+    .reading-progress,
+    .back-to-top,
+    .category-filter,
+    .articles__toolbar,
+    .button,
+    .book-hero__actions,
+    .about-preview,
+    #articles,
+    .book-preview,
+    .page-cta,
+    .contact-form {
+        display: none !important;
+    }
+
+    /* 2. Black on white everywhere */
+    *,
+    *::before,
+    *::after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        backdrop-filter: none !important;
+    }
+
+    html,
+    body {
+        background: #fff !important;
+    }
+
+    /* Screen layouts reserve space for the fixed header and sidebar; on paper the text fills the page */
+    main,
+    .article-hero,
+    .book-hero,
+    .article-hero__inner,
+    .article-detail__layout,
+    .book-hero__inner,
+    .book-about__inner {
+        margin: 0 !important;
+        padding-inline: 0 !important;
+        padding-block: 0 !important;
+        max-width: none !important;
+        display: block !important;
+    }
+
+    .article-hero {
+        padding-bottom: 6mm !important;
+        border-bottom: 1pt solid #000 !important;
+        margin-bottom: 6mm !important;
+    }
+
+    /* 3. Print sizes */
+    body {
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+    }
+
+    .prose,
+    .article-detail__layout {
+        font-size: 11pt !important;
+    }
+
+    h1 { font-size: 22pt !important; }
+    h2 { font-size: 15pt !important; }
+    h3 { font-size: 12.5pt !important; }
+
+    /* Paper is wider than the reading measure needs, so let text run the full width */
+    p, li, blockquote, dd, figcaption {
+        max-inline-size: none !important;
+    }
+
+    /* 4. Page breaks */
+    h1, h2, h3, h4,
+    summary {
+        break-after: avoid;
+    }
+
+    /* Keep small things whole; tables and data lists may split, but only between rows */
+    .figure,
+    blockquote,
+    tr,
+    .fact-card,
+    .callout,
+    .timeline__event,
+    .data-list__row {
+        break-inside: avoid;
+    }
+
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+
+    /* Keep borders on boxes so cards and tables still read as boxes */
+    .fact-card,
+    .callout,
+    .data-list,
+    .data-table__scroll {
+        border: 0.75pt solid #999 !important;
+    }
+
+    .fact-card__head,
+    .data-list__title,
+    .data-table caption {
+        border-bottom: 0.75pt solid #999 !important;
+    }
+
+    /* Collapsible markers mean nothing on paper */
+    summary::after,
+    .timeline__summary::after,
+    .collapsible__summary::after,
+    .article-sources__summary::after {
+        content: none !important;
+    }
+
+    /* Timeline dots keep their shape as outlines */
+    .timeline__dot {
+        border: 1pt solid #000 !important;
+    }
+
+    /* 5. Show where links go. Internal links are left alone: the site address is printed at the end */
+    .prose a[href^='http']::after {
+        content: ' (' attr(href) ')';
+        font-size: 9pt;
+        word-break: break-all;
+    }
+
+    /* The drop cap is decorative and prints poorly at small sizes */
+    .article-detail__body > p:first-of-type::first-letter {
+        float: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        margin: 0 !important;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+}
+
+/* 7. "Printed from" line: hidden on screen */
+.print-source {
+    display: none;
+}
+
+@media print {
+    .print-source {
+        display: block;
+        margin-top: 8mm;
+        padding-top: 3mm;
+        border-top: 0.75pt solid #999;
+        font-family: var(--font-ui);
+        font-size: 8.5pt;
+    }
+}
