@@ -124,21 +124,25 @@ From `designs/article-page`, `hussites` and `eighty-years-war-timeline`:
 - [x] Read time calculated at 238 words per minute (Brysbaert 2019) when the body has 200+ words; shorter placeholder bodies keep the typed value
 
 ### 5. Article content blocks
-The mocks are hand-built per article: siege cards, garrison cards, weapon cards, ship manifests, strength bars. Building each one bespoke won't scale once an editor is writing in a CMS. Generalise them into a small block library, all added to the `RichTextBlock` union:
+The mocks are hand-built per article. They are generalised into a small block library in the `RichTextBlock` union (`src/types/content.ts`), rendered by `RichText` with components in `src/components/blocks/`:
 
-| Block | Covers in the mocks |
-|---|---|
-| `figure` (image, caption, credit) | portraits, maps, article figures |
-| `callout` (variant: note / insight / reading) | insight-box, reading-callout |
-| `primarySource` (quote, source, date) | primary-source |
-| `collapsible` (title, children) | collapsible-section, decade toggles, sources-toggle |
-| `timeline` (groups → events with date, title, text, badge) | tl-*, campaign-year, decade-section, garrison timeline |
-| `factCard` (title, badge, key/value rows, body) | siege-card, garrison-card, weapon-card, faction-card, regiment-card |
-| `dataList` (rows with label, value, optional bar) | ship manifest, strength bars, personnel rows, crew lists |
-| `legend` (colour dot + label) | legend-item |
-| `sectionNav` (jump links) | era-nav, section-nav |
+| Block | Covers in the mocks | Status |
+|---|---|---|
+| `quote` (text, cite) | pull quotes and primary-source boxes: the citation names the document | ✅ |
+| `figure` (src, alt, caption, credit, aspect) | portraits, maps, article figures. Without `src`, a labelled "Image to come" placeholder | ✅ |
+| `callout` (note / insight / reading) | insight-box, reading-callout, "An Open Question" | ✅ |
+| `collapsible` (title, nested blocks) | collapsible-section, "Detailed Events of Late 1641" | ✅ |
+| `timeline` (periods → events with kind, date, title, text; quote events) | tl-*, decade sections, campaign years. Periods collapse, appear in the contents list, legend is built from the kinds used | ✅ |
+| `factCards` (title, badge, meta, rows, text) | siege, garrison, weapon, faction and regiment cards, regimental staff | ✅ |
+| `dataList` (rows, optional bars and total) | ship manifest, equipment, troop strengths, personnel tracker | ✅ |
+| `table` (caption, columns, rows) | officer roster | ✅ |
+| `legend`, `sectionNav` | legend dots, era and section nav | Folded in: the timeline draws its own legend, and the contents list does the jumping |
 
-Each block gets a mock instance in one "kitchen sink" article, so the whole library can be checked on one page.
+- [x] Mock instances use real data from the mocks: Virginia (roster, staff, strengths, equipment, fleet, personnel, open question), Ireland (reading callout, collapsible, regiment cards), Eighty Years War (background + two timeline periods), Hussites (figures)
+- [x] All blocks on one internal page: `/dev/blocks` (noindex, not linked). Exclude it from the sitemap in phase 8
+- [x] Shared `.prose` styles (RichText.scss) replace the article page's own, so nested content (collapsibles) gets the same typography
+- [ ] Wide blocks: let tables, timelines and fact cards break out into the empty right-hand column on wide screens
+- [ ] Real images for figures once they exist (with `astro:assets`, phase 8)
 
 ### 6. Book detail page
 From `designs/about-book-pages`: cover hero, purchase CTA and excerpt link, an "About the Book" prose block, a details table (publisher, period, format), a preview-pages gallery, and a promo for the other book.

@@ -1,0 +1,70 @@
+---
+import type { TimelineBlock, TimelineEventKind } from '@app-types/content'
+import './Timeline.scss'
+
+type Props = Omit<TimelineBlock, 'type'>
+
+const { groups } = Astro.props
+
+const kindLabels: Record<TimelineEventKind | 'quote', string> = {
+    battle: 'Battle or siege',
+    political: 'Political event',
+    treaty: 'Treaty or peace',
+    quote: 'Primary source',
+    event: 'General event',
+}
+
+// The legend lists only the kinds this timeline actually uses
+const usedKinds = (Object.keys(kindLabels) as (keyof typeof kindLabels)[]).filter((kind) =>
+    groups.some((group) => group.events.some((event) => (event.kind ?? 'event') === kind))
+)
+---
+
+<div class="timeline">
+    {usedKinds.length > 1 && (
+        <ul class="timeline__legend" aria-label="Legend">
+            {usedKinds.map((kind) => (
+                <li class="timeline__legend-item">
+                    <span class={`timeline__dot timeline__dot--${kind}`} aria-hidden="true" />
+                    {kindLabels[kind]}
+                </li>
+            ))}
+        </ul>
+    )}
+
+    {groups.map((group) => (
+        <details class="timeline__group" open={!group.collapsed}>
+            <summary class="timeline__summary">
+                <h3 class="timeline__label" id={group.id}>{group.label}</h3>
+                {group.title && <span class="timeline__title">{group.title}</span>}
+                <span class="timeline__count">{group.events.length} events</span>
+            </summary>
+
+            <ol class="timeline__events">
+                {group.events.map((event) => {
+                    const kind = event.kind ?? 'event'
+                    return (
+                        <li class={`timeline__event timeline__event--${kind}`}>
+                            <span class={`timeline__dot timeline__dot--${kind}`} aria-hidden="true" />
+                            {event.kind === 'quote' ? (
+                                <blockquote class="timeline__quote">
+                                    <p>{event.text}</p>
+                                    {event.cite && <cite>{event.cite}</cite>}
+                                </blockquote>
+                            ) : (
+                                <div class="timeline__body">
+                                    <p class="timeline__meta">
+                                        {event.date && <span class="timeline__date">{event.date}</span>}
+                                        {kind !== 'event' && <span class="timeline__badge">{kindLabels[kind]}</span>}
+                                    </p>
+                                    {event.title && <p class="timeline__event-title">{event.title}</p>}
+                                    <p class="timeline__text">{event.text}</p>
+                                </div>
+                            )}
+                        </li>
+                    )
+                })}
+            </ol>
+        </details>
+    ))}
+</div>

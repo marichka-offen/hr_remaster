@@ -1,0 +1,26 @@
+---
+import type { FigureBlock } from '@app-types/content'
+import './Figure.scss'
+
+type Props = Omit<FigureBlock, 'type'>
+
+const { src, alt, caption, credit, aspect = 'landscape' } = Astro.props
+---
+
+<figure class={`figure figure--${aspect}`}>
+    {src ? (
+        <img class="figure__media" src={src} alt={alt} loading="lazy" decoding="async" />
+    ) : (
+        // Until the image exists, say what will be here rather than show an empty box
+        <div class="figure__media figure__placeholder" role="img" aria-label={`Image to come: ${alt}`}>
+            <span class="figure__placeholder-label">Image to come</span>
+            <span class="figure__placeholder-alt">{alt}</span>
+        </div>
+    )}
+    {(caption || credit) && (
+        <figcaption class="figure__caption">
+            {caption}
+            {credit && <span class="figure__credit">{credit}</span>}
+        </figcaption>
+    )}
+</figure>

@@ -1,5 +1,12 @@
 ---
 import type { RichText } from '@app-types/content'
+import Figure from '@components/blocks/Figure/Figure.astro'
+import Callout from '@components/blocks/Callout/Callout.astro'
+import Timeline from '@components/blocks/Timeline/Timeline.astro'
+import FactCards from '@components/blocks/FactCards/FactCards.astro'
+import DataList from '@components/blocks/DataList/DataList.astro'
+import DataTable from '@components/blocks/DataTable/DataTable.astro'
+import './RichText.scss'
 
 interface Props {
     blocks?: RichText
@@ -25,5 +32,26 @@ const { blocks = [], paragraphClass } = Astro.props
                     {block.cite && <cite>{block.cite}</cite>}
                 </blockquote>
             )
+        case 'figure':
+            return <Figure {...block} />
+        case 'callout':
+            return <Callout {...block} />
+        case 'collapsible':
+            return (
+                <details class="collapsible" open={block.open}>
+                    <summary class="collapsible__summary">{block.title}</summary>
+                    <div class="collapsible__body prose">
+                        <Astro.self blocks={block.blocks} />
+                    </div>
+                </details>
+            )
+        case 'timeline':
+            return <Timeline {...block} />
+        case 'factCards':
+            return <FactCards {...block} />
+        case 'dataList':
+            return <DataList {...block} />
+        case 'table':
+            return <DataTable {...block} />
     }
 })}

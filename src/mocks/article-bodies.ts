@@ -1,9 +1,8 @@
 import type { RichText } from '@app-types/content'
 
-// Full-length bodies for two articles, so the contents list, reading progress and sources can be
-// tested on real content. Text is taken verbatim from designs/british-regulars-virginia-redesign.html
-// and designs/article-page-redesign.html. Tables, rosters and cards from those mocks are left out
-// until the content blocks in phase 5 exist.
+// Full-length bodies so the contents list, reading progress, sources and content blocks can be tested
+// on real content. Text and data are taken verbatim from the matching mocks in designs/:
+// british-regulars-virginia, article-page (Ireland), eighty-years-war-timeline and hussites.
 
 export const virginiaBody: RichText = [
     { type: 'heading', level: 2, text: 'The Call to Arms', id: 'call-to-arms' },
@@ -14,6 +13,48 @@ export const virginiaBody: RichText = [
     {
         type: 'paragraph',
         text: "Acting with uncharacteristic speed, by 1 October King Charles II had resolved to send a thousand men to quell the mutineers. For the time, this was a major expedition incurring considerable cost for a government always short of money. Within four more days, commissions for five foot companies — one each from existing standing regiments — were signed, and Jeffreys' Regiment of Foot came into being.",
+    },
+    {
+        type: 'table',
+        caption: "Jeffreys' Regiment of Foot — Officer Roster",
+        columns: ['Regiment', 'Commander', 'Lieutenant', '2nd Lt.', 'Ensign'],
+        rows: [
+            ['1st Foot Guards', 'COL Jeffreys', 'Henry Taylor', 'Edward Rous', 'Wm. Matthews'],
+            ['2nd Foot Guards', 'MAJ Mutlowe', 'John Tongue', 'Thos. Troutbeck', 'Thos. Seymour'],
+            ['1st Foot Guards', 'CPT Picts', 'John Webb', 'John Hetley?', 'Edw. Saville'],
+            ["Duke of York's", 'CPT Middleton', 'F. Hobbin?', 'John Thorne', 'John Jeffreys'],
+            ['Holland Regt.', 'CPT Meoles', 'Walter Morgan', 'Thos. Sanders', 'George Ange'],
+        ],
+        note: '5 companies',
+    },
+    {
+        type: 'factCards',
+        cards: [
+            {
+                title: 'Regimental Staff',
+                rows: [
+                    { label: 'Adjutant', value: 'CPT William Morris' },
+                    { label: 'QM & Marshal', value: 'LT John Tongue' },
+                    { label: 'Surgeon', value: 'Jonathan Grove' },
+                    { label: 'Chaplain', value: 'Paul Williams' },
+                    { label: 'Engineer', value: 'James Archer' },
+                    { label: 'Commissary', value: 'Thomas Stavely' },
+                ],
+            },
+        ],
+    },
+    {
+        type: 'dataList',
+        title: 'Troop Strength by Source',
+        bars: true,
+        rows: [
+            { label: '1st Guards', value: 158 },
+            { label: '2nd Guards', value: 84 },
+            { label: "Duke of York's", value: 59 },
+            { label: 'Holland Regt.', value: 49 },
+            { label: 'Garrisons', value: 150 },
+            { label: 'Newly raised', value: 500 },
+        ],
     },
     {
         type: 'paragraph',
@@ -27,6 +68,22 @@ export const virginiaBody: RichText = [
 
     { type: 'heading', level: 2, text: 'Arms & Equipment', id: 'arms-equipment' },
     {
+        type: 'dataList',
+        title: 'Equipment Carried to Virginia',
+        note: 'Ordnance manifest',
+        rows: [
+            { label: 'Muskets', value: 700 },
+            { label: 'Pikes', value: 300 },
+            { label: 'Hand Grenades', value: 1000 },
+            { label: '3-pdr Field Pieces', value: 4 },
+            { label: 'Mortar Pieces', value: 2 },
+            { label: 'Swinefeathers', value: 1500 },
+            { label: 'Hoes', value: 300 },
+            { label: 'Drums', value: 15 },
+            { label: 'Canvas Tents', value: 5 },
+        ],
+    },
+    {
         type: 'paragraph',
         text: 'The 1,500 "swinefeathers" — an archaic item consisting of a 6-to-7 foot pikestaff with steel points at both ends and a hook to support a musket — were likely taken to serve as field expedient chevaux de frise obstacles. They were included in an 1678 inventory at the Middle Plantation and doubtless never saw use.',
     },
@@ -34,7 +91,22 @@ export const virginiaBody: RichText = [
     { type: 'heading', level: 2, text: 'The Atlantic Crossing', id: 'atlantic-crossing' },
     {
         type: 'paragraph',
-        text: 'Before boarding for a mid-winter Atlantic crossing, the troops were issued biscuits and cheese sufficient for three months.',
+        text: 'Before boarding for a mid-winter Atlantic crossing, the troops were issued biscuits and cheese sufficient for three months. The expedition sailed distributed across the fleet as follows:',
+    },
+    {
+        type: 'dataList',
+        title: 'Fleet Distribution, 24 Nov 1676',
+        rows: [
+            { label: 'Henry and Anne', detail: 'CPT Jeffreys, LT Rouse, ENS Grymes', value: 195 },
+            { label: 'Barnaby', detail: 'CPT Picts, LT Hetley, ENS Matthews', value: 116 },
+            { label: 'Recovery', detail: "LT Webb + remaining Picts' co.", value: 100 },
+            { label: 'William and Robert', detail: 'CPT Middleton, LTs Hobbin & Thorne', value: 167 },
+            { label: 'Francis', detail: 'CPT Mutlowe, LT Troutbeck, ENS Seymour', value: 97 },
+            { label: "Merchant's Consent", detail: 'LT Tonge', value: 79 },
+            { label: 'Golden Lyon', detail: 'CPT Meoles, LT Sanders', value: 148 },
+            { label: 'Constant', detail: 'Overflow from multiple companies', value: 192 },
+        ],
+        total: { label: 'Total officers and men', value: 1094 },
     },
 
     { type: 'heading', level: 2, text: 'Arrival in Virginia', id: 'arrival-in-virginia' },
@@ -57,9 +129,22 @@ export const virginiaBody: RichText = [
     },
 
     { type: 'heading', level: 2, text: 'Return & Dissolution', id: 'return-dissolution' },
-    { type: 'heading', level: 3, text: 'An Open Question', id: 'an-open-question' },
     {
-        type: 'paragraph',
+        type: 'dataList',
+        title: 'Personnel Movement Tracker',
+        rows: [
+            { label: 'Nov 1676', detail: 'Expedition departs England', value: '1,094' },
+            { label: 'Jan 1678', detail: 'Unity returns to Gravesend — LT Rous (76), CPT Mutlowe (67), CPT Picts (74)', value: '−220' },
+            { label: 'Apr 1678', detail: "LT Collier's group returns to England", value: '−155' },
+            { label: '1678', detail: "Jeffreys' Company remains in Virginia (20 men from each co.)", value: '100' },
+            { label: 'Sep 1679', detail: "Culpepper's Company arrives from England", value: '+~100' },
+            { label: 'Jun 1682', detail: 'Both companies disbanded; 8 retained as Governor\'s Guard', value: '−all' },
+        ],
+    },
+    {
+        type: 'callout',
+        variant: 'insight',
+        title: 'An Open Question',
         text: "A total of 375 soldiers returned to England out of Jeffreys' Regiment. Excluding the 100 who remained in service, that means 525 soldiers either died or chose to stay in Virginia as civilians. It is interesting that the Unity returned primarily with soldiers from the 1st and 2nd Guards. Could those who stayed have been predominantly from the Duke of York's Regiment and the Holland Regiment?",
     },
     {
@@ -110,6 +195,11 @@ export const virginiaSources: string[] = [
 ]
 
 export const irelandBody: RichText = [
+    {
+        type: 'callout',
+        variant: 'reading',
+        text: 'This is a long-form research article (~12,000 words). Use the table of contents to navigate between sections, or read straight through. Estimated reading time: 45 minutes.',
+    },
     { type: 'heading', level: 2, text: 'Background', id: 'background' },
     { type: 'heading', level: 3, text: 'The Irish', id: 'the-irish' },
     {
@@ -171,18 +261,23 @@ export const irelandBody: RichText = [
         type: 'paragraph',
         text: 'The solution was found in the Scottish Army of the Solemn League. Led, and in many cases manned, by veterans of the 30 Years War and 80 Years War on the continent, it was a brutal force.',
     },
-    { type: 'heading', level: 3, text: 'Detailed Events of Late 1641', id: 'late-1641' },
     {
-        type: 'paragraph',
-        text: 'By late November the threat from the rebels was sufficient to cause two columns to be sent out from Dublin. One was sent under the command of Sergeant Major Roper to reinforce Drogheda which was ambushed and routed at Julianstown bridge despite warnings that the enemy was near.',
-    },
-    {
-        type: 'paragraph',
-        text: "The expedition to Wicklow led by Sir Charles Coote garrisoned New Castle and relieved Wicklow Castle, with brutal force. The Government's loss at Julianstown, brutal victory at Wicklow and unwillingness to negotiate on the rights of Catholics led those remaining Old English Catholic and Irish into supporting the rebellion, in many cases reluctantly.",
-    },
-    {
-        type: 'paragraph',
-        text: 'In an effort to relieve the pressure on besieged Drogheda, Sir Charles Coote, the Mayor of Dublin, was killed while routing rebels at Swords and Captain Armstrong scattered a rebel encampment at Rathcoole in December.',
+        type: 'collapsible',
+        title: 'Detailed Events of Late 1641',
+        blocks: [
+            {
+                type: 'paragraph',
+                text: 'By late November the threat from the rebels was sufficient to cause two columns to be sent out from Dublin. One was sent under the command of Sergeant Major Roper to reinforce Drogheda which was ambushed and routed at Julianstown bridge despite warnings that the enemy was near.',
+            },
+            {
+                type: 'paragraph',
+                text: "The expedition to Wicklow led by Sir Charles Coote garrisoned New Castle and relieved Wicklow Castle, with brutal force. The Government's loss at Julianstown, brutal victory at Wicklow and unwillingness to negotiate on the rights of Catholics led those remaining Old English Catholic and Irish into supporting the rebellion, in many cases reluctantly.",
+            },
+            {
+                type: 'paragraph',
+                text: 'In an effort to relieve the pressure on besieged Drogheda, Sir Charles Coote, the Mayor of Dublin, was killed while routing rebels at Swords and Captain Armstrong scattered a rebel encampment at Rathcoole in December.',
+            },
+        ],
     },
 
     { type: 'heading', level: 2, text: '1642', id: '1642' },
@@ -284,4 +379,85 @@ export const irelandBody: RichText = [
         type: 'paragraph',
         text: 'Initially the forces of the Irish rebellion were local levies raised by local nobility. Unity of command in military operations was absolutely critical — and this was lacking in the strategic command structure of Confederation forces, characterized by infighting and dissention at the highest levels.',
     },
+
+    { type: 'heading', level: 2, text: 'Scottish Regiments (Army of Ulster)', id: 'scottish-regiments' },
+    {
+        type: 'factCards',
+        cards: [
+            {
+                title: "Marquis of Argyle's Regiment",
+                meta: 'Yellow saltire on black background',
+                rows: [{ label: 'Service', value: 'Ireland 1642–1644, 1645–1648 · Scotland 1644' }],
+                text: "1642 — Invasion of Rathlin Island. Garrisoned at Dunluce Castle, Ballycastle, Ballymoney. 1644 — Expedition to Leinster, then Scotland. 1645 — Sent contingent to Scotland under Col Robert Home. 1648 — Commander and Major cashiered for opposition to Engagement. Disbanded by Monck after Robert Monro's capture.",
+            },
+            {
+                title: "Sir Mungo Campbell of Lawer's Regiment",
+                meta: 'White saltire on blue background',
+                rows: [{ label: 'Service', value: 'Ireland 1642 – March 1644' }],
+                text: '1642 — Coleraine Expedition. Garrisoned in the Coleraine area through its service in Ireland.',
+            },
+        ],
+    },
+]
+
+// designs/eighty-years-war-timeline-redesign.html: background and the first two periods of the timeline
+export const eightyYearsWarBody: RichText = [
+    {
+        type: 'callout',
+        variant: 'reading',
+        text: 'This article uses a visual timeline format. Events are color-coded by type. Use the contents list to jump between periods, or collapse a period to skim.',
+    },
+    { type: 'heading', level: 2, text: 'Background', id: 'background' },
+    {
+        type: 'paragraph',
+        text: 'As a result of wars, marriages and political maneuvering, most of the region currently known as Belgium and The Netherlands were in the hands of the Dukes of Burgundy. Charles V, the Holy Roman Emperor, was the ruler of this region by 1515. By the mid 16th century the Hapsburg-controlled Netherlands was comprised of 3 million people with 300 cities in 17 provinces — the southern three Walloon speaking and the northern 14 speaking Dutch.',
+    },
+    {
+        type: 'paragraph',
+        text: 'Antwerp was one of the economic centers of Europe and the place from which gold bullion from the New World was exchanged. The Hapsburg-Valois Wars with France ended in 1559, making the movement of people and ideas easier in Western Europe. One of the ideas on the move was Calvinist Protestantism out of Geneva — and it found particular support among the numerous lower class, lesser noble and townsfolk in the Netherlands.',
+    },
+    { type: 'heading', level: 2, text: 'Chronological Timeline', id: 'timeline' },
+    {
+        type: 'timeline',
+        groups: [
+            {
+                label: '1555–1567',
+                title: 'Gathering Storm',
+                events: [
+                    { kind: 'political', date: 'October 1555', title: 'Charles V Abdicates', text: 'Emperor Charles V, a Burgundian who spoke Flemish, abdicates and the Hapsburg Empire is divided — Spain and the Netherlands pass to his son Phillip II.' },
+                    { kind: 'quote', text: '"The Spaniards seem wise, and are madmen; the French seem madmen, and are wise."', cite: 'Charles V' },
+                    { date: '1555', text: 'Phillip II appoints William of Orange as provincial governor (Stadthouder) of Holland, Utrecht and Zeeland. The Count of Egmont was appointed Stadthouder of Flanders and Artois.' },
+                    { kind: 'battle', date: '10 August 1557', title: 'Battle of Saint Quentin', text: 'French relief column routed by cavalry force under command of Count Egmont during the joint Hapsburg-English siege. The city was sacked on 28 August by Hapsburg-English forces.' },
+                    { date: '1558', text: 'William of Orange persuades the States-General to grant Phillip II a 9-year subsidy in exchange for the granting of liberties and removal of 3,000 Spanish mercenaries.' },
+                    { kind: 'treaty', date: 'June 1559', title: 'Treaty of Cateau-Cambrésis', text: 'Peace between France and Hapsburgs ends the Italian Wars and opens Western Europe to the free movement of ideas — including Calvinist Protestantism.' },
+                    { date: '7 August 1559', text: "Phillip II's last visit to the Netherlands. Margaret of Parma appointed Regent. Antoine Granvelle appointed President of the Council of State." },
+                    { date: '1559–1565', text: 'Steady increase of Calvinist influence from the German States and France into the Netherlands. Spanish troops depart in 1561. Granvelle appointed Primate of the Church of the Netherlands in 1562.' },
+                    { kind: 'political', date: 'November 1565', title: 'Council of State Resignations', text: 'William of Orange, Count of Horn, and Lamoral of Egmont resign from the Council of State over persecution of Protestants and loss of influence over selection of Bishops.' },
+                    { date: 'Spring 1566 – Spring 1567', title: 'Annus Mirabilis', text: 'Louis of Nassau and Count Brederode present the Compromise of Breda to Margaret of Parma requesting suspension of the Edict of Blood and Inquisition. The Iconoclast Fury (beeldenstorm) results in the defacing of Catholic Churches throughout the Netherlands.' },
+                    { kind: 'battle', date: '13 March 1567', title: 'Battle of Oosterweel', text: 'Calvinist rebel "Beggar" army (geuzen leger) defeated — the first military engagement of the revolt.' },
+                    { kind: 'political', date: '22 August 1567', title: 'Duke of Alba Arrives', text: 'Duke of Alba arrives in Brussels with an army of 9,000 to quell unrest. He establishes the "Council of Troubles" (Council of Blood) — by 1573, 12,000 cases tried, 1,000 executions, 9,000 confiscations.' },
+                    { date: '9 September 1567', text: 'Arrest of Egmont, general and former companion to Alba and Phillip II, along with his fellow Protestant sympathizer Horn. Approximately 60,000 flee the Netherlands for neighboring German states and England.' },
+                ],
+            },
+            {
+                label: '1568–1573',
+                title: 'Open Revolt',
+                collapsed: true,
+                events: [
+                    { kind: 'battle', date: '23 May 1568', title: 'Battle of Heiligerlee', text: 'German rebel force of 2,500 horse and 7,000 foot under Louis of Nassau defeats the army of the Count of Aremberg near Groningen — the first rebel military victory.' },
+                    { kind: 'quote', text: '"Nunc aut nunquam, Recuperare aut mori" — Freedom for the Fatherland and conscience.', cite: "Inscription on Louis of Nassau's colors" },
+                    { date: '5 June 1568', title: 'Egmont and Horn Executed', text: 'Egmont and Horn are executed for high treason in Brussels, turning them into martyrs for the revolt.' },
+                    { kind: 'battle', date: '21 July 1568', title: 'Battle of Jemmingen', text: 'Rebel and Huguenot force under Prince Louis of Nassau routed along the river Ems. Count Adolf of Nassau killed. A devastating reversal after Heiligerlee.' },
+                    { date: 'February 1569', text: 'William of Orange gives Sea Beggars their first Letters of Commission. They are based in Emden, La Rochelle (a Huguenot-controlled port in France), and Dover in England.' },
+                    { kind: 'political', date: 'March 1569', title: 'The Tenth Penny Tax', text: 'Duke of Alba forces the States-General to enact a ruinous 10% sales tax and 5% property tax to fund an army he — not the States-General — would control.' },
+                ],
+            },
+        ],
+    },
+]
+
+// designs/hussites-redesign.html has image placeholders with these captions; the images don't exist yet
+export const hussitesFigures: RichText = [
+    { type: 'figure', alt: 'Hussite Battle Flags', caption: 'Hussite Battle Flags' },
+    { type: 'figure', alt: 'Portrait of Jan Hus', caption: 'Jan Hus', aspect: 'portrait' },
 ]

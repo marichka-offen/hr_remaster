@@ -73,7 +73,7 @@ const heroBackground = article.imageUrl
             </aside>
 
             <div class="article-detail__content">
-                <div class="article-detail__body" id="article-body">
+                <div class="article-detail__body prose" id="article-body">
                     <RichText blocks={article.body} />
                 </div>
 
@@ -279,17 +279,9 @@ const heroBackground = article.imageUrl
             scroll-margin-top: calc(var(--header-height-slim) + var(--space-6));
         }
 
-        // The body is rendered by RichText, a child component, so Astro's scoped styles don't reach
-        // its elements. :global() targets them, still limited to this page's .article-detail__body
+        // Shared prose styles come from .prose (RichText.scss). Only the drop cap is specific to articles.
+        // RichText is a child component, so :global() is needed to reach its paragraphs
         &__body {
-            line-height: var(--leading-relaxed);
-            color: var(--color-text);
-
-            > :global(:first-child) { margin-top: 0; }
-
-            :global(p) { margin-bottom: var(--space-5); }
-
-            // ::first-letter keeps the word whole for screen readers, unlike a wrapping span
             > :global(p:first-of-type::first-letter) {
                 float: left;
                 font-family: var(--font-display);
@@ -299,47 +291,6 @@ const heroBackground = article.imageUrl
                 line-height: 0.75;
                 margin-right: var(--space-2);
                 margin-top: var(--space-2);
-            }
-
-            :global(h2) {
-                font-size: var(--text-xl);
-                font-weight: var(--weight-bold);
-                color: var(--color-text-strong);
-                line-height: var(--leading-tight);
-                margin: var(--space-8) 0 var(--space-4);
-            }
-
-            :global(h3) {
-                font-size: var(--text-lg);
-                font-weight: var(--weight-bold);
-                color: var(--color-text-strong);
-                line-height: var(--leading-tight);
-                margin: var(--space-6) 0 var(--space-3);
-            }
-
-            :global(blockquote) {
-                border-left: var(--border-rule) solid var(--color-accent);
-                padding-left: var(--space-5);
-                margin: var(--space-6) 0;
-            }
-
-            :global(blockquote p) {
-                font-family: var(--font-quote);
-                font-style: italic;
-                font-size: var(--text-lg);
-                line-height: var(--leading-normal);
-                color: var(--color-text-strong);
-                margin-bottom: var(--space-2);
-            }
-
-            :global(cite) {
-                font-family: var(--font-ui);
-                font-style: normal;
-                font-size: var(--text-xs);
-                font-weight: var(--weight-semibold);
-                letter-spacing: var(--tracking-wide);
-                text-transform: uppercase;
-                color: var(--color-text-secondary);
             }
         }
     }

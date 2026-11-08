@@ -7,13 +7,14 @@ import { getSiteSettings } from '@lib/content'
 interface Props {
     title: string
     description: string
+    noindex?: boolean
 }
 
-const { title, description } = Astro.props
+const { title, description, noindex } = Astro.props
 const { header, footer } = await getSiteSettings()
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={noindex}>
     <Header
         logoTitle={header.logoTitle}
         logoSubtitle={header.logoSubtitle}

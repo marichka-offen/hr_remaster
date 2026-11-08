@@ -73,7 +73,7 @@ export const home: Page = {
             bio: [
                 {
                     type: 'paragraph',
-                    text: 'A lifelong student of military history and a retired soldier, Lee brings both academic rigor and personal experience to the writing. Every article is thoroughly sourced, respecting the intelligence of the reader.',
+                    text: 'A lifelong student of military history and a retired soldier, Lee brings both academic rigor and personal experience to his writing. Every article is thoroughly sourced, respecting the intelligence of the reader.',
                 },
                 {
                     type: 'paragraph',
@@ -107,7 +107,7 @@ export const about: Page = {
             bio: [
                 {
                     type: 'paragraph',
-                    text: "Lee is a retired U.S. Army Major who resides in Springfield, Virginia. An Armored Cavalry Combat Veteran, former Airborne Infantryman and a recipient of the Bronze Star, Lee holds a Master's Degree in Government from Campbell University and was Assistant Professor of Military Science at Georgetown University and George Mason University.",
+                    text: "Lee is a retired U.S. Army Major who resides in Springfield, Virginia. He is an Armored Cavalry Combat Veteran, former Airborne Infantryman and a recipient of the Bronze Star. He holds a Master's Degree in Government from Campbell University and was Assistant Professor of Military Science at Georgetown University and George Mason University.",
                 },
             ],
             credentials: [

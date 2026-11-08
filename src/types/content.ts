@@ -7,7 +7,92 @@ import type { CTA } from './cta'
 export type RichTextBlock =
     | { type: 'paragraph'; text: string }
     | { type: 'heading'; level: 2 | 3; text: string; id?: string }
+    // Also used for primary sources: the citation names the document and date
     | { type: 'quote'; text: string; cite?: string }
+    | FigureBlock
+    | CalloutBlock
+    | CollapsibleBlock
+    | TimelineBlock
+    | FactCardsBlock
+    | DataListBlock
+    | TableBlock
+
+// An image with caption. Without src it renders a labelled placeholder until the image exists
+export interface FigureBlock {
+    type: 'figure'
+    src?: string
+    alt: string
+    caption?: string
+    credit?: string
+    aspect?: 'landscape' | 'portrait' | 'square'
+}
+
+// A boxed aside. note: neutral; insight: an argument or open question; reading: how to read this article
+export interface CalloutBlock {
+    type: 'callout'
+    variant: 'note' | 'insight' | 'reading'
+    title?: string
+    text: string
+}
+
+// Detail most readers can skip, closed by default
+export interface CollapsibleBlock {
+    type: 'collapsible'
+    title: string
+    blocks: RichText
+    open?: boolean
+}
+
+// Event kinds set the marker colour and the legend label
+export type TimelineEventKind = 'battle' | 'political' | 'treaty' | 'event'
+
+export type TimelineEvent =
+    | { kind?: TimelineEventKind; date?: string; title?: string; text: string }
+    | { kind: 'quote'; text: string; cite?: string }
+
+// Events grouped into periods. Each group is collapsible and appears in the contents list
+export interface TimelineBlock {
+    type: 'timeline'
+    groups: {
+        id?: string
+        label: string
+        title?: string
+        collapsed?: boolean
+        events: TimelineEvent[]
+    }[]
+}
+
+// Cards for sieges, garrisons, regiments, weapons, factions: a title, an optional badge,
+// label/value rows and a short text
+export interface FactCardsBlock {
+    type: 'factCards'
+    cards: {
+        title: string
+        badge?: string
+        meta?: string
+        rows?: { label: string; value: string }[]
+        text?: string
+    }[]
+}
+
+// Label/value rows such as manifests and strengths. With bars, numeric values are drawn to scale
+export interface DataListBlock {
+    type: 'dataList'
+    title: string
+    note?: string
+    bars?: boolean
+    rows: { label: string; value: string | number; detail?: string }[]
+    total?: { label: string; value: string | number }
+}
+
+// A real table, for rosters and other data with several columns
+export interface TableBlock {
+    type: 'table'
+    caption: string
+    columns: string[]
+    rows: string[][]
+    note?: string
+}
 
 export type RichText = RichTextBlock[]
 
