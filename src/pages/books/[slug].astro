@@ -5,6 +5,7 @@ import RichText from '@components/base/RichText/RichText.astro'
 import BookCover from '@components/composite/BookCover/BookCover.astro'
 import BookPreview from '@components/sections/BookPreview/BookPreview.astro'
 import { getBook, getBooks } from '@lib/content'
+import { bookSchema } from '@lib/seo'
 
 export async function getStaticPaths() {
     const books = await getBooks()
@@ -21,7 +22,13 @@ const previewPages = book.previewPages ?? []
 const hasSidebar = details.length > 0 || previewPages.length > 0
 ---
 
-<SiteLayout title={book.title} description={book.excerpt ?? ''}>
+<SiteLayout
+    title={book.title}
+    description={book.seoDescription ?? book.excerpt ?? ''}
+    type='book'
+    ogImage={book.coverImageUrl}
+    jsonLd={bookSchema(book, Astro.site)}
+>
     <main id="main">
         <article data-pagefind-body data-pagefind-meta="type:Book">
         <section class="book-hero">

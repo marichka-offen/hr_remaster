@@ -2,6 +2,7 @@
 import SiteLayout from '@layouts/SiteLayout.astro'
 import PageSections from '@components/sections/PageSections/PageSections.astro'
 import { getPage } from '@lib/content'
+import { websiteSchema } from '@lib/seo'
 
 const pageData = await getPage('home')
 
@@ -10,7 +11,7 @@ const pageTitle = pageData?.title ?? 'History Reconsidered'
 const pageDescription = pageData?.description ?? ''
 ---
 
-<SiteLayout title={pageTitle} description={pageDescription}>
+<SiteLayout title={pageTitle} description={pageDescription} jsonLd={websiteSchema(Astro.site)}>
     <main id="main">
         <PageSections sections={sections} />
     </main>

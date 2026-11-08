@@ -2,28 +2,61 @@
 import '@tokens/tokens.css'
 import '@tokens/base.css'
 
+const SITE_NAME = 'History Reconsidered'
+
 interface Props {
     title: string
     description: string
+    // Path or full URL of the social preview image; defaults to the site-wide one
     ogImage?: string
-    canonicalUrl?: string
+    ogImageAlt?: string
+    // og:type: "article" for articles, "book" for books, "website" for everything else
+    type?: 'website' | 'article' | 'book'
+    // Structured data (schema.org) describing the page for search engines
+    jsonLd?: Record<string, unknown> | Record<string, unknown>[]
     // Keeps internal pages (like /dev/blocks) out of search results
     noindex?: boolean
 }
 
-const { title, description, ogImage, canonicalUrl, noindex = false } = Astro.props
+const {
+    title,
+    description,
+    ogImage = '/og-default.png',
+    ogImageAlt = `${SITE_NAME} — military history and research by Lee G. Offen`,
+    type = 'website',
+    jsonLd,
+    noindex = false,
+} = Astro.props
+
+// "Page — History Reconsidered", except on the home page, whose title is already the site name
+const fullTitle = title === SITE_NAME ? title : `${title} — ${SITE_NAME}`
+const canonical = new URL(Astro.url.pathname, Astro.site).href
+const imageUrl = new URL(ogImage, Astro.site).href
 ---
 
 <html lang='en'>
     <head>
         <meta charset='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <title>{fullTitle}</title>
         <meta name='description' content={description} />
+        <link rel='canonical' href={canonical} />
         {noindex && <meta name='robots' content='noindex, nofollow' />}
+        <link rel='sitemap' href='/sitemap-index.xml' />
+        <link rel='icon' href='/favicon.svg' type='image/svg+xml' />
+
+        {/* Social previews (Facebook, LinkedIn, iMessage, WhatsApp, Slack, X) */}
+        <meta property='og:site_name' content={SITE_NAME} />
+        <meta property='og:type' content={type} />
         <meta property='og:title' content={title} />
         <meta property='og:description' content={description} />
-        {ogImage && <meta property='og:image' content={ogImage} />}
-        {canonicalUrl && <meta property='og:url' content={canonicalUrl} />}
+        <meta property='og:url' content={canonical} />
+        <meta property='og:image' content={imageUrl} />
+        <meta property='og:image:alt' content={ogImageAlt} />
+        <meta property='og:locale' content='en_US' />
+        <meta name='twitter:card' content='summary_large_image' />
+
+        {jsonLd && <script type='application/ld+json' set:html={JSON.stringify(jsonLd)} />}
 
         <link
             rel='preload'
@@ -46,9 +79,6 @@ const { title, description, ogImage, canonicalUrl, noindex = false } = Astro.pro
             type='font/woff2'
             crossorigin='anonymous'
         />
-        <title>
-            {title}
-        </title>
     </head>
     <body>
         <a class='skip-link' href='#main'>Skip to content</a>

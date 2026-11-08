@@ -16,6 +16,8 @@ export interface ArticleMeta {
     gradientTo?: string
     layoutType?: 'prose' | 'timeline'
     excerpt?: string
+    // Optional shorter text for search results (Google shows about 155 characters); falls back to the excerpt
+    seoDescription?: string
     readTime?: string
 }
 

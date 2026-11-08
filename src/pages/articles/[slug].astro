@@ -7,6 +7,7 @@ import TableOfContents from '@components/composite/TableOfContents/TableOfConten
 import ReadingAids from '@components/composite/ReadingAids/ReadingAids'
 import { getArticle, getArticles, getRelatedArticles, tableOfContents } from '@lib/content'
 import { countWords } from '@lib/content/article-utils'
+import { articleSchema } from '@lib/seo'
 
 export async function getStaticPaths() {
     const articles = await getArticles()
@@ -34,7 +35,13 @@ const heroBackground = article.imageUrl
         : 'var(--gradient-featured)'
 ---
 
-<SiteLayout title={article.title} description={article.excerpt ?? ''}>
+<SiteLayout
+    title={article.title}
+    description={article.seoDescription ?? article.excerpt ?? ''}
+    type='article'
+    ogImage={article.imageUrl}
+    jsonLd={articleSchema(article, Astro.site)}
+>
     <main id="main" class="article-detail">
         {/* data-pagefind-body: only articles and books go into the search index, not listings or chrome */}
         <article data-pagefind-body data-pagefind-meta="type:Article">

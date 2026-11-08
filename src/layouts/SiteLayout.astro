@@ -3,18 +3,15 @@ import BaseLayout from '@layouts/BaseLayout.astro'
 import Header from '@components/sections/Header/Header.astro'
 import Footer from '@components/sections/Footer/Footer.astro'
 import { getSiteSettings } from '@lib/content'
+import type { ComponentProps } from 'astro/types'
 
-interface Props {
-    title: string
-    description: string
-    noindex?: boolean
-}
+// Same options as BaseLayout (title, description, social image, structured data...), passed straight through
+type Props = ComponentProps<typeof BaseLayout>
 
-const { title, description, noindex } = Astro.props
 const { header, footer } = await getSiteSettings()
 ---
 
-<BaseLayout title={title} description={description} noindex={noindex}>
+<BaseLayout {...Astro.props}>
     <Header
         logoTitle={header.logoTitle}
         logoSubtitle={header.logoSubtitle}

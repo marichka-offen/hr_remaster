@@ -158,19 +158,21 @@ export const about: Page = {
 
 export const articlesPage: Page = {
     title: 'Articles',
-    description: 'The full archive of History Reconsidered articles.',
+    description:
+        'Research articles on military history by Lee G. Offen, from the Hussite Wars and the Eighty Years War to colonial Virginia and the Czechoslovak Legion.',
     sections: [],
 }
 
 export const booksPage: Page = {
     title: 'Books',
-    description: 'Books by Lee G. Offen.',
+    description:
+        "Books by Lee G. Offen: America's First Marines, a regimental history of Gooch's American Regiment, and the forthcoming history of the Czechoslovak Legion.",
     sections: [],
 }
 
 export const contact: ContactPage = {
     title: 'Contact',
-    description: 'Get in touch with History Reconsidered.',
+    description: 'Contact History Reconsidered for research inquiries, speaking engagements or general correspondence.',
     label: 'Contact',
     heading: 'Get in Touch',
     subheading:

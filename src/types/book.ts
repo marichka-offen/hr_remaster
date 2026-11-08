@@ -11,6 +11,8 @@ export interface BookMeta {
     coverImageUrl?: string
     coverImageAlt?: string
     excerpt?: string
+    // Optional shorter text for search results; falls back to the excerpt
+    seoDescription?: string
     publishedYear?: string
 }
 
