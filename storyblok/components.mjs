@@ -251,7 +251,7 @@ export const components = [
         kind: choice('Kind', [['event', 'General event'], ['battle', 'Battle or siege'], ['political', 'Political event'], ['treaty', 'Treaty or peace']], { default_value: 'event' }),
         date: text('Date', { description: 'e.g. 23 May 1568' }),
         title: text('Title', { description: 'Optional' }),
-        text: textarea('Text', { required: true }),
+        text: textarea('Text', { description: 'Optional: a date on its own can mark the start of a period' }),
     }), { preview_field: 'date' }),
     define('timelineQuote', 'Quote in timeline', () => ({
         text: textarea('Quote', { required: true }),
