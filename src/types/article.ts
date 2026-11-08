@@ -22,6 +22,7 @@ export interface ArticleMeta {
 }
 
 export interface Article extends ArticleMeta {
+    _editable?: string
     body?: RichText
     // Bibliography entries, shown in a collapsible Sources section
     sources?: string[]

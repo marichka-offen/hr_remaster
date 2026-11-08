@@ -39,8 +39,6 @@ const storyblokSource: Source = {
     siteSettings: storyblok.siteSettings,
 }
 
-const source: Source = import.meta.env.CONTENT_SOURCE === 'storyblok' ? storyblokSource : mocks
-
 // Read time is calculated from the body when there is enough text, so it can't drift from the content
 const withDerivedFields = (article: Article): Article => ({
     ...article,
@@ -48,37 +46,45 @@ const withDerivedFields = (article: Article): Article => ({
     readTime: readingTime(article.body, article.readTime),
 })
 
-const toArticleMeta = ({ body: _body, author: _author, sources: _sources, ...meta }: Article): ArticleMeta => meta
-const toBookMeta = ({ description: _d, cta: _c, secondaryCta: _s, status: _st, details: _de, previewPages: _p, ...meta }: Book): BookMeta => meta
+const toArticleMeta = ({ body: _body, author: _author, sources: _sources, _editable: _e, ...meta }: Article): ArticleMeta => meta
+const toBookMeta = ({ description: _d, cta: _c, secondaryCta: _s, status: _st, details: _de, previewPages: _p, _editable: _e, ...meta }: Book): BookMeta => meta
 
-export const getSiteSettings = (): Promise<SiteSettings> => source.siteSettings()
-export const getPage = (name: PageName): Promise<Page> => source.page(name)
-export const getContactPage = (): Promise<ContactPage> => source.contactPage()
+// The same functions for any source: the site uses CONTENT_SOURCE, the Visual Editor preview always uses Storyblok
+function contentApi(source: Source) {
+    const getArticles = async (): Promise<ArticleMeta[]> => (await source.articles()).map((a) => toArticleMeta(withDerivedFields(a)))
 
-// Newest first
-export async function getArticles(): Promise<ArticleMeta[]> {
-    return (await source.articles()).map((a) => toArticleMeta(withDerivedFields(a)))
+    return {
+        getSiteSettings: (): Promise<SiteSettings> => source.siteSettings(),
+        getPage: (name: PageName): Promise<Page> => source.page(name),
+        getContactPage: (): Promise<ContactPage> => source.contactPage(),
+
+        // Newest first
+        getArticles,
+
+        async getArticle(slug: string): Promise<Article | undefined> {
+            const article = (await source.articles()).find((a) => a.slug === slug)
+            return article && withDerivedFields(article)
+        },
+
+        // Same topic first, then the most recent of the rest
+        async getRelatedArticles(slug: string, limit = 3): Promise<ArticleMeta[]> {
+            const all = await getArticles()
+            const current = all.find((a) => a.slug === slug)
+            const others = all.filter((a) => a.slug !== slug)
+            const sameTopic = others.filter((a) => current?.topicSlug && a.topicSlug === current.topicSlug)
+            const rest = others.filter((a) => !sameTopic.includes(a))
+            return [...sameTopic, ...rest].slice(0, limit)
+        },
+
+        getBooks: async (): Promise<BookMeta[]> => (await source.books()).map(toBookMeta),
+        getBook: async (slug: string): Promise<Book | undefined> => (await source.books()).find((b) => b.slug === slug),
+    }
 }
 
-export async function getArticle(slug: string): Promise<Article | undefined> {
-    const article = (await source.articles()).find((a) => a.slug === slug)
-    return article && withDerivedFields(article)
-}
+export type ContentApi = ReturnType<typeof contentApi>
 
-// Same topic first, then the most recent of the rest
-export async function getRelatedArticles(slug: string, limit = 3): Promise<ArticleMeta[]> {
-    const all = await getArticles()
-    const current = all.find((a) => a.slug === slug)
-    const others = all.filter((a) => a.slug !== slug)
-    const sameTopic = others.filter((a) => current?.topicSlug && a.topicSlug === current.topicSlug)
-    const rest = others.filter((a) => !sameTopic.includes(a))
-    return [...sameTopic, ...rest].slice(0, limit)
-}
+export const storyblokContent = contentApi(storyblokSource)
 
-export async function getBooks(): Promise<BookMeta[]> {
-    return (await source.books()).map(toBookMeta)
-}
-
-export async function getBook(slug: string): Promise<Book | undefined> {
-    return (await source.books()).find((b) => b.slug === slug)
-}
+export const { getSiteSettings, getPage, getContactPage, getArticles, getArticle, getRelatedArticles, getBooks, getBook } = contentApi(
+    import.meta.env.CONTENT_SOURCE === 'storyblok' ? storyblokSource : mocks
+)

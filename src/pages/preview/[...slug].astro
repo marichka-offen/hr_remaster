@@ -1,0 +1,125 @@
+---
+// Storyblok Visual Editor preview. The editor loads /preview/<story full_slug> in its frame, signed with
+// _storyblok_tk[...] parameters. This route is rendered on request (not at build time) so it always shows
+// the latest drafts; every other page on the site stays static.
+//
+//   GET  render the story's draft
+//   POST render with the story JSON the editor sends while typing (live preview, nothing is saved)
+
+import ArticleView from '../../views/ArticleView.astro'
+import BookView from '../../views/BookView.astro'
+import PageView from '../../views/PageView.astro'
+import ArticlesListView from '../../views/ArticlesListView.astro'
+import BooksListView from '../../views/BooksListView.astro'
+import ContactView from '../../views/ContactView.astro'
+import { storyblokContent as content } from '@lib/content'
+import { withDraftStories, storyBySlug, type Story } from '@lib/storyblok/client'
+import { isValidPreviewRequest } from '@lib/storyblok/preview'
+
+export const prerender = false
+
+if (!isValidPreviewRequest(Astro.url)) {
+    return new Response('This page only works inside the Storyblok Visual Editor.', {
+        status: 403,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Robots-Tag': 'noindex' },
+    })
+}
+
+// While typing, the editor's bridge sends the unsaved story; it replaces that story's draft for this render
+let override: Story | undefined
+if (Astro.request.method === 'POST') {
+    try {
+        override = ((await Astro.request.json()) as { story?: Story }).story
+    } catch {
+        override = undefined
+    }
+}
+
+const slug = (Astro.params.slug ?? 'home').replace(/\/$/, '')
+
+// Everything the chosen view needs, fetched inside the draft scope
+const view = await withDraftStories(async () => {
+    const settings = await content.getSiteSettings()
+    const story = await storyBySlug(slug)
+    const type = story?.content.component
+
+    if (type === 'article') {
+        const article = await content.getArticle(story!.slug)
+        return article ? { kind: 'article' as const, settings, article, related: await content.getRelatedArticles(article.slug) } : undefined
+    }
+    if (type === 'book') {
+        const book = await content.getBook(story!.slug)
+        const otherBooks = (await content.getBooks()).filter((other) => other.slug !== book?.slug)
+        return book ? { kind: 'book' as const, settings, book, otherBooks } : undefined
+    }
+    if (type === 'contactPage') return { kind: 'contact' as const, settings, contact: await content.getContactPage() }
+    if (slug === 'articles-page' || type === 'topic') {
+        return { kind: 'articles' as const, settings, page: await content.getPage('articlesPage'), articles: await content.getArticles() }
+    }
+    if (slug === 'books-page') return { kind: 'books' as const, settings, page: await content.getPage('booksPage'), books: await content.getBooks() }
+    if (slug === 'about') return { kind: 'page' as const, settings, page: await content.getPage('about') }
+    // Home, and site settings (shown on the home page, where the menu and footer are visible)
+    return { kind: 'page' as const, settings, page: await content.getPage('home') }
+}, override)
+
+if (!view) return new Response('Story not found', { status: 404 })
+
+Astro.response.headers.set('X-Robots-Tag', 'noindex')
+Astro.response.headers.set('Cache-Control', 'no-store')
+---
+
+{view.kind === 'article' && <ArticleView article={view.article} related={view.related} settings={view.settings} />}
+{view.kind === 'book' && <BookView book={view.book} otherBooks={view.otherBooks} settings={view.settings} />}
+{view.kind === 'page' && <PageView page={view.page} settings={view.settings} />}
+{view.kind === 'articles' && <ArticlesListView page={view.page} articles={view.articles} settings={view.settings} />}
+{view.kind === 'books' && <BooksListView page={view.page} books={view.books} settings={view.settings} />}
+{view.kind === 'contact' && <ContactView contact={view.contact} settings={view.settings} />}
+
+<script is:inline src="https://app.storyblok.com/f/storyblok-v2-latest.js"></script>
+<script is:inline>
+    // Connects the page to the Visual Editor: outlines and click-to-edit come from the data-blok attributes;
+    // here we handle updates. Typing re-renders on the server with the unsaved story and swaps the page
+    // content in place; saving or publishing reloads.
+    ;(function () {
+        if (!window.StoryblokBridge) return
+        var bridge = new window.StoryblokBridge()
+        var timer
+        var pending
+
+        bridge.on(['published', 'change'], function () {
+            window.location.reload()
+        })
+
+        bridge.on('input', function (event) {
+            if (!event || !event.story) return
+            clearTimeout(timer)
+            // Wait for a pause in typing, then render once
+            timer = setTimeout(function () {
+                if (pending) pending.abort()
+                pending = new AbortController()
+                fetch(window.location.href, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ story: event.story }),
+                    signal: pending.signal,
+                })
+                    .then(function (response) {
+                        return response.ok ? response.text() : Promise.reject(response.status)
+                    })
+                    .then(function (html) {
+                        var next = new DOMParser().parseFromString(html, 'text/html')
+                        var main = document.getElementById('main')
+                        var nextMain = next.getElementById('main')
+                        if (main && nextMain) main.replaceWith(document.importNode(nextMain, true))
+                        // The header and footer can change too, when editing site settings
+                        ;['.header', '.footer'].forEach(function (selector) {
+                            var current = document.querySelector(selector)
+                            var updated = next.querySelector(selector)
+                            if (current && updated) current.replaceWith(document.importNode(updated, true))
+                        })
+                    })
+                    .catch(function () {})
+            }, 400)
+        })
+    })()
+</script>

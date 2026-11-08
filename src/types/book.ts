@@ -17,6 +17,7 @@ export interface BookMeta {
 }
 
 export interface Book extends BookMeta {
+    _editable?: string
     // Longer status line in the book page hero, e.g. "Published · Available Now"
     status?: string
     description?: RichText

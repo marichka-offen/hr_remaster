@@ -1,0 +1,22 @@
+---
+// A page built from sections (home, about). Used by those routes and by the Visual Editor preview
+import SiteLayout from '@layouts/SiteLayout.astro'
+import PageSections from '@components/sections/PageSections/PageSections.astro'
+import type { Page, SiteSettings } from '@app-types/content'
+import type { ComponentProps } from 'astro/types'
+import { editableAttrs } from '@lib/storyblok/editable'
+
+interface Props {
+    page: Page
+    settings?: SiteSettings
+    jsonLd?: ComponentProps<typeof SiteLayout>['jsonLd']
+}
+
+const { page, settings, jsonLd } = Astro.props
+---
+
+<SiteLayout title={page.title} description={page.description} jsonLd={jsonLd} settings={settings}>
+    <main id="main" {...editableAttrs(page._editable)}>
+        <PageSections sections={page.sections} />
+    </main>
+</SiteLayout>

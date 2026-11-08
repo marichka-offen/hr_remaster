@@ -42,6 +42,20 @@ Copy `.env.example` to `.env`. `CONTENT_SOURCE=storyblok` builds from Storyblok;
 
 Pages call functions in `src/lib/content` (`getPage`, `getArticles`, `getArticle`...), which read from `src/mocks/` or from Storyblok. The Storyblok side is `src/lib/storyblok/`: `client.ts` fetches every story once per build, `richtext.ts` converts rich text into the site's blocks, and `adapter.ts` maps stories to the types in `src/types/`. Components never see Storyblok's format. Block definitions live in `storyblok/components.mjs` and are pushed with `npm run storyblok:push`.
 
+## Storyblok Visual Editor
+
+Lee edits pages inside Storyblok with the page shown beside the fields (click a section to edit it, see changes as he types). Storyblok loads `/preview/<story slug>` from this site in a frame:
+
+- `src/pages/preview/[...slug].astro` is the only page rendered on request (a Netlify function); everything else is static. It checks Storyblok's signature (`src/lib/storyblok/preview.ts`), so drafts are never shown outside the editor.
+- Pages and preview share the same templates (`src/views/`). Blocks carry Storyblok's `_editable` markers in draft content only (`src/lib/storyblok/editable.ts`).
+- Typing sends the unsaved story to the preview route, which re-renders and swaps the page content; saving or publishing reloads.
+
+One-time setup:
+
+1. **Netlify → Site configuration → Environment variables:** `CONTENT_SOURCE=storyblok`, `STORYBLOK_DELIVERY_API_TOKEN` (the preview token), `STORYBLOK_SPACE_ID`, `STORYBLOK_REGION=eu`. Not the personal access token.
+2. **Storyblok → Settings → Visual Editor → Preview URL:** `https://<your-site>/preview/`
+3. **Rebuild on publish:** Netlify → Site configuration → Build & deploy → Build hooks → add one; then Storyblok → Settings → Webhooks → new webhook for "Story published", "unpublished" and "deleted", pasting the build hook URL.
+
 ## Styling rules
 
 Full token reference: [docs/TOKENS.md](docs/TOKENS.md) (tables, generated with `npm run tokens-doc`) and [docs/tokens.html](docs/tokens.html) (open in a browser for swatches and live contrast checks).

@@ -1,18 +1,9 @@
 ---
-import SiteLayout from '@layouts/SiteLayout.astro'
-import PageSections from '@components/sections/PageSections/PageSections.astro'
+import PageView from '../views/PageView.astro'
 import { getPage } from '@lib/content'
 import { authorSchema } from '@lib/seo'
 
-const pageData = await getPage('about')
-
-const sections = pageData?.sections ?? []
-const pageTitle = pageData?.title ?? 'About'
-const pageDescription = pageData?.description ?? ''
+const page = await getPage('about')
 ---
 
-<SiteLayout title={pageTitle} description={pageDescription} jsonLd={authorSchema(Astro.site)}>
-    <main id="main">
-        <PageSections sections={sections} />
-    </main>
-</SiteLayout>
+<PageView page={page} jsonLd={authorSchema(Astro.site)} />

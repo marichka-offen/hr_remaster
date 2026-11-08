@@ -48,7 +48,11 @@ function cta(textValue: unknown, link?: Link | null): CTA | undefined {
     return { text: label, link: target, openInNewTab: link?.target === '_blank' }
 }
 
-const richText = (doc: unknown): RichText => toRichText(doc as RichTextNode, contentBlock)
+// Every block keeps its _editable marker (draft content only), so the Visual Editor can outline it
+const withEditable = (blok: Fields, blocks: RichTextBlock[]): RichTextBlock[] =>
+    blok._editable ? blocks.map((block) => ({ ...block, _editable: blok._editable })) : blocks
+
+const richText = (doc: unknown): RichText => toRichText(doc as RichTextNode, (blok) => withEditable(blok, contentBlock(blok)))
 
 // ---------------------------------------------------------------- Content blocks (inside rich text)
 
@@ -175,6 +179,7 @@ function toArticle(story: Story<Fields>, topics: Map<string, Topic>, articleAuth
         excerpt: str(c.excerpt),
         seoDescription: str(c.seoDescription),
         readTime: str(c.readTime),
+        _editable: c._editable,
         body: richText(c.body),
         sources: (c.sources ?? []).map((source: Fields) => source.text).filter(Boolean),
         author: articleAuthor,
@@ -199,6 +204,7 @@ function toBook(story: Story<Fields>): Book {
         coverImageAlt: imageAlt(c.coverImage),
         excerpt: str(c.excerpt),
         seoDescription: str(c.seoDescription),
+        _editable: c._editable,
         description: richText(c.description),
         details: (c.details ?? []).map((row: Fields) => ({ label: row.label ?? '', value: row.value ?? '' })),
         previewPages: (c.previewPages ?? []).map((asset: Asset) => ({ src: imageUrl(asset), alt: imageAlt(asset) ?? '' })),
@@ -318,11 +324,16 @@ export async function page(name: keyof typeof PAGE_SLUGS): Promise<Page> {
     ])
     const uuidToSlug = new Map(stories.map((s) => [s.uuid, s.slug]))
     const sections = (
-        await Promise.all((story?.content.sections ?? []).map((blok: Fields) => toSection(blok, { articles: articleList, books: bookList, uuidToSlug })))
+        await Promise.all(
+            (story?.content.sections ?? []).map(async (blok: Fields) => {
+                const section = await toSection(blok, { articles: articleList, books: bookList, uuidToSlug })
+                return section && blok._editable ? { ...section, _editable: blok._editable } : section
+            })
+        )
     ).filter((section): section is Section => !!section)
     // Fallback titles keep the browser tab sensible while a page is unpublished or untitled
     const fallbackTitle = { home: 'History Reconsidered', about: 'About', articlesPage: 'Articles', booksPage: 'Books' }[name]
-    return { title: str(story?.content.title) ?? fallbackTitle, description: story?.content.description ?? '', sections }
+    return { title: str(story?.content.title) ?? fallbackTitle, description: story?.content.description ?? '', sections, _editable: story?.content._editable }
 }
 
 export async function contactPage(): Promise<ContactPage> {
@@ -334,6 +345,7 @@ export async function contactPage(): Promise<ContactPage> {
         heading: c.heading ?? 'Get in Touch',
         subheading: c.subheading ?? '',
         email: str(c.email),
+        _editable: c._editable,
     }
 }
 

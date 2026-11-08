@@ -71,8 +71,9 @@ Everything still open, grouped by who acts on it. Details and history are in [do
   - Eighty Years War: 27 images were placed after the chronology (a timeline can't hold images); an image per era or a gallery
   - Maryland: unit and commander lists
 - [x] Phase 9a, Storyblok: block definitions in code, push and seed scripts, delivery client, rich text converter, adapter, `CONTENT_SOURCE` switch
-- [ ] Phase 9b: push blocks and seed content (needs the personal access token), switch `CONTENT_SOURCE=storyblok` locally and on Netlify
-- [ ] Phase 9c: Visual Editor preview (click-to-edit markers, a draft preview deploy), publish webhook to rebuild Netlify, a one-page guide for Lee
+- [x] Phase 9b: blocks pushed, content seeded (19 articles, 2 books, pages, settings), formatting preserved; Storyblok build matches the mock build except images
+- [x] Phase 9c (code): Visual Editor preview at /preview/<slug> (on-request Netlify function, token-checked, click-to-edit markers, live typing via the bridge); page templates moved into src/views so static and preview pages share code
+- [ ] Phase 9c (setup): Netlify environment variables, Storyblok preview URL, publish webhook (steps in README); a one-page guide for Lee
 - [ ] Source links on the site (the Storyblok `source` block already has an optional link field)
 - [ ] Only if logs show a crawler ignoring robots.txt: block AI training crawlers at the server (Netlify)
 

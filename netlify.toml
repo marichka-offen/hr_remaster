@@ -109,7 +109,12 @@
   to = "/articles/"
   status = 301
 
-[[redirects]]
-  from = "/*"
-  to = "/404"
-  status = 404
+# Missing pages: Netlify serves dist/404.html automatically, so no catch-all rule is needed.
+# (A catch-all would also block /preview/, which is served by a function, not a file.)
+
+# The Visual Editor preview: never indexed, never cached
+[[headers]]
+  for = "/preview/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+    Cache-Control = "no-store"

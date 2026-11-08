@@ -10,6 +10,7 @@ import PageCta from '@components/sections/PageCta/PageCta.astro'
 import ContentSection from '@components/sections/ContentSection/ContentSection.astro'
 import type { ArticleMeta } from '@app-types/article'
 import type { Section } from '@app-types/content'
+import { editableAttrs } from '@lib/storyblok/editable'
 
 interface Props {
     sections: Section[]
@@ -20,7 +21,11 @@ const { sections, articles = [] } = Astro.props
 ---
 
 {sections.map((section) => {
-    switch (section._type) {
+    // In the Visual Editor preview each section sits in a div the editor can outline and click;
+    // elsewhere Fragment adds nothing to the page
+    const Wrapper = section._editable ? 'div' : Fragment
+    const attrs = editableAttrs(section._editable)
+    return <Wrapper {...attrs}>{(() => { switch (section._type) {
         case 'hero':
             return (
                 <HomeHero
@@ -109,5 +114,5 @@ const { sections, articles = [] } = Astro.props
             return <ContentSection label={section.label} heading={section.heading} blocks={section.blocks} />
         default:
             return null
-    }
+    } })()}</Wrapper>
 })}

@@ -11,6 +11,6 @@ const AI_TRAINING_CRAWLERS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebo
 export const GET: APIRoute = ({ site }) => {
     const sitemap = new URL('sitemap-index.xml', site).href
     const blocked = AI_TRAINING_CRAWLERS.map((bot) => `User-agent: ${bot}\nDisallow: /`).join('\n\n')
-    const body = `# AI training crawlers: not permitted\n${blocked}\n\n# Everyone else, including search engines and AI search\nUser-agent: *\nAllow: /\nDisallow: /dev/\n\nSitemap: ${sitemap}\n`
+    const body = `# AI training crawlers: not permitted\n${blocked}\n\n# Everyone else, including search engines and AI search\nUser-agent: *\nAllow: /\nDisallow: /dev/\nDisallow: /preview/\n\nSitemap: ${sitemap}\n`
     return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
 }

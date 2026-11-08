@@ -4,7 +4,12 @@
 import type { ArticleMeta } from './article'
 import type { CTA } from './cta'
 
-export type RichTextBlock =
+// Set only in Storyblok draft content: lets the Visual Editor outline a block and open it on click
+export interface Editable {
+    _editable?: string
+}
+
+export type RichTextBlock = Editable & (
     // text is always plain (for word counts and search). html, when present, is the same text with
     // inline formatting (em, strong, a, sup, sub, s, br) and is what gets rendered
     | { type: 'paragraph'; text: string; html?: string }
@@ -19,6 +24,7 @@ export type RichTextBlock =
     | FactCardsBlock
     | DataListBlock
     | TableBlock
+)
 
 // An image with caption. Without src it renders a labelled placeholder until the image exists
 export interface FigureBlock {
@@ -121,7 +127,7 @@ export interface SiteSettings {
 
 export type CredentialIcon = 'star' | 'graduation-cap' | 'book-open' | 'shield' | 'medal' | 'pen'
 
-export type Section =
+export type Section = Editable & (
     | {
           _type: 'hero'
           label?: string
@@ -177,14 +183,15 @@ export type Section =
     | { _type: 'pageCta'; label?: string; heading: string; subtext?: string; cta?: CTA }
     // Any article content blocks on a page: text, timeline, figure, callout, cards, tables
     | { _type: 'content'; label?: string; heading?: string; blocks: RichText }
+)
 
-export interface Page {
+export interface Page extends Editable {
     title: string
     description: string
     sections: Section[]
 }
 
-export interface ContactPage {
+export interface ContactPage extends Editable {
     title: string
     description: string
     label: string

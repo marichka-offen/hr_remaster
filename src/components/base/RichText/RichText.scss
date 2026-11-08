@@ -21,6 +21,15 @@
         margin-top: 0;
     }
 
+    // Preview-only wrapper around editor blocks: it takes the block's spacing, the block inside takes none
+    > .sb-blok {
+        margin-block: var(--space-7);
+
+        > * {
+            margin-block: 0;
+        }
+    }
+
     > h2 {
         font-size: var(--text-xl);
         font-weight: var(--weight-bold);

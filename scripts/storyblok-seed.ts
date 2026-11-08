@@ -17,6 +17,42 @@ const uid = () => randomUUID()
 
 const textNodes = (text: string) => (text ? [{ type: 'text', text }] : [])
 const paragraph = (text: string) => ({ type: 'paragraph', content: textNodes(text) })
+
+// The importer keeps inline formatting as a small HTML string (em, strong, a, sup, sub, s, br).
+// Storyblok rich text stores the same thing as text nodes with "marks", so convert one to the other
+const MARKS: Record<string, string> = { em: 'italic', i: 'italic', strong: 'bold', b: 'bold', sup: 'superscript', sub: 'subscript', s: 'strike' }
+const decode = (value: string) =>
+    value.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&')
+
+function inlineNodes(html: string) {
+    const nodes: Record<string, unknown>[] = []
+    const active: { type: string; attrs?: Record<string, unknown> }[] = []
+    for (const token of html.split(/(<[^>]+>)/).filter(Boolean)) {
+        const tag = token.match(/^<(\/?)([a-z]+)([^>]*)>$/i)
+        if (!tag) {
+            nodes.push({ type: 'text', text: decode(token), ...(active.length ? { marks: active.map((m) => ({ ...m })) } : {}) })
+            continue
+        }
+        const [, closing, rawName, rest] = tag
+        const name = rawName.toLowerCase()
+        if (name === 'br') {
+            nodes.push({ type: 'hard_break' })
+        } else if (closing) {
+            const type = name === 'a' ? 'link' : MARKS[name]
+            const index = active.map((m) => m.type).lastIndexOf(type)
+            if (index >= 0) active.splice(index, 1)
+        } else if (name === 'a') {
+            const href = decode(rest.match(/href="([^"]*)"/)?.[1] ?? '')
+            active.push({ type: 'link', attrs: { href, linktype: 'url', target: '_blank' } })
+        } else if (MARKS[name]) {
+            active.push({ type: MARKS[name] })
+        }
+    }
+    return nodes.filter((node) => node.type !== 'text' || (node.text as string).length > 0)
+}
+
+// A paragraph from plain text, or from its formatted version when there is one
+const richParagraph = (text: string, html?: string) => (html ? { type: 'paragraph', content: inlineNodes(html) } : paragraph(text))
 const blok = (component: string, fields: Record<string, unknown>) => ({
     type: 'blok',
     attrs: { id: uid(), body: [{ _uid: uid(), component, ...fields }] },
@@ -29,17 +65,17 @@ function toStoryblokRichText(blocks: RichText = []) {
 function toNode(block: RichTextBlock): unknown[] {
     switch (block.type) {
         case 'paragraph':
-            return [paragraph(block.text)]
+            return [richParagraph(block.text, block.html)]
         case 'heading':
             return [{ type: 'heading', attrs: { level: block.level }, content: textNodes(block.text) }]
         case 'quote':
             // Written the way it would be in Word: the quote, then the source on its own line after a dash
-            return [{ type: 'blockquote', content: [paragraph(block.text), ...(block.cite ? [paragraph(`— ${block.cite}`)] : [])] }]
+            return [{ type: 'blockquote', content: [richParagraph(block.text, block.html), ...(block.cite ? [paragraph(`— ${block.cite}`)] : [])] }]
         case 'list':
             return [
                 {
                     type: block.ordered ? 'ordered_list' : 'bullet_list',
-                    content: block.items.map((item) => ({ type: 'list_item', content: [paragraph(item.text)] })),
+                    content: block.items.map((item) => ({ type: 'list_item', content: [richParagraph(item.text, item.html)] })),
                 },
             ]
         case 'figure':

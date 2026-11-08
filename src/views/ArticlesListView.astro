@@ -1,0 +1,60 @@
+---
+import SiteLayout from '@layouts/SiteLayout.astro'
+import PageSections from '@components/sections/PageSections/PageSections.astro'
+import ArticleCardGrid from '@components/composite/ArticleCardGrid/ArticleCardGrid'
+import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
+import type { ArticleMeta } from '@app-types/article'
+import type { Page } from '@app-types/content'
+import type { SiteSettings } from '@app-types/content'
+import { editableAttrs } from '@lib/storyblok/editable'
+
+// The articles archive. Used by /articles and by the Visual Editor preview
+interface Props {
+    page: Page
+    articles: ArticleMeta[]
+    settings?: SiteSettings
+}
+
+const { page: pageData, articles, settings } = Astro.props
+
+const sections = pageData?.sections ?? []
+const pageTitle = pageData?.title ?? 'Articles'
+const pageDescription = pageData?.description ?? ''
+---
+
+<SiteLayout title={pageTitle} description={pageDescription} settings={settings}>
+    <main id='main' {...editableAttrs(pageData._editable)}>
+        <PageSections sections={sections} articles={articles} />
+        <section class='articles-page'>
+            <div class='articles-page__container'>
+                <div class='articles-page__header'>
+                    <SectionHeader label='Archive' heading='All Articles' align='center' as='h1' />
+                </div>
+                <ArticleCardGrid
+                    articles={articles}
+                    showCategoryFilter={true}
+                    showToolbar={true}
+                    cardTitleAs='h2'
+                    client:load
+                />
+            </div>
+        </section>
+    </main>
+</SiteLayout>
+
+<style lang='scss'>
+    .articles-page {
+        background: var(--color-bg);
+
+        &__container {
+            max-width: var(--container-lg);
+            margin: 0 auto;
+            padding: var(--page-top) var(--gutter) var(--section-y);
+        }
+
+        &__header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+    }
+</style>

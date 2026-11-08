@@ -5,13 +5,17 @@ import Footer from '@components/sections/Footer/Footer.astro'
 import { getSiteSettings } from '@lib/content'
 import type { ComponentProps } from 'astro/types'
 
-// Same options as BaseLayout (title, description, social image, structured data...), passed straight through
-type Props = ComponentProps<typeof BaseLayout>
+import type { SiteSettings } from '@app-types/content'
 
-const { header, footer } = await getSiteSettings()
+// Same options as BaseLayout (title, description, social image, structured data...), passed straight through.
+// settings can be passed in (the Visual Editor preview passes draft settings); otherwise they're fetched here
+type Props = ComponentProps<typeof BaseLayout> & { settings?: SiteSettings }
+
+const { settings, ...layoutProps } = Astro.props
+const { header, footer } = settings ?? (await getSiteSettings())
 ---
 
-<BaseLayout {...Astro.props}>
+<BaseLayout {...layoutProps}>
     <Header
         logoTitle={header.logoTitle}
         logoSubtitle={header.logoSubtitle}
