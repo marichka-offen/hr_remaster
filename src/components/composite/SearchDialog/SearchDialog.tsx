@@ -200,7 +200,7 @@ export default function SearchDialog() {
                                 ))}
                         </p>
                         <p className="search-dialog__shortcut" aria-hidden="true">
-                            <kbd>/</kbd> to search · <kbd>Esc</kbd> to close
+                            <kbd>Esc</kbd> to close
                         </p>
                     </div>
 

@@ -41,4 +41,5 @@ Pages call functions in `src/lib/content` (`getPage`, `getArticles`, `getArticle
 - For colour, use the role tokens (`--color-text`, `--color-surface`, `--color-border`...). Palette names (`--navy`, `--gold`, `--burgundy`) are only for brand decoration.
 - Headings get their font globally. Components set heading size and weight, not the family.
 - Running text is capped at `--measure` globally. Centred blocks use the `centered` mixin so capped paragraphs stay centred.
+- Spacing: pick from the roles, not raw steps. `--gap-related` (8px) between things that belong together, `--gap-items` (16px) between items in a group, `--gap-groups` (32px) between groups; `--inset-sm/md/lg` (12/16/24px) for padding. A container's padding should be at least its largest inner gap, and equal on all sides unless there's a reason.
 - Dark sections include the `on-dark` mixin, which switches the accent and focus colours to gold.

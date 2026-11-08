@@ -96,6 +96,7 @@ Computed with fontTools from the font files: x-height of the `x` glyph, and aver
 - [x] T6 `--text-light` merged into `--color-text-secondary` (stone #675f53)
 - [x] T8 shadows on `color-mix`; T9 z-index slots for sticky, progress, overlay, drawer, skip link
 - [x] T10 `--color-border-strong` for control edges; T11 metric-matched fallback fonts, DM Sans preloaded
+- [x] Spacing roles (`--gap-related/items/groups`, `--inset-sm/md/lg`) with a proximity rule, documented in the README. Applied to the search dialog first; migrate other components as they're touched
 - [x] T12 palette renamed: `--ivory`, `--ink`, `--charcoal`, `--stone`
 - [x] Heading order: every page has one h1 and never skips a level (cards, footer, credentials, promos fixed)
 - [x] Housekeeping: README rewritten, unused DropCap removed, `npm run check` added and passing (0 errors)

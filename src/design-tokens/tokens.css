@@ -119,6 +119,15 @@
     --space-9: 4rem;
     --space-10: 5rem;
 
+    /* Spacing roles: which step of the scale to use. Closer means more related (proximity).
+       Rule of thumb: a container's padding is at least as large as the biggest gap inside it */
+    --gap-related: var(--space-2);   /* 8px: a label and its control, a title and its meta line */
+    --gap-items: var(--space-4);     /* 16px: items in one group, e.g. form fields, list rows */
+    --gap-groups: var(--space-6);    /* 32px: distinct groups inside one component */
+    --inset-sm: var(--space-3);      /* 12px: chips, small buttons, table cells */
+    --inset-md: var(--space-4);      /* 16px: cards, callouts, list items */
+    --inset-lg: var(--space-5);      /* 24px: dialogs, panels, large cards */
+
     --section-y: clamp(3.5rem, 2.857rem + 2.857vw, 5rem);
     --gutter: clamp(1.25rem, 1.143rem + 0.476vw, 1.5rem);
     --page-top: clamp(6.5rem, 6.071rem + 1.905vw, 7.5rem);
