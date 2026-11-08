@@ -1,9 +1,11 @@
 ---
+import RichText from '@components/base/RichText/RichText.astro'
+import type { RichText as RichTextType } from '@app-types/content'
 import './PhilosophyBlock.scss'
 
 interface Props {
     quote: string
-    body?: any[]
+    body?: RichTextType
 }
 
 const { quote, body } = Astro.props
@@ -17,12 +19,7 @@ const { quote, body } = Astro.props
         </div>
         {body?.length ? (
             <div class="philosophy__body">
-                {body.map((block: any) => {
-                    if (block._type === 'block') {
-                        const text = block.children?.map((c: any) => c.text).join('') ?? ''
-                        return text ? <p>{text}</p> : null
-                    }
-                })}
+                <RichText blocks={body} />
             </div>
         ) : null}
     </div>

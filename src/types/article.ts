@@ -1,3 +1,5 @@
+import type { RichText } from './content'
+
 export interface ArticleMeta {
     title: string
     slug: string
@@ -16,11 +18,11 @@ export interface ArticleMeta {
 }
 
 export interface Article extends ArticleMeta {
-    body?: any[]
+    body?: RichText
     author?: {
         name: string
         role?: string
-        bio?: any[]
+        bio?: RichText
         imageUrl?: string
         initials?: string
     }

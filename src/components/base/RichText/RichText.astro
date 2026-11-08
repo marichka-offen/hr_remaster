@@ -1,0 +1,29 @@
+---
+import type { RichText } from '@app-types/content'
+
+interface Props {
+    blocks?: RichText
+    // Class added to each paragraph, for sections that style their own copy
+    paragraphClass?: string
+}
+
+const { blocks = [], paragraphClass } = Astro.props
+---
+
+{blocks.map((block) => {
+    switch (block.type) {
+        case 'paragraph':
+            return <p class={paragraphClass}>{block.text}</p>
+        case 'heading':
+            return block.level === 2
+                ? <h2 id={block.id}>{block.text}</h2>
+                : <h3 id={block.id}>{block.text}</h3>
+        case 'quote':
+            return (
+                <blockquote>
+                    <p>{block.text}</p>
+                    {block.cite && <cite>{block.cite}</cite>}
+                </blockquote>
+            )
+    }
+})}

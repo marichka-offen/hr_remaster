@@ -8,16 +8,17 @@ import BookPreview from '@components/sections/BookPreview/BookPreview.astro'
 import PhilosophyBlock from '@components/sections/PhilosophyBlock/PhilosophyBlock.astro'
 import PageCta from '@components/sections/PageCta/PageCta.astro'
 import type { ArticleMeta } from '@app-types/article'
+import type { Section } from '@app-types/content'
 
 interface Props {
-    sections: any[]
+    sections: Section[]
     articles?: ArticleMeta[]
 }
 
 const { sections, articles = [] } = Astro.props
 ---
 
-{sections.map((section: any) => {
+{sections.map((section) => {
     switch (section._type) {
         case 'hero':
             return (

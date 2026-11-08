@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hussites – History Reconsidered</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  /* === DESIGN SYSTEM === */
+  :root {
+    --navy:#1a2332; --navy-light:#243044;
+    --gold:#c4973b; --gold-light:#d4ab54; --gold-faint:rgba(196,151,59,0.07);
+    --hussite-red:#8b2d2d; --hussite-red-light:rgba(139,45,45,0.08);
+    --chalice-gold:#b8860b; --chalice-faint:rgba(184,134,11,0.10);
+    --bohemia-blue:#2a4a6b; --bohemia-blue-light:rgba(42,74,107,0.08);
+    --parchment:#f5f0e8; --parchment-dark:#e8e0d2;
+    --text:#3a3530; --text-light:#5a554e; --text-muted:#8a8480;
+    --transition:0.3s ease;
+  }
+
+  /* === RESET & BASE === */
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Cormorant Garamond',Georgia,serif;color:var(--text);background:var(--parchment);line-height:1.75;overflow-x:hidden}
+
+  /* === HEADER === */
+  .site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--parchment);border-bottom:1px solid var(--parchment-dark);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;transition:box-shadow var(--transition)}
+  .site-header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.06)}
+  .logo{text-decoration:none;color:var(--navy)}
+  .logo-title{font-family:'Playfair Display',serif;font-weight:800;font-size:17px;letter-spacing:1.5px;text-transform:uppercase}
+  .logo-accent{color:var(--gold)}
+  nav{display:flex;gap:28px}
+  nav a{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--navy);text-decoration:none;transition:color var(--transition)}
+  nav a:hover{color:var(--gold)}
+  .hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--navy);margin:5px 0;transition:all var(--transition)}
+
+  /* Mobile nav */
+  .mobile-nav{display:none;position:fixed;top:56px;left:0;right:0;bottom:0;background:var(--parchment);z-index:99;padding:40px 24px;flex-direction:column;gap:24px}
+  .mobile-nav.open{display:flex}
+  .mobile-nav a{font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);text-decoration:none}
+
+  /* === PROGRESS BAR === */
+  .progress-bar{position:fixed;top:56px;left:0;height:3px;background:linear-gradient(90deg,var(--hussite-red),var(--chalice-gold));z-index:101;transition:width 0.1s linear;width:0%}
+
+  /* === TOC SIDEBAR === */
+  .toc-sidebar{position:fixed;top:80px;left:max(12px,calc((100vw - 900px)/2 - 220px));width:200px;max-height:calc(100vh - 100px);overflow-y:auto;z-index:50;padding:16px 0}
+  .toc-label{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px;padding-left:14px}
+  .toc-link{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text-muted);text-decoration:none;padding:5px 14px;border-left:2px solid transparent;transition:all var(--transition);line-height:1.35;display:block}
+  .toc-link:hover{color:var(--navy);border-color:var(--parchment-dark)}
+  .toc-link.active{color:var(--hussite-red);border-color:var(--hussite-red);font-weight:600}
+  .toc-divider{height:1px;background:var(--parchment-dark);margin:10px 14px}
+  .toc-section-label{font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);padding:6px 14px 2px;opacity:0.6}
+
+  /* Mobile TOC */
+  .toc-fab{display:none;position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--navy);color:#fff;border:none;font-size:18px;cursor:pointer;z-index:90;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+  .toc-drawer{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--parchment);z-index:95;border-top:2px solid var(--hussite-red);padding:24px;max-height:60vh;overflow-y:auto;border-radius:16px 16px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,0.12)}
+  .toc-drawer.open{display:block}
+  .toc-drawer-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted)}
+
+  /* === HERO === */
+  .article-hero{margin-top:56px;background:linear-gradient(165deg,var(--navy) 0%,#0d1520 60%,var(--hussite-red) 150%);color:#fff;padding:clamp(48px,8vw,80px) 24px clamp(48px,8vw,72px);position:relative;overflow:hidden}
+  .article-hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L35 15 L30 25 L25 15Z' fill='none' stroke='rgba(196,151,59,0.04)' stroke-width='0.5'/%3E%3C/svg%3E") repeat;pointer-events:none}
+  .hero-inner{max-width:720px;margin:0 auto;position:relative}
+  .hero-breadcrumb{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:24px}
+  .hero-breadcrumb a{color:rgba(255,255,255,0.3);text-decoration:none} .hero-breadcrumb a:hover{color:var(--gold)}
+  .hero-era{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:5px;color:var(--chalice-gold);font-weight:700;margin-bottom:18px;text-transform:uppercase}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+  .hero-tag{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:4px 12px;border:1px solid}
+  .hero-tag-red{color:var(--hussite-red);background:rgba(139,45,45,0.15);border-color:rgba(139,45,45,0.3);color:#e8a0a0}
+  .hero-tag-gold{color:var(--chalice-gold);background:rgba(184,134,11,0.12);border-color:rgba(184,134,11,0.25);color:#d4b96a}
+  .article-hero h1{font-family:'Playfair Display',serif;font-size:clamp(34px,6vw,56px);font-weight:800;color:#fff;line-height:1.05;margin-bottom:8px}
+  .hero-subtitle{font-size:20px;font-style:italic;color:rgba(255,255,255,0.5);max-width:600px;line-height:1.5;margin-bottom:8px}
+  .hero-motto{font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:3px;color:var(--chalice-gold);margin-bottom:24px;text-transform:uppercase;opacity:0.7}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:18px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(255,255,255,0.3);padding-top:18px;border-top:1px solid rgba(255,255,255,0.06)}
+
+  /* Chalice icon */
+  .chalice-icon{position:absolute;right:-20px;bottom:-30px;width:200px;height:200px;opacity:0.03}
+
+  /* === ARTICLE BODY === */
+  .article-body{max-width:720px;margin:0 auto;padding:48px 24px 80px}
+  .article-prose{font-size:19px;line-height:1.78}
+  .article-prose p{margin-bottom:24px}
+  .article-prose .drop-cap::first-letter{float:left;font-family:'Playfair Display',serif;font-size:68px;font-weight:800;line-height:0.78;margin:6px 12px 0 0;color:var(--hussite-red)}
+
+  /* Section headings */
+  .section-heading{scroll-margin-top:80px;font-family:'Playfair Display',serif;font-size:clamp(24px,3.5vw,34px);font-weight:800;color:var(--navy);line-height:1.2;margin:56px 0 6px;padding-top:44px;border-top:1px solid var(--parchment-dark)}
+  .section-heading:first-of-type{border-top:none;padding-top:0;margin-top:0}
+  .section-subheading{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--hussite-red);font-weight:700;margin-bottom:18px}
+
+  /* Sub-section headings */
+  .subsection-heading{scroll-margin-top:80px;font-family:'Playfair Display',serif;font-size:clamp(18px,2.5vw,24px);font-weight:700;color:var(--navy);line-height:1.25;margin:40px 0 4px}
+  .subsection-subline{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:14px}
+
+  /* === PRIMARY SOURCE QUOTES === */
+  .primary-source{background:var(--gold-faint);border-left:3px solid var(--gold);padding:24px 28px;margin:32px 0;position:relative;border-radius:0 4px 4px 0}
+  .primary-source::before{content:'\201C';font-family:'Playfair Display',serif;font-size:64px;color:var(--gold);opacity:0.25;position:absolute;top:4px;left:12px;line-height:1}
+  .primary-source p{font-style:italic;font-size:17px;color:var(--navy);line-height:1.65;margin-bottom:0;padding-left:4px}
+  .primary-source cite{display:block;font-family:'DM Sans',sans-serif;font-size:11px;font-style:normal;color:var(--text-muted);margin-top:10px;letter-spacing:0.3px;padding-left:4px}
+
+  /* Battle song variant */
+  .battle-song{background:var(--hussite-red-light);border-left:3px solid var(--hussite-red);text-align:center}
+  .battle-song::before{color:var(--hussite-red)}
+  .battle-song p{color:var(--hussite-red);font-weight:600;font-size:18px;line-height:2}
+
+  /* Exchange quote (dialogue) */
+  .dialogue-quote{background:var(--bohemia-blue-light);border-left:3px solid var(--bohemia-blue)}
+  .dialogue-quote::before{color:var(--bohemia-blue)}
+  .dialogue-quote .dialogue-line{margin-bottom:12px;font-style:italic;font-size:17px;color:var(--navy);line-height:1.65;padding-left:4px}
+  .dialogue-quote .dialogue-line:last-of-type{margin-bottom:0}
+  .dialogue-em{font-weight:600;font-style:italic}
+
+  /* === FIGURE / IMAGE === */
+  .article-figure{margin:36px 0;text-align:center}
+  .article-figure img{max-width:100%;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+  .article-figure.no-shadow img{box-shadow:none}
+  .article-figure.medium img{max-width:400px}
+  .article-figure.small img{max-width:280px}
+  .article-figure figcaption{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text-muted);margin-top:10px;font-style:italic}
+
+  /* Portrait figure */
+  .portrait-figure{float:right;margin:0 0 24px 32px;max-width:220px;text-align:center}
+  .portrait-figure img{width:100%;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,0.1)}
+  .portrait-figure figcaption{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text-muted);margin-top:8px;font-style:italic}
+
+  /* === FACTION CARDS === */
+  .faction-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0 36px}
+  .faction-card{background:#fff;border-radius:6px;padding:20px 22px;border:1px solid var(--parchment-dark);position:relative;overflow:hidden;transition:box-shadow var(--transition)}
+  .faction-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+  .faction-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+  .faction-utraquist::before{background:var(--gold)}
+  .faction-taborite::before{background:var(--hussite-red)}
+  .faction-orebite::before{background:var(--bohemia-blue)}
+  .faction-adamite::before{background:var(--text-muted)}
+  .faction-card h4{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px}
+  .faction-badge{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:10px;display:inline-block}
+  .faction-utraquist .faction-badge{color:var(--gold)}
+  .faction-taborite .faction-badge{color:var(--hussite-red)}
+  .faction-orebite .faction-badge{color:var(--bohemia-blue)}
+  .faction-adamite .faction-badge{color:var(--text-muted)}
+  .faction-card p{font-size:15px;line-height:1.65;color:var(--text-light)}
+  .faction-card.full-width{grid-column:1/-1}
+
+  /* === CAMPAIGN TIMELINE === */
+  .campaign-section{margin:40px 0}
+  .campaign-year{scroll-margin-top:80px;display:flex;align-items:center;gap:16px;margin:36px 0 16px;cursor:pointer;user-select:none}
+  .campaign-year-marker{width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;flex-shrink:0;position:relative}
+  .campaign-year-marker::after{content:'';position:absolute;top:40px;left:50%;width:2px;height:calc(100% + 20px);background:var(--parchment-dark);transform:translateX(-50%)}
+  .campaign-year h4{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--navy)}
+  .campaign-year .toggle-icon{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-muted);margin-left:auto;transition:transform var(--transition)}
+  .campaign-year .toggle-icon.collapsed{transform:rotate(-90deg)}
+
+  .campaign-events{padding-left:20px;border-left:2px solid var(--parchment-dark);margin-left:19px;padding-bottom:8px}
+  .campaign-events.collapsed{display:none}
+
+  .campaign-event{margin-bottom:20px;padding-left:24px;position:relative}
+  .campaign-event::before{content:'';position:absolute;left:-7px;top:8px;width:12px;height:12px;border-radius:50%;border:2px solid var(--hussite-red);background:var(--parchment)}
+  .campaign-event.battle::before{background:var(--hussite-red);border-color:var(--hussite-red)}
+  .campaign-event.crusade::before{border-color:var(--navy);background:var(--navy)}
+  .campaign-event.political::before{border-color:var(--gold);background:var(--gold)}
+
+  .event-date{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:var(--hussite-red);letter-spacing:0.5px;margin-bottom:3px}
+  .event-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:4px}
+  .event-desc{font-size:16px;line-height:1.65;color:var(--text-light)}
+
+  /* === WEAPONS CARDS === */
+  .weapons-grid{display:grid;grid-template-columns:1fr;gap:20px;margin:28px 0}
+  .weapon-card{background:#fff;border:1px solid var(--parchment-dark);border-radius:6px;overflow:hidden}
+  .weapon-card-header{background:var(--navy);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+  .weapon-card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff}
+  .weapon-card-type{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .weapon-card-body{padding:20px}
+  .weapon-card-body p{font-size:16px;line-height:1.65;color:var(--text-light)}
+  .weapon-diagram{text-align:center;padding:16px;background:var(--parchment);border-radius:4px;margin-bottom:16px}
+  .weapon-diagram img{max-width:360px;width:100%}
+  .weapon-diagram figcaption{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text-muted);margin-top:8px;font-style:italic}
+
+  /* Wagon crew manifest */
+  .wagon-crew{background:#fff;border:1px solid var(--parchment-dark);border-radius:6px;padding:20px 24px;margin:24px 0}
+  .wagon-crew-title{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--hussite-red);font-weight:700;margin-bottom:14px}
+  .crew-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .crew-item{text-align:center;padding:12px 8px;background:var(--parchment);border-radius:4px}
+  .crew-count{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:var(--navy);line-height:1}
+  .crew-role{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text-muted);margin-top:4px}
+
+  /* Formation card */
+  .formation-card{background:var(--navy);border-radius:6px;padding:24px;margin:28px 0;color:#fff}
+  .formation-title{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px}
+  .formation-desc{font-size:16px;line-height:1.65;color:rgba(255,255,255,0.75)}
+  .formation-columns{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+  .formation-col{padding:14px;border:1px solid rgba(255,255,255,0.1);border-radius:4px}
+  .formation-col-label{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px}
+  .formation-col p{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.5}
+
+  /* === FOUR ARTICLES BOX === */
+  .articles-box{background:var(--chalice-faint);border:1px solid rgba(184,134,11,0.2);border-radius:6px;padding:24px;margin:28px 0}
+  .articles-box-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px}
+  .articles-box-subtitle{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--chalice-gold);font-weight:600;margin-bottom:14px}
+  .article-item{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+  .article-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--chalice-gold);line-height:1;min-width:24px}
+  .article-text{font-size:15px;line-height:1.55;color:var(--text-light)}
+
+  /* === CAMPAIGN LEGEND === */
+  .timeline-legend{display:flex;gap:20px;flex-wrap:wrap;margin:16px 0 28px;padding:12px 16px;background:#fff;border-radius:6px;border:1px solid var(--parchment-dark)}
+  .legend-item{display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text-muted)}
+  .legend-dot{width:10px;height:10px;border-radius:50%}
+  .legend-dot.battle{background:var(--hussite-red)}
+  .legend-dot.crusade{background:var(--navy)}
+  .legend-dot.political{background:var(--gold)}
+  .legend-dot.event{border:2px solid var(--hussite-red);background:var(--parchment)}
+
+  /* === BIBLIOGRAPHY === */
+  .bibliography{margin-top:56px;padding-top:40px;border-top:2px solid var(--parchment-dark)}
+  .bib-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:0}
+  .bib-header h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--navy)}
+  .bib-count{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text-muted);background:var(--parchment-dark);padding:2px 10px;border-radius:12px}
+  .bib-toggle{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--hussite-red);background:none;border:none;cursor:pointer;font-weight:600}
+  .bib-list{list-style:none;padding:0;margin-top:20px}
+  .bib-list.collapsed{display:none}
+  .bib-list li{font-size:15px;line-height:1.55;color:var(--text-light);padding:8px 0 8px 20px;border-bottom:1px solid var(--parchment-dark);position:relative}
+  .bib-list li::before{content:'';position:absolute;left:0;top:16px;width:6px;height:6px;border-radius:50%;background:var(--hussite-red)}
+  .bib-list li a{color:var(--hussite-red);text-decoration:none}
+  .bib-list li a:hover{text-decoration:underline}
+
+  /* === BACK TO TOP === */
+  .back-to-top{position:fixed;bottom:24px;left:24px;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;font-size:16px;opacity:0;transition:opacity var(--transition);box-shadow:0 2px 12px rgba(0,0,0,0.15)}
+  .back-to-top.visible{opacity:1}
+
+  /* === INSIGHT BOX === */
+  .insight-box{background:var(--bohemia-blue-light);border-left:3px solid var(--bohemia-blue);padding:18px 22px;margin:28px 0;border-radius:0 4px 4px 0}
+  .insight-label{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--bohemia-blue);font-weight:700;margin-bottom:6px}
+  .insight-box p{font-size:15px;line-height:1.6;color:var(--text-light)}
+
+  /* === SECTION NAV === */
+  .section-nav{display:flex;gap:2px;margin:32px 0 40px;background:var(--parchment-dark);border-radius:6px;padding:3px;flex-wrap:wrap}
+  .section-nav-btn{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.5px;padding:8px 16px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;border-radius:4px;transition:all var(--transition);flex:1;text-align:center;min-width:80px}
+  .section-nav-btn.active{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+
+  /* === RESPONSIVE === */
+  @media(max-width:1100px){
+    .toc-sidebar{display:none}
+    .toc-fab{display:flex;align-items:center;justify-content:center}
+  }
+  @media(max-width:768px){
+    nav{display:none}
+    .hamburger{display:block}
+    .faction-grid{grid-template-columns:1fr}
+    .crew-grid{grid-template-columns:repeat(2,1fr)}
+    .formation-columns{grid-template-columns:1fr}
+    .portrait-figure{float:none;max-width:200px;margin:24px auto}
+    .hero-tags{gap:6px}
+    .section-nav{gap:1px}
+    .section-nav-btn{font-size:10px;padding:7px 10px;min-width:60px}
+  }
+  @media(max-width:480px){
+    .article-prose{font-size:17px}
+    .crew-grid{grid-template-columns:1fr 1fr}
+  }
+
+  /* Animations */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .animate-in{animation:fadeUp 0.6s ease forwards;opacity:0}
+  .delay-1{animation-delay:0.1s} .delay-2{animation-delay:0.2s} .delay-3{animation-delay:0.3s}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+  <a href="#" class="logo"><span class="logo-title">History<span class="logo-accent">.</span> Reconsidered</span></a>
+  <nav>
+    <a href="#">Home</a><a href="#">Articles</a><a href="#">About</a><a href="#">Book</a>
+  </nav>
+  <button class="hamburger" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<div class="mobile-nav">
+  <a href="#">Home</a><a href="#">Articles</a><a href="#">About</a><a href="#">Book</a>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- TOC SIDEBAR -->
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-label">Contents</div>
+  <div class="toc-section-label">Narrative</div>
+  <a href="#background" class="toc-link" data-section="background">Background</a>
+  <a href="#jan-hus" class="toc-link" data-section="jan-hus">Jan Hus</a>
+  <a href="#jan-zizka" class="toc-link" data-section="jan-zizka">Jan Žižka</a>
+  <div class="toc-divider"></div>
+  <div class="toc-section-label">Factions</div>
+  <a href="#sects" class="toc-link" data-section="sects">Hussite Sects</a>
+  <div class="toc-divider"></div>
+  <div class="toc-section-label">Campaigns</div>
+  <a href="#wars" class="toc-link" data-section="wars">The Wars</a>
+  <a href="#beautiful-rides" class="toc-link" data-section="beautiful-rides">The Beautiful Rides</a>
+  <a href="#basle" class="toc-link" data-section="basle">Compacta of Basle</a>
+  <a href="#civil-war-1434" class="toc-link" data-section="civil-war-1434">Civil War of 1434</a>
+  <div class="toc-divider"></div>
+  <div class="toc-section-label">Context</div>
+  <a href="#poland" class="toc-link" data-section="poland">Polish-Lithuanian Alliance</a>
+  <div class="toc-divider"></div>
+  <div class="toc-section-label">Military</div>
+  <a href="#armies" class="toc-link" data-section="armies">The Hussite Armies</a>
+  <a href="#weapons" class="toc-link" data-section="weapons">Weapons &amp; Tactics</a>
+  <a href="#sources" class="toc-link" data-section="sources">Sources</a>
+</aside>
+
+<!-- MOBILE TOC BUTTON -->
+<button class="toc-fab" id="tocFab" onclick="document.getElementById('tocDrawer').classList.toggle('open')" aria-label="Table of contents">☰</button>
+<div class="toc-drawer" id="tocDrawer">
+  <button class="toc-drawer-close" onclick="this.parentElement.classList.remove('open')">✕</button>
+  <div class="toc-label" style="margin-bottom:16px">Contents</div>
+  <a href="#background" class="toc-link" onclick="closeTocDrawer()">Background</a>
+  <a href="#jan-hus" class="toc-link" onclick="closeTocDrawer()">Jan Hus</a>
+  <a href="#jan-zizka" class="toc-link" onclick="closeTocDrawer()">Jan Žižka</a>
+  <a href="#sects" class="toc-link" onclick="closeTocDrawer()">Hussite Sects</a>
+  <a href="#wars" class="toc-link" onclick="closeTocDrawer()">The Wars 1419–1434</a>
+  <a href="#poland" class="toc-link" onclick="closeTocDrawer()">Polish-Lithuanian Alliance</a>
+  <a href="#armies" class="toc-link" onclick="closeTocDrawer()">The Hussite Armies</a>
+  <a href="#weapons" class="toc-link" onclick="closeTocDrawer()">Weapons &amp; Tactics</a>
+  <a href="#sources" class="toc-link" onclick="closeTocDrawer()">Sources</a>
+</div>
+
+<!-- HERO -->
+<section class="article-hero">
+  <div class="hero-inner animate-in">
+    <div class="hero-breadcrumb"><a href="#">Home</a> / <a href="#">Articles</a> / Central Europe</div>
+    <div class="hero-tags">
+      <span class="hero-tag hero-tag-red">Religious Wars</span>
+      <span class="hero-tag hero-tag-red">Military Innovation</span>
+      <span class="hero-tag hero-tag-gold">Medieval</span>
+    </div>
+    <div class="hero-era">1419 – 1434</div>
+    <h1>The Hussites</h1>
+    <div class="hero-subtitle">Hussite Wars, 1420–1434</div>
+    <div class="hero-motto">Veritas Vincit — Truth Prevails</div>
+    <div class="hero-meta">
+      <span>≈ 20 min read</span>
+      <span>Medieval Warfare</span>
+      <span>Kingdom of Bohemia</span>
+    </div>
+    <!-- Decorative chalice SVG -->
+    <svg class="chalice-icon" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 10 H70 L65 50 C63 65 55 72 50 75 C45 72 37 65 35 50 Z" stroke="white" stroke-width="1.5" fill="none"/>
+      <rect x="45" y="75" width="10" height="20" stroke="white" stroke-width="1.5"/>
+      <rect x="30" y="95" width="40" height="6" rx="2" stroke="white" stroke-width="1.5"/>
+    </svg>
+  </div>
+</section>
+
+<!-- SECTION NAV -->
+<div style="max-width:720px;margin:0 auto;padding:0 24px">
+  <div class="section-nav animate-in delay-1">
+    <button class="section-nav-btn active" onclick="scrollToSection('background')">Background</button>
+    <button class="section-nav-btn" onclick="scrollToSection('sects')">Factions</button>
+    <button class="section-nav-btn" onclick="scrollToSection('wars')">Wars</button>
+    <button class="section-nav-btn" onclick="scrollToSection('poland')">Alliances</button>
+    <button class="section-nav-btn" onclick="scrollToSection('armies')">Military</button>
+    <button class="section-nav-btn" onclick="scrollToSection('sources')">Sources</button>
+  </div>
+</div>
+
+<!-- ARTICLE BODY -->
+<article class="article-body">
+  <div class="article-prose">
+
+    <!-- ============ BACKGROUND ============ -->
+    <h2 class="section-heading" id="background">Background</h2>
+    <div class="section-subheading">Kingdom of Bohemia</div>
+
+    <p class="drop-cap">The Kingdom of Bohemia was predominantly Slavic in ethnicity, having been established by the Slavs who settled in what had been a Celtic region of Eastern Europe. In the 13th century, the presence of large silver deposits and the willingness of its rulers to encourage ethnic Germans to exploit and develop this wealth resulted in a large German minority in Bohemia. The Germans came to occupy positions of prominence in the trade guilds and churches in the urban areas like Prague, Kutná Hora (Kuttenberg), and Německý Brod (Deutschbrod). This influx of Germans, and their subsequent prominent role, created considerable resentment in the Slavic native population.</p>
+
+    <figure class="article-figure" style="margin:36px 0">
+      <div style="background:var(--parchment-dark);padding:40px;border-radius:4px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:13px">
+        <em>[ Image: Hussite Battle Flags ]</em>
+      </div>
+      <figcaption>Hussite Battle Flags</figcaption>
+    </figure>
+
+    <!-- JAN HUS -->
+    <h3 class="subsection-heading" id="jan-hus">Jan Hus (1371–1415)</h3>
+    <div class="subsection-subline">Reformer · Rector of Charles University · Martyr</div>
+
+    <figure class="portrait-figure">
+      <div style="background:var(--parchment-dark);padding:40px 30px;border-radius:4px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:12px;text-align:center">
+        <em>[ Portrait: Jan Hus ]</em>
+      </div>
+      <figcaption>Jan Hus</figcaption>
+    </figure>
+
+    <p><strong>Jan Hus</strong>, an ethnic Slav, graduated from Charles University (Univerzita Karlova) in Prague and in 1398 began lecturing there. He served as rector from 1402–03 and 1409–10 and was an extremely popular clergyman among the Slavs, both noble and peasant, preaching to all on the hills outside Prague. He became a proponent of the ideas of the English reformer and theologian John Wycliffe. Hus, like Wycliffe, denounced the immorality of clergy, the sale of indulgences, the accumulation of wealth by the clergy and the church, and saw the Bible as the final authority in ecclesiastical matters.</p>
+
+    <p>He was a proponent of the laity taking communion in both kinds — that is to say the bread and the wine — at a time when only the clergy received communion in both kinds. He translated the Bible into the language of the people and said "Women were made in the image of God and should fear no man," setting the stage for women to preach at Hussite services, participate in governing councils, and fight beside their men in battle. It was his teaching and writing about these radical ideas that brought the attention of the Pope to Jan Hus. Hus was commanded by one of (at the time) two Popes to appear before a General Council of the Church in November 1414 at Constance in Germany.</p>
+
+    <p>The Holy Roman Emperor, Sigismund, granted him a safe conduct to travel from Prague to Constance and back. Upon his arrival at Constance, Hus was immediately imprisoned and the Council convened to try him for heresy. A group of 452 nobles from the Kingdom of Bohemia and Poland-Lithuania attempted to intercede on Hus's behalf, but to no avail.</p>
+
+    <div class="insight-box">
+      <div class="insight-label">The Goose &amp; The Swan</div>
+      <p>Hus was burned at the stake and reportedly said to the executioner: "You are going to burn a goose (<em>Hus</em> meant 'goose' in Czech) but soon you will have a swan you cannot roast or boil." This prophecy was later interpreted by Lutherans as foretelling Martin Luther's arrival a century later.</p>
+    </div>
+
+    <p>The nobility and people of Bohemia were enraged but did not take immediate action against the Church or German ethnic minority. Instead, they began to conduct their own services with their own clergy, separate from the German Catholic churches. They called themselves "Calixtines" from the Latin <em>calyx</em>, or in Slavic <em>kalich</em>, meaning chalice — an allusion to their practice of taking both the bread and the wine at communion.</p>
+
+    <p>In 1419 Wenceslas, King of Bohemia, died. Sigismund — the Holy Roman Emperor who had promised Hus safe passage through Germany, and brother to Wenceslas — claimed the Bohemian Crown for himself and swore to exterminate the heretics.</p>
+
+    <div style="clear:both"></div>
+
+    <!-- JAN ŽIŽKA -->
+    <h3 class="subsection-heading" id="jan-zizka">Jan Žižka</h3>
+    <div class="subsection-subline">Mercenary · Royal Gatekeeper · Hussite Commander · President of the Bohemian Diet</div>
+
+    <div class="primary-source" style="margin-bottom:32px">
+      <p>Imitate your ancestors the ancient Bohemians, who were always able to defend the cause of God and their own. We are collecting troops from all parts, in order to fight against the enemies of truth and the destroyers of our nation and I beseech you to inform your preacher that he should exhort in his sermons the people to make war on the Antichrist and that everyone old and young should prepare himself for it. I also desire that when I shall be with you there should be no want of bread, beer, victuals, or provender and that you should provide yourselves with good arms. Remember your first encounter when you were few against many, unarmed against well-armed men. The hand of God has not been shortened. Have courage and be ready. May God strengthen you!</p>
+      <cite>— Žižka of the Chalice, 1420</cite>
+    </div>
+
+    <figure class="portrait-figure">
+      <div style="background:var(--parchment-dark);padding:40px 30px;border-radius:4px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:12px;text-align:center">
+        <em>[ Portrait: Jan Žižka ]</em>
+      </div>
+      <figcaption>Jan Žižka</figcaption>
+    </figure>
+
+    <p><strong>Jan Žižka</strong> first appears as the leader of a war band of <em>Lapkas</em> or mercenaries in the service of King Wenceslas of Bohemia. By 1410, after a royal pardon for "excesses" committed in the King's service, he was appointed Royal Gate Keeper. In 1410, Žižka was with the Bohemian force that aided the Polish-Lithuanian Union against the Teutonic Knights. He returned to Bohemia with an enhanced reputation and knowledge of the use of guns and war wagons on the battlefield.</p>
+
+    <p>Žižka joined Henry V of England against the French and participated in the battle of Agincourt on 25 October 1415. His participation in Henry's campaign prevented him from joining the other 452 Bohemian nobles in their protest to the Council of Constance. In 1419, after the death of King Wenceslas, Žižka took military control of the Hussites, specifically the Taborite faction.</p>
+
+    <p>Žižka's first action against those who opposed the Hussites was against a force raised by Queen Sophia, the widow of King Wenceslas. The Hussites were en route to a great field outside of Prague for an open-air religious service when mounted knights in Sophia's service set upon them. Žižka ordered the Hussite women to cover the ground between the Hussites and the knights with their gowns and head coverings. When the horses' feet were entangled in the clothing, their riders were thrown and the Hussites fell upon them and killed them to a man.</p>
+
+    <p>Žižka led the forces that defeated Sigismund's Crusade of 1420 and was elected President of the Bohemian Diet at Čáslav in 1421. Already blind in one eye, Žižka lost his other eye in the siege of Rabí in 1421, yet continued to lead his army. He halted Sigismund's Crusade of 1421, invaded Austria and Moravia in 1423, and fought against his fellow Hussites, defeating them at the Battle of Malešov. His lieutenant and later successor advised peace with the Utraquists when Žižka was en route to Prague to burn it to the ground. A peace was concluded and shortly thereafter Žižka died of the plague en route to invade Moravia.</p>
+
+    <div style="clear:both"></div>
+
+    <div class="primary-source battle-song">
+      <p>At them! Rush at them<br>Bravely wield your arms<br>Pray to your Lord God<br>Strike and kill<br>Spare none</p>
+      <cite>— Žižka's Battle Song</cite>
+    </div>
+
+    <!-- ============ HUSSITE SECTS ============ -->
+    <h2 class="section-heading" id="sects">Hussite Sects</h2>
+    <div class="section-subheading">Four Factions of the Movement</div>
+
+    <div class="faction-grid">
+      <div class="faction-card faction-utraquist">
+        <h4>Utraquists</h4>
+        <div class="faction-badge">Moderate · Urban · Prague</div>
+        <p>The name derives from communion "<em>sub utraque specie</em>" — under both kinds. This was the moderate faction, comprised mostly of the merchant class and minor nobility in the urban areas, especially Prague. They benefited greatly from the confiscation of Catholic Church property. This faction attempted to negotiate with Emperor Sigismund in 1419–1420 without success.</p>
+      </div>
+      <div class="faction-card faction-taborite">
+        <h4>Taborites</h4>
+        <div class="faction-badge">Radical · Egalitarian · Fortress of Tábor</div>
+        <p>The most radical sect, believing in equality under the law for noble and commoner, the equal distribution of wealth, communal ownership of property, and decision-making by elected council rather than noble fiat. Clergy were unnecessary, biblical interpretation was an individual matter, communion was held on hilltops, and children were baptized in rivers and ponds. They established themselves in the fortress town of Tábor.</p>
+      </div>
+      <div class="faction-card faction-orebite">
+        <h4>Orebites</h4>
+        <div class="faction-badge">Disciplined · Military · Founded by Žižka</div>
+        <p>Established by Žižka in 1423 as the "Oreb Union," named after a hill near the town Orebovice. Dissatisfied with Taborite indiscipline, Žižka introduced strict military justice: all were equal under the law, loot was equally distributed, and hoarders were executed. Upon his death they took the name "Orphans" and carried a banner bearing Žižka's image on a white horse.</p>
+      </div>
+      <div class="faction-card faction-adamite">
+        <h4>Adamites</h4>
+        <div class="faction-badge">Fringe · Short-lived · Suppressed 1421</div>
+        <p>A small, short-lived sect that believed all should live as Adam and Eve did. Their insistence on going naked doubtless contributed to their suppression by Žižka in 1421.</p>
+      </div>
+    </div>
+
+    <!-- ============ THE WARS ============ -->
+    <h2 class="section-heading" id="wars">The Wars</h2>
+    <div class="section-subheading">Crusades &amp; Campaigns, 1419–1434</div>
+
+    <div class="primary-source dialogue-quote">
+      <div class="dialogue-line">"Day and night are the same to you, as you cannot see, but they are not the same to us."</div>
+      <div class="dialogue-line"><span class="dialogue-em">"How! You cannot see! Well, set fire to a couple of villages."</span></div>
+      <cite>— An exchange between Žižka and his men after he was totally blinded</cite>
+    </div>
+
+    <div class="timeline-legend">
+      <div class="legend-item"><span class="legend-dot battle"></span> Battle / Siege</div>
+      <div class="legend-item"><span class="legend-dot crusade"></span> Crusade</div>
+      <div class="legend-item"><span class="legend-dot political"></span> Political Event</div>
+      <div class="legend-item"><span class="legend-dot event"></span> Other Event</div>
+    </div>
+
+    <div class="campaign-section">
+
+      <!-- 1419 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="y1419">
+        <div class="campaign-year-marker">1419</div>
+        <h4>First Engagements</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event">
+          <div class="event-title">Siege of Nekmer</div>
+          <div class="event-desc">Žižka besieged Nekmer with a force of 400 Hussites. Attacked by a relief column larger than his force, he was able to retreat using wagon-mounted artillery to delay the relief force.</div>
+        </div>
+      </div>
+
+      <!-- 1420 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="y1420">
+        <div class="campaign-year-marker">1420</div>
+        <h4>Crusade of 1420</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event battle">
+          <div class="event-title">Ambush Under Flag of Truce</div>
+          <div class="event-desc">Žižka and 12 wagons with 400 infantry were attacked while under a flag of truce by upwards of 200 cavalry. The Hussites established a defensive position anchored on a pond. The Crusaders attacked on foot but were forced to withdraw having sustained numerous casualties.</div>
+        </div>
+        <div class="campaign-event crusade">
+          <div class="event-title">Sigismund's First Crusade — Battle of Vítkov Hill</div>
+          <div class="event-desc">Sigismund declared a Crusade against the Hussites and took Prague. Žižka fortified Vítkov Hill overlooking Prague, forcing Sigismund to withdraw with an army divided by dissension over the division of loot between German, Slovenian, and Hungarian soldiers.</div>
+        </div>
+        <div class="campaign-event">
+          <div class="event-desc">The Taborites were received as heroes in Prague until the townspeople came to resent the strict rules imposed by the Taborites. The Taborites were driven out of Prague by the more moderate Utraquists.</div>
+        </div>
+        <div class="campaign-event battle">
+          <div class="event-title">Siege of Vyšehrad Castle</div>
+          <div class="event-desc">An Utraquist army besieged Vyšehrad Castle under the command of Hynek Krušina. Sigismund sent a relief force that was defeated and the Castle fell to the Hussites.</div>
+        </div>
+        <div class="campaign-event political">
+          <div class="event-title">Diet of Čáslav</div>
+          <div class="event-desc">The Bohemian Diet convened at Čáslav, where Žižka was elected President and the Four Articles of Prague were adopted.</div>
+        </div>
+      </div>
+
+      <!-- Four Articles of Prague -->
+      <div class="articles-box">
+        <div class="articles-box-subtitle">Adopted at Čáslav, 1420</div>
+        <div class="articles-box-title">The Four Articles of Prague</div>
+        <div style="margin-top:16px">
+          <div class="article-item"><span class="article-num">I</span><span class="article-text">Freedom to preach the Word of God</span></div>
+          <div class="article-item"><span class="article-num">II</span><span class="article-text">Celebration of communion receiving both bread and wine</span></div>
+          <div class="article-item"><span class="article-num">III</span><span class="article-text">Redistribution of excessive church wealth</span></div>
+          <div class="article-item"><span class="article-num">IV</span><span class="article-text">Equality before the law for all — noble, commoner, and clergy alike</span></div>
+        </div>
+      </div>
+
+      <!-- 1421 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="y1421">
+        <div class="campaign-year-marker">1421</div>
+        <h4>Crusade of 1421</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event crusade">
+          <div class="event-title">Sigismund's Second Crusade</div>
+          <div class="event-desc">Sigismund declared a second Crusade, invading Bohemia with two armies: one from Silesia and another led by Sigismund himself, comprised of Hungarians and Serbians. The Silesians fled at the approach of the Hussite Army.</div>
+        </div>
+        <div class="campaign-event battle">
+          <div class="event-date">21 December 1421</div>
+          <div class="event-title">Sigismund Outmaneuvers the Wagenberg</div>
+          <div class="event-desc">Sigismund's army met Žižka's force outside the town and outmaneuvered the wagenberg, taking the town and forcing Žižka to retreat. Sigismund dispersed his forces, anticipating the Hussites would go into winter quarters.</div>
+        </div>
+        <div class="campaign-event battle">
+          <div class="event-date">6 January 1422</div>
+          <div class="event-title">Battle of Nevobidy</div>
+          <div class="event-desc">Žižka surprised and routed a Hungarian force at Nevobidy.</div>
+        </div>
+        <div class="campaign-event battle">
+          <div class="event-date">8 January 1422</div>
+          <div class="event-title">Battle of Habry</div>
+          <div class="event-desc">Sigismund gathered his forces from winter quarters on the high ground outside the village of Habry and was quickly routed.</div>
+        </div>
+        <div class="campaign-event battle">
+          <div class="event-date">10 January 1422</div>
+          <div class="event-title">Fall of Německý Brod</div>
+          <div class="event-desc">The Hussite army besieged, took, and sacked Německý Brod.</div>
+        </div>
+      </div>
+
+      <!-- 1423 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="y1423">
+        <div class="campaign-year-marker">1423</div>
+        <h4>Raids into Moravia &amp; Austria</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event battle">
+          <div class="event-date">April 1423</div>
+          <div class="event-title">Loyalist Attack Repulsed</div>
+          <div class="event-desc">A Bohemian force loyal to Sigismund, comprised of cavalry, cannon, and war wagons, attacked Žižka's army positioned on high ground. After multiple assaults, Žižka counter-attacked out of his defensive position and routed his attackers.</div>
+        </div>
+      </div>
+
+      <!-- 1424 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="y1424">
+        <div class="campaign-year-marker">1424</div>
+        <h4>Bohemian Civil War &amp; Death of Žižka</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event battle">
+          <div class="event-title">Battle of Malešov</div>
+          <div class="event-desc">Žižka led away those Taborites who would follow and established the Orebite sect. He defeated an army sent against him from Prague at the Battle of Malešov, and the Hussite factions were reconciled.</div>
+        </div>
+        <div class="campaign-event">
+          <div class="event-date">June – October 1424</div>
+          <div class="event-title">Moravian Campaign</div>
+          <div class="event-desc">Utraquist, Orebite, and Polish joint forces conducted a campaign in Moravia, abandoned upon the death of Žižka.</div>
+        </div>
+        <div class="campaign-event political">
+          <div class="event-date">October 1424</div>
+          <div class="event-title">Death of Jan Žižka</div>
+          <div class="event-desc">Žižka died of plague en route to invade Moravia, ending the career of one of the most remarkable military commanders of the medieval era. The Orebites renamed themselves "Orphans" in his honor.</div>
+        </div>
+      </div>
+
+      <!-- 1426 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="y1426">
+        <div class="campaign-year-marker">1426</div>
+        <h4>Crusade of 1426</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event crusade">
+          <div class="event-date">15 June 1426</div>
+          <div class="event-title">Battle of Ústí nad Labem</div>
+          <div class="event-desc">A Hussite force besieged Ústí nad Labem and were attacked by a much larger German Crusading army of 70,000 to 100,000 men (according to contemporary accounts). The Bohemian entrenched wagenberg of 500 wagons, established on high ground, defeated the Crusaders, who lost as many as 15,000 dead and 50,000 lost or wounded. The Hussites sustained 30 losses.</div>
+        </div>
+      </div>
+
+      <!-- 1427 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="y1427">
+        <div class="campaign-year-marker">1427</div>
+        <h4>Crusade of 1427</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event crusade">
+          <div class="event-date">4 August 1427</div>
+          <div class="event-title">Battle of Meiss</div>
+          <div class="event-desc">A Crusade led by Henry de Beaufort, Bishop of Winchester, was defeated by a Bohemian army comprised of Hussites and Catholics at Meiss. The Crusaders fled without a fight and suffered considerable casualties from the villagers they had pillaged en route.</div>
+        </div>
+        <div class="campaign-event political">
+          <div class="event-date">1429</div>
+          <div class="event-title">Peace Overtures to Sigismund</div>
+          <div class="event-desc">Procopius, elected leader of the Hussites, assembled the Bohemian Diet in Prague and gained consent to approach Sigismund about a peace treaty. Sigismund refused terms identical to the 1420 Articles of Prague.</div>
+        </div>
+        <div class="campaign-event">
+          <div class="event-date">23 March 1430</div>
+          <div class="event-title">Joan of Arc's Letter to the Hussites</div>
+          <div class="event-desc">Joan of Arc (signed by her Confessor as "Joan the Maiden") dictated a letter to the "heretics of Bohemia" threatening to lead a crusade against them.</div>
+        </div>
+      </div>
+
+      <!-- Beautiful Rides -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="beautiful-rides">
+        <div class="campaign-year-marker" style="font-size:9px;letter-spacing:0.5px">1428<br>–31</div>
+        <h4>The Beautiful Rides <span style="font-size:15px;color:var(--text-muted);font-weight:400;font-style:italic">(Spanilé jízdy)</span></h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event">
+          <div class="event-desc">The Hussites raided far and wide into Germany, Austria, Hungary, and Poland — devastating campaigns that spread terror across Central Europe and demonstrated the reach of their military power.</div>
+        </div>
+      </div>
+
+      <!-- 1431 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="y1431">
+        <div class="campaign-year-marker">1431</div>
+        <h4>Crusade of 1431</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event crusade">
+          <div class="event-date">14 August 1431</div>
+          <div class="event-title">Battle of Domažlice</div>
+          <div class="event-desc">An army of 130,000 German Crusaders (according to contemporary accounts) led by Frederick of Brandenburg fled in panic at the sight of the Hussite force at Domažlice. The Crusaders suffered considerable casualties from the villagers they had pillaged en route.</div>
+        </div>
+      </div>
+
+      <!-- Basle -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="basle">
+        <div class="campaign-year-marker">1433</div>
+        <h4>Compacta of Basle</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event political">
+          <div class="event-date">9 January 1433</div>
+          <div class="event-title">Negotiations at Basle</div>
+          <div class="event-desc">Three hundred Hussites entered Basle and after 50 days of negotiation — on the verge of leaving — terms were reached granting them the Four Articles of Prague. The Articles remained the religious law of Bohemia until 1567, when the Hussites divided: some returned to Catholicism and some joined the Lutherans, drawing up the <em>Confessio Bohemia</em>, recognized by the Holy Roman Emperor in 1609 and granting considerable religious freedom to Bohemia. The violation of this agreement set the stage for the Thirty Years' War.</div>
+        </div>
+      </div>
+
+      <!-- 1434 -->
+      <div class="campaign-year" onclick="toggleCampaign(this)" id="civil-war-1434">
+        <div class="campaign-year-marker">1434</div>
+        <h4>Civil War of 1434</h4>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="campaign-events">
+        <div class="campaign-event battle">
+          <div class="event-title">Battle of Lipany</div>
+          <div class="event-desc">The Orebites and Taborites refused to accept the agreement of Basle. Their armies met a force raised by the nobility and Prague at Lipany and were defeated.</div>
+        </div>
+        <div class="campaign-event political">
+          <div class="event-date">1457</div>
+          <div class="event-title">George of Poděbrady Ascends</div>
+          <div class="event-desc">George of Poděbrady, Bohemia's only Hussite king, ascended to the throne and defeated a Hungarian Crusader army in 1468. After the death of Poděbrady, Bohemia became a part of the Holy Roman Empire.</div>
+        </div>
+      </div>
+
+    </div><!-- /campaign-section -->
+
+    <!-- ============ POLISH-LITHUANIAN ALLIANCE ============ -->
+    <h2 class="section-heading" id="poland">The Polish-Lithuanian Alliance</h2>
+    <div class="section-subheading">Slavic Solidarity &amp; Realpolitik</div>
+
+    <p class="drop-cap">When the Polish-Lithuanian Union was under threat from the Teutonic Knights and their German and Hungarian allies, the Kingdom of Bohemia sent 3,000 soldiers — Jan Žižka among them — to aid their fellow Slavs. They were present at the battle of Grunwald in 1410 and participated in the siege of Malbork, the Teutonic Order's capital.</p>
+
+    <p>From 1421 to 1427 the Hussites received considerable military support from the Polish-Lithuanian Union, in the form of mercenaries, volunteers, and matériel. Jan Žižka and the Bohemian Diet went so far as to offer the crown to Ladislaus Jagiełło, King of Poland and a Lithuanian, who refused it under pressure from his Catholic clergy. The crown was then offered to Vytautas, the Grand Duke of Lithuania, who sent his nephew Zygmunt Korybut to serve as regent in Bohemia.</p>
+
+    <p>Korybut was unable, as he had hoped, to return the Bohemians to the Catholic Church and found himself at times fighting the Taborites as well as the Orebites. Official Polish-Lithuanian involvement came to an end in 1427 with the discovery of Korybut's plot to betray the Hussites to Emperor Sigismund. The Pope and Sigismund had engineered the Union's disengagement by threatening a crusade and providing support to the Teutonic Knights.</p>
+
+    <p>Despite Korybut's departure, it is safe to assume the continued presence of Poles and Lithuanians among the Bohemians. Once more in 1433, the Hussites joined the Polish-Lithuanian Union in a war against the Teutonic Knights and penetrated north all the way to the mouth of the Vistula River on the Baltic Sea.</p>
+
+    <!-- ============ HUSSITE ARMIES ============ -->
+    <h2 class="section-heading" id="armies">The Hussite Armies</h2>
+    <div class="section-subheading">Organization, Doctrine &amp; Innovation</div>
+
+    <div class="primary-source">
+      <p>They camped in the field with their women and children, who accompanied the army, as they had a large number of wagons with which they drew up a wall-like fortification. When they moved out for battle, they formed two lines of these wagons, which enclosed the foot troops, while the horsemen remained outside without moving off to any distance.</p>
+      <cite>— Enea Silvio Piccolomini (later Pope Pius II), <em>Historia Bohemia</em></cite>
+    </div>
+
+    <p class="drop-cap">The Hussite armies were predominantly peasant infantry armies with the minor nobility serving as light cavalry. There was no attempt to replicate the heavy armored knight so prevalent throughout the rest of Europe. The use of war wagons combined with crossbows and firearms can be attributed to Jan Žižka's experiences in Poland, but it was more than a technical innovation that led to so many successes against invaders and defenders alike.</p>
+
+    <p>The egalitarian nature of Hussitism resulted in a military force in which women as well as men were expected to fight, battlefield loot was evenly distributed, and all infractions were punished identically regardless of social status. Leaders were chosen based upon ability, not social standing. The Hussite army was well trained, disciplined, and ideologically motivated — unlike the vast majority of military forces of the time. All this, combined with the effective use of the most advanced technological innovations of the era, made a literally unbeatable combination.</p>
+
+    <!-- ============ WEAPONS & TACTICS ============ -->
+    <h2 class="section-heading" id="weapons">Weapons &amp; Tactics</h2>
+    <div class="section-subheading">The Hussite Arsenal</div>
+
+    <!-- WAR WAGON -->
+    <h3 class="subsection-heading">The War Wagon <span style="font-size:15px;color:var(--text-muted);font-weight:400;font-style:italic">(Vozová hradba)</span></h3>
+
+    <p>The war wagon is an ancient weapon with possible origins as old as the Scythians. The Saga of Haakon Broad Shoulder in Snorri Sturlason's <em>Heimskringla</em> claims the Norse Varangian Guard broke a wagenberg in Romania along the Danube around 1161.</p>
+
+    <!-- Wagon crew manifest -->
+    <div class="wagon-crew">
+      <div class="wagon-crew-title">Ideal Wagon Crew Complement</div>
+      <div class="crew-grid">
+        <div class="crew-item">
+          <div class="crew-count">2</div>
+          <div class="crew-role">Handgunners</div>
+        </div>
+        <div class="crew-item">
+          <div class="crew-count">6</div>
+          <div class="crew-role">Crossbowmen</div>
+        </div>
+        <div class="crew-item">
+          <div class="crew-count">≤16</div>
+          <div class="crew-role">Polearm Infantry</div>
+        </div>
+        <div class="crew-item">
+          <div class="crew-count">2</div>
+          <div class="crew-role">Pavise Handlers</div>
+        </div>
+        <div class="crew-item">
+          <div class="crew-count">2+</div>
+          <div class="crew-role">Each: Axes, Shovels, Pickaxes, Hoes</div>
+        </div>
+        <div class="crew-item">
+          <div class="crew-count">10–20</div>
+          <div class="crew-role">Total per Wagon</div>
+        </div>
+      </div>
+    </div>
+
+    <p>Each wagon could be manned by 10–20 soldiers, men or women in keeping with Hussite practice. There were commanders for each wagon, per 10 wagons, and per 50–100 wagons, with one supreme commander for the infantry, wagons, and cavalry in the army.</p>
+
+    <div class="insight-box">
+      <div class="insight-label">Tactical Innovation</div>
+      <p>The Hussites did not lack for motivated manpower but were lacking in mounted forces. The war wagons arrayed in a linear or semi-linear formation — tied in with terrain impassable to horses, or in a laager on dominating terrain — could provide an active defense against a mounted or dismounted force of greater size.</p>
+    </div>
+
+    <p>An attacking formation was initially subject to concentrated crossbow and gunfire. If the attrited formation was still intact and advancing, they faced infantry with polearms fighting from inside or between the chained wagons of the wagenberg. Stones were even available for those in the wagon to throw at the attackers. At the critical moment when the attacking formation was in greatest disarray, the Hussite commander unleashed his typically small mounted force from within the wagenberg to attack and pursue. Once the pursuit began, the infantry came from behind the wagenberg and joined. It is a credit to the discipline of the Hussite mounted forces that there are no accounts of them pursuing a defeated enemy beyond the point of safety.</p>
+
+    <!-- Wagon diagrams -->
+    <figure class="article-figure no-shadow medium" style="margin:28px auto">
+      <div style="background:#fff;padding:30px;border-radius:4px;border:1px solid var(--parchment-dark);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:12px;text-align:center">
+        <em>[ Diagram: Facing inside the wagenberg with ramp up ]</em>
+      </div>
+      <figcaption>Facing inside the "wagenberg" with ramp up</figcaption>
+    </figure>
+    <figure class="article-figure no-shadow medium" style="margin:28px auto">
+      <div style="background:#fff;padding:30px;border-radius:4px;border:1px solid var(--parchment-dark);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:12px;text-align:center">
+        <em>[ Diagram: Facing inside the wagenberg with ramp down ]</em>
+      </div>
+      <figcaption>Facing inside the "wagenberg" with ramp down</figcaption>
+    </figure>
+
+    <!-- March Formation -->
+    <div class="formation-card">
+      <div class="formation-title">March Formation — Four-Column Order</div>
+      <div class="formation-desc">When on the move, the wagons adopted a four-column formation. The baggage train moved in the center with two columns on either side.</div>
+      <div class="formation-columns">
+        <div class="formation-col">
+          <div class="formation-col-label">Krajní (Outer Columns)</div>
+          <p>Longer than the inner columns, allowing them to form the complete outer circle of the wagenberg when the defensive position was established.</p>
+        </div>
+        <div class="formation-col">
+          <div class="formation-col-label">Placní (Inner Columns)</div>
+          <p>Shorter columns flanking the baggage train, forming the inner circle of the wagenberg in defensive configuration.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CROSSBOWS -->
+    <h3 class="subsection-heading">Crossbows</h3>
+    <p>There were a considerable number of crossbows in the Hussite army, despite the tendency of historians to make far more of the presence of firearms. Crossbows shared with the firearms of the time the advantages of being easy to train and relatively uncomplicated to manufacture and maintain — all attributes making them ideal for armies comprised of large numbers of relatively inexperienced soldiers. The primary disadvantage was the time it took to prepare for firing.</p>
+
+    <!-- FIREARMS -->
+    <h3 class="subsection-heading">Hand Gonnes <span style="font-size:15px;color:var(--text-muted);font-weight:400;font-style:italic">(píšťala)</span></h3>
+
+    <figure class="article-figure no-shadow medium">
+      <div style="background:#fff;padding:24px;border-radius:4px;border:1px solid var(--parchment-dark);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:12px;text-align:center">
+        <em>[ Diagram: píšťala (fife) ]</em><br><br>
+        <em>[ Diagram: Hackenbüchse (hook gun) ]</em>
+      </div>
+      <figcaption>"Píšťala" (fife) and Hackenbüchse (hook gun)</figcaption>
+    </figure>
+
+    <p>The handheld firearms of the time were essentially tubes on sticks ranging from .40–1.00 caliber. They could with practice be accurate out to a range of perhaps 50 yards. Given the smoke and noise when fired, they doubtless had greater unnerving effect on the enemy than their lethality.</p>
+
+    <!-- CANNON -->
+    <h3 class="subsection-heading">Cannon</h3>
+
+    <div class="weapons-grid">
+      <div class="weapon-card">
+        <div class="weapon-card-header">
+          <span class="weapon-card-title">Tarasnice</span>
+          <span class="weapon-card-type">Light Artillery</span>
+        </div>
+        <div class="weapon-card-body">
+          <div style="background:var(--parchment);padding:24px;border-radius:4px;text-align:center;margin-bottom:16px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:12px">
+            <em>[ Diagram: tarasnice ]</em>
+          </div>
+          <p>Like the hand gonne but of larger caliber, perhaps .75 to 1.00. Mounted on a small platform — initially without wheels, but wheels were added later. Employed between the wagons of the wagenberg.</p>
+        </div>
+      </div>
+      <div class="weapon-card">
+        <div class="weapon-card-header">
+          <span class="weapon-card-title">Houfnice</span>
+          <span class="weapon-card-type">Heavy Artillery</span>
+        </div>
+        <div class="weapon-card-body">
+          <div style="background:var(--parchment);padding:24px;border-radius:4px;text-align:center;margin-bottom:16px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:12px">
+            <em>[ Diagram: houfnice ]</em>
+          </div>
+          <p>The wheeled heavy artillery of the Hussites, employed on special wagons. There is reason to believe their first appearance was at the Battle of Ústí in 1426, though wheeled heavy artillery was already in use elsewhere in Europe. This piece would fire a projectile at least several inches in diameter.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CANISTER -->
+    <h3 class="subsection-heading">Canister / Grape Shot</h3>
+    <p>There is evidence supporting the use of canister, grapeshot, and buckshot in firearms against the Teutonic Knights in 1410, as well as by Hussite mercenaries fighting for the Poles in the late 15th century. Given this, it would be very probable that the Hussites used it as well.</p>
+
+    <!-- POLEARMS -->
+    <h3 class="subsection-heading">Polearms</h3>
+    <p>The Hussites used a variety of polearms, the primary purpose of which was to forcibly dismount a rider, making him more vulnerable to attack on foot. The weapon most commonly associated with the Hussites is the flail — an agricultural threshing tool with spikes placed on the short end, chained to a six-foot pole. Halberds, bardiches, axes, and any number of polearms found their way into Hussite hands as "battlefield pick-ups."</p>
+
+    <!-- ARMOR -->
+    <h3 class="subsection-heading">Armor &amp; Swords</h3>
+    <p>These would have come into the hands of most Hussites as a result of "battlefield pick-ups" and distributed loot.</p>
+
+    <!-- ============ SOURCES ============ -->
+    <div class="bibliography" id="sources">
+      <div class="bib-header" onclick="toggleBib()">
+        <h3>Sources</h3>
+        <span><span class="bib-count">11 sources</span> <button class="bib-toggle" id="bibToggle">Show ▾</button></span>
+      </div>
+      <ol class="bib-list collapsed" id="bibList">
+        <li>Delbrück, Hans. <em>History of the Art of War, Volume III.</em> Lincoln: University of Nebraska Press, 1990.</li>
+        <li>Fox, John. <em>A History of the Lives, Sufferings and Triumphant Deaths of the Early Christian and Protestant Martyrs.</em> London, 1563.</li>
+        <li>Gravett, Christopher and McBride, Angus. <em>German Medieval Armies, 1300–1500.</em> Oxford: Osprey Publishing, 1985.</li>
+        <li>Hall, Bert S. <em>Weapons and Warfare in Renaissance Europe.</em> Baltimore: Johns Hopkins University Press, 1997.</li>
+        <li>Hall, Bert S., ed. and trans. <em>The Technological Illustrations of the So-Called Anonymous of the Hussite Wars.</em> Wiesbaden: Reichert, 1979.</li>
+        <li>Kejř, Jiří. <em>The Hussite Revolution.</em> Prague: Orbis Press Agency, 1988.</li>
+        <li>Robertson, J.C. <em>Sketches of Church History.</em> New York: Edwin S. Gorham, 1904.</li>
+        <li>Turnbull, Stephen and McBride, Angus. <em>The Hussite Wars, 1419–1436.</em> Oxford: Osprey Publishing, 2004.</li>
+        <li>Wagner, Eduard, et al. <em>Medieval Costume, Armour and Weapons.</em> New York: Dover, 2000.</li>
+        <li><a href="#">Letters of Joan of Arc</a></li>
+        <li><a href="#">Polonia Today Online</a></li>
+      </ol>
+    </div>
+
+  </div><!-- /article-prose -->
+</article>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  
+  // Header shadow
+  document.getElementById('siteHeader').classList.toggle('scrolled', window.scrollY > 10);
+  
+  // Back to top
+  document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 600);
+});
+
+// TOC active state
+const tocLinks = document.querySelectorAll('.toc-sidebar .toc-link');
+const sections = [];
+tocLinks.forEach(link => {
+  const id = link.getAttribute('href').replace('#','');
+  const el = document.getElementById(id);
+  if(el) sections.push({id, el, link});
+});
+
+function updateToc(){
+  let current = '';
+  sections.forEach(s => {
+    if(s.el.getBoundingClientRect().top <= 120) current = s.id;
+  });
+  tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', updateToc);
+
+// Section nav active state
+const navBtns = document.querySelectorAll('.section-nav-btn');
+function updateSectionNav(){
+  const ids = ['background','sects','wars','poland','armies','sources'];
+  let current = 'background';
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && el.getBoundingClientRect().top <= 150) current = id;
+  });
+  navBtns.forEach((btn,i) => {
+    btn.classList.toggle('active', ids[i] === current);
+  });
+}
+window.addEventListener('scroll', updateSectionNav);
+
+function scrollToSection(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Campaign toggle
+function toggleCampaign(el){
+  const events = el.nextElementSibling;
+  const icon = el.querySelector('.toggle-icon');
+  if(events && events.classList.contains('campaign-events')){
+    events.classList.toggle('collapsed');
+    icon.classList.toggle('collapsed');
+  }
+}
+
+// Bibliography toggle
+function toggleBib(){
+  const list = document.getElementById('bibList');
+  const btn = document.getElementById('bibToggle');
+  list.classList.toggle('collapsed');
+  btn.textContent = list.classList.contains('collapsed') ? 'Show ▾' : 'Hide ▴';
+}
+
+// Mobile TOC drawer
+function closeTocDrawer(){
+  document.getElementById('tocDrawer').classList.remove('open');
+}
+</script>
+
+</body>
+</html>

@@ -3,11 +3,9 @@ import SiteLayout from '@layouts/SiteLayout.astro'
 import PageSections from '@components/sections/PageSections/PageSections.astro'
 import ArticleCardGrid from '@components/composite/ArticleCardGrid/ArticleCardGrid'
 import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
-import { sanityClient } from '@lib/sanity/client'
-import { articlesPageQuery, allArticlesQuery } from '@lib/sanity/queries'
+import { getArticles, getPage } from '@lib/content'
 
-const pageData = await sanityClient.fetch(articlesPageQuery)
-const articles = await sanityClient.fetch(allArticlesQuery)
+const [pageData, articles] = await Promise.all([getPage('articlesPage'), getArticles()])
 
 const sections = pageData?.sections ?? []
 const pageTitle = pageData?.title ?? 'Articles'
@@ -20,7 +18,7 @@ const pageDescription = pageData?.description ?? ''
         <section class='articles-page'>
             <div class='articles-page__container'>
                 <div class='articles-page__header'>
-                    <SectionHeader label='Archive' heading='All Articles' align='center' />
+                    <SectionHeader label='Archive' heading='All Articles' align='center' as='h1' />
                 </div>
                 <ArticleCardGrid
                     articles={articles}

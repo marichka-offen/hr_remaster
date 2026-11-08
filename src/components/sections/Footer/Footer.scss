@@ -35,12 +35,9 @@
         &-group {}
 
         &-title {
-            font-family: var(--tertiary-font);
-            font-size: var(--text-xs);
-            letter-spacing: var(--tracking-widest);
-            text-transform: uppercase;
+            font-size: var(--text-md);
             color: var(--accent);
-            font-weight: var(--weight-semibold);
+            font-weight: var(--weight-bold);
             margin-bottom: var(--space-5);
         }
     }
@@ -66,7 +63,7 @@
         border-top: var(--border-thin) solid var(--hairline-on-dark);
         display: flex;
         justify-content: space-between;
-        font-family: var(--tertiary-font);
+        font-family: var(--font-ui);
         font-size: var(--text-xs);
         color: var(--text-on-dark-muted);
 

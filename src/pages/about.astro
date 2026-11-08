@@ -1,10 +1,9 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
 import PageSections from '@components/sections/PageSections/PageSections.astro'
-import { sanityClient } from '@lib/sanity/client'
-import { aboutQuery } from '@lib/sanity/queries'
+import { getPage } from '@lib/content'
 
-const pageData = await sanityClient.fetch(aboutQuery)
+const pageData = await getPage('about')
 
 const sections = pageData?.sections ?? []
 const pageTitle = pageData?.title ?? 'About'

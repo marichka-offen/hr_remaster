@@ -56,16 +56,19 @@
     --shadow-hover: 0 12px 40px rgba(26, 35, 50, 0.15);
     --shadow-book: 8px 8px 30px color-mix(in srgb, var(--black) 30%, transparent);
 
-    /* Font families */
-    --primary-font: 'Cormorant Garamond', Georgia, serif;
-    --secondary-font: 'Playfair Display', serif;
-    --tertiary-font: 'DM Sans', sans-serif;
+    /* Font families, named by role */
+    --font-body: 'Literata', Georgia, serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-quote: 'Cormorant Garamond', Georgia, serif;
+    --font-ui: 'DM Sans', system-ui, sans-serif;
 
     /* Type scale. Fluid sizes run between 360px and 1200px viewports */
     --text-xs: 0.75rem;
     --text-sm: 0.875rem;
     --text-base: 1rem;
     --text-md: 1.125rem;
+    /* Long-form reading size. Literata's x-height is larger than Georgia's, so 18px reads like Georgia at 19px */
+    --text-prose: 1.125rem;
     --text-lg: clamp(1.25rem, 1.143rem + 0.476vw, 1.5rem);
     --text-xl: clamp(1.5rem, 1.286rem + 0.952vw, 2rem);
     --text-2xl: clamp(1.75rem, 1.429rem + 1.429vw, 2.5rem);
@@ -108,6 +111,10 @@
     --tap-target: 2.75rem;
 
     /* Layout */
+    /* Line length for running text. 1ch is the width of "0", which is wider than an average letter,
+       so 55ch is about 66 real characters in Literata and 68 in Cormorant (measured from the font files).
+       Bringhurst's range is 45-75, about 66 ideal */
+    --measure: 55ch;
     --container-sm: 40rem;
     --container-md: 50rem;
     --container-book: 60rem;

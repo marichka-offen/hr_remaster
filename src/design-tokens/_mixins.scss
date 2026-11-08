@@ -2,6 +2,16 @@ $bp-sm: 480px;
 $bp-md: 768px;
 $bp-lg: 1024px;
 
+// Centres a block and the capped-width text inside it. Without margin-inline: auto, paragraphs
+// limited by --measure would sit to the left of a centred container
+@mixin centered {
+    text-align: center;
+
+    :where(p, li, blockquote, dd, figcaption) {
+        margin-inline: auto;
+    }
+}
+
 // Sets the colour roles for anything sitting on a dark background
 @mixin on-dark {
     --accent: var(--gold);

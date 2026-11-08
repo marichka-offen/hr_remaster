@@ -63,7 +63,6 @@
     }
 
     &__name {
-        font-family: var(--secondary-font);
         font-size: var(--text-3xl);
         font-weight: var(--weight-bold);
         color: var(--white);
@@ -72,7 +71,7 @@
     }
 
     &__role {
-        font-family: var(--primary-font);
+        font-family: var(--font-quote);
         font-style: italic;
         font-size: var(--text-md);
         color: var(--text-on-dark-muted);

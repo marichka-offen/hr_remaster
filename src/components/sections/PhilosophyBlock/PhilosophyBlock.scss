@@ -1,3 +1,5 @@
+@use '@tokens/mixins' as *;
+
 .philosophy {
     background: var(--parchment);
     border-top: var(--border-thin) solid var(--parchment-dark);
@@ -7,7 +9,7 @@
         max-width: var(--container-md);
         margin: 0 auto;
         padding: var(--section-y) var(--gutter);
-        text-align: center;
+        @include centered;
     }
 
     &__quote-wrap {
@@ -17,7 +19,7 @@
 
     &__mark {
         display: block;
-        font-family: var(--secondary-font);
+        font-family: var(--font-display);
         font-size: var(--text-display);
         color: var(--accent);
         opacity: 0.3;
@@ -27,7 +29,7 @@
     }
 
     &__quote {
-        font-family: var(--primary-font);
+        font-family: var(--font-quote);
         font-style: italic;
         font-size: var(--text-xl);
         color: var(--navy);

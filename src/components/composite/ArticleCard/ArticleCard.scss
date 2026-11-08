@@ -56,7 +56,6 @@
     }
 
     &__title {
-        font-family: var(--secondary-font);
         font-size: var(--text-lg);
         font-weight: var(--weight-bold);
         color: var(--navy);
@@ -83,7 +82,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-family: var(--tertiary-font);
+        font-family: var(--font-ui);
         font-size: var(--text-xs);
         letter-spacing: var(--tracking-wide);
         text-transform: uppercase;

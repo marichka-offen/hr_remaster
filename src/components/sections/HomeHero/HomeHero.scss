@@ -40,7 +40,7 @@
     &__content {
         position: relative;
         z-index: 2;
-        text-align: center;
+        @include centered;
         padding: var(--space-8) var(--gutter);
         max-width: var(--container-md);
     }
@@ -52,7 +52,6 @@
     }
 
     &__title {
-        font-family: var(--secondary-font);
         font-size: var(--text-display);
         font-weight: var(--weight-extrabold);
         color: var(--white);

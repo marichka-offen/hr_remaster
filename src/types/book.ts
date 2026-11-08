@@ -1,3 +1,5 @@
+import type { RichText } from './content'
+
 export interface BookMeta {
     title: string
     slug: string
@@ -11,7 +13,7 @@ export interface BookMeta {
 }
 
 export interface Book extends BookMeta {
-    description?: any[]
+    description?: RichText
     cta?: {
         text: string
         link?: string

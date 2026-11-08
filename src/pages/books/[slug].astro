@@ -1,15 +1,13 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
-import { sanityClient } from '@lib/sanity/client'
-import { bookBySlugQuery, allBooksQuery } from '@lib/sanity/queries'
+import { getBook, getBooks } from '@lib/content'
 
 export async function getStaticPaths() {
-    const books = await sanityClient.fetch(allBooksQuery)
-    return books.map((book: any) => ({ params: { slug: book.slug } }))
+    const books = await getBooks()
+    return books.map((book) => ({ params: { slug: book.slug } }))
 }
 
-const { slug } = Astro.params
-const book = await sanityClient.fetch(bookBySlugQuery, { slug })
+const book = await getBook(Astro.params.slug)
 
 if (!book) return Astro.redirect('/books')
 ---

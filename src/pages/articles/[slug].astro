@@ -4,18 +4,15 @@ import AboutPreview from '@components/sections/AboutPreview/AboutPreview.astro'
 import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
 import CategoryChip from '@components/base/CategoryChip/CategoryChip'
 import ArticleMeta from '@components/base/ArticleMeta/ArticleMeta'
-import DropCap from '@components/base/DropCap/DropCap'
-import { sanityClient } from '@lib/sanity/client'
-import { articleBySlugQuery, allArticlesQuery } from '@lib/sanity/queries'
-import type { Article, ArticleMeta as ArticleMetaType } from '@app-types/article'
+import RichText from '@components/base/RichText/RichText.astro'
+import { getArticle, getArticles } from '@lib/content'
 
 export async function getStaticPaths() {
-    const articles: ArticleMetaType[] = await sanityClient.fetch(allArticlesQuery)
+    const articles = await getArticles()
     return articles.map((article) => ({ params: { slug: article.slug } }))
 }
 
-const { slug } = Astro.params
-const article: Article = await sanityClient.fetch(articleBySlugQuery, { slug })
+const article = await getArticle(Astro.params.slug)
 
 if (!article) return Astro.redirect('/articles')
 
@@ -45,20 +42,7 @@ const gradient = article.gradientFrom && article.gradientTo
             </header>
 
             <div class="article-detail__body">
-                {article.body?.map((block: any, i: number) => {
-                    if (block._type !== 'block') return null
-                    const text = block.children?.map((c: any) => c.text).join('') ?? ''
-                    if (!text) return null
-                    if (block.style === 'h2') return <h2>{text}</h2>
-                    if (block.style === 'h3') return <h3>{text}</h3>
-                    if (block.style === 'blockquote') return <blockquote>{text}</blockquote>
-                    return (
-                        <p>
-                            {i === 0 ? <DropCap>{text[0]}</DropCap> : null}
-                            {i === 0 ? text.slice(1) : text}
-                        </p>
-                    )
-                })}
+                <RichText blocks={article.body} />
             </div>
         </div>
 
@@ -101,8 +85,11 @@ const gradient = article.gradientFrom && article.gradientTo
             left: var(--space-5);
         }
 
+        // The whole column follows the prose measure, so headings and paragraphs share one edge.
+        // font-size is set here because ch resolves against the element's own font and size
         &__container {
-            max-width: var(--container-md);
+            font-size: var(--text-prose);
+            max-width: calc(var(--measure) + 2 * var(--gutter));
             margin: 0 auto;
             padding: var(--space-9) var(--gutter) var(--section-y);
         }
@@ -114,7 +101,7 @@ const gradient = article.gradientFrom && article.gradientTo
         }
 
         &__subtitle {
-            font-family: var(--tertiary-font);
+            font-family: var(--font-ui);
             font-size: var(--text-xs);
             letter-spacing: var(--tracking-widest);
             text-transform: uppercase;
@@ -124,7 +111,6 @@ const gradient = article.gradientFrom && article.gradientTo
         }
 
         &__title {
-            font-family: var(--secondary-font);
             font-size: var(--text-3xl);
             font-weight: var(--weight-extrabold);
             color: var(--navy);
@@ -133,20 +119,29 @@ const gradient = article.gradientFrom && article.gradientTo
         }
 
         &__body {
-            font-size: var(--text-md);
             line-height: var(--leading-relaxed);
-            color: var(--text-light);
+            color: var(--text);
 
             p { margin-bottom: var(--space-5); }
+
+            // ::first-letter keeps the word whole for screen readers, unlike a wrapping span
+            > p:first-child::first-letter {
+                float: left;
+                font-family: var(--font-display);
+                font-size: var(--text-display);
+                font-weight: var(--weight-bold);
+                color: var(--accent);
+                line-height: 0.75;
+                margin-right: var(--space-2);
+                margin-top: var(--space-2);
+            }
             h2 {
-                font-family: var(--secondary-font);
                 font-size: var(--text-xl);
                 font-weight: var(--weight-bold);
                 color: var(--navy);
                 margin: var(--space-8) 0 var(--space-5);
             }
             h3 {
-                font-family: var(--secondary-font);
                 font-size: var(--text-lg);
                 font-weight: var(--weight-bold);
                 color: var(--navy);
