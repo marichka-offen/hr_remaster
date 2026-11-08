@@ -158,8 +158,12 @@ From `designs/about-book-pages`:
 - [ ] Real Amazon and excerpt links (the mock has "#"), cover images and preview pages
 
 ### 7. Contact
-- [ ] Netlify Forms: a success page (`action="/contact/thanks"`), a honeypot field, and inline validation messages
-- [ ] Show the email address as a fallback
+- [x] Netlify Forms redirects to `/contact/thanks` after sending (noindex)
+- [x] Spam protection: Netlify honeypot field, kept off-screen and out of the tab order
+- [x] Inline error messages under each field (`aria-invalid`, `aria-describedby`), focus moves to the first problem, messages clear as you type. Without JavaScript the browser's own checks still apply
+- [x] `autocomplete` on name and email; placeholders removed since every field has a label
+- [x] Optional email address shown under the form (`email` on the contact page data)
+- [ ] The real contact email address (not in the designs); check that submissions arrive once deployed to Netlify
 
 ### 8. Polish and launch readiness
 - [ ] SEO: canonical URLs, an OG image, `@astrojs/sitemap`, Article JSON-LD

@@ -21,23 +21,39 @@ const label = data?.label ?? 'Contact'
                     <p class="contact-page__subheading">{subheading}</p>
                 </div>
 
-                <form class="contact-form" name="contact" method="POST" data-netlify="true">
+                {/* Netlify Forms handles submissions: it finds this form at deploy time and redirects to the
+                    thank-you page on success. The hidden bot-field catches spam bots that fill in every input */}
+                <form
+                    class="contact-form"
+                    name="contact"
+                    method="POST"
+                    action="/contact/thanks"
+                    data-netlify="true"
+                    netlify-honeypot="bot-field"
+                    data-contact-form
+                >
                     <input type="hidden" name="form-name" value="contact" />
+                    <p class="contact-form__trap" aria-hidden="true">
+                        <label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+                    </p>
 
                     <div class="contact-form__row">
                         <div class="contact-form__field">
                             <label class="contact-form__label" for="name">Name</label>
-                            <input class="contact-form__input" type="text" id="name" name="name" placeholder="Your name" required />
+                            <input class="contact-form__input" type="text" id="name" name="name" autocomplete="name" required aria-describedby="name-error" />
+                            <p class="contact-form__error" id="name-error" data-message="Please enter your name." hidden></p>
                         </div>
                         <div class="contact-form__field">
                             <label class="contact-form__label" for="email">Email</label>
-                            <input class="contact-form__input" type="email" id="email" name="email" placeholder="your@email.com" required />
+                            <input class="contact-form__input" type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-error" />
+                            <p class="contact-form__error" id="email-error" data-message="Please enter an email address, like name@example.com, so we can reply." hidden></p>
                         </div>
                     </div>
 
                     <div class="contact-form__field">
                         <label class="contact-form__label" for="message">Message</label>
-                        <textarea class="contact-form__textarea" id="message" name="message" placeholder="Your message..." rows="6" required></textarea>
+                        <textarea class="contact-form__textarea" id="message" name="message" rows="6" required aria-describedby="message-error"></textarea>
+                        <p class="contact-form__error" id="message-error" data-message="Please write a message." hidden></p>
                     </div>
 
                     <div class="contact-form__footer">
@@ -49,10 +65,52 @@ const label = data?.label ?? 'Contact'
                         </button>
                     </div>
                 </form>
+
+                {data.email && (
+                    <p class="contact-page__alt">
+                        Prefer email? Write to <a href={`mailto:${data.email}`}>{data.email}</a>
+                    </p>
+                )}
             </div>
         </section>
     </main>
 </SiteLayout>
+
+<script>
+    // Our own messages instead of the browser's pop-ups, which are small and vanish quickly.
+    // Without JavaScript the browser's built-in checks still apply, because noValidate is only set here
+    const form = document.querySelector<HTMLFormElement>('[data-contact-form]')
+    if (form) {
+        form.noValidate = true
+        const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[required], textarea[required]'))
+
+        const check = (field: HTMLInputElement | HTMLTextAreaElement) => {
+            const error = document.getElementById(`${field.id}-error`)
+            const valid = field.value.trim() !== '' && field.checkValidity()
+            field.setAttribute('aria-invalid', String(!valid))
+            if (error) {
+                error.textContent = valid ? '' : (error.dataset.message ?? '')
+                error.hidden = valid
+            }
+            return valid
+        }
+
+        form.addEventListener('submit', (event) => {
+            const invalid = fields.filter((field) => !check(field))
+            if (invalid.length) {
+                event.preventDefault()
+                invalid[0].focus()
+            }
+        })
+
+        // Once a field has shown an error, re-check it as the visitor types so the message clears
+        fields.forEach((field) =>
+            field.addEventListener('input', () => {
+                if (field.getAttribute('aria-invalid') === 'true') check(field)
+            })
+        )
+    }
+</script>
 
 <style lang="scss">
     @use '@tokens/mixins' as *;
@@ -69,6 +127,20 @@ const label = data?.label ?? 'Contact'
 
         &__header {
             margin-bottom: var(--space-8);
+        }
+
+        &__alt {
+            margin-top: var(--space-6);
+            text-align: center;
+            font-family: var(--font-ui);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+
+            a {
+                color: var(--color-text-strong);
+                text-decoration: underline;
+                text-underline-offset: 0.2em;
+            }
         }
 
         &__subheading {
@@ -132,6 +204,28 @@ const label = data?.label ?? 'Contact'
             &:focus {
                 border-color: var(--color-accent);
             }
+        }
+
+        &__input[aria-invalid='true'],
+        &__textarea[aria-invalid='true'] {
+            border-color: var(--burgundy);
+            // A second pixel drawn inside the border, so the field doesn't change size
+            box-shadow: inset 0 0 0 1px var(--burgundy);
+        }
+
+        &__error {
+            font-family: var(--font-ui);
+            font-size: var(--text-sm);
+            color: var(--burgundy);
+        }
+
+        // Off-screen rather than display: none, which some bots detect and skip
+        &__trap {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
         }
 
         &__textarea {

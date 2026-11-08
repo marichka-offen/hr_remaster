@@ -187,4 +187,6 @@ export interface ContactPage {
     label: string
     heading: string
     subheading: string
+    // Shown under the form as an alternative way to get in touch
+    email?: string
 }

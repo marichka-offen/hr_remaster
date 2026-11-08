@@ -175,4 +175,5 @@ export const contact: ContactPage = {
     heading: 'Get in Touch',
     subheading:
         "For research inquiries, speaking engagements, or general correspondence — send a message and we'll respond as soon as possible.",
+    // The real address isn't in the designs yet; the email line stays hidden until it's set
 }

@@ -1,0 +1,52 @@
+---
+// Netlify Forms redirects here after a successful submission (see action="/contact/thanks" on the form)
+import SiteLayout from '@layouts/SiteLayout.astro'
+import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
+import Button from '@components/base/Button/Button'
+---
+
+<SiteLayout title="Message sent" description="Thank you for getting in touch." noindex>
+    <main id="main" class="thanks">
+        <div class="thanks__container">
+            <SectionHeader label="Contact" heading="Thank you" align="center" as="h1" />
+            <p class="thanks__text">Your message has been sent. We'll reply to the email address you gave as soon as we can.</p>
+            <div class="thanks__actions">
+                <Button variant="solid-navy" onTone="light" href="/articles" text="Read the articles" />
+                <Button variant="outline-navy" onTone="light" icon={false} href="/" text="Back to home" />
+            </div>
+        </div>
+    </main>
+</SiteLayout>
+
+<style lang="scss">
+    @use '@tokens/mixins' as *;
+
+    .thanks {
+        background: var(--color-bg);
+
+        &__container {
+            @include centered;
+            max-width: var(--container-sm);
+            margin: 0 auto;
+            padding: var(--page-top) var(--gutter) var(--section-y);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-5);
+        }
+
+        &__text {
+            font-size: var(--text-md);
+            line-height: var(--leading-relaxed);
+            color: var(--color-text-secondary);
+        }
+
+        &__actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+        }
+    }
+</style>
