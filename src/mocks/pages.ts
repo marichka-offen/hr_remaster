@@ -29,8 +29,9 @@ export const siteSettings: SiteSettings = {
         topicsTitle: 'Topics',
         topics: [
             { label: 'Colonial History', href: '/articles?topic=colonial-history' },
-            { label: 'European Wars', href: '/articles?topic=european-wars' },
-            { label: 'British Isles', href: '/articles?topic=british-isles' },
+            { label: 'Irish History', href: '/articles?topic=irish-history' },
+            { label: 'Scottish History', href: '/articles?topic=scottish-history' },
+            { label: 'Dutch History', href: '/articles?topic=dutch-history' },
             { label: 'Medieval', href: '/articles?topic=medieval' },
             { label: 'World War I', href: '/articles?topic=world-war-i' },
         ],

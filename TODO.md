@@ -15,6 +15,7 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ### To check or decide
 
+- [ ] Summaries for the 13 articles that weren't redesigned: generated from each article's first paragraph (two, Williamite War and Maryland Forces, are short placeholders). They show on cards and in search results
 - [ ] Image sources and rights for the old site's images (see docs/CONTENT-INVENTORY.md): only the Czechoslovak Legion photos are marked as his own. Each other image needs a source and credit, and permission if it comes from a modern book or website
 - [ ] Sources in the Virginia article:
   - Cannon, *Historical Record… Third Regiment of Foot*: cited as London 1837; the online copy is dated 1839 (the series is 1837, this volume runs to 1838). Which date is right?
@@ -61,8 +62,14 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 - [ ] Move components onto the spacing roles (`--gap-*`, `--inset-*`); only the search dialog uses them so far
 - [ ] Wide blocks: let tables, timelines and fact cards use the empty right-hand column on wide screens
 - [ ] New components use min-width (mobile-first) media queries
-- [ ] Importer for the old site (`marichka-offen/history-reconsidered`): convert the 19 Vue articles into the content model (paragraphs, headings, quotes with attribution, bold-date chronologies → timeline, sources), then seed Storyblok with real articles instead of mocks. See docs/CONTENT-INVENTORY.md
-- [ ] Design the articles that need it: Williamite War order of battle, British Military Presence unit lists with coat/facing colours, Maryland unit lists
+- [x] Importer for the old site (`scripts/import-old-site.py`): all 19 articles converted into `src/mocks/imported/articles.json`; the site now shows the real articles. Old URLs redirect to the new ones (netlify.toml)
+- [ ] Seeding Storyblok with the imported articles: images are linked from the old GitHub repo; upload them to Storyblok's asset library once their rights are checked (the seed currently creates image blocks without the file)
+- [ ] Design the articles that need it:
+  - Williamite War: the whole article is an order of battle (army → arm → regiment → engagements)
+  - British Military Presence: unit lists with coat/facing colours, imported as text inside timeline events
+  - Virginia Rangers: "Periods of Service and County" is a roster (company, county, dates); imported as a timeline, better as a table
+  - Eighty Years War: 27 images were placed after the chronology (a timeline can't hold images); an image per era or a gallery
+  - Maryland: unit and commander lists
 - [x] Phase 9a, Storyblok: block definitions in code, push and seed scripts, delivery client, rich text converter, adapter, `CONTENT_SOURCE` switch
 - [ ] Phase 9b: push blocks and seed content (needs the personal access token), switch `CONTENT_SOURCE=storyblok` locally and on Netlify
 - [ ] Phase 9c: Visual Editor preview (click-to-edit markers, a draft preview deploy), publish webhook to rebuild Netlify, a one-page guide for Lee

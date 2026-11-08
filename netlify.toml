@@ -2,6 +2,113 @@
   command = "npm run build"
   publish = "dist"
 
+# Old site (Vue, 2021) URLs -> new pages. Permanent, so search engines move their ranking to the new address.
+# Article rules are generated from src/mocks/imported/articles.json (oldPath -> slug).
+[[redirects]]
+  from = "/colonial-history/british-america"
+  to = "/articles/british-military-presence-america/"
+  status = 301
+
+[[redirects]]
+  from = "/colonial-history/regulars-va"
+  to = "/articles/british-regulars-virginia/"
+  status = 301
+
+[[redirects]]
+  from = "/colonial-history/maryland-forces"
+  to = "/articles/maryland-forces-1754-1764/"
+  status = 301
+
+[[redirects]]
+  from = "/colonial-history/va-rangers"
+  to = "/articles/virginia-ranger-companies/"
+  status = 301
+
+[[redirects]]
+  from = "/colonial-history/severn-battle"
+  to = "/articles/battle-of-the-severn/"
+  status = 301
+
+[[redirects]]
+  from = "/kent-militia"
+  to = "/articles/kent-county-militia/"
+  status = 301
+
+[[redirects]]
+  from = "/maryland"
+  to = "/articles/military-history-of-maryland/"
+  status = 301
+
+[[redirects]]
+  from = "/czechoslovak-legion"
+  to = "/articles/czechoslovak-legion/"
+  status = 301
+
+[[redirects]]
+  from = "/dutch-history/eighty-years-war"
+  to = "/articles/eighty-years-war/"
+  status = 301
+
+[[redirects]]
+  from = "/dutch-history/new-netherlands"
+  to = "/articles/dutch-military-new-netherland/"
+  status = 301
+
+[[redirects]]
+  from = "/hussites"
+  to = "/articles/the-hussites/"
+  status = 301
+
+[[redirects]]
+  from = "/irish-history/three-kingdoms"
+  to = "/articles/war-of-three-kingdoms-ireland/"
+  status = 301
+
+[[redirects]]
+  from = "/irish-history/oneils-rebelion"
+  to = "/articles/oneils-rebellion/"
+  status = 301
+
+[[redirects]]
+  from = "/irish-history/ireland-1652-1688"
+  to = "/articles/ireland-1652-1688/"
+  status = 301
+
+[[redirects]]
+  from = "/irish-history/williamite-war"
+  to = "/articles/williamite-war/"
+  status = 301
+
+[[redirects]]
+  from = "/irish-history/irish-military"
+  to = "/articles/irish-military-establishment/"
+  status = 301
+
+[[redirects]]
+  from = "/scottish-history/mackeys-regiment"
+  to = "/articles/mackays-regiment/"
+  status = 301
+
+[[redirects]]
+  from = "/scottish-history/dumbartons-regiment"
+  to = "/articles/dumbartons-regiment/"
+  status = 301
+
+[[redirects]]
+  from = "/scottish-history/house-stuart"
+  to = "/articles/house-of-stuart/"
+  status = 301
+
+[[redirects]]
+  from = "/book"
+  to = "/books/americas-first-marines/"
+  status = 301
+
+[[redirects]]
+  from = "/recommendations"
+  to = "/articles/"
+  status = 301
+
 [[redirects]]
   from = "/*"
   to = "/404"
