@@ -15,6 +15,7 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ### To check or decide
 
+- [ ] Image sources and rights for the old site's images (see docs/CONTENT-INVENTORY.md): only the Czechoslovak Legion photos are marked as his own. Each other image needs a source and credit, and permission if it comes from a modern book or website
 - [ ] Sources in the Virginia article:
   - Cannon, *Historical Record… Third Regiment of Foot*: cited as London 1837; the online copy is dated 1839 (the series is 1837, this volume runs to 1838). Which date is right?
   - Hening, *Statutes at Large* Vol. II: cited as New York 1823; the free scan is the 1809/1810 Richmond first edition. Do page references need the 1823 edition, or is linking the first edition fine?
@@ -60,6 +61,8 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 - [ ] Move components onto the spacing roles (`--gap-*`, `--inset-*`); only the search dialog uses them so far
 - [ ] Wide blocks: let tables, timelines and fact cards use the empty right-hand column on wide screens
 - [ ] New components use min-width (mobile-first) media queries
+- [ ] Importer for the old site (`marichka-offen/history-reconsidered`): convert the 19 Vue articles into the content model (paragraphs, headings, quotes with attribution, bold-date chronologies → timeline, sources), then seed Storyblok with real articles instead of mocks. See docs/CONTENT-INVENTORY.md
+- [ ] Design the articles that need it: Williamite War order of battle, British Military Presence unit lists with coat/facing colours, Maryland unit lists
 - [x] Phase 9a, Storyblok: block definitions in code, push and seed scripts, delivery client, rich text converter, adapter, `CONTENT_SOURCE` switch
 - [ ] Phase 9b: push blocks and seed content (needs the personal access token), switch `CONTENT_SOURCE=storyblok` locally and on Netlify
 - [ ] Phase 9c: Visual Editor preview (click-to-edit markers, a draft preview deploy), publish webhook to rebuild Netlify, a one-page guide for Lee
