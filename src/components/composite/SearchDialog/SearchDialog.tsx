@@ -92,6 +92,19 @@ export default function SearchDialog() {
         }
     }, [query])
 
+    // Up and down arrows move between the search field and the results, as in most site searches
+    const onDialogKeyDown = (event: React.KeyboardEvent<HTMLDialogElement>) => {
+        if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
+        const items = [inputRef.current, ...Array.from(dialogRef.current?.querySelectorAll<HTMLElement>('.search-dialog__result') ?? [])].filter(Boolean) as HTMLElement[]
+        if (items.length < 2) return
+        event.preventDefault()
+        const index = items.indexOf(document.activeElement as HTMLElement)
+        const next = event.key === 'ArrowDown' ? Math.min(index + 1, items.length - 1) : Math.max(index - 1, 0)
+        items[next].focus()
+    }
+
+    const examples = ['Hussites', 'Virginia', 'Benburb']
+
     // Clicking the dimmed area outside the panel closes the dialog
     const onDialogClick = (event: React.MouseEvent<HTMLDialogElement>) => {
         if (event.target === dialogRef.current) dialogRef.current?.close()
@@ -99,7 +112,7 @@ export default function SearchDialog() {
 
     const message =
         status === 'unavailable'
-            ? 'Search is available on the built site. Run npm run build, then npm run preview.'
+            ? 'Search works on the built site: run npm run build, then npm run preview.'
             : status === 'done' && results.length === 0
               ? `No articles or books match “${query.trim()}”.`
               : status === 'done'
@@ -118,7 +131,7 @@ export default function SearchDialog() {
             </button>
 
             {/* Native <dialog>: the browser keeps focus inside, closes on Escape and returns focus to the button */}
-            <dialog ref={dialogRef} className="search-dialog" aria-label="Search" onClick={onDialogClick}>
+            <dialog ref={dialogRef} className="search-dialog" aria-label="Search" onClick={onDialogClick} onKeyDown={onDialogKeyDown}>
                 <div className="search-dialog__panel">
                     <form className="search-dialog__form" role="search" onSubmit={(event) => event.preventDefault()}>
                         <label htmlFor="site-search" className="search-dialog__label">Search articles and books</label>
@@ -153,40 +166,57 @@ export default function SearchDialog() {
                                     </svg>
                                 </button>
                             )}
-                            <button type="button" className="search-dialog__close" aria-label="Close search" onClick={() => dialogRef.current?.close()}>
-                                Esc
-                            </button>
                         </div>
                     </form>
 
-                    {/* Always rendered, so screen readers reliably announce changes to it */}
-                    <p className="search-dialog__status" aria-live="polite">{message}</p>
+                    <div className="search-dialog__body">
+                        {/* Always rendered, so screen readers reliably announce changes to it */}
+                        <p className="search-dialog__status" aria-live="polite">{message}</p>
 
-                    {!query && status !== 'unavailable' && (
-                        <p className="search-dialog__hint">
-                            Try a name, place or battle, such as <em>Hussites</em>, <em>Virginia</em> or <em>Benburb</em>.
-                        </p>
-                    )}
+                        {!query && status !== 'unavailable' && (
+                            <div className="search-dialog__suggest">
+                                <p className="search-dialog__suggest-label">Try</p>
+                                <ul className="search-dialog__chips">
+                                    {examples.map((example) => (
+                                        <li key={example}>
+                                            <button type="button" className="search-dialog__chip" onClick={() => setQuery(example)}>
+                                                {example}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
 
-                    {results.length > 0 && (
-                        <ul className="search-dialog__results">
-                            {results.map((result) => (
-                                <li key={result.url}>
-                                    <a className="search-dialog__result" href={result.url}>
-                                        <span className="search-dialog__result-text">
-                                            {result.type && <span className="search-dialog__type">{result.type}</span>}
-                                            <span className="search-dialog__title">{result.title}</span>
-                                            {/* Pagefind returns the excerpt as HTML with <mark> around the matched words */}
-                                            <span className="search-dialog__excerpt" dangerouslySetInnerHTML={{ __html: result.excerpt }} />
-                                        </span>
-                                        <svg className="search-dialog__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                            <path d="M5 12h14M13 6l6 6-6 6" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                        {results.length > 0 && (
+                            <ul className="search-dialog__results">
+                                {results.map((result) => (
+                                    <li key={result.url}>
+                                        <a className="search-dialog__result" href={result.url}>
+                                            <span className="search-dialog__result-text">
+                                                {result.type && <span className="search-dialog__type">{result.type}</span>}
+                                                <span className="search-dialog__title">{result.title}</span>
+                                                {/* Pagefind returns the excerpt as HTML with <mark> around the matched words */}
+                                                <span className="search-dialog__excerpt" dangerouslySetInnerHTML={{ __html: result.excerpt }} />
+                                            </span>
+                                            <svg className="search-dialog__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                                <path d="M5 12h14M13 6l6 6-6 6" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+                    <div className="search-dialog__footer">
+                        <span className="search-dialog__keys" aria-hidden="true">
+                            <kbd>↑</kbd><kbd>↓</kbd> to move <kbd>↵</kbd> to open
+                        </span>
+                        <button type="button" className="search-dialog__close" onClick={() => dialogRef.current?.close()}>
+                            Close <kbd aria-hidden="true">Esc</kbd>
+                        </button>
+                    </div>
                 </div>
             </dialog>
         </>
