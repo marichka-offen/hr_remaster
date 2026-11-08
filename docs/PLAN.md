@@ -170,7 +170,7 @@ From `designs/about-book-pages`:
 - [ ] Images through `astro:assets` (responsive, lazy, WebP/AVIF)
 - [ ] **Print stylesheet.** The old site had a print button, and long sourced articles get printed
 - [ ] axe and Lighthouse pass, plus a keyboard-only walkthrough
-- [ ] **Search** with Pagefind (static index, no backend), wired to the header button
+- [x] **Search** with Pagefind 1.5.2: the index is built after `astro build` (`npm run build`), only articles and books are indexed (`data-pagefind-body`). Header button or Ctrl/Cmd+K opens a native `<dialog>` with live results, type labels and highlighted excerpts. Works on the built site (`npm run preview`), not in `npm run dev`
 
 ### 9. Storyblok (last)
 **Who edits:** Lee writes in Word and should be able to publish on his own: create an article from a Word file, fix typos, reorder home page sections, rename section titles, and build the complex parts (timelines, tables, fact cards) himself, as he did in the originals. Marichka sets up the structure. Sanity was dropped because it was too hard to understand.

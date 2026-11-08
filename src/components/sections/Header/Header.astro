@@ -1,5 +1,6 @@
 ---
 import MobileNav from '@components/composite/MobileNav/MobileNav'
+import SearchDialog from '@components/composite/SearchDialog/SearchDialog'
 import Logo from '@components/composite/Logo/Logo.astro'
 import NavLink from '@components/composite/NavLink/NavLink.astro'
 import './Header.scss'
@@ -44,9 +45,11 @@ const activeHref = navLinks.find((link) => isActive(link.href))?.href
                     exact={normalise(link.href) === currentPath}
                 />
             ))}
-            {/* Search button returns with Pagefind in phase 8 */}
         </nav>
-        <MobileNav client:load navLinks={navLinks} activeHref={activeHref} currentPath={currentPath} />
+        <div class='header__actions'>
+            <SearchDialog client:idle />
+            <MobileNav client:load navLinks={navLinks} activeHref={activeHref} currentPath={currentPath} />
+        </div>
     </div>
 </header>
 

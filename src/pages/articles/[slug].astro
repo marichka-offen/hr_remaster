@@ -36,10 +36,12 @@ const heroBackground = article.imageUrl
 
 <SiteLayout title={article.title} description={article.excerpt ?? ''}>
     <main id="main" class="article-detail">
+        {/* data-pagefind-body: only articles and books go into the search index, not listings or chrome */}
+        <article data-pagefind-body data-pagefind-meta="type:Article">
         <header class="article-hero" style={`--hero-background: ${heroBackground}`}>
             <div class="article-hero__inner">
                 <div class="article-hero__text">
-                    <nav aria-label="Breadcrumb">
+                    <nav aria-label="Breadcrumb" data-pagefind-ignore>
                         <ol class="article-hero__crumbs">
                             <li><a href="/">Home</a></li>
                             <li><a href="/articles">Articles</a></li>
@@ -50,7 +52,7 @@ const heroBackground = article.imageUrl
                     </nav>
 
                     {tags.length > 0 && (
-                        <ul class="article-hero__tags" aria-label="Topics">
+                        <ul class="article-hero__tags" aria-label="Topics" data-pagefind-ignore>
                             {tags.map((tag) => <li>{tag}</li>)}
                         </ul>
                     )}
@@ -58,7 +60,7 @@ const heroBackground = article.imageUrl
                     <h1 class="article-hero__title" id="article-title">{article.title}</h1>
                     {article.excerpt && <p class="article-hero__dek">{article.excerpt}</p>}
 
-                    <p class="article-hero__meta">
+                    <p class="article-hero__meta" data-pagefind-ignore>
                         {article.author && <span>By {article.author.name}</span>}
                         {article.readTime && <span>{article.readTime}</span>}
                         {words >= 200 && <span>{words.toLocaleString('en-US')} words</span>}
@@ -68,7 +70,7 @@ const heroBackground = article.imageUrl
         </header>
 
         <div class="article-detail__layout">
-            <aside class="article-detail__toc">
+            <aside class="article-detail__toc" data-pagefind-ignore>
                 <TableOfContents client:load items={toc} />
             </aside>
 
@@ -90,6 +92,8 @@ const heroBackground = article.imageUrl
                 )}
             </div>
         </div>
+
+        </article>
 
         {article.author && (
             <AboutPreview

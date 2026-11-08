@@ -23,6 +23,7 @@ const hasSidebar = details.length > 0 || previewPages.length > 0
 
 <SiteLayout title={book.title} description={book.excerpt ?? ''}>
     <main id="main">
+        <article data-pagefind-body data-pagefind-meta="type:Book">
         <section class="book-hero">
             <div class="book-hero__inner">
                 <div class="book-hero__cover">
@@ -108,6 +109,8 @@ const hasSidebar = details.length > 0 || previewPages.length > 0
                 </div>
             </section>
         )}
+
+        </article>
 
         {otherBooks.map((other) => (
             <BookPreview

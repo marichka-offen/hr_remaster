@@ -27,10 +27,18 @@
         display: flex;
         align-items: center;
         gap: var(--space-6);
+        margin-left: auto;
 
         @media (max-width: $bp-md) {
             display: none;
         }
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-left: var(--space-5);
     }
 
     // Slim state: shorter bar, smaller logo, a soft shadow to lift it off the page
