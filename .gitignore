@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # Cloudflare local state
 .wrangler/
+
+# Local emulation folders (not part of the site)
+.netlify/
