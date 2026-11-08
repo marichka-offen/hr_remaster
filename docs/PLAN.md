@@ -101,10 +101,10 @@ Computed with fontTools from the font files: x-height of the `x` glyph, and aver
 - [x] Housekeeping: README rewritten, unused DropCap removed, `npm run check` added and passing (0 errors)
 
 ### 2. Global chrome
-- [ ] Header: highlight the active link on nested routes (`/articles/foo` should mark Articles; today it's an exact match)
-- [ ] Header: the **search button does nothing**. Hide it until search ships in phase 8
-- [ ] Sticky slim header on scroll, as in the mock
-- [ ] Mobile nav: add focus trap, Escape to close, and returning focus to the button (`useFocusTrap` now exists)
+- [x] Header: active link covers nested routes (Articles stays lit on article pages; `aria-current="page"` on the exact page, `"true"` inside a section)
+- [x] Header: search button removed until search ships in phase 8
+- [x] Slim header on scroll (72px → 56px, smaller logo, soft shadow); `--header-offset` keeps the progress bar and contents list attached to it
+- [x] Mobile nav: rebuilt with the menu button inside the island, `aria-expanded`, focus trap, Escape to close, focus returns to the button, current section highlighted; header stays visible above the menu
 - [x] Footer: topic links go to `/articles?topic=…`; the filter already reads and writes `?topic=`
 
 ### 3. Listing pages

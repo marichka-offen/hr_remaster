@@ -276,7 +276,7 @@ const heroBackground = article.imageUrl
         // Headings land below the fixed header and reading-progress bar when jumped to
         :global(h2[id]),
         :global(h3[id]) {
-            scroll-margin-top: calc(var(--header-height) + var(--space-6));
+            scroll-margin-top: calc(var(--header-height-slim) + var(--space-6));
         }
 
         // The body is rendered by RichText, a child component, so Astro's scoped styles don't reach

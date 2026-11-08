@@ -2,7 +2,8 @@
 
 .reading-progress {
     position: fixed;
-    top: var(--header-height);
+    top: var(--header-offset);
+    transition: top var(--transition);
     left: 0;
     right: 0;
     height: 3px;

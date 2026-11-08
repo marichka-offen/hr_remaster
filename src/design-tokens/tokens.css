@@ -123,6 +123,9 @@
     --gutter: clamp(1.25rem, 1.143rem + 0.476vw, 1.5rem);
     --page-top: clamp(6.5rem, 6.071rem + 1.905vw, 7.5rem);
     --header-height: 4.5rem;
+    --header-height-slim: 3.5rem;
+    /* Current header height: switches to slim once the page scrolls (see Header.astro) */
+    --header-offset: var(--header-height);
     --tap-target: 2.75rem;
 
     /* Layout */
@@ -160,4 +163,8 @@
     --ease-standard: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition: var(--duration-base) var(--ease-standard);
     --transition-colors: color var(--transition), background-color var(--transition), border-color var(--transition);
+}
+
+:root[data-scrolled] {
+    --header-offset: var(--header-height-slim);
 }

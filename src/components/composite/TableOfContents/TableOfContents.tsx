@@ -10,7 +10,7 @@ interface Props {
 
 // Distance from the top of the window at which a heading counts as "being read": the fixed header plus a little air
 function readingLine(): number {
-    const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 4.5
+    const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-offset')) || 4.5
     return header * 16 + 24
 }
 

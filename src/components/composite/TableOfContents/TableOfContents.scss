@@ -53,8 +53,9 @@
     &--sidebar {
         display: none;
         position: sticky;
-        top: calc(var(--header-height) + var(--space-6));
-        max-height: calc(100vh - var(--header-height) - var(--space-8));
+        top: calc(var(--header-offset) + var(--space-6));
+        max-height: calc(100vh - var(--header-offset) - var(--space-8));
+        transition: top var(--transition);
         overflow-y: auto;
         z-index: var(--z-sticky);
 
