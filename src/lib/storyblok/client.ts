@@ -59,11 +59,29 @@ export function allStories(): Promise<Story[]> {
     return cache
 }
 
-// Runs render() with fresh draft stories. override replaces one story's content, for live typing in the editor
+// While the editor is typing, the story being edited arrives with each request, so the other stories
+// (topics, related articles, menu) can be reused for a short while instead of fetched on every pause.
+// Opening, saving and publishing always fetch fresh drafts.
+const TYPING_CACHE_MS = 60_000
+let typingCache: { at: number; stories: Promise<Story[]> } | undefined
+
+function draftsForTyping(): Promise<Story[]> {
+    if (!typingCache || Date.now() - typingCache.at > TYPING_CACHE_MS) {
+        typingCache = { at: Date.now(), stories: fetchAll('draft') }
+        typingCache.stories.catch(() => (typingCache = undefined))
+    }
+    return typingCache.stories
+}
+
+// Runs render() with draft stories. override (live typing) replaces one story's content with the
+// editor's unsaved version and reuses recent drafts for everything else
 export function withDraftStories<T>(render: () => Promise<T>, override?: Story): Promise<T> {
-    const stories = fetchAll('draft').then((list) =>
-        override ? list.map((story) => (story.id === override.id ? { ...story, content: override.content } : story)) : list
-    )
+    const stories = override
+        ? draftsForTyping().then((list) => list.map((story) => (story.id === override.id ? { ...story, content: override.content } : story)))
+        : fetchAll('draft').then((list) => {
+              typingCache = { at: Date.now(), stories: Promise.resolve(list) }
+              return list
+          })
     return draftScope.run(stories, render)
 }
 
