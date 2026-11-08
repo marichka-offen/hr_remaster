@@ -11,6 +11,8 @@ Website for History Reconsidered, Lee G. Offen's military history research. Buil
 | `npm run build` | Build the static site to `dist/` |
 | `npm run preview` | Serve the built site locally |
 | `npm run check` | Type-check `.astro`, `.ts` and `.tsx` files |
+| `npm run storyblok:push` | Create or update the Storyblok blocks from `storyblok/components.mjs` |
+| `npm run storyblok:seed` | Copy the mock content into Storyblok (creates or updates stories) |
 | `npm run tokens-doc` | Regenerate `docs/TOKENS.md` from `tokens.css` |
 | `npm run og-image` | Re-render the social preview image from `scripts/og-default.html` |
 
@@ -35,7 +37,10 @@ src/
 
 ## Content
 
-Pages call functions in `src/lib/content` (`getPage`, `getArticles`, `getArticle`...). Today these return data from `src/mocks/`. Storyblok will be connected last by replacing the bodies of those functions; their signatures and the types in `src/types/content.ts` stay the same, so pages and components don't change.
+Copy `.env.example` to `.env`. `CONTENT_SOURCE=storyblok` builds from Storyblok; anything else uses the mock files.
+
+
+Pages call functions in `src/lib/content` (`getPage`, `getArticles`, `getArticle`...), which read from `src/mocks/` or from Storyblok. The Storyblok side is `src/lib/storyblok/`: `client.ts` fetches every story once per build, `richtext.ts` converts rich text into the site's blocks, and `adapter.ts` maps stories to the types in `src/types/`. Components never see Storyblok's format. Block definitions live in `storyblok/components.mjs` and are pushed with `npm run storyblok:push`.
 
 ## Styling rules
 

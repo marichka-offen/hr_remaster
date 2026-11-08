@@ -20,7 +20,8 @@ const { blocks = [], paragraphClass } = Astro.props
 {blocks.map((block) => {
     switch (block.type) {
         case 'paragraph':
-            return <p class={paragraphClass}>{block.text}</p>
+            // html is produced by the CMS adapter from structured rich text, with escaped text and a fixed set of tags
+            return block.html ? <p class={paragraphClass} set:html={block.html} /> : <p class={paragraphClass}>{block.text}</p>
         case 'heading':
             return block.level === 2
                 ? <h2 id={block.id}>{block.text}</h2>
@@ -28,10 +29,18 @@ const { blocks = [], paragraphClass } = Astro.props
         case 'quote':
             return (
                 <blockquote>
-                    <p>{block.text}</p>
+                    {block.html ? <p set:html={block.html} /> : <p>{block.text}</p>}
                     {block.cite && <cite>{block.cite}</cite>}
                 </blockquote>
             )
+        case 'list': {
+            const List = block.ordered ? 'ol' : 'ul'
+            return (
+                <List>
+                    {block.items.map((item) => (item.html ? <li set:html={item.html} /> : <li>{item.text}</li>))}
+                </List>
+            )
+        }
         case 'figure':
             return <Figure {...block} />
         case 'callout':

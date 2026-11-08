@@ -21,6 +21,8 @@ function blockText(block: RichTextBlock): string[] {
             return [block.text]
         case 'quote':
             return [block.text, block.cite ?? '']
+        case 'list':
+            return block.items.map((item) => item.text)
         case 'figure':
             return [block.caption ?? '']
         case 'callout':

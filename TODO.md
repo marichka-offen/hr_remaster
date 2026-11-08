@@ -32,6 +32,7 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ### Now
 
+- [ ] Create a Storyblok personal access token (My account > Account settings > Personal access token) and add it to `.env` as `STORYBLOK_PERSONAL_ACCESS_TOKEN`; then run `npm run storyblok:push` and `npm run storyblok:seed`
 - [ ] Review and merge PR #83 (`feat/mock-content`)
 - [ ] One pass in a real browser: contents list highlighting, contents drawer, back-to-top, mobile menu, slim header on scroll, search (`npm run build` then `npm run preview`, press `/`), printing an article
 - [ ] Decide whether to keep or delete the parked `feat/storyblok` branch (local WIP commit, not pushed)
@@ -59,7 +60,10 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 - [ ] Move components onto the spacing roles (`--gap-*`, `--inset-*`); only the search dialog uses them so far
 - [ ] Wide blocks: let tables, timelines and fact cards use the empty right-hand column on wide screens
 - [ ] New components use min-width (mobile-first) media queries
-- [ ] Phase 9, Storyblok: content models, adapter in `src/lib/content`, Visual Editor preview, rebuild webhook, seed content, a one-page guide for Lee, optional per-source link field, a "Search description" field
+- [x] Phase 9a, Storyblok: block definitions in code, push and seed scripts, delivery client, rich text converter, adapter, `CONTENT_SOURCE` switch
+- [ ] Phase 9b: push blocks and seed content (needs the personal access token), switch `CONTENT_SOURCE=storyblok` locally and on Netlify
+- [ ] Phase 9c: Visual Editor preview (click-to-edit markers, a draft preview deploy), publish webhook to rebuild Netlify, a one-page guide for Lee
+- [ ] Source links on the site (the Storyblok `source` block already has an optional link field)
 - [ ] Only if logs show a crawler ignoring robots.txt: block AI training crawlers at the server (Netlify)
 
 ## Done

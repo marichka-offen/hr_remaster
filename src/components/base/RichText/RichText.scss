@@ -13,7 +13,7 @@
     }
 
     // Blocks get a little more air than paragraphs
-    > :is(figure, aside, details, ul, .timeline) {
+    > :is(figure, aside, details, .fact-cards, .timeline) {
         margin-block: var(--space-7);
     }
 
@@ -40,6 +40,38 @@
     > h2 + *,
     > h3 + * {
         margin-top: var(--space-3);
+    }
+
+    > ul,
+    > ol {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-related);
+        padding-left: var(--space-6);
+    }
+
+    > ul {
+        list-style: disc;
+    }
+
+    > ol {
+        list-style: decimal;
+    }
+
+    li::marker {
+        color: var(--color-accent);
+    }
+
+    // Links inside running text
+    a {
+        color: var(--color-text-strong);
+        text-decoration: underline;
+        text-decoration-color: var(--gold);
+        text-underline-offset: 0.2em;
+
+        &:hover {
+            color: var(--burgundy);
+        }
     }
 
     > blockquote {

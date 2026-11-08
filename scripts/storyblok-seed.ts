@@ -1,0 +1,268 @@
+// Copies the mock content (src/mocks) into Storyblok, so the space starts with real articles, books and
+// pages. Creates stories that don't exist and updates the ones that do (matched by slug), then publishes.
+// Run once after `npm run storyblok:push`:  npm run storyblok:seed
+// Needs STORYBLOK_PERSONAL_ACCESS_TOKEN and STORYBLOK_SPACE_ID in .env.
+
+import { randomUUID } from 'node:crypto'
+import type { RichText, RichTextBlock, Section } from '../src/types/content'
+import { articles } from '../src/mocks/articles'
+import { books } from '../src/mocks/books'
+import * as pages from '../src/mocks/pages'
+import { managementApi } from './storyblok-mapi.mjs'
+
+const api = managementApi()
+const uid = () => randomUUID()
+
+// ---------------------------------------------------------------- Rich text: our blocks -> Storyblok
+
+const textNodes = (text: string) => (text ? [{ type: 'text', text }] : [])
+const paragraph = (text: string) => ({ type: 'paragraph', content: textNodes(text) })
+const blok = (component: string, fields: Record<string, unknown>) => ({
+    type: 'blok',
+    attrs: { id: uid(), body: [{ _uid: uid(), component, ...fields }] },
+})
+
+function toStoryblokRichText(blocks: RichText = []) {
+    return { type: 'doc', content: blocks.flatMap(toNode) }
+}
+
+function toNode(block: RichTextBlock): unknown[] {
+    switch (block.type) {
+        case 'paragraph':
+            return [paragraph(block.text)]
+        case 'heading':
+            return [{ type: 'heading', attrs: { level: block.level }, content: textNodes(block.text) }]
+        case 'quote':
+            // Written the way it would be in Word: the quote, then the source on its own line after a dash
+            return [{ type: 'blockquote', content: [paragraph(block.text), ...(block.cite ? [paragraph(`— ${block.cite}`)] : [])] }]
+        case 'list':
+            return [
+                {
+                    type: block.ordered ? 'ordered_list' : 'bullet_list',
+                    content: block.items.map((item) => ({ type: 'list_item', content: [paragraph(item.text)] })),
+                },
+            ]
+        case 'figure':
+            return [blok('figure', { alt: block.alt, caption: block.caption ?? '', credit: block.credit ?? '', aspect: block.aspect ?? 'landscape' })]
+        case 'callout':
+            return [blok('callout', { variant: block.variant, title: block.title ?? '', text: block.text })]
+        case 'collapsible':
+            return [blok('collapsible', { title: block.title, open: !!block.open, body: toStoryblokRichText(block.blocks) })]
+        case 'timeline':
+            return [
+                blok('timeline', {
+                    periods: block.groups.map((group) => ({
+                        _uid: uid(),
+                        component: 'timelinePeriod',
+                        label: group.label,
+                        title: group.title ?? '',
+                        collapsed: !!group.collapsed,
+                        events: group.events.map((event) =>
+                            event.kind === 'quote'
+                                ? { _uid: uid(), component: 'timelineQuote', text: event.text, cite: event.cite ?? '' }
+                                : { _uid: uid(), component: 'timelineEvent', kind: event.kind ?? 'event', date: event.date ?? '', title: event.title ?? '', text: event.text }
+                        ),
+                    })),
+                }),
+            ]
+        case 'factCards':
+            return [
+                blok('factCards', {
+                    cards: block.cards.map((card) => ({
+                        _uid: uid(),
+                        component: 'factCard',
+                        title: card.title,
+                        badge: card.badge ?? '',
+                        meta: card.meta ?? '',
+                        text: card.text ?? '',
+                        rows: (card.rows ?? []).map((row) => ({ _uid: uid(), component: 'detailRow', label: row.label, value: row.value })),
+                    })),
+                }),
+            ]
+        case 'dataList':
+            return [
+                blok('dataList', {
+                    title: block.title,
+                    note: block.note ?? '',
+                    bars: !!block.bars,
+                    totalLabel: block.total?.label ?? '',
+                    totalValue: block.total ? String(block.total.value) : '',
+                    rows: block.rows.map((row) => ({ _uid: uid(), component: 'dataRow', label: row.label, value: String(row.value), detail: row.detail ?? '' })),
+                }),
+            ]
+        case 'table':
+            return [
+                blok('dataTable', {
+                    caption: block.caption,
+                    note: block.note ?? '',
+                    table: {
+                        thead: block.columns.map((value) => ({ _uid: uid(), value, component: '_table_head' })),
+                        tbody: block.rows.map((row) => ({ _uid: uid(), component: '_table_row', body: row.map((value) => ({ _uid: uid(), value, component: '_table_col' })) })),
+                    },
+                }),
+            ]
+    }
+}
+
+// ---------------------------------------------------------------- Stories
+
+const urlLink = (url?: string) => ({ linktype: 'url', url: url ?? '', cached_url: url ?? '', fieldtype: 'multilink' })
+
+async function findBySlug(fullSlug: string) {
+    const result = await api.get(`/stories/?with_slug=${encodeURIComponent(fullSlug)}`)
+    return result.stories[0]
+}
+
+async function folder(slug: string, name: string): Promise<number> {
+    const found = await findBySlug(slug)
+    if (found) return found.id
+    const created = await api.post('/stories/', { story: { name, slug, is_folder: true } })
+    return created.story.id
+}
+
+// Creates or updates a story and publishes it; returns its uuid for references
+async function upsert(fullSlug: string, name: string, content: Record<string, unknown>, parentId = 0): Promise<string> {
+    const slug = fullSlug.split('/').pop()!
+    const found = await findBySlug(fullSlug)
+    const story = { name, slug, parent_id: parentId, content }
+    const result = found
+        ? await api.put(`/stories/${found.id}`, { story, publish: 1 })
+        : await api.post('/stories/', { story, publish: 1 })
+    console.log(`${found ? 'updated' : 'created'}  ${fullSlug}`)
+    return result.story.uuid
+}
+
+// Topics come from the articles' topic fields
+const topicsFolder = await folder('topics', 'Topics')
+const topicUuids = new Map<string, string>()
+for (const article of articles) {
+    if (!article.topicSlug || topicUuids.has(article.topicSlug)) continue
+    const uuid = await upsert(`topics/${article.topicSlug}`, article.category, {
+        component: 'topic',
+        name: article.category,
+        gradientFrom: article.gradientFrom ?? '',
+        gradientTo: article.gradientTo ?? '',
+    }, topicsFolder)
+    topicUuids.set(article.topicSlug, uuid)
+}
+
+const articlesFolder = await folder('articles', 'Articles')
+const articleUuids = new Map<string, string>()
+// Mocks are newest first; create oldest first so Storyblok's dates keep the same order
+for (const article of [...articles].reverse()) {
+    const uuid = await upsert(`articles/${article.slug}`, article.title, {
+        component: 'article',
+        title: article.title,
+        subtitle: article.subtitle ?? '',
+        topic: topicUuids.get(article.topicSlug ?? '') ?? '',
+        tags: (article.tags ?? []).join(', '),
+        period: article.period ?? '',
+        startYear: article.startYear ? String(article.startYear) : '',
+        excerpt: article.excerpt ?? '',
+        seoDescription: article.seoDescription ?? '',
+        readTime: article.readTime ?? '',
+        body: toStoryblokRichText(article.body),
+        sources: (article.sources ?? []).map((text) => ({ _uid: uid(), component: 'source', text, link: urlLink() })),
+    }, articlesFolder)
+    articleUuids.set(article.slug, uuid)
+}
+
+const booksFolder = await folder('books', 'Books')
+const bookUuids = new Map<string, string>()
+for (const book of [...books].reverse()) {
+    const uuid = await upsert(`books/${book.slug}`, book.title, {
+        component: 'book',
+        title: book.title,
+        subtitle: book.subtitle ?? '',
+        author: book.author ?? '',
+        coverLabel: book.coverLabel ?? '',
+        status: book.status ?? '',
+        excerpt: book.excerpt ?? '',
+        description: toStoryblokRichText(book.description),
+        details: (book.details ?? []).map((row) => ({ _uid: uid(), component: 'detailRow', label: row.label, value: row.value })),
+        ctaText: book.cta?.text ?? '',
+        ctaLink: urlLink(book.cta?.link === '#' ? '' : book.cta?.link),
+        secondaryCtaText: book.secondaryCta?.text ?? '',
+        secondaryCtaLink: urlLink(book.secondaryCta?.link === '#' ? '' : book.secondaryCta?.link),
+    }, booksFolder)
+    bookUuids.set(book.slug, uuid)
+}
+
+// ---------------------------------------------------------------- Pages
+
+function toBlok(section: Section): Record<string, unknown> | undefined {
+    const base = { _uid: uid() }
+    const ctaFields = (cta?: { text?: string; link?: string }) => ({ ctaText: cta?.text ?? '', ctaLink: cta?.link?.startsWith('/') ? urlLink(cta.link) : urlLink(cta?.link) })
+    switch (section._type) {
+        case 'hero':
+            return { ...base, component: 'hero', label: section.label ?? '', title: section.title, quote: section.quote ?? '', quoteAuthor: section.quoteAuthor ?? '', ...ctaFields(section.cta) }
+        case 'featured':
+            return { ...base, component: 'featured', label: section.label ?? '', heading: section.heading ?? '', article: articleUuids.get(section.article.slug) ?? '' }
+        case 'articleGrid':
+            return {
+                ...base,
+                component: 'articleGrid',
+                label: section.label ?? '',
+                heading: section.heading ?? '',
+                showCategoryFilter: !!section.showCategoryFilter,
+                articles: (section.articles ?? []).map((a) => articleUuids.get(a.slug)).filter(Boolean),
+                ...ctaFields(section.cta),
+            }
+        case 'authorCard':
+            return { ...base, component: 'authorCard', name: section.name, role: section.role ?? '', initials: section.initials ?? '', bio: toStoryblokRichText(section.bio), ...ctaFields(section.cta) }
+        case 'bookPromo': {
+            const slug = books.find((b) => b.title === section.title)?.slug ?? ''
+            return { ...base, component: 'bookPromo', label: section.label ?? '', book: bookUuids.get(slug) ?? '', ctaText: section.cta?.text ?? 'Learn More' }
+        }
+        case 'authorBio':
+            return {
+                ...base,
+                component: 'authorBio',
+                label: section.label ?? '',
+                name: section.name,
+                role: section.role ?? '',
+                initials: section.initials ?? '',
+                bio: toStoryblokRichText(section.bio),
+                credentials: (section.credentials ?? []).map((c) => ({ _uid: uid(), component: 'credential', icon: c.icon, label: c.label, title: c.title, description: c.description ?? '' })),
+            }
+        case 'philosophyBlock':
+            return { ...base, component: 'philosophyBlock', quote: section.quote, body: toStoryblokRichText(section.body) }
+        case 'pageCta':
+            return { ...base, component: 'pageCta', label: section.label ?? '', heading: section.heading, subtext: section.subtext ?? '', ...ctaFields(section.cta) }
+        case 'content':
+            return { ...base, component: 'contentSection', label: section.label ?? '', heading: section.heading ?? '', body: toStoryblokRichText(section.blocks) }
+    }
+}
+
+const pageSlugs = { home: 'home', about: 'about', articlesPage: 'articles-page', booksPage: 'books-page' } as const
+for (const [key, slug] of Object.entries(pageSlugs)) {
+    const page = pages[key as keyof typeof pageSlugs]
+    await upsert(slug, page.title, {
+        component: 'page',
+        title: page.title,
+        description: page.description,
+        sections: page.sections.map(toBlok).filter(Boolean),
+    })
+}
+
+await upsert('contact', 'Contact', { component: 'contactPage', ...pages.contact, email: pages.contact.email ?? '' })
+
+const { header, footer } = pages.siteSettings
+const authorSource = articles.find((a) => a.author)?.author
+await upsert('settings', 'Site settings', {
+    component: 'settings',
+    logoTitle: header.logoTitle,
+    logoSubtitle: header.logoSubtitle,
+    navigation: header.navigation.map((item) => ({ _uid: uid(), component: 'navItem', label: item.label, link: urlLink(item.href) })),
+    footerDescription: footer.description,
+    topicsTitle: footer.topicsTitle,
+    footerTopics: footer.topics.map((t) => topicUuids.get(new URL(t.href, 'https://x').searchParams.get('topic') ?? '')).filter(Boolean),
+    copyright: footer.copyright.replace(String(new Date().getFullYear()), '{year}'),
+    copyrightNote: footer.copyrightNote ?? '',
+    authorName: authorSource?.name ?? '',
+    authorRole: authorSource?.role ?? '',
+    authorInitials: authorSource?.initials ?? '',
+    authorBio: toStoryblokRichText(authorSource?.bio),
+})
+
+console.log('\nDone. Set CONTENT_SOURCE=storyblok in .env to build the site from Storyblok.')

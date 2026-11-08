@@ -5,10 +5,13 @@ import type { ArticleMeta } from './article'
 import type { CTA } from './cta'
 
 export type RichTextBlock =
-    | { type: 'paragraph'; text: string }
+    // text is always plain (for word counts and search). html, when present, is the same text with
+    // inline formatting (em, strong, a, sup, sub, s, br) and is what gets rendered
+    | { type: 'paragraph'; text: string; html?: string }
     | { type: 'heading'; level: 2 | 3; text: string; id?: string }
     // Also used for primary sources: the citation names the document and date
-    | { type: 'quote'; text: string; cite?: string }
+    | { type: 'quote'; text: string; html?: string; cite?: string }
+    | { type: 'list'; ordered?: boolean; items: { text: string; html?: string }[] }
     | FigureBlock
     | CalloutBlock
     | CollapsibleBlock

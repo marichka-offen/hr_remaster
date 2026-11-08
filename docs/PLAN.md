@@ -184,6 +184,7 @@ From `designs/about-book-pages`:
 ### 9. Storyblok (last)
 **Who edits:** Lee writes in Word and should be able to publish on his own: create an article from a Word file, fix typos, reorder home page sections, rename section titles, and build the complex parts (timelines, tables, fact cards) himself, as he did in the originals. Marichka sets up the structure. Sanity was dropped because it was too hard to understand.
 
+- [x] Built (9a): `storyblok/components.mjs` (32 blocks, 6 content types), `scripts/storyblok-push-components.mjs`, `scripts/storyblok-seed.ts`, `src/lib/storyblok/` (client, rich text, adapter), `CONTENT_SOURCE` switch. Rich text keeps italics, bold and links; Word quotes ending in a dash line get a citation; lists supported
 - [ ] Before building: a 30-minute trial with Lee in a free space (one article from his Word file, fix a typo, reorder the home page, rename a section title, add a few timeline events, publish)
 - [ ] Make the complex blocks writable the way he writes in Word. Candidates to test in the trial: a timeline period as one text area where each event is a paragraph starting with a bold date (parsed into events), versus one nested block per event; tables in Storyblok's table field; how his existing Word tables survive the Word import
 - [ ] Page type with a `sections` list (hero, featured, article grid, author card, book promo...) matching `Section` in `src/types/content.ts`, so sections can be dragged to reorder in the Visual Editor
