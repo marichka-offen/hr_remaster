@@ -34,7 +34,6 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ### Now
 
-- [ ] Ask Lee whether History Reconsidered, LLC exists; if not, remove "LLC" from the footer copyright
 - [ ] Create a Storyblok personal access token (My account > Account settings > Personal access token) and add it to `.env` as `STORYBLOK_PERSONAL_ACCESS_TOKEN`; then run `npm run storyblok:push` and `npm run storyblok:seed`
 - [ ] Review and merge PR #83 (`feat/mock-content`)
 - [ ] One pass in a real browser: contents list highlighting, contents drawer, back-to-top, mobile menu, slim header on scroll, search (`npm run build` then `npm run preview`, press `/`), printing an article
