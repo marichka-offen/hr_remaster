@@ -6,6 +6,8 @@ The site is built against mock content first. Storyblok is added last, behind th
 
 The parked Storyblok work is the `WIP` commit on `feat/storyblok`.
 
+**Open items for Lee, Marichka and development are collected in [TODO.md](../TODO.md).**
+
 ---
 
 ## Token review
