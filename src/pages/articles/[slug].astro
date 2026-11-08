@@ -118,14 +118,18 @@ const gradient = article.gradientFrom && article.gradientTo
             margin-bottom: var(--space-5);
         }
 
+        // The body is rendered by RichText, a child component, so Astro's scoped styles don't reach
+        // its elements. :global() targets them, still limited to this page's .article-detail__body
         &__body {
             line-height: var(--leading-relaxed);
             color: var(--color-text);
 
-            p { margin-bottom: var(--space-5); }
+            > :global(:first-child) { margin-top: 0; }
+
+            :global(p) { margin-bottom: var(--space-5); }
 
             // ::first-letter keeps the word whole for screen readers, unlike a wrapping span
-            > p:first-child::first-letter {
+            > :global(p:first-of-type::first-letter) {
                 float: left;
                 font-family: var(--font-display);
                 font-size: var(--text-display);
@@ -135,24 +139,46 @@ const gradient = article.gradientFrom && article.gradientTo
                 margin-right: var(--space-2);
                 margin-top: var(--space-2);
             }
-            h2 {
+
+            :global(h2) {
                 font-size: var(--text-xl);
                 font-weight: var(--weight-bold);
                 color: var(--color-text-strong);
-                margin: var(--space-8) 0 var(--space-5);
+                line-height: var(--leading-tight);
+                margin: var(--space-8) 0 var(--space-4);
             }
-            h3 {
+
+            :global(h3) {
                 font-size: var(--text-lg);
                 font-weight: var(--weight-bold);
                 color: var(--color-text-strong);
-                margin: var(--space-6) 0 var(--space-4);
+                line-height: var(--leading-tight);
+                margin: var(--space-6) 0 var(--space-3);
             }
-            blockquote {
+
+            :global(blockquote) {
                 border-left: var(--border-rule) solid var(--color-accent);
                 padding-left: var(--space-5);
-                font-style: italic;
-                color: var(--color-text-secondary);
                 margin: var(--space-6) 0;
+            }
+
+            :global(blockquote p) {
+                font-family: var(--font-quote);
+                font-style: italic;
+                font-size: var(--text-lg);
+                line-height: var(--leading-normal);
+                color: var(--color-text-strong);
+                margin-bottom: var(--space-2);
+            }
+
+            :global(cite) {
+                font-family: var(--font-ui);
+                font-style: normal;
+                font-size: var(--text-xs);
+                font-weight: var(--weight-semibold);
+                letter-spacing: var(--tracking-wide);
+                text-transform: uppercase;
+                color: var(--color-text-secondary);
             }
         }
     }
