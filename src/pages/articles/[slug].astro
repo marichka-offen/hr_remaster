@@ -1,11 +1,12 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro'
 import AboutPreview from '@components/sections/AboutPreview/AboutPreview.astro'
-import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
-import CategoryChip from '@components/base/CategoryChip/CategoryChip'
-import ArticleMeta from '@components/base/ArticleMeta/ArticleMeta'
+import ArticlesSection from '@components/sections/ArticlesSection/ArticlesSection.astro'
 import RichText from '@components/base/RichText/RichText.astro'
-import { getArticle, getArticles } from '@lib/content'
+import TableOfContents from '@components/composite/TableOfContents/TableOfContents'
+import ReadingAids from '@components/composite/ReadingAids/ReadingAids'
+import { getArticle, getArticles, getRelatedArticles, tableOfContents } from '@lib/content'
+import { countWords } from '@lib/content/article-utils'
 
 export async function getStaticPaths() {
     const articles = await getArticles()
@@ -16,33 +17,77 @@ const article = await getArticle(Astro.params.slug)
 
 if (!article) return Astro.redirect('/articles')
 
-const gradient = article.gradientFrom && article.gradientTo
-    ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
-    : 'var(--gradient-featured)'
+const related = await getRelatedArticles(article.slug)
+const sources = article.sources ?? []
+const toc = [
+    ...tableOfContents(article.body),
+    ...(sources.length ? [{ id: 'sources', text: 'Sources', level: 2 as const }] : []),
+]
+const words = countWords(article.body)
+const tags = [article.category, ...(article.tags ?? [])].filter((tag, i, all) => tag && all.indexOf(tag) === i)
+
+// The hero uses the article's image when there is one, otherwise its topic colours
+const heroBackground = article.imageUrl
+    ? `url("${article.imageUrl}")`
+    : article.gradientFrom && article.gradientTo
+        ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
+        : 'var(--gradient-featured)'
 ---
 
 <SiteLayout title={article.title} description={article.excerpt ?? ''}>
     <main id="main" class="article-detail">
-        <div class="article-detail__hero">
-            {article.imageUrl ? (
-                <img src={article.imageUrl} alt={article.imageAlt ?? article.title} class="article-detail__hero-img" />
-            ) : (
-                <PlaceholderImage gradient={gradient} code={article.period ?? ''} aspect="landscape" />
-            )}
-            <div class="article-detail__hero-overlay">
-                <CategoryChip label={article.category} variant="overlay" />
+        <header class="article-hero" style={`--hero-background: ${heroBackground}`}>
+            <div class="article-hero__inner">
+                <div class="article-hero__text">
+                    <nav aria-label="Breadcrumb">
+                        <ol class="article-hero__crumbs">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/articles">Articles</a></li>
+                            {article.topicSlug && (
+                                <li><a href={`/articles?topic=${article.topicSlug}`}>{article.category}</a></li>
+                            )}
+                        </ol>
+                    </nav>
+
+                    {tags.length > 0 && (
+                        <ul class="article-hero__tags" aria-label="Topics">
+                            {tags.map((tag) => <li>{tag}</li>)}
+                        </ul>
+                    )}
+
+                    <h1 class="article-hero__title" id="article-title">{article.title}</h1>
+                    {article.excerpt && <p class="article-hero__dek">{article.excerpt}</p>}
+
+                    <p class="article-hero__meta">
+                        {article.author && <span>By {article.author.name}</span>}
+                        {article.readTime && <span>{article.readTime}</span>}
+                        {words >= 200 && <span>{words.toLocaleString('en-US')} words</span>}
+                    </p>
+                </div>
             </div>
-        </div>
+        </header>
 
-        <div class="article-detail__container">
-            <header class="article-detail__header">
-                {article.subtitle && <p class="article-detail__subtitle">{article.subtitle}</p>}
-                <h1 class="article-detail__title">{article.title}</h1>
-                <ArticleMeta readTime={article.readTime} tag={article.tags?.[0]} tone="light" />
-            </header>
+        <div class="article-detail__layout">
+            <aside class="article-detail__toc">
+                <TableOfContents client:load items={toc} />
+            </aside>
 
-            <div class="article-detail__body">
-                <RichText blocks={article.body} />
+            <div class="article-detail__content">
+                <div class="article-detail__body" id="article-body">
+                    <RichText blocks={article.body} />
+                </div>
+
+                {sources.length > 0 && (
+                    <details class="article-sources">
+                        <summary class="article-sources__summary">
+                            <h2 class="article-sources__title" id="sources">Sources &amp; Bibliography</h2>
+                            <span class="article-sources__count">{sources.length} works</span>
+                        </summary>
+                        <ul class="article-sources__list">
+                            {sources.map((source) => <li>{source}</li>)}
+                        </ul>
+                    </details>
+                )}
             </div>
         </div>
 
@@ -55,67 +100,176 @@ const gradient = article.gradientFrom && article.gradientTo
                 initials={article.author.initials}
             />
         )}
+
+        {related.length > 0 && (
+            <ArticlesSection label="Continue Reading" heading="Related Articles" articles={related} />
+        )}
+
+        <ReadingAids client:load targetId="article-body" focusId="article-title" />
     </main>
 </SiteLayout>
 
 <style lang="scss">
     @use '@tokens/mixins' as *;
 
-    .article-detail {
-        &__hero {
-            position: relative;
-            height: 480px;
-            overflow: hidden;
-            margin-top: var(--header-height);
+    // Two columns on wide screens: a contents column and a text column capped at the measure.
+    // font-size is set on the grid because ch in --measure resolves against the element's own font size
+    @mixin article-grid {
+        display: grid;
+        grid-template-columns: minmax(0, var(--measure));
+        justify-content: center;
+        column-gap: var(--space-8);
+        font-size: var(--text-prose);
+        padding-inline: var(--gutter);
 
-            @media (max-width: $bp-md) {
-                height: 280px;
+        @media (min-width: $bp-lg) {
+            grid-template-columns: 15rem minmax(0, var(--measure));
+        }
+    }
+
+    .article-hero {
+        @include on-dark;
+        position: relative;
+        margin-top: var(--header-height);
+        background: var(--color-surface-dark);
+        color: var(--color-text-on-dark);
+        overflow: hidden;
+
+        // Topic colours or the article image, darkened so white text keeps its contrast
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+        }
+
+        &::before {
+            background: var(--hero-background) center / cover no-repeat;
+        }
+
+        &::after {
+            background: var(--overlay-author);
+        }
+
+        &__inner {
+            @include article-grid;
+            position: relative;
+            z-index: 1;
+            padding-block: var(--space-9) var(--space-8);
+        }
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+
+            @media (min-width: $bp-lg) {
+                grid-column: 2;
             }
         }
 
-        &__hero-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        &__hero-overlay {
-            position: absolute;
-            top: var(--space-5);
-            left: var(--space-5);
-        }
-
-        // The whole column follows the prose measure, so headings and paragraphs share one edge.
-        // font-size is set here because ch resolves against the element's own font and size
-        &__container {
-            font-size: var(--text-prose);
-            max-width: calc(var(--measure) + 2 * var(--gutter));
-            margin: 0 auto;
-            padding: var(--space-9) var(--gutter) var(--section-y);
-        }
-
-        &__header {
-            margin-bottom: var(--space-8);
-            padding-bottom: var(--space-6);
-            border-bottom: var(--border-thin) solid var(--color-border);
-        }
-
-        &__subtitle {
+        &__crumbs {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
             font-family: var(--font-ui);
             font-size: var(--text-xs);
-            letter-spacing: var(--tracking-widest);
-            text-transform: uppercase;
-            color: var(--color-accent);
-            font-weight: var(--weight-semibold);
-            margin-bottom: var(--space-4);
+            letter-spacing: var(--tracking-wide);
+            color: var(--color-text-on-dark-muted);
+
+            li + li::before {
+                content: '›';
+                margin-right: var(--space-2);
+            }
+
+            a {
+                color: var(--color-text-on-dark-secondary);
+                text-decoration: underline;
+                text-decoration-color: var(--color-hairline-on-dark);
+                text-underline-offset: 0.2em;
+
+                &:hover {
+                    color: var(--color-text-on-dark);
+                    text-decoration-color: currentColor;
+                }
+            }
+        }
+
+        &__tags {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+
+            li {
+                font-family: var(--font-ui);
+                font-size: var(--text-xs);
+                font-weight: var(--weight-semibold);
+                letter-spacing: var(--tracking-wider);
+                text-transform: uppercase;
+                color: var(--gold);
+                background: var(--gold-tint);
+                border: var(--border-thin) solid var(--gold-border);
+                padding: var(--space-1) var(--space-3);
+            }
         }
 
         &__title {
             font-size: var(--text-3xl);
             font-weight: var(--weight-extrabold);
-            color: var(--color-text-strong);
             line-height: var(--leading-tight);
-            margin-bottom: var(--space-5);
+            color: var(--color-text-on-dark);
+            text-wrap: balance;
+        }
+
+        &__dek {
+            font-size: var(--text-md);
+            line-height: var(--leading-relaxed);
+            color: var(--color-text-on-dark-secondary);
+        }
+
+        &__meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2) var(--space-5);
+            margin-top: var(--space-2);
+            padding-top: var(--space-4);
+            border-top: var(--border-thin) solid var(--color-hairline-on-dark);
+            font-family: var(--font-ui);
+            font-size: var(--text-sm);
+            color: var(--color-text-on-dark-secondary);
+            max-inline-size: none;
+
+            span + span::before {
+                content: '·';
+                margin-right: var(--space-5);
+                color: var(--color-text-on-dark-muted);
+            }
+        }
+    }
+
+    .article-detail {
+        &__layout {
+            @include article-grid;
+            padding-block: var(--space-9) var(--section-y);
+        }
+
+        &__toc {
+            @media (max-width: calc($bp-lg - 1px)) {
+                // The sidebar is hidden on small screens; the Contents button and drawer take over
+                position: absolute;
+            }
+        }
+
+        &__content {
+            min-width: 0;
+        }
+
+        // Headings land below the fixed header and reading-progress bar when jumped to
+        :global(h2[id]),
+        :global(h3[id]) {
+            scroll-margin-top: calc(var(--header-height) + var(--space-6));
         }
 
         // The body is rendered by RichText, a child component, so Astro's scoped styles don't reach
@@ -179,6 +333,69 @@ const gradient = article.gradientFrom && article.gradientTo
                 letter-spacing: var(--tracking-wide);
                 text-transform: uppercase;
                 color: var(--color-text-secondary);
+            }
+        }
+    }
+
+    .article-sources {
+        margin-top: var(--space-8);
+        border-top: var(--border-thin) solid var(--color-border);
+        border-bottom: var(--border-thin) solid var(--color-border);
+
+        &__summary {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: var(--space-2) var(--space-4);
+            padding-block: var(--space-5);
+            cursor: pointer;
+            list-style: none;
+
+            &::-webkit-details-marker {
+                display: none;
+            }
+
+            // A plus that turns into a minus when open
+            &::after {
+                content: '+';
+                margin-left: auto;
+                font-family: var(--font-ui);
+                font-size: var(--text-xl);
+                line-height: 1;
+                color: var(--color-accent);
+            }
+        }
+
+        &[open] &__summary::after {
+            content: '−';
+        }
+
+        &__title {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-bold);
+            line-height: var(--leading-tight);
+            color: var(--color-text-strong);
+        }
+
+        &__count {
+            font-family: var(--font-ui);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+
+        &__list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            padding-bottom: var(--space-6);
+            font-size: var(--text-base);
+            line-height: var(--leading-normal);
+            color: var(--color-text-secondary);
+
+            li {
+                padding-left: var(--space-5);
+                text-indent: calc(-1 * var(--space-5));
             }
         }
     }

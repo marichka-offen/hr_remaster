@@ -1,4 +1,5 @@
 import type { Article } from '@app-types/article'
+import { irelandBody, virginiaBody, virginiaSources } from './article-bodies'
 
 // Copy is taken from the designs/ mocks. Bodies are trimmed placeholders until real content lands.
 
@@ -69,17 +70,8 @@ export const articles: Article[] = [
         readTime: '25 min read',
         layoutType: 'prose',
         author,
-        body: [
-            { type: 'heading', level: 2, text: 'The Call to Arms', id: 'call-to-arms' },
-            {
-                type: 'paragraph',
-                text: 'In late September 1676, the ship Rebecca arrived in London with dispatches from the Vice Governor of Virginia, Sir William Berkeley, with word of a rebellion by the colonists. The Governor, Thomas Lord Culpepper, had been the governor for life since 1675 but had not yet even seen the colony.',
-            },
-            {
-                type: 'paragraph',
-                text: "Acting with uncharacteristic speed, by 1 October King Charles II had resolved to send a thousand men to quell the mutineers. For the time, this was a major expedition incurring considerable cost for a government always short of money. Within four more days, commissions for five foot companies — one each from existing standing regiments — were signed, and Jeffreys' Regiment of Foot came into being.",
-            },
-        ],
+        body: virginiaBody,
+        sources: virginiaSources,
     },
     {
         title: 'The War of Three Kingdoms in Ireland, 1641–1648',
@@ -93,13 +85,7 @@ export const articles: Article[] = [
         readTime: '45 min read',
         layoutType: 'prose',
         author,
-        body: [
-            { type: 'heading', level: 2, text: 'Background', id: 'background' },
-            {
-                type: 'paragraph',
-                text: 'Ireland in 1641 was home to four overlapping communities — the native Irish, the Old English, the Antrim Scots and the newer English and Scottish settlers — each with its own loyalties and grievances.',
-            },
-        ],
+        body: irelandBody,
     },
     {
         title: 'The Eighty Years War',

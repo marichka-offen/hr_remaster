@@ -19,6 +19,8 @@ export interface ArticleMeta {
 
 export interface Article extends ArticleMeta {
     body?: RichText
+    // Bibliography entries, shown in a collapsible Sources section
+    sources?: string[]
     author?: {
         name: string
         role?: string

@@ -104,7 +104,7 @@ Computed with fontTools from the font files: x-height of the `x` glyph, and aver
 - [ ] Header: highlight the active link on nested routes (`/articles/foo` should mark Articles; today it's an exact match)
 - [ ] Header: the **search button does nothing**. Hide it until search ships in phase 8
 - [ ] Sticky slim header on scroll, as in the mock
-- [ ] Mobile nav: check focus trap, Escape to close, and returning focus to the button
+- [ ] Mobile nav: add focus trap, Escape to close, and returning focus to the button (`useFocusTrap` now exists)
 - [x] Footer: topic links go to `/articles?topic=…`; the filter already reads and writes `?topic=`
 
 ### 3. Listing pages
@@ -114,13 +114,14 @@ Computed with fontTools from the font files: x-height of the `x` glyph, and aver
 
 ### 4. Article page: the core reading experience
 From `designs/article-page`, `hussites` and `eighty-years-war-timeline`:
-- [ ] Hero: breadcrumb, tags, title, subtitle, period range, author, read time
-- [ ] Prose styles on `--measure`
-- [ ] TOC: sticky sidebar on desktop, drawer on mobile, generated from `heading` blocks (they carry `id`s), with scroll-spy
-- [ ] Reading-progress bar and back-to-top button
-- [ ] Sources and bibliography section, collapsible
-- [ ] Related articles: same topic first, then most recent
-- [ ] Auto-compute `readTime` from the body (from TODO.md)
+- [x] Mock content: Virginia and Ireland articles carry their full text from `designs/` (verbatim), Virginia with its 11 sources
+- [x] Hero: dark band with breadcrumb, topic tags, title, summary, author, read time and word count. Uses the article image when there is one, otherwise the topic colours
+- [x] Prose styles on `--measure`
+- [x] Contents list: sticky sidebar from 1024px, "Contents" button and drawer below that (focus trap, Escape, focus moves to the chosen heading), highlights the section being read. Built from headings, which get ids automatically
+- [x] Reading-progress bar under the header and back-to-top button (focus returns to the title)
+- [x] Sources & Bibliography: collapsible `<details>`, listed in the contents
+- [x] Related articles: same topic first, then most recent
+- [x] Read time calculated at 238 words per minute (Brysbaert 2019) when the body has 200+ words; shorter placeholder bodies keep the typed value
 
 ### 5. Article content blocks
 The mocks are hand-built per article: siege cards, garrison cards, weapon cards, ship manifests, strength bars. Building each one bespoke won't scale once an editor is writing in a CMS. Generalise them into a small block library, all added to the `RichTextBlock` union:
