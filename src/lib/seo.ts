@@ -27,6 +27,24 @@ const authorRef = (name: string, site: URL | undefined) => ({
     url: absolute('/about/', site),
 })
 
+// Organizations named on the About page. url is the official site; sameAs points to a well-known
+// reference page, which tells search engines exactly which organization is meant
+const org = (type: string, name: string, url: string, sameAs?: string) => ({
+    '@type': type,
+    name,
+    url,
+    ...(sameAs ? { sameAs } : {}),
+})
+
+const campbell = org('CollegeOrUniversity', 'Campbell University', 'https://www.campbell.edu/', 'https://en.wikipedia.org/wiki/Campbell_University')
+const georgetown = org('CollegeOrUniversity', 'Georgetown University', 'https://www.georgetown.edu/', 'https://en.wikipedia.org/wiki/Georgetown_University')
+const georgeMason = org('CollegeOrUniversity', 'George Mason University', 'https://www.gmu.edu/', 'https://en.wikipedia.org/wiki/George_Mason_University')
+const usArmy = org('GovernmentOrganization', 'United States Army', 'https://www.army.mil/', 'https://en.wikipedia.org/wiki/United_States_Army')
+const westholme = org('Organization', 'Westholme Publishing', 'https://www.westholmepublishing.com/')
+
+// A past position. schema.org's Role wraps an organization with a role name, without implying it's current
+const pastRole = (organization: Record<string, unknown>, roleName: string) => ({ '@type': 'Role', roleName, affiliation: organization })
+
 export function authorSchema(site: URL | undefined) {
     return {
         '@context': 'https://schema.org',
@@ -37,8 +55,13 @@ export function authorSchema(site: URL | undefined) {
         jobTitle: 'Military historian',
         description:
             'Retired U.S. Army Major, Armored Cavalry combat veteran and Bronze Star recipient, former Assistant Professor of Military Science at Georgetown University and George Mason University, and author of America\'s First Marines.',
-        award: 'Bronze Star',
-        alumniOf: { '@type': 'CollegeOrUniversity', name: 'Campbell University' },
+        award: 'Bronze Star Medal',
+        alumniOf: campbell,
+        affiliation: [
+            pastRole(usArmy, 'Major (retired), Armored Cavalry'),
+            pastRole(georgetown, 'Assistant Professor of Military Science'),
+            pastRole(georgeMason, 'Assistant Professor of Military Science'),
+        ],
         knowsAbout: ['Military history', 'Colonial American military history', 'Early modern European warfare'],
         worksFor: { '@type': 'Organization', name: SITE_NAME, url: absolute('/', site) },
     }
@@ -101,6 +124,6 @@ export function bookSchema(book: Book, site: URL | undefined) {
         url: absolute(`/books/${book.slug}/`, site),
         image: book.coverImageUrl ? absolute(book.coverImageUrl, site) : undefined,
         author: book.author ? authorRef(book.author, site) : undefined,
-        publisher: publisher ? { '@type': 'Organization', name: publisher } : undefined,
+        publisher: publisher === westholme.name ? westholme : publisher ? { '@type': 'Organization', name: publisher } : undefined,
     }
 }
