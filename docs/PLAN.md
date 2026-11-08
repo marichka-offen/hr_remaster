@@ -159,10 +159,16 @@ From `designs/about-book-pages`: cover hero, purchase CTA and excerpt link, an "
 - [ ] **Search** with Pagefind (static index, no backend), wired to the header button
 
 ### 9. Storyblok (last)
-- [ ] Model components in Storyblok to match `src/types/content.ts` one to one (sections and rich-text blocks)
+**Who edits:** Lee writes in Word and should be able to publish on his own: create an article from a Word file, fix typos, reorder home page sections and rename section titles. Marichka sets up structure, timelines, tables and cards. Sanity was dropped because it was too hard to understand.
+
+- [ ] Before building: a 30-minute trial with Lee in a free space (one article from his Word file, fix a typo, reorder the home page, rename a section title, publish)
+- [ ] Page type with a `sections` list (hero, featured, article grid, author card, book promo...) matching `Section` in `src/types/content.ts`, so sections can be dragged to reorder in the Visual Editor
+- [ ] Article type kept minimal: title, topic, summary, body (rich text with Word import), sources. Plain field names ("Who said it", "Caption")
+- [ ] Lee's account sees content only, not component or field setup; drafts stay off the live site until he presses Publish
 - [ ] Write the adapter: replace the bodies in `src/lib/content` and map Storyblok rich text to `RichText`
 - [ ] Draft and preview mode with the Visual Editor, and a webhook to trigger a Netlify rebuild on publish
 - [ ] Migrate the mock content into Storyblok as seed data
+- [ ] One-page guide with screenshots: new article from Word, fix a typo, reorder the home page, publish
 
 ---
 
