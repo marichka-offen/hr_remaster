@@ -41,6 +41,8 @@ export function articleSchema(article: Article, site: URL | undefined) {
             image: absolute(article.imageUrl ?? '/og-default.png', site),
             about: article.category,
             keywords: article.tags?.join(', '),
+            // The article's sources as written; not used by Google's rich results, but describes the page accurately
+            citation: article.sources?.length ? article.sources : undefined,
             author: article.author ? { '@type': 'Person', name: article.author.name } : undefined,
             publisher: organization(site),
         },
