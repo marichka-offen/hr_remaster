@@ -198,4 +198,5 @@ From `designs/about-book-pages`:
 ---
 
 ## Decisions log
+- **2026-11-08:** hosting moves from Netlify to Cloudflare Workers. Netlify's free plan charges 15 credits per production deploy (300/month ≈ 20 deploys), which publish-triggered rebuilds would exhaust; Vercel Hobby excludes commercial use (the site sells Lee's book). Cloudflare free: unlimited static traffic, 3,000 build minutes/month, deploy hooks; Workers Paid ($5/month) only if the preview needs more than 10ms CPU per request.
 - **2026-11-07:** body font is Literata (tried Atkinson Hyperlegible Next, which lost the heritage look, then Newsreader). Search is deferred to phase 8. `pages-mocks/` deleted; `designs/` is the design reference and is committed.

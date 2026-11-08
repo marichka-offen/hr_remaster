@@ -1,6 +1,6 @@
 # History Reconsidered
 
-Website for History Reconsidered, Lee G. Offen's military history research. Built with Astro, React islands and SCSS, deployed on Netlify.
+Website for History Reconsidered, Lee G. Offen's military history research. Built with Astro, React islands and SCSS, content in Storyblok, hosted on Cloudflare.
 
 ## Commands
 
@@ -9,7 +9,7 @@ Website for History Reconsidered, Lee G. Offen's military history research. Buil
 | `npm install` | Install dependencies |
 | `npm run dev` | Dev server at `localhost:4321` |
 | `npm run build` | Build the static site to `dist/` |
-| `npm run preview` | Serve the built site locally |
+| `npm run preview` | Serve the built site locally (Cloudflare runtime: `npx wrangler dev`) |
 | `npm run check` | Type-check `.astro`, `.ts` and `.tsx` files |
 | `npm run storyblok:push` | Create or update the Storyblok blocks from `storyblok/components.mjs` |
 | `npm run storyblok:seed` | Copy the mock content into Storyblok (creates or updates stories) |
@@ -50,11 +50,19 @@ Lee edits pages inside Storyblok with the page shown beside the fields (click a 
 - Pages and preview share the same templates (`src/views/`). Blocks carry Storyblok's `_editable` markers in draft content only (`src/lib/storyblok/editable.ts`).
 - Typing sends the unsaved story to the preview route, which re-renders and swaps the page content; saving or publishing reloads.
 
+- `src/pages/preview/[...slug].astro` and `src/pages/api/contact.ts` are the only server routes; they run in a Cloudflare Worker. Everything else is static files.
+
+## Hosting: Cloudflare Workers
+
+Static files plus one small Worker (`wrangler.jsonc`). Redirects from the old site are in `public/_redirects`, headers in `public/_headers`.
+
 One-time setup:
 
-1. **Netlify → Site configuration → Environment variables:** `CONTENT_SOURCE=storyblok`, `STORYBLOK_DELIVERY_API_TOKEN` (the preview token), `STORYBLOK_SPACE_ID`, `STORYBLOK_REGION=eu`. Not the personal access token.
-2. **Storyblok → Settings → Visual Editor → Preview URL:** `https://<your-site>/preview/`
-3. **Rebuild on publish:** Netlify → Site configuration → Build & deploy → Build hooks → add one; then Storyblok → Settings → Webhooks → new webhook for "Story published", "unpublished" and "deleted", pasting the build hook URL.
+1. **Deploy:** Cloudflare → Workers & Pages → Create → Import a repository → this repo. Build command `npm run build`, deploy command `npx wrangler deploy`.
+2. **Build variables** (Worker → Settings → Build → Variables and secrets): `CONTENT_SOURCE=storyblok`, `STORYBLOK_DELIVERY_API_TOKEN` (the preview token), `STORYBLOK_SPACE_ID`, `STORYBLOK_REGION=eu`, and `SITE_URL` (the `*.workers.dev` address until the domain is connected). Not the personal access token.
+3. **Storyblok → Settings → Visual Editor → Preview URL:** `https://<site address>/preview/`
+4. **Rebuild on publish:** Worker → Settings → Builds → Deploy Hooks → create one; Storyblok → Settings → Webhooks → new webhook for "Story published", "unpublished" and "deleted" with that URL.
+5. **Contact form** (once the domain is on Cloudflare): Email Routing → verify the address that should receive messages; Worker → Settings → Variables and secrets: `CONTACT_FROM` (e.g. `contact@<domain>`) and `CONTACT_TO` (the verified address).
 
 ## Styling rules
 

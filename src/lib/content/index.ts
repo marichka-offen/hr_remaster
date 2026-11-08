@@ -1,5 +1,5 @@
 // The only module pages import content from. It reads either the mock files or Storyblok, chosen with
-// CONTENT_SOURCE in .env (or Netlify's environment): "storyblok", or anything else for the mocks.
+// CONTENT_SOURCE in .env (or Cloudflare's build variables): "storyblok", or anything else for the mocks.
 // Both sources return the same types, and the derived fields below are applied to both.
 
 import type { Article, ArticleMeta } from '@app-types/article'

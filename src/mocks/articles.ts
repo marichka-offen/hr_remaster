@@ -114,5 +114,5 @@ export const articles: Article[] = (imported as ImportedArticle[]).map((item) =>
     return { ...article, period: article.period ?? (article.startYear ? String(article.startYear) : undefined) }
 })
 
-// Old URL -> new slug, for redirects (netlify.toml)
+// Old URL -> new slug, for redirects (public/_redirects)
 export const oldPaths = (imported as ImportedArticle[]).map(({ oldPath, slug }) => ({ oldPath, slug }))

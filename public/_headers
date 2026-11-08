@@ -1,0 +1,7 @@
+# The Storyblok Visual Editor preview and the contact endpoint: never indexed, never cached
+/preview/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store
+/api/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store

@@ -1,0 +1,23 @@
+# Old site (Vue, 2021) URLs -> new pages. 301 = permanent, so search engines move the old ranking over.
+# Article rules are generated from src/mocks/imported/articles.json (oldPath -> slug).
+/colonial-history/british-america  /articles/british-military-presence-america/  301
+/colonial-history/regulars-va  /articles/british-regulars-virginia/  301
+/colonial-history/maryland-forces  /articles/maryland-forces-1754-1764/  301
+/colonial-history/va-rangers  /articles/virginia-ranger-companies/  301
+/colonial-history/severn-battle  /articles/battle-of-the-severn/  301
+/kent-militia  /articles/kent-county-militia/  301
+/maryland  /articles/military-history-of-maryland/  301
+/czechoslovak-legion  /articles/czechoslovak-legion/  301
+/dutch-history/eighty-years-war  /articles/eighty-years-war/  301
+/dutch-history/new-netherlands  /articles/dutch-military-new-netherland/  301
+/hussites  /articles/the-hussites/  301
+/irish-history/three-kingdoms  /articles/war-of-three-kingdoms-ireland/  301
+/irish-history/oneils-rebelion  /articles/oneils-rebellion/  301
+/irish-history/ireland-1652-1688  /articles/ireland-1652-1688/  301
+/irish-history/williamite-war  /articles/williamite-war/  301
+/irish-history/irish-military  /articles/irish-military-establishment/  301
+/scottish-history/mackeys-regiment  /articles/mackays-regiment/  301
+/scottish-history/dumbartons-regiment  /articles/dumbartons-regiment/  301
+/scottish-history/house-stuart  /articles/house-of-stuart/  301
+/book  /books/americas-first-marines/  301
+/recommendations  /articles/  301

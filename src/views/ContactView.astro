@@ -29,18 +29,11 @@ const label = data?.label ?? 'Contact'
                     <p class="contact-page__subheading">{subheading}</p>
                 </div>
 
-                {/* Netlify Forms handles submissions: it finds this form at deploy time and redirects to the
-                    thank-you page on success. The hidden bot-field catches spam bots that fill in every input */}
-                <form
-                    class="contact-form"
-                    name="contact"
-                    method="POST"
-                    action="/contact/thanks"
-                    data-netlify="true"
-                    netlify-honeypot="bot-field"
-                    data-contact-form
-                >
-                    <input type="hidden" name="form-name" value="contact" />
+                {/* Sent to /api/contact (src/pages/api/contact.ts), which emails the message and redirects to the
+                    thank-you page. The hidden bot-field catches spam bots that fill in every input */}
+                <p class="contact-form__status" role="alert" data-contact-status hidden></p>
+
+                <form class="contact-form" name="contact" method="POST" action="/api/contact" data-contact-form>
                     <p class="contact-form__trap" aria-hidden="true">
                         <label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
                     </p>
@@ -85,6 +78,19 @@ const label = data?.label ?? 'Contact'
 </SiteLayout>
 
 <script>
+    // A failed submission comes back as /contact/?status=…; explain what happened above the form
+    const statusMessages: Record<string, string> = {
+        invalid: 'Please check the form: name, a valid email address and a message are all needed.',
+        unavailable: 'The contact form isn’t connected yet. Please try again later.',
+        error: 'Your message couldn’t be sent. Please try again in a few minutes.',
+    }
+    const status = new URLSearchParams(window.location.search).get('status')
+    const statusBox = document.querySelector<HTMLElement>('[data-contact-status]')
+    if (status && statusBox && statusMessages[status]) {
+        statusBox.textContent = statusMessages[status]
+        statusBox.hidden = false
+    }
+
     // Our own messages instead of the browser's pop-ups, which are small and vanish quickly.
     // Without JavaScript the browser's built-in checks still apply, because noValidate is only set here
     const form = document.querySelector<HTMLFormElement>('[data-contact-form]')
@@ -219,6 +225,17 @@ const label = data?.label ?? 'Contact'
             border-color: var(--burgundy);
             // A second pixel drawn inside the border, so the field doesn't change size
             box-shadow: inset 0 0 0 1px var(--burgundy);
+        }
+
+        &__status {
+            margin-bottom: var(--gap-items);
+            padding: var(--inset-md);
+            font-family: var(--font-ui);
+            font-size: var(--text-sm);
+            color: var(--burgundy);
+            background: var(--color-surface);
+            border: var(--border-thin) solid var(--burgundy);
+            border-left-width: 3px;
         }
 
         &__error {

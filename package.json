@@ -14,7 +14,7 @@
     "storyblok:seed": "npx -y tsx@4 scripts/storyblok-seed.ts"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.6.5",
+    "@astrojs/cloudflare": "^12.6.13",
     "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.7.4",
     "@types/react": "^19.2.14",
@@ -32,6 +32,7 @@
     "@types/node": "^22.20.5",
     "pagefind": "^1.5.2",
     "sass": "^1.97.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "^4.158.0"
   }
 }

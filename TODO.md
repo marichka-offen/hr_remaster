@@ -34,6 +34,7 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ### Now
 
+- [ ] Ask Lee whether History Reconsidered, LLC exists; if not, remove "LLC" from the footer copyright
 - [ ] Create a Storyblok personal access token (My account > Account settings > Personal access token) and add it to `.env` as `STORYBLOK_PERSONAL_ACCESS_TOKEN`; then run `npm run storyblok:push` and `npm run storyblok:seed`
 - [ ] Review and merge PR #83 (`feat/mock-content`)
 - [ ] One pass in a real browser: contents list highlighting, contents drawer, back-to-top, mobile menu, slim header on scroll, search (`npm run build` then `npm run preview`, press `/`), printing an article
@@ -42,8 +43,8 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ### After launch
 
-- [ ] Attach the domain in Netlify (the site reads it from Netlify's `URL` automatically)
-- [ ] Send a test message through the contact form and confirm it arrives (Netlify Forms only works once deployed)
+- [ ] Move the domain's DNS to Cloudflare, add it to the Worker as a custom domain, and update `SITE_URL`
+- [ ] Contact form: enable Email Routing, verify the receiving address, set `CONTACT_FROM` and `CONTACT_TO`, then send a test message
 - [ ] Add the site to Google Search Console and Bing Webmaster Tools; submit `sitemap-index.xml`
 - [ ] Test a few articles and a book in Google's Rich Results Test
 - [ ] Watch Search Console's AI features report
@@ -62,7 +63,7 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 - [ ] Move components onto the spacing roles (`--gap-*`, `--inset-*`); only the search dialog uses them so far
 - [ ] Wide blocks: let tables, timelines and fact cards use the empty right-hand column on wide screens
 - [ ] New components use min-width (mobile-first) media queries
-- [x] Importer for the old site (`scripts/import-old-site.py`): all 19 articles converted into `src/mocks/imported/articles.json`; the site now shows the real articles. Old URLs redirect to the new ones (netlify.toml)
+- [x] Importer for the old site (`scripts/import-old-site.py`): all 19 articles converted into `src/mocks/imported/articles.json`; the site now shows the real articles. Old URLs redirect to the new ones (public/_redirects)
 - [ ] Seeding Storyblok with the imported articles: images are linked from the old GitHub repo; upload them to Storyblok's asset library once their rights are checked (the seed currently creates image blocks without the file)
 - [ ] Design the articles that need it:
   - Williamite War: the whole article is an order of battle (army → arm → regiment → engagements)
@@ -72,10 +73,13 @@ Everything still open, grouped by who acts on it. Details and history are in [do
   - Maryland: unit and commander lists
 - [x] Phase 9a, Storyblok: block definitions in code, push and seed scripts, delivery client, rich text converter, adapter, `CONTENT_SOURCE` switch
 - [x] Phase 9b: blocks pushed, content seeded (19 articles, 2 books, pages, settings), formatting preserved; Storyblok build matches the mock build except images
-- [x] Phase 9c (code): Visual Editor preview at /preview/<slug> (on-request Netlify function, token-checked, click-to-edit markers, live typing via the bridge); page templates moved into src/views so static and preview pages share code
-- [ ] Phase 9c (setup): Netlify environment variables, Storyblok preview URL, publish webhook (steps in README); a one-page guide for Lee
+- [x] Phase 9c (code): Visual Editor preview at /preview/<slug> (on-request Cloudflare Worker route, token-checked, click-to-edit markers, live typing via the bridge); page templates moved into src/views so static and preview pages share code
+- [x] Hosting moved from Netlify to Cloudflare Workers (free plan: unlimited static traffic, 3,000 build minutes/month); contact form now emails through Cloudflare
+- [ ] Turn on Workers Paid ($5/month) before Lee uses the Visual Editor: preview renders measured 24–39ms CPU locally, above the free plan's 10ms per request (the static site stays free)
+- [ ] Optional: make preview renders cheaper (convert only the edited article's text, not all 19, when finding related articles and read times)
+- [ ] Phase 9c (setup): Cloudflare deploy, build variables, Storyblok preview URL, deploy hook webhook (steps in README); a one-page guide for Lee
 - [ ] Source links on the site (the Storyblok `source` block already has an optional link field)
-- [ ] Only if logs show a crawler ignoring robots.txt: block AI training crawlers at the server (Netlify)
+- [ ] Only if logs show a crawler ignoring robots.txt: block AI training crawlers at the server (Cloudflare can do this)
 
 ## Done
 
