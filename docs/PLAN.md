@@ -139,6 +139,7 @@ The mocks are hand-built per article. They are generalised into a small block li
 | `legend`, `sectionNav` | legend dots, era and section nav | Folded in: the timeline draws its own legend, and the contents list does the jumping |
 
 - [x] Mock instances use real data from the mocks: Virginia (roster, staff, strengths, equipment, fleet, personnel, open question), Ireland (reading callout, collapsible, regiment cards), Eighty Years War (background + two timeline periods), Hussites (figures)
+- [x] "Text and content" page section (`_type: 'content'`): any article block on any page, in the same reading column. Example: a small timeline at the bottom of the home page
 - [x] All blocks on one internal page: `/dev/blocks` (noindex, not linked). Exclude it from the sitemap in phase 8
 - [x] Shared `.prose` styles (RichText.scss) replace the article page's own, so nested content (collapsibles) gets the same typography
 - [ ] Wide blocks: let tables, timelines and fact cards break out into the empty right-hand column on wide screens

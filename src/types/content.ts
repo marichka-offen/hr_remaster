@@ -172,6 +172,8 @@ export type Section =
       }
     | { _type: 'philosophyBlock'; quote: string; body?: RichText }
     | { _type: 'pageCta'; label?: string; heading: string; subtext?: string; cta?: CTA }
+    // Any article content blocks on a page: text, timeline, figure, callout, cards, tables
+    | { _type: 'content'; label?: string; heading?: string; blocks: RichText }
 
 export interface Page {
     title: string

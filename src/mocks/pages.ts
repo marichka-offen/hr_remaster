@@ -1,6 +1,7 @@
 import type { ContactPage, Page, SiteSettings } from '@app-types/content'
 import { articles } from './articles'
 import { books } from './books'
+import { eightyYearsWarBody } from './article-bodies'
 
 const bySlug = (slug: string) => {
     const article = articles.find((a) => a.slug === slug)
@@ -9,6 +10,11 @@ const bySlug = (slug: string) => {
 }
 
 const forthcoming = books[1]
+
+// A few real events from the Eighty Years War mock, to show a small timeline as a home page section
+const eightyYearsTimeline = eightyYearsWarBody.find((block) => block.type === 'timeline')
+const homeTimelineEvents =
+    eightyYearsTimeline?.type === 'timeline' ? eightyYearsTimeline.groups[0].events.filter((e) => e.kind && e.kind !== 'quote').slice(0, 4) : []
 
 export const siteSettings: SiteSettings = {
     header: {
@@ -90,6 +96,17 @@ export const home: Page = {
             subtitle: forthcoming.subtitle,
             description: forthcoming.excerpt,
             cta: { text: 'Learn More', link: `/books/${forthcoming.slug}` },
+        },
+        {
+            _type: 'content',
+            label: 'From the archive',
+            heading: 'The Eighty Years War',
+            blocks: [
+                {
+                    type: 'timeline',
+                    groups: [{ id: 'home-timeline', label: '1555–1567', title: 'Gathering Storm', events: homeTimelineEvents }],
+                },
+            ],
         },
     ],
 }

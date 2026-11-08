@@ -1,0 +1,15 @@
+.content-section {
+    background: var(--color-bg);
+    border-top: var(--border-thin) solid var(--color-border);
+
+    // Same column as article text: capped at the measure, at reading size (ch resolves at this font size)
+    &__inner {
+        font-size: var(--text-prose);
+        max-width: calc(var(--measure) + 2 * var(--gutter));
+        margin: 0 auto;
+        padding: var(--section-y) var(--gutter);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+    }
+}
