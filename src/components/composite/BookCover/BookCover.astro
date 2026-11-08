@@ -1,0 +1,31 @@
+---
+// A book cover: the real image when there is one, otherwise a framed typographic cover
+import CoverFrame from '@components/composite/CoverFrame/CoverFrame.astro'
+import './BookCover.scss'
+
+interface Props {
+    title: string
+    subtitle?: string
+    author?: string
+    label?: string
+    imageUrl?: string
+    imageAlt?: string
+    size?: 'md' | 'lg'
+}
+
+const { title, subtitle, author, label, imageUrl, imageAlt, size = 'md' } = Astro.props
+---
+
+{imageUrl ? (
+    <img class={`book-cover book-cover--${size} book-cover--image`} src={imageUrl} alt={imageAlt ?? `Cover of ${title}`} />
+) : (
+    // The text is already on the page next to the cover, so this drawn version is hidden from screen readers
+    <CoverFrame inset={10} class={`book-cover book-cover--${size}`}>
+        <div aria-hidden="true" class="book-cover__inner">
+            {label && <span class="book-cover__label">{label}</span>}
+            <span class="book-cover__title">{title}</span>
+            {subtitle && <span class="book-cover__subtitle">{subtitle}</span>}
+            {author && <span class="book-cover__author">{author}</span>}
+        </div>
+    </CoverFrame>
+)}

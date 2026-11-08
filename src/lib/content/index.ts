@@ -19,7 +19,7 @@ const withDerivedFields = (article: Article): Article => ({
 })
 
 const toArticleMeta = ({ body: _body, author: _author, sources: _sources, ...meta }: Article): ArticleMeta => meta
-const toBookMeta = ({ description: _d, cta: _c, ...meta }: Book): BookMeta => meta
+const toBookMeta = ({ description: _d, cta: _c, secondaryCta: _s, status: _st, details: _de, previewPages: _p, ...meta }: Book): BookMeta => meta
 
 export async function getSiteSettings(): Promise<SiteSettings> {
     return pages.siteSettings

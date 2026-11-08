@@ -39,62 +39,13 @@
         }
     }
 
-    &__cover-img {
-        aspect-ratio: 2 / 3;
-        width: 100%;
-        object-fit: cover;
-        border-radius: var(--radius-sm);
-        box-shadow: var(--shadow-book);
-    }
-
     &__cover {
-        background: var(--gradient-burgundy);
-        aspect-ratio: 2 / 3;
-        border-radius: var(--radius-sm);
         display: flex;
-        flex-direction: column;
-        align-items: center;
         justify-content: center;
-        padding: var(--space-6);
-        text-align: center;
-        box-shadow: var(--shadow-book);
-        position: relative;
-        overflow: hidden;
 
         @media (max-width: $bp-md) {
             max-width: 200px;
             margin: 0 auto;
-        }
-
-        &-label {
-            font-family: var(--font-ui);
-            font-size: var(--text-xs);
-            letter-spacing: var(--tracking-widest);
-            text-transform: uppercase;
-            color: var(--color-text-on-dark-secondary);
-            margin-bottom: var(--space-4);
-            position: relative;
-            z-index: 1;
-        }
-
-        &-title {
-            font-family: var(--font-display);
-            font-size: var(--text-lg);
-            font-weight: var(--weight-bold);
-            color: var(--color-text-on-dark);
-            line-height: var(--leading-tight);
-            position: relative;
-            z-index: 1;
-        }
-
-        &-author {
-            font-family: var(--font-quote);
-            font-style: italic;
-            font-size: var(--text-sm);
-            color: var(--color-text-on-dark-muted);
-            margin-top: var(--space-4);
-            position: relative;
-            z-index: 1;
         }
     }
 

@@ -146,7 +146,13 @@ The mocks are hand-built per article. They are generalised into a small block li
 - [ ] Real images for figures once they exist (with `astro:assets`, phase 8)
 
 ### 6. Book detail page
-From `designs/about-book-pages`: cover hero, purchase CTA and excerpt link, an "About the Book" prose block, a details table (publisher, period, format), a preview-pages gallery, and a promo for the other book.
+From `designs/about-book-pages`:
+- [x] Dark hero: cover, status ("Published · Available Now"), title, subtitle, summary, Buy and Excerpt buttons
+- [x] About the Book (rich text, the mock's pull quote as a quote block) with a sidebar: Book Details list and Preview Pages (labelled placeholders until images exist)
+- [x] Other books shown below as book promos with "Learn More"
+- [x] Shared `BookCover` component (image, or framed typographic cover), also used by the book promo section
+- [x] Removed `publishedYear: '2023'` from the mock: it wasn't in the design
+- [ ] Real Amazon and excerpt links (the mock has "#"), cover images and preview pages
 
 ### 7. Contact
 - [ ] Netlify Forms: a success page (`action="/contact/thanks"`), a honeypot field, and inline validation messages
