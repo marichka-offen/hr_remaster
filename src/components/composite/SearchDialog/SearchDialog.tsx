@@ -123,6 +123,10 @@ export default function SearchDialog() {
                     <form className="search-dialog__form" role="search" onSubmit={(event) => event.preventDefault()}>
                         <label htmlFor="site-search" className="search-dialog__label">Search articles and books</label>
                         <div className="search-dialog__field">
+                            <svg className="search-dialog__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+                                <circle cx="11" cy="11" r="6.5" />
+                                <path d="M16 16l4.5 4.5" />
+                            </svg>
                             <input
                                 ref={inputRef}
                                 id="site-search"
@@ -130,26 +134,54 @@ export default function SearchDialog() {
                                 className="search-dialog__input"
                                 value={query}
                                 onChange={(event) => setQuery(event.target.value)}
-                                placeholder="e.g. Hussites, Virginia, siege"
+                                placeholder="Search articles and books"
                                 autoComplete="off"
+                                spellCheck={false}
                             />
-                            <button type="button" className="search-dialog__close" onClick={() => dialogRef.current?.close()}>
-                                Close
+                            {query && (
+                                <button
+                                    type="button"
+                                    className="search-dialog__clear"
+                                    aria-label="Clear search"
+                                    onClick={() => {
+                                        setQuery('')
+                                        inputRef.current?.focus()
+                                    }}
+                                >
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                        <path d="M7 7l10 10M17 7L7 17" />
+                                    </svg>
+                                </button>
+                            )}
+                            <button type="button" className="search-dialog__close" aria-label="Close search" onClick={() => dialogRef.current?.close()}>
+                                Esc
                             </button>
                         </div>
                     </form>
 
+                    {/* Always rendered, so screen readers reliably announce changes to it */}
                     <p className="search-dialog__status" aria-live="polite">{message}</p>
+
+                    {!query && status !== 'unavailable' && (
+                        <p className="search-dialog__hint">
+                            Try a name, place or battle, such as <em>Hussites</em>, <em>Virginia</em> or <em>Benburb</em>.
+                        </p>
+                    )}
 
                     {results.length > 0 && (
                         <ul className="search-dialog__results">
                             {results.map((result) => (
                                 <li key={result.url}>
                                     <a className="search-dialog__result" href={result.url}>
-                                        {result.type && <span className="search-dialog__type">{result.type}</span>}
-                                        <span className="search-dialog__title">{result.title}</span>
-                                        {/* Pagefind returns the excerpt as HTML with <mark> around the matched words */}
-                                        <span className="search-dialog__excerpt" dangerouslySetInnerHTML={{ __html: result.excerpt }} />
+                                        <span className="search-dialog__result-text">
+                                            {result.type && <span className="search-dialog__type">{result.type}</span>}
+                                            <span className="search-dialog__title">{result.title}</span>
+                                            {/* Pagefind returns the excerpt as HTML with <mark> around the matched words */}
+                                            <span className="search-dialog__excerpt" dangerouslySetInnerHTML={{ __html: result.excerpt }} />
+                                        </span>
+                                        <svg className="search-dialog__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                            <path d="M5 12h14M13 6l6 6-6 6" />
+                                        </svg>
                                     </a>
                                 </li>
                             ))}

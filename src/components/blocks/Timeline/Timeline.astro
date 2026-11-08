@@ -22,7 +22,7 @@ const usedKinds = (Object.keys(kindLabels) as (keyof typeof kindLabels)[]).filte
 
 <div class="timeline">
     {usedKinds.length > 1 && (
-        <ul class="timeline__legend" aria-label="Legend">
+        <ul class="timeline__legend" aria-label="Legend" data-pagefind-ignore>
             {usedKinds.map((kind) => (
                 <li class="timeline__legend-item">
                     <span class={`timeline__dot timeline__dot--${kind}`} aria-hidden="true" />
@@ -55,7 +55,8 @@ const usedKinds = (Object.keys(kindLabels) as (keyof typeof kindLabels)[]).filte
                                 <div class="timeline__body">
                                     <p class="timeline__meta">
                                         {event.date && <span class="timeline__date">{event.date}</span>}
-                                        {kind !== 'event' && <span class="timeline__badge">{kindLabels[kind]}</span>}
+                                        {/* Kept out of search, so "siege" finds sieges, not every badge */}
+                                        {kind !== 'event' && <span class="timeline__badge" data-pagefind-ignore>{kindLabels[kind]}</span>}
                                     </p>
                                     {event.title && <p class="timeline__event-title">{event.title}</p>}
                                     <p class="timeline__text">{event.text}</p>
