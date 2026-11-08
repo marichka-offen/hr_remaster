@@ -139,7 +139,7 @@ export default function SearchDialog() {
                 <div className="search-dialog__panel">
                     <form className="search-dialog__form" role="search" onSubmit={(event) => event.preventDefault()}>
                         <div className="search-dialog__top">
-                            <label htmlFor="site-search" className="search-dialog__label">Search articles</label>
+                            <label htmlFor="site-search" className="search-dialog__label">Search the archive</label>
                             <button type="button" className="search-dialog__close" onClick={() => dialogRef.current?.close()}>
                                 Close
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
