@@ -22,17 +22,17 @@
     }
 }
 
-// One quiet card: a single ivory surface, hairline dividers, no stacked boxes
+// Light take on the reference: gold label, a boxed field with an italic prompt, a hint line beneath
 .search-dialog {
-    width: min(40rem, calc(100vw - 2 * var(--gutter)));
-    max-height: min(34rem, calc(100vh - 2 * var(--space-8)));
+    width: min(42rem, calc(100vw - 2 * var(--gutter)));
+    max-height: min(36rem, calc(100vh - 2 * var(--space-8)));
     margin: 12vh auto auto;
     padding: 0;
     border: var(--border-thin) solid var(--color-border);
     border-radius: 6px;
-    background: var(--color-surface);
+    background: var(--color-bg);
     color: var(--color-text);
-    box-shadow: 0 24px 60px color-mix(in srgb, var(--ink) 35%, transparent);
+    box-shadow: 0 24px 60px color-mix(in srgb, var(--ink) 30%, transparent);
     overflow: hidden;
 
     @media (max-width: $bp-md) {
@@ -41,7 +41,7 @@
     }
 
     &::backdrop {
-        background: color-mix(in srgb, var(--ink) 55%, transparent);
+        background: color-mix(in srgb, var(--ink) 50%, transparent);
         backdrop-filter: blur(2px);
     }
 
@@ -56,26 +56,65 @@
         min-height: 0;
     }
 
-    &__label {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip-path: inset(50%);
-        white-space: nowrap;
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        padding: var(--space-5) var(--space-6) 0;
     }
 
-    // The field row. Its bottom rule turns gold while the input has focus, which is the focus indicator
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+    }
+
+    &__label {
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+        letter-spacing: var(--tracking-widest);
+        text-transform: uppercase;
+        color: var(--color-accent);
+    }
+
+    &__close {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        min-height: var(--tap-target);
+        margin-right: calc(-1 * var(--space-2));
+        padding: 0 var(--space-2);
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
+        color: var(--color-text-secondary);
+        cursor: pointer;
+
+        svg {
+            width: 0.875rem;
+            height: 0.875rem;
+        }
+
+        &:hover {
+            color: var(--color-text-strong);
+        }
+    }
+
+    // The box: icon and input side by side, so the icon never overlaps the text
     &__field {
         display: flex;
         align-items: center;
         gap: var(--space-3);
-        padding: var(--space-3) var(--space-4) var(--space-3) var(--space-5);
-        border-bottom: var(--border-rule) solid var(--color-border);
-        transition: border-color var(--duration-fast) var(--ease-standard);
+        padding: 0 var(--space-3) 0 var(--space-4);
+        background: var(--color-surface);
+        border: var(--border-thin) solid var(--color-border-strong);
+        border-radius: 6px;
+        transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
 
         &:focus-within {
-            border-bottom-color: var(--color-accent);
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--gold-border);
         }
     }
 
@@ -93,16 +132,17 @@
     &__input {
         flex: 1;
         min-width: 0;
-        min-height: var(--tap-target);
+        min-height: 3.5rem;
         padding: 0;
         font-family: var(--font-body);
-        font-size: var(--text-md);
+        font-size: var(--text-lg);
         color: var(--color-text-strong);
         background: transparent;
         border: 0;
         outline: none;
 
         &::placeholder {
+            font-style: italic;
             color: var(--color-text-secondary);
             opacity: 1;
         }
@@ -136,72 +176,71 @@
         }
     }
 
-    &__body {
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-        overscroll-behavior: contain;
+    // Hint line under the box: examples (or the result count) on the left, shortcuts on the right
+    &__hint {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--space-2) var(--space-5);
+        padding: var(--space-3) var(--space-6) var(--space-5);
+        font-family: var(--font-ui);
+        font-size: var(--text-sm);
+        color: var(--color-text-secondary);
     }
 
     &__status {
-        padding: var(--space-3) var(--space-5) 0;
-        font-family: var(--font-ui);
-        font-size: var(--text-sm);
-        color: var(--color-text-secondary);
-
-        &:empty {
-            padding: 0;
-        }
+        max-inline-size: none;
     }
 
-    &__suggest {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: var(--space-3);
-        padding: var(--space-5);
-    }
-
-    &__suggest-label {
-        font-family: var(--font-ui);
-        font-size: var(--text-sm);
-        color: var(--color-text-secondary);
-    }
-
-    &__chips {
-        list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-2);
-
-        li {
-            max-inline-size: none;
-        }
-    }
-
-    &__chip {
-        font-family: var(--font-ui);
-        font-size: var(--text-sm);
+    &__example {
+        font-family: var(--font-body);
+        font-style: italic;
+        font-size: var(--text-base);
         color: var(--color-text-strong);
-        padding: var(--space-1) var(--space-3);
-        min-height: 2.25rem;
-        background: var(--color-bg);
-        border: var(--border-thin) solid var(--color-border);
-        border-radius: 999px;
+        text-decoration: underline;
+        text-decoration-color: var(--color-border-strong);
+        text-underline-offset: 0.2em;
         cursor: pointer;
-        transition: var(--transition-colors);
 
         &:hover {
-            border-color: var(--color-accent);
             color: var(--color-accent);
+            text-decoration-color: currentColor;
         }
+    }
+
+    &__shortcut {
+        max-inline-size: none;
+
+        @media (hover: none) {
+            display: none;
+        }
+    }
+
+    kbd {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.5rem;
+        height: 1.5rem;
+        padding: 0 0.4rem;
+        margin: 0 0.15rem;
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+        color: var(--color-text-strong);
+        background: var(--parchment-dark);
+        border-radius: 4px;
     }
 
     &__results {
         list-style: none;
         display: flex;
         flex-direction: column;
-        padding: var(--space-2) var(--space-2) var(--space-3);
+        padding: var(--space-2) var(--space-3) var(--space-4);
+        border-top: var(--border-thin) solid var(--color-border);
+        overflow-y: auto;
+        overscroll-behavior: contain;
 
         li {
             max-inline-size: none;
@@ -216,14 +255,14 @@
         display: flex;
         align-items: center;
         gap: var(--space-4);
-        padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+        padding: var(--space-3);
         border-radius: 4px;
         outline-offset: -2px;
         transition: background-color var(--duration-fast) var(--ease-standard);
 
         &:hover,
         &:focus-visible {
-            background: var(--color-bg);
+            background: var(--color-surface);
 
             .search-dialog__arrow {
                 opacity: 1;
@@ -272,7 +311,7 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
 
-        // Matched words: bold with a gold underline, quieter than a highlighter block
+        // Matched words: bold with a gold underline
         mark {
             background: none;
             color: var(--color-text-strong);
@@ -292,59 +331,5 @@
         opacity: 0;
         transform: translateX(calc(-1 * var(--space-1)));
         transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
-    }
-
-    &__footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--space-4);
-        padding: var(--space-1) var(--space-3) var(--space-1) var(--space-5);
-        border-top: var(--border-thin) solid var(--color-border);
-        background: var(--color-bg);
-        font-family: var(--font-ui);
-        font-size: var(--text-xs);
-        color: var(--color-text-secondary);
-    }
-
-    // Keyboard hints only make sense with a keyboard
-    &__keys {
-        @media (hover: none) {
-            visibility: hidden;
-        }
-    }
-
-    kbd {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 1.4rem;
-        height: 1.4rem;
-        padding: 0 0.35rem;
-        margin: 0 0.15rem;
-        font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        font-weight: var(--weight-semibold);
-        color: var(--color-text-secondary);
-        background: var(--color-surface);
-        border: var(--border-thin) solid var(--color-border);
-        border-radius: 4px;
-    }
-
-    &__close {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--space-1);
-        min-height: var(--tap-target);
-        padding: 0 var(--space-2);
-        font-family: var(--font-ui);
-        font-size: var(--text-xs);
-        color: var(--color-text-secondary);
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover {
-            color: var(--color-text-strong);
-        }
     }
 }
