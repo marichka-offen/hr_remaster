@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "og-image": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 --virtual-time-budget=3000 --screenshot=public/og-default.png scripts/og-default.html"
+    "og-image": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 --virtual-time-budget=3000 --screenshot=public/og-default.png scripts/og-default.html",
+    "tokens-doc": "python3 scripts/tokens-doc.py"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",

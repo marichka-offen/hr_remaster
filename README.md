@@ -11,6 +11,8 @@ Website for History Reconsidered, Lee G. Offen's military history research. Buil
 | `npm run build` | Build the static site to `dist/` |
 | `npm run preview` | Serve the built site locally |
 | `npm run check` | Type-check `.astro`, `.ts` and `.tsx` files |
+| `npm run tokens-doc` | Regenerate `docs/TOKENS.md` from `tokens.css` |
+| `npm run og-image` | Re-render the social preview image from `scripts/og-default.html` |
 
 ## Where things live
 
@@ -36,6 +38,9 @@ src/
 Pages call functions in `src/lib/content` (`getPage`, `getArticles`, `getArticle`...). Today these return data from `src/mocks/`. Storyblok will be connected last by replacing the bodies of those functions; their signatures and the types in `src/types/content.ts` stay the same, so pages and components don't change.
 
 ## Styling rules
+
+Full token reference: [docs/TOKENS.md](docs/TOKENS.md) (tables, generated with `npm run tokens-doc`) and [docs/tokens.html](docs/tokens.html) (open in a browser for swatches and live contrast checks).
+
 
 - Use tokens from `src/design-tokens/tokens.css`, never raw values.
 - For colour, use the role tokens (`--color-text`, `--color-surface`, `--color-border`...). Palette names (`--navy`, `--gold`, `--burgundy`) are only for brand decoration.
