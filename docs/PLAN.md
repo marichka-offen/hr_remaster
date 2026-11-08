@@ -159,9 +159,10 @@ From `designs/about-book-pages`: cover hero, purchase CTA and excerpt link, an "
 - [ ] **Search** with Pagefind (static index, no backend), wired to the header button
 
 ### 9. Storyblok (last)
-**Who edits:** Lee writes in Word and should be able to publish on his own: create an article from a Word file, fix typos, reorder home page sections and rename section titles. Marichka sets up structure, timelines, tables and cards. Sanity was dropped because it was too hard to understand.
+**Who edits:** Lee writes in Word and should be able to publish on his own: create an article from a Word file, fix typos, reorder home page sections, rename section titles, and build the complex parts (timelines, tables, fact cards) himself, as he did in the originals. Marichka sets up the structure. Sanity was dropped because it was too hard to understand.
 
-- [ ] Before building: a 30-minute trial with Lee in a free space (one article from his Word file, fix a typo, reorder the home page, rename a section title, publish)
+- [ ] Before building: a 30-minute trial with Lee in a free space (one article from his Word file, fix a typo, reorder the home page, rename a section title, add a few timeline events, publish)
+- [ ] Make the complex blocks writable the way he writes in Word. Candidates to test in the trial: a timeline period as one text area where each event is a paragraph starting with a bold date (parsed into events), versus one nested block per event; tables in Storyblok's table field; how his existing Word tables survive the Word import
 - [ ] Page type with a `sections` list (hero, featured, article grid, author card, book promo...) matching `Section` in `src/types/content.ts`, so sections can be dragged to reorder in the Visual Editor
 - [ ] Article type kept minimal: title, topic, summary, body (rich text with Word import), sources. Plain field names ("Who said it", "Caption")
 - [ ] Lee's account sees content only, not component or field setup; drafts stay off the live site until he presses Publish
