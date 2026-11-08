@@ -1,8 +1,8 @@
+import type { CSSProperties } from 'react'
+import '../CoverFrame/CoverFrame.scss'
+import '../BookCover/BookCover.scss'
 import './BookCard.scss'
-import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
 import type { BookMeta } from '@app-types/book'
-
-const DEFAULT_GRADIENT = 'var(--gradient-book)'
 
 interface Props {
     book: BookMeta
@@ -10,8 +10,6 @@ interface Props {
 }
 
 export default function BookCard({ book, titleAs: Title = 'h3' }: Props) {
-    const code = book.title.slice(0, 3).toUpperCase()
-
     return (
         <a href={`/books/${book.slug}`} className="book-card">
             <div className="book-card__cover">
@@ -22,7 +20,15 @@ export default function BookCard({ book, titleAs: Title = 'h3' }: Props) {
                         className="book-card__cover-img"
                     />
                 ) : (
-                    <PlaceholderImage gradient={DEFAULT_GRADIENT} code={code} aspect="portrait" />
+                    // Same typographic cover as BookCover (an Astro component, so it can't be used inside React).
+                    // Hidden from screen readers: the title is in the card text below
+                    <div className="cover-frame book-cover book-card__typeset" style={{ '--inset': '10px' } as CSSProperties} aria-hidden="true">
+                        <div className="book-cover__inner">
+                            <span className="book-cover__title">{book.title}</span>
+                            {book.subtitle && <span className="book-cover__subtitle">{book.subtitle}</span>}
+                            {book.author && <span className="book-cover__author">{book.author}</span>}
+                        </div>
+                    </div>
                 )}
                 {book.coverLabel && (
                     <span className="book-card__badge">{book.coverLabel}</span>

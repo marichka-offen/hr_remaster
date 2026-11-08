@@ -108,9 +108,12 @@ Computed with fontTools from the font files: x-height of the `x` glyph, and aver
 - [x] Footer: topic links go to `/articles?topic=…`; the filter already reads and writes `?topic=`
 
 ### 3. Listing pages
-- [ ] Articles: empty state and a result count (`?topic=` sync already works)
-- [ ] Articles: sort by newest or by period. This needs a `publishedAt` and a period start year in mock data
-- [ ] Books: the grid is fine for two books; consider a feature layout while there are fewer than four
+- [x] Articles: result count ("3 articles in Colonial History"), announced to screen readers when the filter changes
+- [x] Articles: sort by newest or by period (earliest first). Uses `startYear`, taken from the mocks' date ranges; Scottish Traditions has none and sorts last
+- [x] Articles: topic and sort both kept in the address bar (`?topic=…&sort=period`); filter buttons report their state with `aria-pressed`
+- [x] Articles: empty state with "Show all articles", for topics that have no articles yet (not reachable with the current mock data)
+- [x] Books: cards keep a readable size and centre as a group, so two books don't leave half a row empty
+- [x] Book cards show the typographic cover (title, subtitle, author) instead of the first three letters of the title; fixed the summary showing half a fourth line
 
 ### 4. Article page: the core reading experience
 From `designs/article-page`, `hussites` and `eighty-years-war-timeline`:

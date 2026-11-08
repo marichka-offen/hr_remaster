@@ -35,8 +35,17 @@
         transition: transform var(--duration-slow) var(--ease-standard);
     }
 
+    // Fills the cover area; the card supplies the shadow and corners
+    &__typeset {
+        max-width: none;
+        height: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
     &__badge {
         position: absolute;
+        z-index: 2;
         top: var(--space-4);
         left: 0;
         background: var(--gold);
@@ -94,7 +103,6 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        flex: 1;
     }
 
     &__cta {

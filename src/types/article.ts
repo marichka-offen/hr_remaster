@@ -5,6 +5,8 @@ export interface ArticleMeta {
     slug: string
     subtitle?: string
     period?: string
+    // First year the article covers, for sorting by period (e.g. 1677 for 1677–1682)
+    startYear?: number
     category: string
     topicSlug?: string
     tags?: string[]

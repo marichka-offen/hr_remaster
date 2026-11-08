@@ -28,6 +28,7 @@ export const articles: Article[] = [
     {
         title: 'The Czechoslovak Legion, 1914–1920',
         slug: 'czechoslovak-legion',
+        startYear: 1914,
         subtitle: 'European Military History · WWI Era',
         period: '1914',
         ...topics.ww1,
@@ -43,6 +44,7 @@ export const articles: Article[] = [
     {
         title: 'British Regulars in Virginia, 1677–1682',
         slug: 'british-regulars-virginia',
+        startYear: 1677,
         subtitle: 'Primary Source Research',
         period: '1677',
         ...topics.colonial,
@@ -58,6 +60,7 @@ export const articles: Article[] = [
     {
         title: 'The War of Three Kingdoms in Ireland, 1641–1648',
         slug: 'war-of-three-kingdoms-ireland',
+        startYear: 1641,
         subtitle: '17th Century',
         period: 'IRL',
         ...topics.britishIsles,
@@ -72,6 +75,7 @@ export const articles: Article[] = [
     {
         title: 'The Eighty Years War',
         slug: 'eighty-years-war',
+        startYear: 1568,
         subtitle: 'Early Modern Europe',
         period: 'NL',
         ...topics.european,
@@ -86,6 +90,7 @@ export const articles: Article[] = [
     {
         title: 'The Hussites',
         slug: 'the-hussites',
+        startYear: 1419,
         subtitle: '15th Century Bohemia',
         period: 'HUS',
         ...topics.medieval,
@@ -122,6 +127,7 @@ export const articles: Article[] = [
     {
         title: 'The British Military Presence in America, 1660–1720',
         slug: 'british-military-presence-america',
+        startYear: 1660,
         subtitle: 'British Army · Caribbean',
         period: '1660',
         ...topics.colonial,
@@ -148,6 +154,7 @@ export const articles: Article[] = [
     {
         title: "Gooch's American Regiment, 1740–1742",
         slug: 'goochs-american-regiment',
+        startYear: 1740,
         subtitle: 'Colonial America',
         period: '1740',
         ...topics.colonial,
