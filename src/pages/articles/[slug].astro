@@ -112,7 +112,8 @@ const heroBackground = article.imageUrl
 <style lang="scss">
     @use '@tokens/mixins' as *;
 
-    // Two columns on wide screens: a contents column and a text column capped at the measure.
+    // The text column is capped at the measure and centred on the page. From $bp-xl there is room for
+    // the contents list in the left-hand column; below that it moves into a drawer.
     // font-size is set on the grid because ch in --measure resolves against the element's own font size
     @mixin article-grid {
         display: grid;
@@ -122,8 +123,8 @@ const heroBackground = article.imageUrl
         font-size: var(--text-prose);
         padding-inline: var(--gutter);
 
-        @media (min-width: $bp-lg) {
-            grid-template-columns: 15rem minmax(0, var(--measure));
+        @media (min-width: $bp-xl) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, var(--measure)) minmax(0, 1fr);
         }
     }
 
@@ -163,7 +164,7 @@ const heroBackground = article.imageUrl
             flex-direction: column;
             gap: var(--space-4);
 
-            @media (min-width: $bp-lg) {
+            @media (min-width: $bp-xl) {
                 grid-column: 2;
             }
         }
@@ -255,10 +256,16 @@ const heroBackground = article.imageUrl
             padding-block: var(--space-9) var(--section-y);
         }
 
+        // Sits at the right edge of the left-hand column, just off the text
         &__toc {
-            @media (max-width: calc($bp-lg - 1px)) {
-                // The sidebar is hidden on small screens; the Contents button and drawer take over
+            @media (max-width: calc($bp-xl - 1px)) {
+                // The sidebar is hidden on smaller screens; the Contents button and drawer take over
                 position: absolute;
+            }
+
+            @media (min-width: $bp-xl) {
+                justify-self: end;
+                width: min(15rem, 100%);
             }
         }
 

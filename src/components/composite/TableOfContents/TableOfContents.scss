@@ -58,7 +58,7 @@
         overflow-y: auto;
         z-index: var(--z-sticky);
 
-        @media (min-width: $bp-lg) {
+        @media (min-width: $bp-xl) {
             display: block;
         }
     }
@@ -89,7 +89,7 @@
             height: var(--icon-md);
         }
 
-        @media (min-width: $bp-lg) {
+        @media (min-width: $bp-xl) {
             display: none;
         }
     }
