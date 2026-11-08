@@ -18,7 +18,7 @@
         line-height: var(--leading-relaxed);
         letter-spacing: var(--tracking-widest);
         text-transform: uppercase;
-        color: var(--accent);
+        color: var(--color-accent);
     }
 
     &--lg &__title {
@@ -30,10 +30,10 @@
     }
 
     &--light &__title {
-        color: var(--navy);
+        color: var(--color-text-strong);
     }
 
     &--dark &__title {
-        color: var(--white);
+        color: var(--color-text-on-dark);
     }
 }

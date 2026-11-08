@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -18,6 +19,11 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "sass": "^1.97.3"
+    "@astrojs/check": "^0.9.12",
+    "@emnapi/core": "^1.11.3",
+    "@emnapi/runtime": "^1.11.3",
+    "@types/node": "^22.20.5",
+    "sass": "^1.97.3",
+    "typescript": "^5.9.3"
   }
 }

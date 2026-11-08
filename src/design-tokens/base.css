@@ -75,6 +75,48 @@
     font-display: swap;
 }
 
+/* Metric-matched fallbacks. While a web font loads, the system font is scaled to the same width and
+   line metrics, so text doesn't jump when the real font swaps in. Values measured from the font files */
+@font-face {
+    font-family: "Literata Fallback";
+    src: local("Georgia");
+    font-style: normal;
+    size-adjust: 108.2%;
+    ascent-override: 108.8%;
+    descent-override: 28.5%;
+    line-gap-override: 0%;
+}
+
+@font-face {
+    font-family: "Playfair Display Fallback";
+    src: local("Georgia");
+    font-style: normal;
+    size-adjust: 101.6%;
+    ascent-override: 106.5%;
+    descent-override: 24.7%;
+    line-gap-override: 0%;
+}
+
+@font-face {
+    font-family: "Cormorant Garamond Fallback";
+    src: local("Georgia Italic");
+    font-style: italic;
+    size-adjust: 79.9%;
+    ascent-override: 115.6%;
+    descent-override: 35.9%;
+    line-gap-override: 0%;
+}
+
+@font-face {
+    font-family: "DM Sans Fallback";
+    src: local("Arial");
+    font-style: normal;
+    size-adjust: 105.1%;
+    ascent-override: 94.4%;
+    descent-override: 29.5%;
+    line-gap-override: 0%;
+}
+
 *,
 *::before,
 *::after {
@@ -89,15 +131,15 @@ html {
 
 body {
     font-family: var(--font-body);
-    color: var(--text);
-    background: var(--parchment);
+    color: var(--color-text);
+    background: var(--color-bg);
     line-height: var(--leading-relaxed);
     overflow-x: hidden;
 }
 
 ::selection {
     color: var(--gold);
-    background-color: var(--navy);
+    background-color: var(--color-surface-dark);
 }
 
 a {
@@ -127,8 +169,28 @@ h1, h2, h3, h4, h5, h6 {
     max-inline-size: var(--measure);
 }
 
+/* Hidden until a keyboard user tabs to it, then pinned top-left above everything */
+.skip-link {
+    position: fixed;
+    top: var(--space-2);
+    left: var(--space-2);
+    z-index: var(--z-skip-link);
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-surface-dark);
+    color: var(--color-text-on-dark);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    transform: translateY(calc(-100% - var(--space-4)));
+}
+
+.skip-link:focus-visible {
+    transform: none;
+    outline-color: var(--gold);
+}
+
 :focus-visible {
-    outline: var(--border-rule) solid var(--focus-ring);
+    outline: var(--border-rule) solid var(--color-focus);
     outline-offset: var(--space-1);
 }
 

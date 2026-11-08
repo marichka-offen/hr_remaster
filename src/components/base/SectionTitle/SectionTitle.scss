@@ -4,10 +4,10 @@
     line-height: var(--leading-tight);
 
     &--light {
-        color: var(--navy);
+        color: var(--color-text-strong);
     }
 
     &--dark {
-        color: var(--white);
+        color: var(--color-text-on-dark);
     }
 }

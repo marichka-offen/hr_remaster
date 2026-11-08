@@ -7,14 +7,14 @@
     display: inline-block;
 
     &--overlay {
-        color: var(--white);
-        background: var(--surface-overlay);
+        color: var(--color-text-on-dark);
+        background: var(--color-surface-overlay);
         padding: var(--space-1) var(--space-3);
         backdrop-filter: blur(4px);
     }
 
     &--tag {
-        color: var(--accent);
+        color: var(--color-accent);
         border: var(--border-thin) solid var(--gold-border);
         padding: var(--space-1) var(--space-3);
     }

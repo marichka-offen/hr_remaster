@@ -58,7 +58,7 @@ const label = data?.label ?? 'Contact'
     @use '@tokens/mixins' as *;
 
     .contact-page {
-        background: var(--parchment);
+        background: var(--color-bg);
         min-height: 100vh;
 
         &__container {
@@ -74,7 +74,7 @@ const label = data?.label ?? 'Contact'
         &__subheading {
             font-family: var(--font-body);
             font-size: var(--text-md);
-            color: var(--text-light);
+            color: var(--color-text-secondary);
             line-height: var(--leading-relaxed);
             text-align: center;
             max-width: var(--container-sm);
@@ -108,7 +108,7 @@ const label = data?.label ?? 'Contact'
             font-size: var(--text-xs);
             letter-spacing: var(--tracking-wider);
             text-transform: uppercase;
-            color: var(--text-muted);
+            color: var(--color-text-secondary);
             font-weight: var(--weight-semibold);
         }
 
@@ -116,21 +116,21 @@ const label = data?.label ?? 'Contact'
         &__textarea {
             font-family: var(--font-body);
             font-size: var(--text-md);
-            color: var(--text);
-            background: var(--white);
-            border: var(--border-thin) solid var(--text-muted);
+            color: var(--color-text);
+            background: var(--color-surface);
+            border: var(--border-thin) solid var(--color-border-strong);
             padding: var(--space-3) var(--space-4);
             border-radius: var(--radius-sm);
             width: 100%;
             transition: border-color var(--duration-fast) var(--ease-standard);
 
             &::placeholder {
-                color: var(--text-muted);
+                color: var(--color-text-secondary);
                 opacity: 1;
             }
 
             &:focus {
-                border-color: var(--accent);
+                border-color: var(--color-accent);
             }
         }
 
@@ -154,9 +154,9 @@ const label = data?.label ?? 'Contact'
             font-weight: var(--weight-semibold);
             letter-spacing: var(--tracking-wider);
             text-transform: uppercase;
-            color: var(--white);
-            background: var(--navy);
-            border: var(--border-thick) solid var(--navy);
+            color: var(--color-text-on-dark);
+            background: var(--color-surface-dark);
+            border: var(--border-thick) solid var(--color-surface-dark);
             padding: var(--space-4) var(--space-6);
             cursor: pointer;
             min-height: var(--tap-target);
@@ -169,8 +169,8 @@ const label = data?.label ?? 'Contact'
             }
 
             &:hover {
-                background: var(--navy-light);
-                border-color: var(--navy-light);
+                background: var(--color-surface-dark-hover);
+                border-color: var(--color-surface-dark-hover);
 
                 svg {
                     transform: translateX(var(--space-1));

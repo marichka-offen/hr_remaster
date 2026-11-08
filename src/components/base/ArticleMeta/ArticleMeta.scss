@@ -18,10 +18,10 @@
     }
 
     &--light {
-        color: var(--text-muted);
+        color: var(--color-text-secondary);
     }
 
     &--dark {
-        color: var(--text-on-dark-muted);
+        color: var(--color-text-on-dark-muted);
     }
 }

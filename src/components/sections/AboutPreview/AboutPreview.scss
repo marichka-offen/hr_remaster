@@ -1,9 +1,9 @@
 @use '@tokens/mixins' as *;
 
 .about-preview {
-    background: var(--white);
-    border-top: var(--border-thin) solid var(--parchment-dark);
-    border-bottom: var(--border-thin) solid var(--parchment-dark);
+    background: var(--color-surface);
+    border-top: var(--border-thin) solid var(--color-border);
+    border-bottom: var(--border-thin) solid var(--color-border);
 
     &__container {
         max-width: var(--container-lg);
@@ -43,7 +43,7 @@
     &__name {
         font-size: var(--text-xl);
         font-weight: var(--weight-bold);
-        color: var(--navy);
+        color: var(--color-text-strong);
         margin-bottom: var(--space-2);
         line-height: var(--leading-tight);
     }
@@ -54,7 +54,7 @@
 
     &__text p {
         font-size: var(--text-md);
-        color: var(--text-light);
+        color: var(--color-text-secondary);
         margin-bottom: var(--space-4);
         line-height: var(--leading-relaxed);
     }

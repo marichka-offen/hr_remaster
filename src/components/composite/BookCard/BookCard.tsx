@@ -6,9 +6,10 @@ const DEFAULT_GRADIENT = 'var(--gradient-book)'
 
 interface Props {
     book: BookMeta
+    titleAs?: 'h2' | 'h3'
 }
 
-export default function BookCard({ book }: Props) {
+export default function BookCard({ book, titleAs: Title = 'h3' }: Props) {
     const code = book.title.slice(0, 3).toUpperCase()
 
     return (
@@ -31,7 +32,7 @@ export default function BookCard({ book }: Props) {
                 {book.publishedYear && (
                     <span className="book-card__year">{book.publishedYear}</span>
                 )}
-                <h3 className="book-card__title">{book.title}</h3>
+                <Title className="book-card__title">{book.title}</Title>
                 {book.subtitle && (
                     <p className="book-card__subtitle">{book.subtitle}</p>
                 )}

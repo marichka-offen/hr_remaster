@@ -6,7 +6,7 @@
     left: 0;
     right: 0;
     z-index: var(--z-header);
-    background: var(--surface-header);
+    background: var(--color-surface-header);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: var(--border-thin) solid var(--gold-border);
@@ -58,7 +58,7 @@
                     display: block;
                     width: var(--space-5);
                     height: var(--border-rule);
-                    background: var(--navy);
+                    background: var(--color-surface-dark);
                     transition: transform var(--transition), opacity var(--transition);
                 }
 

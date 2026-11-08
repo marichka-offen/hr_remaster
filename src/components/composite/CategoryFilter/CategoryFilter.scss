@@ -12,22 +12,22 @@
         letter-spacing: var(--tracking-wider);
         text-transform: uppercase;
         padding: var(--space-2) var(--space-5);
-        border: var(--border-thick) solid var(--navy);
+        border: var(--border-thick) solid var(--color-text-strong);
         border-radius: var(--radius-sm);
         background: transparent;
-        color: var(--navy);
+        color: var(--color-text-strong);
         cursor: pointer;
         min-height: var(--tap-target);
         transition: var(--transition-colors);
 
         &:hover {
-            background: var(--navy);
-            color: var(--white);
+            background: var(--color-surface-dark);
+            color: var(--color-text-on-dark);
         }
 
         &--active {
-            background: var(--navy);
-            color: var(--white);
+            background: var(--color-surface-dark);
+            color: var(--color-text-on-dark);
         }
     }
 }

@@ -18,19 +18,19 @@ The palette and contrast are in good shape after the design-token PR. All text p
 |---|---|---|---|
 | T1 | **Body font was Cormorant Garamond at 18px** | Its designer calls Cormorant "a free display type family" ([README](https://github.com/CatharsisFonts/Cormorant)). Measured x-height is 0.386 em, so at 18px it has the x-height of Georgia at 14.4px (see Measurements). The mocks label articles at 25–60 min. | ✅ **Done:** body is **Literata** (OFL, self-hosted, weight and optical-size axes, latin + latin-ext). Article prose is 18px (`--text-prose`) in `--text` (12:1 contrast). Tried Atkinson (lost the heritage look) and Newsreader first. |
 | T2 | **No line-length token** | Article body is 752px wide at 18px. Measured: about 107 characters per line in Cormorant, about 87 in Literata. Bringhurst: 45–75, about 66 ideal. WCAG 1.4.8 (AAA): at most 80. | ✅ **Done:** `--measure: 55ch`, applied globally to `p, li, blockquote, dd, figcaption`. 1ch is the width of "0", wider than an average letter, so the common `65ch` advice overshoots (about 79 real characters in Literata); 55ch gives about 66. The article column follows the measure. Figures and timelines (phase 5) can break out wider. |
-| T3 | **No semantic colour layer** | Components reference palette names directly (`--navy`, `--text-light`, `--parchment`). Re-theming, a later dark mode, or a "colour X means Y" decision means touching every file. | Add role tokens on top of the palette: `--color-bg`, `--color-surface`, `--color-text`, `--color-text-secondary`, `--color-heading`, `--color-link`, `--color-border`, `--color-border-strong`. Migrate gradually. |
-| T4 | **Labels and metadata at 12px** (`--text-xs`): form labels, eyebrows, buttons, chips | Uppercase plus wide tracking at 12px is the legibility floor. | Raise `--text-xs` to 0.8125rem (13px), or move form labels and buttons to `--text-sm`. |
-| T5 | **No skip-to-content link** | Every page has `<main id="main">`, but nothing links to it. The redesign notes list it as a requirement. | Add it to `BaseLayout`, visible on focus. |
-| T6 | **Two near-identical secondary text colours**: `--text-light` #5a5a5a (6.1:1) and `--text-muted` #675f53 (5.5:1) | They are hard to tell apart and get used inconsistently. | Collapse them into `--color-text-secondary` (warm, #675f53) and keep one. |
+| T3 | ✅ **No semantic colour layer** | Components reference palette names directly (`--navy`, `--text-light`, `--parchment`). Re-theming, a later dark mode, or a "colour X means Y" decision means touching every file. | Add role tokens on top of the palette: `--color-bg`, `--color-surface`, `--color-text`, `--color-text-secondary`, `--color-heading`, `--color-link`, `--color-border`, `--color-border-strong`. Migrate gradually. |
+| T4 | ✅ **Labels and metadata at 12px** (`--text-xs`): form labels, eyebrows, buttons, chips | Uppercase plus wide tracking at 12px is the legibility floor. | Raise `--text-xs` to 0.8125rem (13px), or move form labels and buttons to `--text-sm`. |
+| T5 | ✅ **No skip-to-content link** | Every page has `<main id="main">`, but nothing links to it. The redesign notes list it as a requirement. | Add it to `BaseLayout`, visible on focus. |
+| T6 | ✅ **Two near-identical secondary text colours**: `--text-light` #5a5a5a (6.1:1) and `--text-muted` #675f53 (5.5:1) | They are hard to tell apart and get used inconsistently. | Collapse them into `--color-text-secondary` (warm, #675f53) and keep one. |
 
 ### Nice to have
 
 - ✅ **T7 Font naming:** now `--font-body`, `--font-display`, `--font-quote` and `--font-ui`.
-- **T8 Shadows** hard-code `rgba(26,35,50,…)`. Use `color-mix(in srgb, var(--navy) N%, transparent)`, like the other tints.
-- **T9 Z-index scale** has only nav and header. The TOC drawer, overlay, reading-progress bar and back-to-top button need slots: `--z-progress`, `--z-overlay`, `--z-drawer`.
-- **T10 Border contrast:** `--parchment-dark` on parchment is 1.16:1. That's fine for decorative rules. Any border that marks an interactive control's edge needs 3:1, which is why `--color-border-strong` is in T3. Inputs already use `--text-muted`, which is correct.
-- **T11 Font fallback metrics:** add `size-adjust` and `ascent-override` fallback `@font-face` rules for Georgia and Arial to cut layout shift while the fonts swap in. Also preload DM Sans, which the nav uses above the fold.
-- **T12 Naming:** `--white` is ivory (#fefcf9) and `--black` is navy-black. Consider `--ivory` and `--ink`.
+- ✅ **T8 Shadows** hard-code `rgba(26,35,50,…)`. Use `color-mix(in srgb, var(--navy) N%, transparent)`, like the other tints.
+- ✅ **T9 Z-index scale** has only nav and header. The TOC drawer, overlay, reading-progress bar and back-to-top button need slots: `--z-progress`, `--z-overlay`, `--z-drawer`.
+- ✅ **T10 Border contrast:** `--parchment-dark` on parchment is 1.16:1. That's fine for decorative rules. Any border that marks an interactive control's edge needs 3:1, which is why `--color-border-strong` is in T3. Inputs already use `--text-muted`, which is correct.
+- ✅ **T11 Font fallback metrics:** add `size-adjust` and `ascent-override` fallback `@font-face` rules for Georgia and Arial to cut layout shift while the fonts swap in. Also preload DM Sans, which the nav uses above the fold.
+- ✅ **T12 Naming:** `--white` is ivory (#fefcf9) and `--black` is navy-black. Consider `--ivory` and `--ink`.
 - **T13 Breakpoints:** the SCSS uses max-width (desktop-first) at 480/768/1024. That works; the redesign notes asked for mobile-first. Not worth a rewrite. New components should use min-width.
 
 ### Already good
@@ -90,19 +90,25 @@ Computed with fontTools from the font files: x-height of the `x` glyph, and aver
 ### 1. Tokens and accessibility baseline
 - [x] T1 body font: Literata at 18px for article prose
 - [x] T2 measure
-- [ ] T4 label size, T5 skip link, T6 collapse muted colours
-- [ ] T3 semantic colour layer, then migrate components to it
-- [ ] T7–T12 as time allows
+- [x] T3 colour roles (`--color-bg`, `--color-surface`, `--color-text`, `--color-text-secondary`, `--color-text-strong`, `--color-border`, `--color-border-strong`, `--color-accent`, `--color-focus`...); all components migrated
+- [x] T4 `--text-xs` raised to 13px
+- [x] T5 skip-to-content link in `BaseLayout`
+- [x] T6 `--text-light` merged into `--color-text-secondary` (stone #675f53)
+- [x] T8 shadows on `color-mix`; T9 z-index slots for sticky, progress, overlay, drawer, skip link
+- [x] T10 `--color-border-strong` for control edges; T11 metric-matched fallback fonts, DM Sans preloaded
+- [x] T12 palette renamed: `--ivory`, `--ink`, `--charcoal`, `--stone`
+- [x] Heading order: every page has one h1 and never skips a level (cards, footer, credentials, promos fixed)
+- [x] Housekeeping: README rewritten, unused DropCap removed, `npm run check` added and passing (0 errors)
 
 ### 2. Global chrome
 - [ ] Header: highlight the active link on nested routes (`/articles/foo` should mark Articles; today it's an exact match)
 - [ ] Header: the **search button does nothing**. Hide it until search ships in phase 8
 - [ ] Sticky slim header on scroll, as in the mock
 - [ ] Mobile nav: check focus trap, Escape to close, and returning focus to the button
-- [ ] Footer: topic links go to `/articles?topic=…`, so the filter has to read the URL (phase 3)
+- [x] Footer: topic links go to `/articles?topic=…`; the filter already reads and writes `?topic=`
 
 ### 3. Listing pages
-- [ ] Articles: sync the category filter with `?topic=`, plus an empty state and a result count
+- [ ] Articles: empty state and a result count (`?topic=` sync already works)
 - [ ] Articles: sort by newest or by period. This needs a `publishedAt` and a period start year in mock data
 - [ ] Books: the grid is fine for two books; consider a feature layout while there are fewer than four
 
@@ -146,7 +152,6 @@ From `designs/about-book-pages`: cover hero, purchase CTA and excerpt link, an "
 - [ ] **Print stylesheet.** The old site had a print button, and long sourced articles get printed
 - [ ] axe and Lighthouse pass, plus a keyboard-only walkthrough
 - [ ] **Search** with Pagefind (static index, no backend), wired to the header button
-- [ ] Rewrite the README; it's still the Astro starter
 
 ### 9. Storyblok (last)
 - [ ] Model components in Storyblok to match `src/types/content.ts` one to one (sections and rich-text blocks)

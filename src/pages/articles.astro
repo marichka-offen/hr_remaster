@@ -23,6 +23,7 @@ const pageDescription = pageData?.description ?? ''
                 <ArticleCardGrid
                     articles={articles}
                     showCategoryFilter={true}
+                    cardTitleAs='h2'
                     client:load
                 />
             </div>
@@ -32,7 +33,7 @@ const pageDescription = pageData?.description ?? ''
 
 <style lang='scss'>
     .articles-page {
-        background: var(--parchment);
+        background: var(--color-bg);
 
         &__container {
             max-width: var(--container-lg);

@@ -25,7 +25,7 @@ const pageDescription = pageData?.description ?? ''
                 {books.length > 0 ? (
                     <div class="books-page__grid">
                         {books.map((book) => (
-                            <BookCard book={book} />
+                            <BookCard book={book} titleAs="h2" />
                         ))}
                     </div>
                 ) : (
@@ -40,7 +40,7 @@ const pageDescription = pageData?.description ?? ''
     @use '@tokens/mixins' as *;
 
     .books-page {
-        background: var(--parchment);
+        background: var(--color-bg);
 
         &__container {
             max-width: var(--container-lg);
@@ -76,7 +76,7 @@ const pageDescription = pageData?.description ?? ''
         &__empty {
             font-family: var(--font-quote);
             font-style: italic;
-            color: var(--text-muted);
+            color: var(--color-text-secondary);
             text-align: center;
             padding: var(--space-10) 0;
         }

@@ -97,7 +97,7 @@ const gradient = article.gradientFrom && article.gradientTo
         &__header {
             margin-bottom: var(--space-8);
             padding-bottom: var(--space-6);
-            border-bottom: var(--border-thin) solid var(--parchment-dark);
+            border-bottom: var(--border-thin) solid var(--color-border);
         }
 
         &__subtitle {
@@ -105,7 +105,7 @@ const gradient = article.gradientFrom && article.gradientTo
             font-size: var(--text-xs);
             letter-spacing: var(--tracking-widest);
             text-transform: uppercase;
-            color: var(--accent);
+            color: var(--color-accent);
             font-weight: var(--weight-semibold);
             margin-bottom: var(--space-4);
         }
@@ -113,14 +113,14 @@ const gradient = article.gradientFrom && article.gradientTo
         &__title {
             font-size: var(--text-3xl);
             font-weight: var(--weight-extrabold);
-            color: var(--navy);
+            color: var(--color-text-strong);
             line-height: var(--leading-tight);
             margin-bottom: var(--space-5);
         }
 
         &__body {
             line-height: var(--leading-relaxed);
-            color: var(--text);
+            color: var(--color-text);
 
             p { margin-bottom: var(--space-5); }
 
@@ -130,7 +130,7 @@ const gradient = article.gradientFrom && article.gradientTo
                 font-family: var(--font-display);
                 font-size: var(--text-display);
                 font-weight: var(--weight-bold);
-                color: var(--accent);
+                color: var(--color-accent);
                 line-height: 0.75;
                 margin-right: var(--space-2);
                 margin-top: var(--space-2);
@@ -138,20 +138,20 @@ const gradient = article.gradientFrom && article.gradientTo
             h2 {
                 font-size: var(--text-xl);
                 font-weight: var(--weight-bold);
-                color: var(--navy);
+                color: var(--color-text-strong);
                 margin: var(--space-8) 0 var(--space-5);
             }
             h3 {
                 font-size: var(--text-lg);
                 font-weight: var(--weight-bold);
-                color: var(--navy);
+                color: var(--color-text-strong);
                 margin: var(--space-6) 0 var(--space-4);
             }
             blockquote {
-                border-left: var(--border-rule) solid var(--accent);
+                border-left: var(--border-rule) solid var(--color-accent);
                 padding-left: var(--space-5);
                 font-style: italic;
-                color: var(--text-muted);
+                color: var(--color-text-secondary);
                 margin: var(--space-6) 0;
             }
         }

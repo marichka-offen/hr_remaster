@@ -1,7 +1,7 @@
 @use '@tokens/mixins' as *;
 
 .book-preview {
-    background: var(--navy);
+    background: var(--color-surface-dark);
     @include on-dark;
     position: relative;
     overflow: hidden;
@@ -71,7 +71,7 @@
             font-size: var(--text-xs);
             letter-spacing: var(--tracking-widest);
             text-transform: uppercase;
-            color: var(--text-on-dark-secondary);
+            color: var(--color-text-on-dark-secondary);
             margin-bottom: var(--space-4);
             position: relative;
             z-index: 1;
@@ -81,7 +81,7 @@
             font-family: var(--font-display);
             font-size: var(--text-lg);
             font-weight: var(--weight-bold);
-            color: var(--white);
+            color: var(--color-text-on-dark);
             line-height: var(--leading-tight);
             position: relative;
             z-index: 1;
@@ -91,7 +91,7 @@
             font-family: var(--font-quote);
             font-style: italic;
             font-size: var(--text-sm);
-            color: var(--text-on-dark-muted);
+            color: var(--color-text-on-dark-muted);
             margin-top: var(--space-4);
             position: relative;
             z-index: 1;
@@ -99,19 +99,19 @@
     }
 
     &__info {
-        color: var(--white);
+        color: var(--color-text-on-dark);
 
         &-label {
             font-family: var(--font-ui);
             font-size: var(--text-xs);
             letter-spacing: var(--tracking-widest);
             text-transform: uppercase;
-            color: var(--accent);
+            color: var(--color-accent);
             font-weight: var(--weight-semibold);
             margin-bottom: var(--space-3);
         }
 
-        h3 {
+        h2 {
             font-size: var(--text-xl);
             font-weight: var(--weight-bold);
             margin-bottom: var(--space-5);
@@ -120,7 +120,7 @@
 
         p {
             font-size: var(--text-md);
-            color: var(--text-on-dark-secondary);
+            color: var(--color-text-on-dark-secondary);
             line-height: var(--leading-relaxed);
             margin-bottom: var(--space-6);
         }
@@ -136,7 +136,7 @@
         font-weight: var(--weight-semibold);
         letter-spacing: var(--tracking-wider);
         text-transform: uppercase;
-        color: var(--navy);
+        color: var(--color-text-strong);
         background: var(--gold);
         padding: var(--space-4) var(--space-6);
         transition: background-color var(--transition);

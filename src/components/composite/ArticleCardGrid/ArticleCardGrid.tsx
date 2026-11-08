@@ -7,9 +7,10 @@ import type { ArticleMeta } from '@app-types/article'
 interface Props {
     articles: ArticleMeta[]
     showCategoryFilter?: boolean
+    cardTitleAs?: 'h2' | 'h3'
 }
 
-export default function ArticleCardGrid({ articles, showCategoryFilter = false }: Props) {
+export default function ArticleCardGrid({ articles, showCategoryFilter = false, cardTitleAs = 'h3' }: Props) {
     const [activeCategory, setActiveCategory] = useState('All')
 
     useEffect(() => {
@@ -49,7 +50,7 @@ export default function ArticleCardGrid({ articles, showCategoryFilter = false }
             )}
             <div className="articles__grid">
                 {filtered.map((article) => (
-                    <ArticleCard key={article.slug} article={article} />
+                    <ArticleCard key={article.slug} article={article} titleAs={cardTitleAs} />
                 ))}
             </div>
         </>

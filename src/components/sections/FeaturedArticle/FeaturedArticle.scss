@@ -1,8 +1,8 @@
 @use '@tokens/mixins' as *;
 
 .featured {
-    background: var(--white);
-    border-bottom: var(--border-thin) solid var(--parchment-dark);
+    background: var(--color-surface);
+    border-bottom: var(--border-thin) solid var(--color-border);
 
     &__container {
         max-width: var(--container-lg);
@@ -18,7 +18,7 @@
     &__card {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        background: var(--navy);
+        background: var(--color-surface-dark);
         @include on-dark;
         border-radius: var(--radius-sm);
         overflow: hidden;
@@ -80,14 +80,14 @@
     &__title {
         font-size: var(--text-xl);
         font-weight: var(--weight-bold);
-        color: var(--white);
+        color: var(--color-text-on-dark);
         line-height: var(--leading-tight);
         margin-bottom: var(--space-5);
     }
 
     &__excerpt {
         font-size: var(--text-md);
-        color: var(--text-on-dark-secondary);
+        color: var(--color-text-on-dark-secondary);
         line-height: var(--leading-relaxed);
         margin-bottom: var(--space-6);
     }

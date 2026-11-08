@@ -1,43 +1,44 @@
-# Astro Starter Kit: Minimal
+# History Reconsidered
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Website for History Reconsidered, Lee G. Offen's military history research. Built with Astro, React islands and SCSS, deployed on Netlify.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command | Action |
+| --- | --- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Dev server at `localhost:4321` |
+| `npm run build` | Build the static site to `dist/` |
+| `npm run preview` | Serve the built site locally |
+| `npm run check` | Type-check `.astro`, `.ts` and `.tsx` files |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Where things live
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+designs/              HTML mocks and redesign notes: the visual reference
+docs/PLAN.md          Token review, development phases, decisions log
+public/fonts/         Self-hosted fonts (Literata, Playfair Display, Cormorant Garamond, DM Sans)
+src/
+  design-tokens/      tokens.css (all design tokens), base.css (fonts, reset, globals), _mixins.scss
+  components/
+    base/             Small building blocks: Button, Eyebrow, RichText...
+    composite/        Built from base: ArticleCard, SectionHeader, MobileNav...
+    sections/         Page sections: HomeHero, ArticlesSection, Footer...
+  layouts/            BaseLayout (html shell), SiteLayout (header and footer)
+  lib/content/        The only module pages read content from
+  mocks/              Mock content, used until the CMS is connected
+  pages/              Routes
+  types/              Content types shared by mocks, components and the future CMS adapter
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Content
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Pages call functions in `src/lib/content` (`getPage`, `getArticles`, `getArticle`...). Today these return data from `src/mocks/`. Storyblok will be connected last by replacing the bodies of those functions; their signatures and the types in `src/types/content.ts` stay the same, so pages and components don't change.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Styling rules
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Use tokens from `src/design-tokens/tokens.css`, never raw values.
+- For colour, use the role tokens (`--color-text`, `--color-surface`, `--color-border`...). Palette names (`--navy`, `--gold`, `--burgundy`) are only for brand decoration.
+- Headings get their font globally. Components set heading size and weight, not the family.
+- Running text is capped at `--measure` globally. Centred blocks use the `centered` mixin so capped paragraphs stay centred.
+- Dark sections include the `on-dark` mixin, which switches the accent and focus colours to gold.
