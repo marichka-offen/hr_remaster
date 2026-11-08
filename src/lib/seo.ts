@@ -16,6 +16,34 @@ const organization = (site: URL | undefined) => ({
     logo: absolute('/favicon.svg', site),
 })
 
+// The author, described once on the About page. Articles and books refer to this same @id, which ties
+// all of his work to one identified person. Facts are taken from the About page text
+const AUTHOR_ID = '/about/#lee-offen'
+
+const authorRef = (name: string, site: URL | undefined) => ({
+    '@type': 'Person',
+    '@id': absolute(AUTHOR_ID, site),
+    name,
+    url: absolute('/about/', site),
+})
+
+export function authorSchema(site: URL | undefined) {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        '@id': absolute(AUTHOR_ID, site),
+        name: 'Lee G. Offen',
+        url: absolute('/about/', site),
+        jobTitle: 'Military historian',
+        description:
+            'Retired U.S. Army Major, Armored Cavalry combat veteran and Bronze Star recipient, former Assistant Professor of Military Science at Georgetown University and George Mason University, and author of America\'s First Marines.',
+        award: 'Bronze Star',
+        alumniOf: { '@type': 'CollegeOrUniversity', name: 'Campbell University' },
+        knowsAbout: ['Military history', 'Colonial American military history', 'Early modern European warfare'],
+        worksFor: { '@type': 'Organization', name: SITE_NAME, url: absolute('/', site) },
+    }
+}
+
 export function websiteSchema(site: URL | undefined) {
     return {
         '@context': 'https://schema.org',
@@ -43,7 +71,7 @@ export function articleSchema(article: Article, site: URL | undefined) {
             keywords: article.tags?.join(', '),
             // The article's sources as written; not used by Google's rich results, but describes the page accurately
             citation: article.sources?.length ? article.sources : undefined,
-            author: article.author ? { '@type': 'Person', name: article.author.name } : undefined,
+            author: article.author ? authorRef(article.author.name, site) : undefined,
             publisher: organization(site),
         },
         {
@@ -72,7 +100,7 @@ export function bookSchema(book: Book, site: URL | undefined) {
         description: book.excerpt,
         url: absolute(`/books/${book.slug}/`, site),
         image: book.coverImageUrl ? absolute(book.coverImageUrl, site) : undefined,
-        author: book.author ? { '@type': 'Person', name: book.author } : undefined,
+        author: book.author ? authorRef(book.author, site) : undefined,
         publisher: publisher ? { '@type': 'Organization', name: publisher } : undefined,
     }
 }

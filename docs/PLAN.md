@@ -171,7 +171,9 @@ From `designs/about-book-pages`:
 - [x] SEO: title format "Page — History Reconsidered", canonical link, Open Graph and X card tags, default 1200×630 social image (`scripts/og-default.html`, `npm run og-image`)
 - [x] SEO: JSON-LD for articles (Article + BreadcrumbList), books (Book) and the home page (WebSite) in `src/lib/seo.ts`
 - [x] SEO: optional `seoDescription` on articles and books for search snippets; placeholder listing descriptions improved; 404 noindex
-- [ ] SEO after launch: add the domain in Netlify, submit the sitemap in Google Search Console, test pages with Google's Rich Results Test; add publish dates to articles when the CMS has them
+- [x] Author profile: Person schema on /about (`@id` …/about/#lee-offen); articles and books reference it. Article sources included as `citation`
+- [x] AI: training crawlers blocked in robots.txt (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot, meta-externalagent) at Lee's request; search and AI search crawlers allowed. No llms.txt (no evidence AI search reads it)
+- [ ] SEO after launch: add the domain in Netlify, submit the sitemap in Google Search Console and Bing Webmaster Tools, test pages with Google's Rich Results Test; add publish dates to articles when the CMS has them
 - [ ] Images through `astro:assets` (responsive, lazy, WebP/AVIF)
 - [ ] **Print stylesheet.** The old site had a print button, and long sourced articles get printed
 - [ ] axe and Lighthouse pass, plus a keyboard-only walkthrough
