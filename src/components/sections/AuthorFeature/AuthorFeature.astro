@@ -1,0 +1,45 @@
+---
+// The author on the home page: photo, a line on the site's purpose, and credentials as a short list
+import RichText from '@components/base/RichText/RichText.astro'
+import './AuthorFeature.scss'
+import type { CTA } from '@app-types/cta'
+import type { RichText as RichTextType } from '@app-types/content'
+
+interface Props {
+    label?: string
+    name: string
+    bio?: RichTextType
+    imageUrl?: string
+    imageAlt?: string
+    imageCaption?: string
+    initials?: string
+    credentials?: string[]
+    cta?: CTA
+}
+
+const { label, name, bio, imageUrl, imageAlt, imageCaption, initials, credentials = [], cta } = Astro.props
+---
+
+<section class="author-feature">
+    <div class="author-feature__inner">
+        <figure class="author-feature__figure">
+            {imageUrl ? (
+                <img src={imageUrl} alt={imageAlt ?? name} class="author-feature__photo" loading="lazy" />
+            ) : (
+                <div class="author-feature__initials" aria-hidden="true">{initials}</div>
+            )}
+            {imageCaption && <figcaption class="author-feature__caption">{imageCaption}</figcaption>}
+        </figure>
+        <div class="author-feature__text">
+            {label && <p class="author-feature__label">{label}</p>}
+            <h2 class="author-feature__name">{name}</h2>
+            <RichText blocks={bio} />
+            {credentials.length > 0 && (
+                <ul class="author-feature__credentials">
+                    {credentials.map((item) => <li>{item}</li>)}
+                </ul>
+            )}
+            {cta?.text && <a class="author-feature__link" href={cta.link ?? '/about'}>{cta.text}</a>}
+        </div>
+    </div>
+</section>

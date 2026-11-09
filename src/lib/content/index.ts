@@ -44,6 +44,7 @@ const withDerivedFields = (article: Article): Article => ({
     ...article,
     body: withHeadingIds(article.body),
     readTime: readingTime(article.body, article.readTime),
+    sourceCount: article.sources?.length || undefined,
 })
 
 const toArticleMeta = ({ body: _body, author: _author, sources: _sources, _editable: _e, ...meta }: Article): ArticleMeta => meta

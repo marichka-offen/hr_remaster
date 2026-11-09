@@ -36,22 +36,6 @@
 }
 
 @font-face {
-    font-family: "Cormorant Garamond";
-    src: url("/fonts/CormorantGaramond-Italic-VariableFont_wght.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Cormorant Garamond";
-    src: url("/fonts/CormorantGaramond-VariableFont_wght.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
     font-family: "DM Sans";
     src: url("/fonts/DMSans-VariableFont.woff2") format("woff2");
     font-weight: 100 900;
@@ -94,16 +78,6 @@
     size-adjust: 101.6%;
     ascent-override: 106.5%;
     descent-override: 24.7%;
-    line-gap-override: 0%;
-}
-
-@font-face {
-    font-family: "Cormorant Garamond Fallback";
-    src: local("Georgia Italic");
-    font-style: italic;
-    size-adjust: 79.9%;
-    ascent-override: 115.6%;
-    descent-override: 35.9%;
     line-gap-override: 0%;
 }
 

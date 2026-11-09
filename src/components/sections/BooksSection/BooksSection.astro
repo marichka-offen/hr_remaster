@@ -1,0 +1,56 @@
+---
+// Books on the home page: the forthcoming book as a navy feature, then the published books as cards
+import SectionHeading from '@components/composite/SectionHeading/SectionHeading.astro'
+import BookCover from '@components/composite/BookCover/BookCover.astro'
+import './BooksSection.scss'
+import type { BookMeta } from '@app-types/book'
+import type { CTA } from '@app-types/cta'
+
+interface Props {
+    heading?: string
+    cta?: CTA
+    books: BookMeta[]
+}
+
+const { heading, cta, books } = Astro.props
+const isForthcoming = (book: BookMeta) => /forthcoming|coming/i.test(book.coverLabel ?? '')
+const next = books.find(isForthcoming)
+const published = books.filter((book) => book !== next)
+---
+
+<section class="books-section">
+    <div class="books-section__inner">
+        <SectionHeading heading={heading} link={cta} />
+        {next && (
+            <article class="books-section__feature">
+                <div class="books-section__feature-cover">
+                    <BookCover title={next.title} subtitle={next.subtitle} author={next.author} imageUrl={next.coverImageUrl} imageAlt={next.coverImageAlt} />
+                </div>
+                <div class="books-section__feature-body">
+                    <p class="books-section__feature-label">Coming next</p>
+                    <h3 class="books-section__feature-title">{next.title}</h3>
+                    {next.subtitle && <p class="books-section__feature-subtitle">{next.subtitle}</p>}
+                    {next.excerpt && <p class="books-section__feature-text">{next.excerpt}</p>}
+                    <a class="books-section__link books-section__link--dark" href={`/books/${next.slug}`}>More about the book</a>
+                </div>
+            </article>
+        )}
+        {published.length > 0 && (
+            <div class="books-section__grid">
+                {published.map((book) => (
+                    <article class="books-section__card">
+                        <div class="books-section__card-cover">
+                            <BookCover title={book.title} subtitle={book.subtitle} author={book.author} imageUrl={book.coverImageUrl} imageAlt={book.coverImageAlt} />
+                        </div>
+                        <div class="books-section__card-body">
+                            {book.coverLabel && <p class="books-section__card-label">{book.coverLabel}</p>}
+                            <h3 class="books-section__card-title">{book.title}</h3>
+                            {book.subtitle && <p class="books-section__card-subtitle">{book.subtitle}</p>}
+                            <a class="books-section__link" href={`/books/${book.slug}`}>About the book</a>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        )}
+    </div>
+</section>

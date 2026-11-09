@@ -1,0 +1,23 @@
+---
+// Left-aligned section heading with an optional link on the right, e.g. "From the archive · All 18 articles"
+import './SectionHeading.scss'
+import type { CTA } from '@app-types/cta'
+
+interface Props {
+    heading?: string
+    intro?: string
+    link?: CTA
+    tone?: 'light' | 'dark'
+    id?: string
+}
+
+const { heading, intro, link, tone = 'light', id } = Astro.props
+---
+
+<div class={`section-heading section-heading--${tone}`}>
+    <div class="section-heading__row">
+        {heading && <h2 class="section-heading__title" id={id}>{heading}</h2>}
+        {link?.text && link?.link && <a class="section-heading__link" href={link.link}>{link.text}</a>}
+    </div>
+    {intro && <p class="section-heading__intro">{intro}</p>}
+</div>

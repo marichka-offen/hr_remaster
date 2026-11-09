@@ -7,6 +7,8 @@ export interface ArticleMeta {
     period?: string
     // First year the article covers, for sorting by period (e.g. 1677 for 1677–1682)
     startYear?: number
+    // Last year covered, so cards can show the span (e.g. 1677–1682); same as startYear for a single event
+    endYear?: number
     category: string
     topicSlug?: string
     tags?: string[]
@@ -19,6 +21,8 @@ export interface ArticleMeta {
     // Optional shorter text for search results (Google shows about 155 characters); falls back to the excerpt
     seoDescription?: string
     readTime?: string
+    // Number of works cited, derived from the sources list
+    sourceCount?: number
 }
 
 export interface Article extends ArticleMeta {

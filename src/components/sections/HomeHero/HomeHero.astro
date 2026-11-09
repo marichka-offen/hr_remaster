@@ -1,51 +1,45 @@
 ---
+// Home page opening: says what the site is (subject, period, author) beside a period image
 import Button from '@components/base/Button/Button'
-import Eyebrow from '@components/base/Eyebrow/Eyebrow'
-import HairlineDivider from '@components/base/HairlineDivider/HairlineDivider'
-import QuoteBlock from '@components/composite/QuoteBlock/QuoteBlock.astro'
 import './HomeHero.scss'
 import type { CTA } from '@app-types/cta'
 
 interface Props {
     label?: string
     title: string
-    quote?: string
-    quoteAuthor?: string
+    text?: string
     imageUrl?: string
     imageAlt?: string
+    imageCaption?: string
     cta?: CTA
+    secondaryCta?: CTA
 }
 
-const { label, title, quote, quoteAuthor, imageUrl, imageAlt, cta } =
-    Astro.props
+const { label, title, text, imageUrl, imageAlt, imageCaption, cta, secondaryCta } = Astro.props
 ---
 
-<section class='hero'>
-    <div class='hero__bg'>
-        {
-            imageUrl && (
-                <img src={imageUrl} alt={imageAlt ?? ''} class='hero__bg-img' />
-            )
-        }
+<section class="hero">
+    <div class="hero__inner">
+        <div class="hero__text">
+            {label && <p class="hero__label">{label}</p>}
+            <h1 class="hero__title" set:html={title} />
+            {text && <p class="hero__intro">{text}</p>}
+            {(cta?.text || secondaryCta?.text) && (
+                <div class="hero__actions">
+                    {cta?.text && (
+                        <Button variant="solid-gold" size="lg" onTone="dark" icon={false} href={cta.link ?? '/articles'} text={cta.text} openInNewTab={cta.openInNewTab} />
+                    )}
+                    {secondaryCta?.text && (
+                        <Button variant="link" size="lg" onTone="dark" icon={false} href={secondaryCta.link ?? '/about'} text={secondaryCta.text} openInNewTab={secondaryCta.openInNewTab} />
+                    )}
+                </div>
+            )}
+        </div>
+        {imageUrl && (
+            <figure class="hero__figure">
+                <img src={imageUrl} alt={imageAlt ?? ''} class="hero__image" />
+                {imageCaption && <figcaption class="hero__caption">{imageCaption}</figcaption>}
+            </figure>
+        )}
     </div>
-    <div class='hero__texture'></div>
-    <div class='hero__content'>
-        {label && <Eyebrow color="gold" size="md" align="center">{label}</Eyebrow>}
-        <h1 class='hero__title' set:html={title} />
-        <HairlineDivider width={60} color="gold" align="center" />
-        {quote && <QuoteBlock quote={quote} author={quoteAuthor} tone="dark" />}
-        {
-            cta?.text && (
-                <Button
-                    variant='outline-gold'
-                    size='lg'
-                    onTone='dark'
-                    href={cta.link ?? '#articles'}
-                    text={cta.text}
-                    openInNewTab={cta.openInNewTab}
-                />
-            )
-        }
-    </div>
-    <div class='hero__scroll'></div>
 </section>

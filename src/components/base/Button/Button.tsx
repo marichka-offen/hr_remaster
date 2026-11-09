@@ -2,7 +2,7 @@ import './Button.scss'
 import type { ReactNode } from 'react'
 
 interface Props {
-    variant: 'outline-gold' | 'outline-navy' | 'solid-gold' | 'solid-navy' | 'text'
+    variant: 'outline-gold' | 'outline-navy' | 'solid-gold' | 'solid-navy' | 'text' | 'link'
     size?: 'sm' | 'md' | 'lg'
     icon?: boolean
     onTone: 'light' | 'dark'

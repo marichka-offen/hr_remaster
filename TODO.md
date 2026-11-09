@@ -34,7 +34,8 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ### Now
 
-- [ ] Create a Storyblok personal access token (My account > Account settings > Personal access token) and add it to `.env` as `STORYBLOK_PERSONAL_ACCESS_TOKEN`; then run `npm run storyblok:push` and `npm run storyblok:seed`
+- [ ] Storyblok after the home redesign: run `npm run storyblok:push` (new blocks: Read in order, Books, new hero and author fields, "Last year covered" on articles), then `npm run storyblok:seed` to update the home page. Delete the Kent County Militia story by hand (the seed doesn't delete)
+- [ ] Set up Cloudflare (step by step in the conversation of 2026-11-09; summary in README)
 - [ ] Review and merge PR #83 (`feat/mock-content`)
 - [ ] One pass in a real browser: contents list highlighting, contents drawer, back-to-top, mobile menu, slim header on scroll, search (`npm run build` then `npm run preview`, press `/`), printing an article
 - [ ] Decide whether to keep or delete the parked `feat/storyblok` branch (local WIP commit, not pushed)
@@ -50,6 +51,20 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ## Development backlog
 
+### Build the redesign (designs on the canvas: https://claude.ai/artifact/3cb9wQK9eb8RLHmUMguBgv)
+
+- [x] Stage 1: tokens and home page. Period colours (`--era-*`); quotes in Literata (Cormorant removed); labels, nav, buttons and filters in normal case; new home sections: opening with image, Read in order, Latest research card, archive cards with images or period bands and source counts, author with photo and credentials, Books. Header search is a labelled box on wide screens
+- [ ] Stage 2: article template v2 (period-tinted header with the period ribbon, lighter portraits, opener card when there is no lead image, wide blocks, contents list rule)
+- [ ] Stage 3: About, Articles list (grouped by period), Books, book pages (real cover), Contact
+- [ ] Stage 4: remove the discarded tokens once nothing uses them (`--tracking-wider`, `--tracking-widest`, `--text-decor`, the gradients and overlays, `--font-quote`)
+- [ ] Read times differ from the canvas mockups (e.g. Eighty Years War: 37 min here, 32 on the canvas); the Legion shows "1 min read" because its text is a placeholder. Hide the read time when the body is a placeholder
+
+- [ ] Contents list rule (agreed with Marichka): show "On this page" only when the article has three or more sections (counting Sources); otherwise leave it out and centre the text column. List h2 sections only, and expand a section's h3s while the reader is in it. Check the long articles (Three Kingdoms, House of Stuart, Eighty Years War) once their headings are fixed.
+- [ ] Importer: "The House of Stuart and Jacobitism" has the same problem as the Maryland article below. Each Jacobite and government regiment is an h3 ending in "▾" with its details run into one paragraph. Import each regiment as a collapsible block.
+- [ ] Importer: in the Williamite War order of battle, each regiment is a bold paragraph followed by a paragraph of engagements and coat colours separated by line breaks. Import them as a table: regiment, engagements, coat and facings. See the canvas mockup.
+- [ ] Importer: the "Scottish Regiments (Army of Ulster)" list in the War of Three Kingdoms came through as alternating loose paragraphs (name, then details). Import it as one block per regiment.
+- [ ] Importer: in "A Brief Military History of the Colony of Maryland" the old collapsible county sections came through as h2 headings ending in "▾", each with all its units run together in one paragraph. Import them as collapsible blocks, one per county, with one list item per unit. Splitting before each leading year ("1634-47 …", "1642 …") works.
+- [ ] Fix two copy-paste captions from the old site: the Maryland Forces flag reads "Flag of the Dutch West Indies Company" (it is the Calvert arms with the King's Colours). The militia photo had the same caption, but that page is being removed.
 - [ ] Source links: change sources from plain text to text plus an optional link; show the link on the article and in print; add the confirmed links:
   - Cannon: <https://archive.org/details/cihm_48340>
   - Hamilton Vol. I: <https://archive.org/details/originhistoryfi00hamigoog>

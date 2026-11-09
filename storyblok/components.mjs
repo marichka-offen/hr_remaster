@@ -32,9 +32,11 @@ const richText = (name, extra) =>
 // Sections a page can be built from, in the order they appear in the "add section" menu
 export const PAGE_SECTIONS = [
     'hero',
+    'readingPaths',
     'featured',
     'articleGrid',
     'authorCard',
+    'booksSection',
     'bookPromo',
     'authorBio',
     'philosophyBlock',
@@ -77,6 +79,7 @@ export const components = [
             tags: text('Tags', { description: 'Separated by commas, e.g. Virginia, British Army' }),
             period: text('Period code', { description: 'Short code shown on cards without an image, e.g. 1677 or HUS' }),
             startYear: number('First year covered', { description: 'Used for sorting by period, e.g. 1677' }),
+            endYear: number('Last year covered', { description: 'Shown with the first year on cards, e.g. 1682 for 1677–1682. Leave empty for a single year' }),
             image: asset('Main image'),
             excerpt: textarea('Summary', { required: true, description: 'Shown on cards and under the title' }),
             seoDescription: textarea('Search description', { description: 'Optional shorter summary for search results (about 155 characters)' }),
@@ -153,14 +156,25 @@ export const components = [
     ),
 
     // ---------------------------------------------------------------- Page sections
-    define('hero', 'Hero', () => ({
-        label: text('Small label', { description: 'e.g. Est. 2010 · Military History Journal' }),
+    define('hero', 'Opening (hero)', () => ({
+        label: text('Small line above the title', { description: 'e.g. Military history from the sources' }),
         title: text('Title', { required: true }),
-        quote: textarea('Quote'),
-        quoteAuthor: text('Who said it'),
-        image: asset('Background image'),
-        ctaText: text('Button text'),
+        text: textarea('Text under the title', { description: 'What the site is and who writes it, in a sentence or two' }),
+        image: asset('Image', { description: 'A period image shown beside the text' }),
+        imageCaption: text('Image caption', { description: 'What it is, who made it, where it is held' }),
+        ctaText: text('Button text', { description: 'e.g. Browse the archive' }),
         ctaLink: link('Button link'),
+        secondaryCtaText: text('Second link text', { description: 'e.g. About Lee' }),
+        secondaryCtaLink: link('Second link'),
+    }), { preview_field: 'title' }),
+    define('readingPaths', 'Read in order', () => ({
+        heading: text('Heading', { default_value: 'Read in order' }),
+        intro: textarea('Text under the heading'),
+        paths: blocks('Groups', ['readingPath'], { description: 'Each group lists its articles in date order' }),
+    }), { preview_field: 'heading' }),
+    define('readingPath', 'Group of articles', () => ({
+        title: text('Name', { required: true, description: 'e.g. Ireland at war' }),
+        articles: storyRefs('Articles', 'article', { folder_slug: 'articles/', description: 'The years and order come from the articles' }),
     }), { preview_field: 'title' }),
     define('featured', 'Featured article', () => ({
         label: text('Small label', { default_value: 'Featured' }),
@@ -176,15 +190,22 @@ export const components = [
         ctaText: text('Button text'),
         ctaLink: link('Button link'),
     }), { preview_field: 'heading' }),
-    define('authorCard', 'Author card', () => ({
+    define('authorCard', 'Author', () => ({
+        label: text('Small label', { default_value: 'The author' }),
         name: text('Name', { required: true }),
-        role: text('Role'),
-        bio: richText('Bio'),
-        image: asset('Portrait'),
-        initials: text('Initials', { description: 'Shown when there is no portrait' }),
+        bio: richText('Text'),
+        image: asset('Photo'),
+        imageCaption: text('Photo caption'),
+        initials: text('Initials', { description: 'Shown when there is no photo' }),
+        credentials: textarea('Credentials', { description: 'One per line, e.g. Retired U.S. Army Major' }),
         ctaText: text('Link text', { description: 'e.g. Read Full Bio' }),
         ctaLink: link('Link'),
     }), { preview_field: 'name' }),
+    define('booksSection', 'Books', () => ({
+        heading: text('Heading', { default_value: 'Books' }),
+        ctaText: text('Link text', { default_value: 'All books' }),
+        ctaLink: link('Link'),
+    }), { preview_field: 'heading', description: 'Shows the forthcoming book as a feature, then the published books' }),
     define('bookPromo', 'Book promotion', () => ({
         label: text('Small label', { description: 'e.g. Upcoming Book' }),
         book: storyRef('Book', 'book', { folder_slug: 'books/', description: 'Title, cover and summary come from the book' }),

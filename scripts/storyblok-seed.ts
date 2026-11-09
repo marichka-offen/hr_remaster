@@ -194,6 +194,7 @@ for (const article of [...articles].reverse()) {
         tags: (article.tags ?? []).join(', '),
         period: article.period ?? '',
         startYear: article.startYear ? String(article.startYear) : '',
+        endYear: article.endYear ? String(article.endYear) : '',
         excerpt: article.excerpt ?? '',
         seoDescription: article.seoDescription ?? '',
         readTime: article.readTime ?? '',
@@ -231,7 +232,27 @@ function toBlok(section: Section): Record<string, unknown> | undefined {
     const ctaFields = (cta?: { text?: string; link?: string }) => ({ ctaText: cta?.text ?? '', ctaLink: cta?.link?.startsWith('/') ? urlLink(cta.link) : urlLink(cta?.link) })
     switch (section._type) {
         case 'hero':
-            return { ...base, component: 'hero', label: section.label ?? '', title: section.title, quote: section.quote ?? '', quoteAuthor: section.quoteAuthor ?? '', ...ctaFields(section.cta) }
+            return {
+                ...base,
+                component: 'hero',
+                label: section.label ?? '',
+                title: section.title,
+                text: section.text ?? '',
+                imageCaption: section.imageCaption ?? '',
+                ...ctaFields(section.cta),
+                secondaryCtaText: section.secondaryCta?.text ?? '',
+                secondaryCtaLink: urlLink(section.secondaryCta?.link),
+            }
+        case 'readingPaths':
+            return {
+                ...base,
+                component: 'readingPaths',
+                heading: section.heading ?? '',
+                intro: section.intro ?? '',
+                paths: section.paths.map((path) => ({ _uid: uid(), component: 'readingPath', title: path.title, articles: path.articles.map((a) => articleUuids.get(a.slug)).filter(Boolean) })),
+            }
+        case 'books':
+            return { ...base, component: 'booksSection', heading: section.heading ?? '', ...ctaFields(section.cta) }
         case 'featured':
             return { ...base, component: 'featured', label: section.label ?? '', heading: section.heading ?? '', article: articleUuids.get(section.article.slug) ?? '' }
         case 'articleGrid':
@@ -245,7 +266,17 @@ function toBlok(section: Section): Record<string, unknown> | undefined {
                 ...ctaFields(section.cta),
             }
         case 'authorCard':
-            return { ...base, component: 'authorCard', name: section.name, role: section.role ?? '', initials: section.initials ?? '', bio: toStoryblokRichText(section.bio), ...ctaFields(section.cta) }
+            return {
+                ...base,
+                component: 'authorCard',
+                label: section.label ?? '',
+                name: section.name,
+                initials: section.initials ?? '',
+                imageCaption: section.imageCaption ?? '',
+                credentials: (section.credentials ?? []).join('\n'),
+                bio: toStoryblokRichText(section.bio),
+                ...ctaFields(section.cta),
+            }
         case 'bookPromo': {
             const slug = books.find((b) => b.title === section.title)?.slug ?? ''
             return { ...base, component: 'bookPromo', label: section.label ?? '', book: bookUuids.get(slug) ?? '', ctaText: section.cta?.text ?? 'Learn More' }

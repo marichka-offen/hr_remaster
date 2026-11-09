@@ -172,6 +172,7 @@ function toArticle(story: Story<Fields>, topics: Map<string, Topic>, articleAuth
         subtitle: str(c.subtitle),
         period: str(c.period),
         startYear: Number(c.startYear) || undefined,
+        endYear: Number(c.endYear) || undefined,
         ...topic,
         tags: str(c.tags)?.split(',').map((tag: string) => tag.trim()).filter(Boolean),
         imageUrl: imageUrl(c.image),
@@ -234,12 +235,25 @@ async function toSection(blok: Fields, context: { articles: Article[]; books: Bo
                 _type: 'hero',
                 label: str(blok.label),
                 title: blok.title ?? '',
-                quote: str(blok.quote),
-                quoteAuthor: str(blok.quoteAuthor),
+                text: str(blok.text),
                 imageUrl: imageUrl(blok.image),
                 imageAlt: imageAlt(blok.image),
+                imageCaption: str(blok.imageCaption),
                 cta: cta(blok.ctaText, blok.ctaLink),
+                secondaryCta: cta(blok.secondaryCtaText, blok.secondaryCtaLink),
             }
+        case 'readingPaths':
+            return {
+                _type: 'readingPaths',
+                heading: str(blok.heading),
+                intro: str(blok.intro),
+                paths: (blok.paths ?? []).map((path: Fields) => ({
+                    title: path.title ?? '',
+                    articles: (path.articles ?? []).map(articleByUuid).filter(Boolean).map(stripArticle),
+                })),
+            }
+        case 'booksSection':
+            return { _type: 'books', heading: str(blok.heading), cta: cta(blok.ctaText, blok.ctaLink) ?? { text: 'All books', link: '/books' }, books: context.books }
         case 'featured': {
             const article = articleByUuid(blok.article)
             return article ? { _type: 'featured', label: str(blok.label), heading: str(blok.heading), article: stripArticle(article) } : undefined
@@ -260,12 +274,14 @@ async function toSection(blok: Fields, context: { articles: Article[]; books: Bo
         case 'authorCard':
             return {
                 _type: 'authorCard',
+                label: str(blok.label),
                 name: blok.name ?? '',
-                role: str(blok.role),
                 bio: richText(blok.bio),
                 imageUrl: imageUrl(blok.image),
                 imageAlt: imageAlt(blok.image),
+                imageCaption: str(blok.imageCaption),
                 initials: str(blok.initials),
+                credentials: str(blok.credentials)?.split('\n').map((line: string) => line.trim()).filter(Boolean),
                 cta: cta(blok.ctaText, blok.ctaLink),
             }
         case 'bookPromo': {

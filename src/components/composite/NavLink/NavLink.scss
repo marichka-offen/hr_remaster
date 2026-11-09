@@ -1,11 +1,9 @@
 .nav-link {
     color: var(--color-text-strong);
     font-family: var(--font-ui);
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     font-weight: var(--weight-medium);
     line-height: var(--leading-relaxed);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
     text-decoration: none;
     position: relative;
     display: inline-flex;

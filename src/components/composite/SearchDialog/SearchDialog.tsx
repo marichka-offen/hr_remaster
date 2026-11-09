@@ -127,11 +127,13 @@ export default function SearchDialog() {
 
     return (
         <>
-            <button type="button" className="search-trigger" onClick={open} aria-label="Search articles and books" aria-haspopup="dialog">
+            <button type="button" className="search-trigger" onClick={open} aria-haspopup="dialog">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
                     <circle cx="11" cy="11" r="6.5" />
                     <path d="M16 16l4.5 4.5" />
                 </svg>
+                {/* Visible on wide screens; on phones the icon stands alone and this text is read out */}
+                <span className="search-trigger__label">Search the archive</span>
             </button>
 
             {/* Native <dialog>: the browser keeps focus inside, closes on Escape and returns focus to the button */}

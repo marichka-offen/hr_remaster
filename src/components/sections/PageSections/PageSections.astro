@@ -2,7 +2,9 @@
 import HomeHero from '@components/sections/HomeHero/HomeHero.astro'
 import FeaturedArticle from '@components/sections/FeaturedArticle/FeaturedArticle.astro'
 import ArticlesSection from '@components/sections/ArticlesSection/ArticlesSection.astro'
-import AboutPreview from '@components/sections/AboutPreview/AboutPreview.astro'
+import AuthorFeature from '@components/sections/AuthorFeature/AuthorFeature.astro'
+import ReadingPaths from '@components/sections/ReadingPaths/ReadingPaths.astro'
+import BooksSection from '@components/sections/BooksSection/BooksSection.astro'
 import AuthorBio from '@components/sections/AuthorBio/AuthorBio.astro'
 import BookPreview from '@components/sections/BookPreview/BookPreview.astro'
 import PhilosophyBlock from '@components/sections/PhilosophyBlock/PhilosophyBlock.astro'
@@ -31,13 +33,16 @@ const { sections, articles = [] } = Astro.props
                 <HomeHero
                     label={section.label}
                     title={section.title}
-                    quote={section.quote}
-                    quoteAuthor={section.quoteAuthor}
+                    text={section.text}
                     imageUrl={section.imageUrl}
                     imageAlt={section.imageAlt}
+                    imageCaption={section.imageCaption}
                     cta={section.cta}
+                    secondaryCta={section.secondaryCta}
                 />
             )
+        case 'readingPaths':
+            return <ReadingPaths heading={section.heading} intro={section.intro} paths={section.paths} />
         case 'featured':
             return section.article ? (
                 <FeaturedArticle
@@ -58,16 +63,20 @@ const { sections, articles = [] } = Astro.props
             )
         case 'authorCard':
             return (
-                <AboutPreview
+                <AuthorFeature
+                    label={section.label}
                     name={section.name}
-                    role={section.role}
                     bio={section.bio}
                     imageUrl={section.imageUrl}
                     imageAlt={section.imageAlt}
+                    imageCaption={section.imageCaption}
                     initials={section.initials}
+                    credentials={section.credentials}
                     cta={section.cta}
                 />
             )
+        case 'books':
+            return <BooksSection heading={section.heading} cta={section.cta} books={section.books} />
         case 'bookPromo':
             return (
                 <BookPreview

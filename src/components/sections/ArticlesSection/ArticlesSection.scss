@@ -2,36 +2,9 @@
     &__container {
         max-width: var(--container-lg);
         margin: 0 auto;
-        padding: var(--section-y) var(--gutter);
-    }
-
-    &__header {
-        text-align: center;
-        margin-bottom: var(--space-8);
-    }
-
-    &__cta {
-        text-align: center;
-        margin-top: var(--space-8);
-    }
-
-    &__cta-link {
-        font-family: var(--font-ui);
-        font-size: var(--text-xs);
-        letter-spacing: var(--tracking-wider);
-        text-transform: uppercase;
-        font-weight: var(--weight-semibold);
-        color: var(--color-text-strong);
-        border: var(--border-thin) solid var(--color-text-strong);
-        padding: var(--space-3) var(--space-6);
-        display: inline-flex;
-        align-items: center;
-        min-height: var(--tap-target);
-        transition: var(--transition-colors);
-
-        &:hover {
-            background: var(--color-surface-dark);
-            color: var(--color-text-on-dark);
-        }
+        padding: var(--space-6) var(--gutter) var(--section-y);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
     }
 }
