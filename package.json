@@ -22,8 +22,7 @@
     "astro": "^5.17.1",
     "astro-icon": "^1.1.5",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "tslib": "^2.9.1"
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
