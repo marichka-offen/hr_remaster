@@ -46,7 +46,7 @@ Pages call functions in `src/lib/content` (`getPage`, `getArticles`, `getArticle
 
 Lee edits pages inside Storyblok with the page shown beside the fields (click a section to edit it, see changes as he types). Storyblok loads `/preview/<story slug>` from this site in a frame:
 
-- `src/pages/preview/[...slug].astro` is the only page rendered on request (a Netlify function); everything else is static. It checks Storyblok's signature (`src/lib/storyblok/preview.ts`), so drafts are never shown outside the editor.
+- `src/pages/preview/[...slug].astro` is rendered on request (in a Cloudflare Worker), along with `/api/contact`; everything else is static. It checks Storyblok's signature (`src/lib/storyblok/preview.ts`), so drafts are never shown outside the editor.
 - Pages and preview share the same templates (`src/views/`). Blocks carry Storyblok's `_editable` markers in draft content only (`src/lib/storyblok/editable.ts`).
 - Typing sends the unsaved story to the preview route, which re-renders and swaps the page content; saving or publishing reloads.
 
