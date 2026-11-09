@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>British Military Presence in America, 1660–1720 — History Reconsidered</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2332;
+    --navy-light: #243044;
+    --gold: #c4973b;
+    --gold-light: #d4ab54;
+    --gold-faint: rgba(196,151,59,0.07);
+    --burgundy: #8b2635;
+    --brit-red: #c0392b;
+    --brit-red-light: rgba(192,57,43,0.08);
+    --brit-blue: #2c5282;
+    --brit-blue-light: rgba(44,82,130,0.08);
+    --parchment: #f5f0e8;
+    --parchment-dark: #e8e0d2;
+    --text: #2d2d2d;
+    --text-light: #5a5a5a;
+    --text-muted: #8a8275;
+    --white: #fefcf9;
+    --shadow-sm: 0 1px 3px rgba(26,35,50,0.08);
+    --shadow-md: 0 4px 12px rgba(26,35,50,0.1);
+    --shadow-lg: 0 8px 30px rgba(26,35,50,0.12);
+    --transition: 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; font-size:16px; }
+  body {
+    font-family:'Cormorant Garamond',Georgia,serif;
+    color:var(--text); background:var(--parchment);
+    line-height:1.7; overflow-x:hidden;
+  }
+
+  /* Progress */
+  .progress-bar { position:fixed; top:0; left:0; width:0%; height:3px; background:linear-gradient(90deg,var(--brit-red),var(--gold)); z-index:1001; transition:width 0.08s linear; }
+
+  /* Header */
+  header { position:fixed; top:3px; left:0; right:0; z-index:100; background:rgba(254,252,249,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(196,151,59,0.12); transition:var(--transition); }
+  header.scrolled { box-shadow:var(--shadow-md); }
+  .header-inner { max-width:1200px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:60px; }
+  .logo { text-decoration:none; color:var(--navy); }
+  .logo-title { font-family:'Playfair Display',serif; font-weight:800; font-size:17px; letter-spacing:1.5px; text-transform:uppercase; }
+  nav { display:flex; gap:24px; }
+  nav a { font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--navy); text-decoration:none; transition:color var(--transition); }
+  nav a:hover { color:var(--gold); }
+  .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; z-index:200; }
+  .hamburger span { width:22px; height:2px; background:var(--navy); display:block; transition:var(--transition); }
+  .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)} .hamburger.active span:nth-child(2){opacity:0} .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+  .mobile-nav { display:none; position:fixed; inset:0; background:var(--white); z-index:150; flex-direction:column; align-items:center; justify-content:center; gap:28px; opacity:0; pointer-events:none; transition:opacity 0.4s ease; }
+  .mobile-nav.open { opacity:1; pointer-events:all; }
+  .mobile-nav a { font-family:'Playfair Display',serif; font-size:24px; color:var(--navy); text-decoration:none; }
+
+  /* Section nav */
+  .section-nav { position:sticky; top:63px; z-index:90; background:var(--white); border-bottom:1px solid var(--parchment-dark); box-shadow:var(--shadow-sm); overflow-x:auto; scrollbar-width:none; }
+  .section-nav::-webkit-scrollbar { display:none; }
+  .section-nav-inner { display:flex; max-width:1100px; margin:0 auto; padding:0 24px; min-width:max-content; }
+  .snav-link { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-muted); text-decoration:none; padding:13px 14px; white-space:nowrap; position:relative; transition:color var(--transition); flex-shrink:0; }
+  .snav-link::after { content:''; position:absolute; bottom:0; left:14px; right:14px; height:2px; background:var(--brit-red); transform:scaleX(0); transition:transform var(--transition); }
+  .snav-link:hover { color:var(--navy); }
+  .snav-link.active { color:var(--brit-red); }
+  .snav-link.active::after { transform:scaleX(1); }
+  .snav-divider { width:1px; background:var(--parchment-dark); margin:8px 4px; flex-shrink:0; }
+
+  /* Hero */
+  .article-hero { margin-top:63px; background:var(--navy); position:relative; overflow:hidden; }
+  .article-hero-bg { position:absolute; inset:0; background:linear-gradient(160deg, rgba(26,35,50,0.97) 0%, rgba(26,35,50,0.85) 50%, rgba(192,57,43,0.35) 100%); }
+  .article-hero-texture { position:absolute; inset:0; opacity:0.025; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-size:256px; }
+  .article-hero-content { position:relative; z-index:2; max-width:860px; margin:0 auto; padding:72px 24px 60px; }
+  .hero-breadcrumb { font-family:'DM Sans',sans-serif; font-size:11px; color:rgba(255,255,255,0.3); margin-bottom:24px; }
+  .hero-breadcrumb a { color:rgba(255,255,255,0.3); text-decoration:none; } .hero-breadcrumb a:hover { color:var(--gold); }
+  .hero-breadcrumb span { margin:0 8px; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .hero-tag { font-family:'DM Sans',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--brit-red); font-weight:600; background:rgba(192,57,43,0.1); padding:4px 12px; border:1px solid rgba(192,57,43,0.2); }
+  .article-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(30px,5vw,48px); font-weight:800; color:var(--white); line-height:1.1; margin-bottom:10px; }
+  .hero-date { font-family:'DM Sans',sans-serif; font-size:13px; letter-spacing:5px; color:var(--brit-red); font-weight:700; margin-bottom:18px; }
+  .hero-subtitle { font-size:19px; font-style:italic; color:rgba(255,255,255,0.5); max-width:620px; line-height:1.5; margin-bottom:24px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:18px; font-family:'DM Sans',sans-serif; font-size:11px; color:rgba(255,255,255,0.3); padding-top:18px; border-top:1px solid rgba(255,255,255,0.06); }
+  .hero-meta span { display:flex; align-items:center; gap:6px; }
+  .hero-meta svg { width:13px; height:13px; opacity:0.5; }
+
+  /* Content wrapper */
+  .article-body { max-width:860px; margin:0 auto; padding:0 24px; }
+
+  /* CONTENT TYPE 1: PROSE */
+  .prose-section { padding:48px 0 32px; scroll-margin-top:110px; }
+  .prose-section h2 { font-family:'Playfair Display',serif; font-size:clamp(24px,3vw,32px); font-weight:800; color:var(--navy); margin-bottom:6px; line-height:1.2; padding-top:40px; border-top:1px solid var(--parchment-dark); }
+  .prose-section h2:first-child { padding-top:0; border-top:none; }
+  .prose-section h3 { font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--brit-red); margin:32px 0 4px; }
+  .prose-section p { font-size:18px; line-height:1.8; margin-bottom:18px; }
+  .prose-section .drop-cap::first-letter { float:left; font-family:'Playfair Display',serif; font-size:68px; font-weight:800; line-height:0.78; margin:6px 12px 0 0; color:var(--brit-red); }
+  .prose-section blockquote { margin:28px 0; padding:20px 24px; background:var(--gold-faint); border-left:3px solid var(--gold); }
+  .prose-section blockquote p { font-style:italic; font-size:18px; color:var(--navy); margin-bottom:0; }
+
+  /* Key insight box */
+  .insight-box { background:var(--white); border:1px solid var(--parchment-dark); padding:20px 24px; margin:24px 0; border-left:3px solid var(--brit-red); }
+  .insight-box-label { font-family:'DM Sans',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--brit-red); font-weight:700; margin-bottom:6px; display:block; }
+  .insight-box p { font-size:16px; color:var(--text-light); margin-bottom:0; line-height:1.65; }
+
+  /* CONTENT TYPE 2: TIMELINE */
+  .timeline-section { padding:48px 0 32px; scroll-margin-top:110px; }
+  .timeline-section-header { display:flex; align-items:baseline; gap:16px; margin-bottom:24px; padding-top:40px; border-top:1px solid var(--parchment-dark); cursor:pointer; user-select:none; }
+  .timeline-section-header h2 { font-family:'Playfair Display',serif; font-size:clamp(22px,3vw,28px); font-weight:800; color:var(--navy); line-height:1.2; }
+  .timeline-section-header .region-badge { font-family:'DM Sans',sans-serif; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; font-weight:600; padding:3px 10px; flex-shrink:0; }
+  .region-na { background:rgba(44,82,130,0.08); color:var(--brit-blue); }
+  .region-carib { background:rgba(192,57,43,0.08); color:var(--brit-red); }
+  .tl-toggle { width:26px; height:26px; border:1.5px solid var(--parchment-dark); border-radius:50%; background:transparent; color:var(--text-muted); display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; transition:var(--transition); margin-left:auto; }
+  .tl-toggle:hover { border-color:var(--gold); color:var(--gold); }
+  .tl-toggle svg { width:13px; height:13px; transition:transform var(--transition); }
+  .timeline-section.collapsed .tl-toggle svg { transform:rotate(-90deg); }
+  .timeline-section.collapsed .tl-body { display:none; }
+
+  .timeline { position:relative; padding-left:32px; }
+  .timeline::before { content:''; position:absolute; left:6px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, var(--brit-red) 0%, var(--parchment-dark) 20%, var(--parchment-dark) 80%, transparent 100%); }
+
+  /* War period marker */
+  .tl-war { position:relative; margin:28px 0 20px; padding:14px 20px; background:var(--navy); color:var(--white); }
+  .tl-war::before { content:''; position:absolute; left:-32px; top:18px; width:14px; height:14px; border-radius:50%; background:var(--brit-red); border:2px solid var(--brit-red); box-shadow:0 0 0 3px rgba(192,57,43,0.15); z-index:2; }
+  .tl-war-title { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; }
+  .tl-war-dates { font-family:'DM Sans',sans-serif; font-size:11px; letter-spacing:1px; color:var(--gold); margin-top:2px; }
+
+  /* Standard event */
+  .tl-event { position:relative; padding:0 0 20px; }
+  .tl-event::before { content:''; position:absolute; left:-32px; top:7px; width:14px; height:14px; border-radius:50%; border:2px solid var(--parchment-dark); background:var(--parchment); z-index:2; transition:var(--transition); }
+  .tl-event:hover::before { border-color:var(--gold); }
+  .tl-date { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:700; color:var(--brit-red); letter-spacing:0.5px; margin-bottom:2px; }
+  .tl-text { font-size:16px; color:var(--text-light); line-height:1.65; }
+
+  /* Unit list under an event */
+  .unit-list { margin:8px 0 0; padding:0; list-style:none; }
+  .unit-item { display:flex; align-items:center; gap:10px; padding:5px 0; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text-light); border-bottom:1px solid var(--parchment); }
+  .unit-item:last-child { border-bottom:none; }
+
+  /* Regiment color swatch */
+  .regt-colors { display:flex; width:24px; height:16px; border-radius:2px; overflow:hidden; flex-shrink:0; border:1px solid rgba(0,0,0,0.08); }
+  .regt-colors span { flex:1; display:block; }
+  /* Color definitions matching the article's coat/facing descriptions */
+  .c-red { background:#c0392b; } .c-yellow { background:#d4a017; } .c-blue { background:#2c5282; }
+  .c-green { background:#2d7d46; } .c-white { background:#eee; } .c-buff { background:#d4b896; }
+  .c-orange { background:#d4712a; }
+
+  .unit-name { flex:1; }
+  .unit-note { font-size:11px; color:var(--text-muted); font-style:italic; }
+
+  /* CONTENT TYPE 3: GARRISON REFERENCE CARDS */
+  .garrison-section { padding:48px 0 32px; scroll-margin-top:110px; }
+  .garrison-section h2 { font-family:'Playfair Display',serif; font-size:clamp(22px,3vw,28px); font-weight:800; color:var(--navy); margin-bottom:4px; padding-top:40px; border-top:1px solid var(--parchment-dark); }
+  .garrison-subtitle { font-family:'DM Sans',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--brit-red); font-weight:600; margin-bottom:28px; }
+
+  .garrison-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-bottom:32px; }
+
+  .garrison-card { background:var(--white); border:1px solid var(--parchment-dark); overflow:hidden; transition:var(--transition); }
+  .garrison-card:hover { border-color:var(--gold); box-shadow:var(--shadow-sm); }
+  .garrison-card-header { padding:16px 20px 12px; background:var(--navy); color:var(--white); display:flex; align-items:center; justify-content:space-between; }
+  .garrison-card-name { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; }
+  .garrison-card-region { font-family:'DM Sans',sans-serif; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:600; }
+  .garrison-card-body { padding:16px 20px; }
+
+  .garrison-entry { padding:8px 0; border-bottom:1px solid var(--parchment); display:grid; grid-template-columns:80px 1fr; gap:8px; font-size:14px; }
+  .garrison-entry:last-child { border-bottom:none; }
+  .garrison-year { font-family:'DM Sans',sans-serif; font-size:12px; font-weight:700; color:var(--brit-red); padding-top:1px; }
+  .garrison-detail { color:var(--text-light); line-height:1.5; }
+  .garrison-detail .unit-inline { display:inline-flex; align-items:center; gap:4px; }
+  .garrison-detail .regt-colors { width:16px; height:10px; display:inline-flex; vertical-align:-1px; }
+
+  /* Locally raised forces — compact list */
+  .local-forces-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px; }
+  .local-force-card { background:var(--white); border:1px solid var(--parchment-dark); padding:16px 18px; }
+  .local-force-year { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:700; color:var(--brit-red); margin-bottom:2px; }
+  .local-force-location { font-family:'DM Sans',sans-serif; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:6px; }
+  .local-force-list { list-style:none; padding:0; }
+  .local-force-list li { font-size:14px; color:var(--text-light); padding:3px 0; border-bottom:1px solid var(--parchment); line-height:1.4; }
+  .local-force-list li:last-child { border-bottom:none; }
+
+  /* Sources accordion */
+  .sources-section { padding:40px 0 60px; scroll-margin-top:110px; }
+  .sources-toggle { display:flex; align-items:center; gap:12px; padding:16px 20px; background:var(--white); border:1px solid var(--parchment-dark); cursor:pointer; width:100%; text-align:left; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--navy); transition:var(--transition); }
+  .sources-toggle:hover { border-color:var(--gold); }
+  .sources-toggle svg { width:16px; height:16px; color:var(--gold); transition:transform var(--transition); }
+  .sources-toggle.open svg { transform:rotate(180deg); }
+  .sources-body { max-height:0; overflow:hidden; transition:max-height 0.5s ease; }
+  .sources-body.open { max-height:3000px; }
+  .sources-body-inner { padding:20px; background:var(--white); border:1px solid var(--parchment-dark); border-top:none; }
+  .sources-body-inner ol { padding-left:20px; }
+  .sources-body-inner li { font-size:14px; color:var(--text-light); line-height:1.5; padding:4px 0; font-family:'DM Sans',sans-serif; }
+
+  /* Related */
+  .related-section { max-width:860px; margin:0 auto; padding:48px 24px 72px; border-top:1px solid var(--parchment-dark); }
+  .related-label { font-family:'DM Sans',sans-serif; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:6px; text-align:center; }
+  .related-title { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--navy); text-align:center; margin-bottom:28px; }
+  .related-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .related-card { background:var(--white); padding:20px; text-decoration:none; color:inherit; border:1px solid var(--parchment-dark); transition:var(--transition); }
+  .related-card:hover { border-color:var(--gold); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .related-card-tag { font-family:'DM Sans',sans-serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:6px; display:block; }
+  .related-card-title { font-family:'Playfair Display',serif; font-size:16px; font-weight:700; color:var(--navy); line-height:1.3; }
+
+  /* Footer */
+  footer { background:#131a24; padding:36px 24px 20px; }
+  .footer-inner { max-width:1100px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+  .footer-copy { font-family:'DM Sans',sans-serif; font-size:11px; color:rgba(255,255,255,0.2); }
+
+  .back-to-top { position:fixed; bottom:24px; right:24px; width:40px; height:40px; background:var(--navy); color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transition:var(--transition); z-index:80; }
+  .back-to-top.visible { opacity:1; pointer-events:all; }
+  .back-to-top:hover { background:var(--brit-red); }
+  .back-to-top svg { width:16px; height:16px; }
+
+  /* Responsive */
+  @media(max-width:768px) {
+    nav{display:none} .hamburger{display:flex} .mobile-nav{display:flex}
+    .garrison-grid{grid-template-columns:1fr}
+    .local-forces-grid{grid-template-columns:1fr}
+    .related-grid{grid-template-columns:1fr}
+    .timeline{padding-left:26px}
+    .timeline::before{left:4px}
+    .tl-event::before,.tl-war::before{left:-26px;width:12px;height:12px}
+  }
+  @media(max-width:480px) {
+    .garrison-entry{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="#" class="logo"><span class="logo-title">History Reconsidered</span></a>
+    <nav><a href="#">Home</a><a href="#">Articles</a><a href="#">Book</a><a href="#">About</a></nav>
+    <button class="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-nav" id="mobileNav"><a href="#" onclick="toggleMenu()">Home</a><a href="#" onclick="toggleMenu()">Articles</a><a href="#" onclick="toggleMenu()">Book</a><a href="#" onclick="toggleMenu()">About</a></div>
+
+<main>
+
+<!-- HERO -->
+<section class="article-hero">
+  <div class="article-hero-bg"></div>
+  <div class="article-hero-texture"></div>
+  <div class="article-hero-content">
+    <div class="hero-breadcrumb"><a href="#">Home</a><span>›</span><a href="#">Articles</a><span>›</span>Colonial History</div>
+    <div class="hero-tags">
+      <span class="hero-tag">Colonial History</span>
+      <span class="hero-tag">British Army</span>
+      <span class="hero-tag">Caribbean</span>
+    </div>
+    <h1>The British Military Presence in America</h1>
+    <div class="hero-date">1660 — 1720</div>
+    <p class="hero-subtitle">Regular regiments, independent companies, and militia forces across the North American colonies and the Caribbean — a comprehensive survey of Britain's early military footprint.</p>
+    <div class="hero-meta">
+      <span><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> By Lee Offen</span>
+      <span><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> ~35 min read</span>
+      <span><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"/></svg> 3 content types: Prose · Timeline · Reference</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION NAV -->
+<nav class="section-nav" id="sectionNav">
+  <div class="section-nav-inner">
+    <a href="#background" class="snav-link active">Background</a>
+    <div class="snav-divider"></div>
+    <a href="#tl-northamerica" class="snav-link">N. America Timeline</a>
+    <a href="#tl-caribbean" class="snav-link">Caribbean Timeline</a>
+    <div class="snav-divider"></div>
+    <a href="#garrisons-na" class="snav-link">N. American Garrisons</a>
+    <a href="#garrisons-carib" class="snav-link">Caribbean Garrisons</a>
+    <a href="#local-forces" class="snav-link">Local Forces</a>
+    <div class="snav-divider"></div>
+    <a href="#sources" class="snav-link">Sources</a>
+  </div>
+</nav>
+
+<div class="article-body">
+
+<!-- ============== TYPE 1: PROSE ============== -->
+<section class="prose-section" id="background">
+  <h2>Background</h2>
+  <p class="drop-cap">The presence of British regular army forces in the American colonies in the late 17th century and early 18th century was sporadic at best. This period in which Britain was becoming an empire at war intermittently with other European Powers, was a time when defending colonial possessions was becoming, but was not yet, a major priority.</p>
+
+  <h3>Regular Regiments</h3>
+  <p>Regular regiments, in whole or in part, were involved in both garrison and expeditionary missions in North America and the Caribbean. How the regiments were equipped was a function of how much the regimental commander was willing to spend on his soldiers and where the British army was generally in its transition away from pike to bayonet, from matchlock to firelock, bandoleer of charges to cartridge boxes.</p>
+
+  <div class="insight-box">
+    <span class="insight-box-label">Uniform Colors Key</span>
+    <p>Throughout this article, regiment colors are noted as <strong>(coat/facing)</strong> — for example, (red/yellow) means a red coat with yellow facings. These colors are shown as visual swatches next to unit names in the timeline and garrison sections below.</p>
+  </div>
+
+  <h3>Independent Companies</h3>
+  <p>The Independent Companies were composed of officers and soldiers sent from Britain and not raised locally. Unlike other units, they wore Royal Livery colors — red coats faced blue. Commanders were responsible for clothing, arming and equipping their soldiers. Once a soldier came over with an Independent Company they rarely went back to Britain.</p>
+
+  <p>An Independent Company had 50–100 soldiers with one Captain, one to two Lieutenants, three sergeants, three corporals and 2 drummers. These were not prestigious postings for ambitious officers.</p>
+
+  <h3>Militia</h3>
+  <p>The militia comprised all able-bodied male civilians usually between ages 18 and 60, led by local prominent community leaders. They either brought their own arms or were armed by their commanders. Militia rotated through forts, patrolled frontier areas and coastal regions, and were involved in expeditionary operations.</p>
+
+  <h3>The Role of Women</h3>
+  <p>Women had a critical role in the armies of the late 17th and early 18th centuries, to the point that armies would feed 15 women per company to ensure the execution of essential logistical roles of cooking, medical support, and repairing and washing clothes. Wherever British soldiers went, their women went too.</p>
+</section>
+
+<!-- ============== TYPE 2: TIMELINES ============== -->
+
+<!-- North America -->
+<section class="timeline-section" id="tl-northamerica">
+  <div class="timeline-section-header" onclick="this.closest('.timeline-section').classList.toggle('collapsed')">
+    <h2>North American Operations</h2>
+    <span class="region-badge region-na">North America</span>
+    <button class="tl-toggle" aria-label="Toggle">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="tl-body">
+    <div class="timeline">
+
+      <div class="tl-event">
+        <div class="tl-date">25 August 1664</div>
+        <p class="tl-text">Dutch surrender New Amsterdam and Fort Amsterdam (renamed New York and Fort James) to three companies of the Duke of York's Regiment (~100 men).</p>
+        <ul class="unit-list">
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-yellow"></span><span class="c-red"></span></div>
+            <span class="unit-name">Duke of York's Regiment</span>
+            <span class="unit-note">1664–1690</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tl-war">
+        <div class="tl-war-title">Second Dutch War</div>
+        <div class="tl-war-dates">1665–1667</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-date">1667</div>
+        <p class="tl-text">Dutch raid on the James River.</p>
+      </div>
+
+      <div class="tl-war">
+        <div class="tl-war-title">Third Dutch War</div>
+        <div class="tl-war-dates">1672–1674</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-date">1673–74</div>
+        <p class="tl-text">Admiral Evertson takes New York for Holland. Returned to Britain in 1674.</p>
+      </div>
+
+      <div class="tl-war">
+        <div class="tl-war-title">King Philip's War</div>
+        <div class="tl-war-dates">1675–1676</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-date">1675–76</div>
+        <p class="tl-text">Major colonial conflict in New England involving multiple militia forces.</p>
+        <ul class="unit-list">
+          <li class="unit-item"><span class="unit-name">Appleton's Massachusetts Militia</span></li>
+          <li class="unit-item"><span class="unit-name">Bradford's Plymouth Militia</span></li>
+          <li class="unit-item"><span class="unit-name">Treat's Connecticut Militia</span></li>
+        </ul>
+      </div>
+
+      <div class="tl-war">
+        <div class="tl-war-title">King William's War</div>
+        <div class="tl-war-dates">1689–1697</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-date">1690</div>
+        <p class="tl-text">Phips' capture of Port Royal and Acadia, followed by the failed raid on Quebec.</p>
+        <ul class="unit-list">
+          <li class="unit-item"><span class="unit-name">Johnson's Massachusetts Militia</span></li>
+        </ul>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-date">1697</div>
+        <p class="tl-text">Seizure of St. Johns by Commodore Norris.</p>
+        <ul class="unit-list">
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-yellow"></span></div>
+            <span class="unit-name">Gibson's Foot (28th)</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tl-war">
+        <div class="tl-war-title">Queen Anne's War / War of Spanish Succession</div>
+        <div class="tl-war-dates">1702–1713</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-date">1710</div>
+        <p class="tl-text">Capture of Port Royal and Acadia — a decisive British victory.</p>
+        <ul class="unit-list">
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-yellow"></span></div>
+            <span class="unit-name">Saunderson's 1st Marines (30th)</span>
+            <span class="unit-note">Irish</span>
+          </li>
+          <li class="unit-item"><span class="unit-name">Hobby's Massachusetts Militia</span></li>
+          <li class="unit-item"><span class="unit-name">Tailer's Massachusetts Militia</span></li>
+          <li class="unit-item"><span class="unit-name">Whiting's Connecticut Militia</span></li>
+          <li class="unit-item"><span class="unit-name">Walton's Rhode Island / New Hampshire Militia</span></li>
+        </ul>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-date">1711–12</div>
+        <p class="tl-text">Attempt on Quebec under Commodore Walker — a major combined operation with the largest concentration of regular troops in North America to date.</p>
+        <ul class="unit-list">
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-green"></span></div>
+            <span class="unit-name">Queen's Royal Sea Service Foot (4th)</span>
+          </li>
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-yellow"></span></div>
+            <span class="unit-name">Stanhope's Sea Service Foot (11th)</span>
+          </li>
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-white"></span></div>
+            <span class="unit-name">Livesay's Sea Service Foot (12th)</span>
+          </li>
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-buff"></span></div>
+            <span class="unit-name">Handasyde's Sea Service Foot (22nd)</span>
+          </li>
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-buff"></span></div>
+            <span class="unit-name">Wetham's Sea Service Foot (27th)</span>
+            <span class="unit-note">Irish</span>
+          </li>
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-orange"></span></div>
+            <span class="unit-name">Donegal's Marines (35th)</span>
+            <span class="unit-note">Irish</span>
+          </li>
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-green"></span></div>
+            <span class="unit-name">Charlemont's Sea Service Foot (36th)</span>
+            <span class="unit-note">Irish</span>
+          </li>
+          <li class="unit-item">
+            <div class="regt-colors"><span class="c-red"></span><span class="c-yellow"></span></div>
+            <span class="unit-name">Meredeth's Sea Service Foot (37th)</span>
+            <span class="unit-note">Irish</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Caribbean (collapsed by default to show pattern) -->
+<section class="timeline-section collapsed" id="tl-caribbean">
+  <div class="timeline-section-header" onclick="this.closest('.timeline-section').classList.toggle('collapsed')">
+    <h2>Caribbean Operations</h2>
+    <span class="region-badge region-carib">Caribbean</span>
+    <button class="tl-toggle" aria-label="Toggle">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+  <div class="tl-body">
+    <div class="timeline">
+      <div class="tl-event"><div class="tl-date">1660</div><p class="tl-text">Captain Myngs' raid on Santiago with Windsor's Militia.</p></div>
+      <div class="tl-war"><div class="tl-war-title">Second Dutch War</div><div class="tl-war-dates">1665–1667</div></div>
+      <div class="tl-event"><div class="tl-date">1665</div><p class="tl-text">Colonel Morgan's raid on Dutch colonies of St Eustatius and Saba with Jamaica Privateers.</p></div>
+      <div class="tl-event"><div class="tl-date">1668–69</div><p class="tl-text">Captain Morgan's raids on Puerto Principe, Portobello, and Maracaibo with Jamaica Privateers.</p></div>
+      <div class="tl-event"><div class="tl-date">1670–71</div><p class="tl-text">Captain Morgan's raid on Panama — the most ambitious privateer operation of the era.</p></div>
+      <div class="tl-war"><div class="tl-war-title">King William's War</div><div class="tl-war-dates">1689–1697</div></div>
+      <div class="tl-event"><div class="tl-date">1689</div><p class="tl-text">French capture St. Kitts and St. Eustatius. French raids on Jamaica. Thornhill raids St. Bartholomew in retaliation.</p></div>
+      <div class="tl-event">
+        <div class="tl-date">1690</div>
+        <p class="tl-text">British retake St. Kitts and St. Eustatius with a combined regular and militia force.</p>
+        <ul class="unit-list">
+          <li class="unit-item"><div class="regt-colors"><span class="c-blue"></span><span class="c-blue"></span></div><span class="unit-name">Lloyd's/Holt's Foot</span><span class="unit-note">1689–98</span></li>
+          <li class="unit-item"><span class="unit-name">Independent Company + 5 Militia units</span></li>
+        </ul>
+      </div>
+      <div class="tl-event"><div class="tl-date">1718</div><p class="tl-text">Captain Maynard kills Blackbeard and captures crew. Colonel Rhett captures Stede Bonnet. Captain Woods Rogers arrives at New Providence and garrisons the island.</p></div>
+      <div class="tl-event"><div class="tl-date">1720</div><p class="tl-text">Captain Barnet captures Jack Rackham, Mary Read, Ann Bonny and crew. Spanish raid on Nassau repelled by Independent Company and 3 Militia Companies.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TYPE 3: GARRISON REFERENCE ============== -->
+<section class="garrison-section" id="garrisons-na">
+  <h2>North American Garrisons</h2>
+  <div class="garrison-subtitle">Regular Army Garrisons, 1664–1720</div>
+
+  <div class="garrison-grid">
+    <div class="garrison-card">
+      <div class="garrison-card-header">
+        <span class="garrison-card-name">New York</span>
+        <span class="garrison-card-region">Colony</span>
+      </div>
+      <div class="garrison-card-body">
+        <div class="garrison-entry"><span class="garrison-year">1664</span><span class="garrison-detail">Colonel Nicoll's Co. at Fort James; Cartwright's Co. at Ft Orange/Albany; Carr's Co. at Delaware</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1674</span><span class="garrison-detail">Edmond Andros arrives with 1 Independent Co. (100 soldiers) divided between Albany and Fort James</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1686</span><span class="garrison-detail">2 additional Independent Cos. arrive; 4 cos. established, 2 sent to Boston</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1690</span><span class="garrison-detail">2 Independent Cos. (3 officers, 68 soldiers each)</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1694–99</span><span class="garrison-detail">4 Independent Cos. (3 officers, 50–68 soldiers each)</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1701–14</span><span class="garrison-detail">4 Independent Cos. (3 officers, 100 soldiers each) — 2 in NYC, 2 in Albany</span></div>
+      </div>
+    </div>
+
+    <div class="garrison-card">
+      <div class="garrison-card-header">
+        <span class="garrison-card-name">Virginia</span>
+        <span class="garrison-card-region">Colony</span>
+      </div>
+      <div class="garrison-card-body">
+        <div class="garrison-entry"><span class="garrison-year">1676</span><span class="garrison-detail">Herbert Jeffreys' Regt. (~1,000 soldiers) arrives at Jamestown incl. <span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-blue"></span></span> 1st Foot Guards</span>, <span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-green"></span></span> Coldstream Guards</span>, <span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-buff"></span></span> Holland Regt. (3rd)</span></span></div>
+        <div class="garrison-entry"><span class="garrison-year">1677</span><span class="garrison-detail">Independent Company established after Jeffreys' death</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1682</span><span class="garrison-detail">Both companies disbanded</span></div>
+      </div>
+    </div>
+
+    <div class="garrison-card">
+      <div class="garrison-card-header">
+        <span class="garrison-card-name">Port Royal / Annapolis</span>
+        <span class="garrison-card-region">Nova Scotia</span>
+      </div>
+      <div class="garrison-card-body">
+        <div class="garrison-entry"><span class="garrison-year">1710–17</span><span class="garrison-detail">4 Independent Companies</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1717–20</span><span class="garrison-detail"><span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-buff"></span></span> Phillip's Foot (40th)</span></span></div>
+      </div>
+    </div>
+
+    <div class="garrison-card">
+      <div class="garrison-card-header">
+        <span class="garrison-card-name">Newfoundland</span>
+        <span class="garrison-card-region">Colony</span>
+      </div>
+      <div class="garrison-card-body">
+        <div class="garrison-entry"><span class="garrison-year">1689–1712</span><span class="garrison-detail">1 Independent Company</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1694–97</span><span class="garrison-detail"><span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-yellow"></span></span> Gibson's Foot (28th)</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Caribbean garrisons -->
+<section class="garrison-section" id="garrisons-carib">
+  <h2>Caribbean Garrisons</h2>
+  <div class="garrison-subtitle">Regular Army Garrisons, 1660–1720</div>
+
+  <div class="garrison-grid">
+    <div class="garrison-card">
+      <div class="garrison-card-header">
+        <span class="garrison-card-name">Jamaica</span>
+        <span class="garrison-card-region">Caribbean</span>
+      </div>
+      <div class="garrison-card-body">
+        <div class="garrison-entry"><span class="garrison-year">1678–82</span><span class="garrison-detail">2 Independent Cos. (Carlisle's, Morgan's)</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1694–97</span><span class="garrison-detail"><span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-yellow"></span></span> Lillingston's Foot (38th)</span></span></div>
+        <div class="garrison-entry"><span class="garrison-year">1703–13</span><span class="garrison-detail"><span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-buff"></span></span> Handasyde's Foot (22nd)</span></span></div>
+        <div class="garrison-entry"><span class="garrison-year">1714–20</span><span class="garrison-detail">2 Independent Companies</span></div>
+      </div>
+    </div>
+
+    <div class="garrison-card">
+      <div class="garrison-card-header">
+        <span class="garrison-card-name">Leeward Islands</span>
+        <span class="garrison-card-region">Caribbean</span>
+      </div>
+      <div class="garrison-card-body">
+        <div class="garrison-entry"><span class="garrison-year">1667–71</span><span class="garrison-detail">Bridge's Foot (4 cos., 2 on Barbados, 2 on St. Kitts)</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1690–98</span><span class="garrison-detail"><span class="unit-inline"><span class="regt-colors"><span class="c-blue"></span><span class="c-blue"></span></span> Lloyd's/Holt's Foot</span> on St. Kitts</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1699–1714</span><span class="garrison-detail"><span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-buff"></span></span> Wetham's Foot (27th)</span> on St Kitts, Antigua, Nevis</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1710–20</span><span class="garrison-detail"><span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-yellow"></span></span> Alexander's Foot (38th)</span> on Antigua</span></div>
+      </div>
+    </div>
+
+    <div class="garrison-card">
+      <div class="garrison-card-header">
+        <span class="garrison-card-name">Barbados</span>
+        <span class="garrison-card-region">Caribbean</span>
+      </div>
+      <div class="garrison-card-body">
+        <div class="garrison-entry"><span class="garrison-year">1667–73</span><span class="garrison-detail">Bridge's Foot (6 companies)</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1671–97</span><span class="garrison-detail">2 Independent Companies</span></div>
+        <div class="garrison-entry"><span class="garrison-year">1694–97</span><span class="garrison-detail">Russell's Foot (The Barbados Regiment)</span></div>
+      </div>
+    </div>
+
+    <div class="garrison-card">
+      <div class="garrison-card-header">
+        <span class="garrison-card-name">Bermuda</span>
+        <span class="garrison-card-region">Caribbean</span>
+      </div>
+      <div class="garrison-card-body">
+        <div class="garrison-entry"><span class="garrison-year">1702–20</span><span class="garrison-detail">1 Independent Co. — Cpt. Lancelot Sandys, Lt. Robert Henley, 2 sgts, 2 cpls, 1 drummer, 50 sentinels (det. from <span class="unit-inline"><span class="regt-colors"><span class="c-red"></span><span class="c-buff"></span></span> Handasyde's 22nd</span>). Barracks in St George.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Locally raised forces -->
+<section class="garrison-section" id="local-forces">
+  <h2>Locally Raised Caribbean Forces</h2>
+  <div class="garrison-subtitle">Militia, Privateers & Local Regiments</div>
+
+  <div class="local-forces-grid">
+    <div class="local-force-card">
+      <div class="local-force-year">1660–73</div>
+      <div class="local-force-location">Jamaica</div>
+      <ul class="local-force-list">
+        <li>Windsor's Militia (4 Regiments)</li>
+        <li>Port Royal Regiment</li>
+        <li>Edward Morgan's Militia</li>
+        <li>Morgan's Port Royal Regiment</li>
+      </ul>
+    </div>
+    <div class="local-force-card">
+      <div class="local-force-year">1680</div>
+      <div class="local-force-location">Jamaica</div>
+      <ul class="local-force-list">
+        <li>Morgan's Port Royal Regt.</li>
+        <li>Freeman's / Cope's / Whitfield's Regt.</li>
+        <li>Watson's / Bynbloss's / Fuller's Regt.</li>
+        <li>Ballard's Horse</li>
+      </ul>
+    </div>
+    <div class="local-force-card">
+      <div class="local-force-year">1689–92</div>
+      <div class="local-force-location">Leeward Islands</div>
+      <ul class="local-force-list">
+        <li>Thornhill's Militia (Barbados)</li>
+        <li>Pym's / Earl's Militia (Nevis)</li>
+        <li>William's / Hewetson's Militia (Antigua)</li>
+        <li>Blackstone's Militia (Montserrat)</li>
+        <li>Salter's / Boteler's Militia (Barbados)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Sources -->
+<section class="sources-section" id="sources">
+  <button class="sources-toggle" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open')">
+    Sources & Bibliography (31 works)
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+  <div class="sources-body">
+    <div class="sources-body-inner">
+      <ol>
+        <li>Andrews, Charles, "Narratives of the Insurrections, 1675-1690," Scribner, NY, 1915</li>
+        <li>Beer, George L., "The Old Colonial System, 1660-1754," MacMillan, NY, 1912</li>
+        <li>Breverton, Terry, "Admiral Sir Henry Morgan," Pelican, Louisiana, 2005</li>
+        <li>Bridenbaugh, Carl and Roberta, "No Peace Beyond the Line," Oxford University Press, 1972</li>
+        <li>Foote, William A., "The American Independent Companies of the British Army, 1664-1764", PhD Thesis, UCLA, 1966</li>
+        <li>Irvine, Dallas, "The First British Regulars in North America," Military Affairs, Vol. 9, No.4, Winter 1945</li>
+        <li>Morgan, Thomas, "The British West Indies during King William's War," Journal of Modern History, Vol.2, No.3, 1930</li>
+        <li>Peckham, Howard, "The Colonial Wars, 1689-1762," University of Chicago Press, 1964</li>
+        <li>Scouller, R.E., "The Armies of Queen Anne", Oxford Univ Press, 1966</li>
+        <li><em>...and 22 additional sources (expand in full implementation)</em></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- Related -->
+<section class="related-section">
+  <div class="related-label">Continue Reading</div>
+  <div class="related-title">Related Articles</div>
+  <div class="related-grid">
+    <a href="#" class="related-card">
+      <span class="related-card-tag">American Revolution</span>
+      <div class="related-card-title">Gooch's American Regiment, 1740–1742</div>
+    </a>
+    <a href="#" class="related-card">
+      <span class="related-card-tag">Colonial History</span>
+      <div class="related-card-title">Maryland in the Colonial Era</div>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span style="color:#fff;font-size:15px;font-family:'Playfair Display',serif;font-weight:800;letter-spacing:1.5px;">History Reconsidered</span>
+    <div class="footer-copy">© 2010–2026 History Reconsidered, LLC</div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0})" aria-label="Back to top">
+  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script>
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement.scrollHeight-window.innerHeight;
+    document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%';
+    document.getElementById('header').classList.toggle('scrolled',window.scrollY>20);
+    document.getElementById('backToTop').classList.toggle('visible',window.scrollY>500);
+  });
+  function toggleMenu(){
+    document.querySelector('.hamburger').classList.toggle('active');
+    document.getElementById('mobileNav').classList.toggle('open');
+    document.body.style.overflow=document.getElementById('mobileNav').classList.contains('open')?'hidden':'';
+  }
+  // Section nav active state
+  const sections=document.querySelectorAll('[id]');
+  const navLinks=document.querySelectorAll('.snav-link');
+  const navObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        navLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));
+      }
+    });
+  },{rootMargin:'-120px 0px -60% 0px',threshold:0});
+  sections.forEach(s=>navObs.observe(s));
+</script>
+
+</body>
+</html>

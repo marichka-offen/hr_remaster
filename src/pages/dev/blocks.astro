@@ -1,0 +1,112 @@
+---
+// Every content block on one page, for checking the library after changes. Not linked from the site
+// and kept out of search results. Instances come from the article mocks, so the data is real.
+import SiteLayout from '@layouts/SiteLayout.astro'
+import RichText from '@components/base/RichText/RichText.astro'
+import type { RichText as RichTextType, RichTextBlock } from '@app-types/content'
+import { eightyYearsWarBody, hussitesFigures, irelandBody, virginiaBody } from '../../mocks/article-bodies'
+
+const all = [...virginiaBody, ...irelandBody, ...eightyYearsWarBody, ...hussitesFigures]
+const first = (type: RichTextBlock['type'], match?: (b: RichTextBlock) => boolean) =>
+    all.find((block) => block.type === type && (!match || match(block)))
+
+const sections: { name: string; note: string; blocks: (RichTextBlock | undefined)[] }[] = [
+    { name: 'Paragraph and headings', note: 'type: paragraph, heading (level 2 or 3)', blocks: [first('heading'), first('paragraph')] },
+    { name: 'Quote', note: 'type: quote. With a citation it serves as a primary source', blocks: [first('quote')] },
+    { name: 'Figure', note: 'type: figure. Without src it shows a labelled placeholder', blocks: hussitesFigures },
+    {
+        name: 'Callout',
+        note: 'type: callout, variant note / insight / reading',
+        blocks: [
+            first('callout', (b) => b.type === 'callout' && b.variant === 'reading'),
+            first('callout', (b) => b.type === 'callout' && b.variant === 'insight'),
+            { type: 'callout', variant: 'note', text: 'Note callouts are for neutral asides. This one is sample text for the block library page.' },
+        ],
+    },
+    { name: 'Collapsible', note: 'type: collapsible, holds any other blocks', blocks: [first('collapsible')] },
+    { name: 'Timeline', note: 'type: timeline. Periods collapse and appear in the contents list', blocks: [first('timeline')] },
+    { name: 'Fact cards', note: 'type: factCards', blocks: [first('factCards', (b) => b.type === 'factCards' && b.cards.length > 1), first('factCards')] },
+    {
+        name: 'Data list',
+        note: 'type: dataList, optional bars and total',
+        blocks: [first('dataList', (b) => b.type === 'dataList' && !!b.bars), first('dataList', (b) => b.type === 'dataList' && !!b.total)],
+    },
+    { name: 'Table', note: 'type: table. Scrolls sideways on narrow screens', blocks: [first('table')] },
+]
+---
+
+<SiteLayout title="Content blocks" description="Every article content block on one page." noindex>
+    <main id="main" class="blocks-page">
+        <header class="blocks-page__header">
+            <p class="blocks-page__eyebrow">Internal</p>
+            <h1>Content blocks</h1>
+            <p>Every block an article body can use, rendered with real data from the article mocks.</p>
+        </header>
+        {sections.map((section) => (
+            <section class="blocks-page__section">
+                <h2>{section.name}</h2>
+                <p class="blocks-page__note"><code>{section.note}</code></p>
+                <div class="prose blocks-page__sample">
+                    <RichText blocks={section.blocks.filter(Boolean) as RichTextType} />
+                </div>
+            </section>
+        ))}
+    </main>
+</SiteLayout>
+
+<style lang="scss">
+    .blocks-page {
+        font-size: var(--text-prose);
+        max-width: calc(var(--measure) + 2 * var(--gutter));
+        margin: 0 auto;
+        padding: var(--page-top) var(--gutter) var(--section-y);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-9);
+
+        &__header {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+
+            h1 {
+                font-size: var(--text-3xl);
+                font-weight: var(--weight-extrabold);
+                color: var(--color-text-strong);
+                line-height: var(--leading-tight);
+            }
+        }
+
+        &__eyebrow {
+            font-family: var(--font-ui);
+            font-size: var(--text-xs);
+            font-weight: var(--weight-semibold);
+            letter-spacing: var(--tracking-wider);
+            text-transform: uppercase;
+            color: var(--color-accent);
+        }
+
+        &__section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            padding-top: var(--space-6);
+            border-top: var(--border-rule) solid var(--color-text-strong);
+
+            h2 {
+                font-size: var(--text-xl);
+                font-weight: var(--weight-bold);
+                color: var(--color-text-strong);
+            }
+        }
+
+        &__note code {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+
+        &__sample {
+            margin-top: var(--space-3);
+        }
+    }
+</style>

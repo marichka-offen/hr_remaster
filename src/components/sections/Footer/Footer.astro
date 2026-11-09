@@ -40,14 +40,14 @@ const {
             )}
         </div>
         <div class='footer__nav-group'>
-            <h4 class='footer__nav-title'>Navigate</h4>
+            <h2 class='footer__nav-title'>Navigate</h2>
             {navLinks.map((link) => (
                 <NavLink href={link.href} label={link.label} />
             ))}
         </div>
         {topics.length > 0 && (
             <div class='footer__nav-group'>
-                <h4 class='footer__nav-title'>{topicsTitle ?? 'Topics'}</h4>
+                <h2 class='footer__nav-title'>{topicsTitle ?? 'Topics'}</h2>
                 {topics.map((topic) => (
                     <NavLink href={topic.href} label={topic.label} />
                 ))}

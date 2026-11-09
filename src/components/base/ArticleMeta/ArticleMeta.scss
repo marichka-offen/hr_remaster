@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--tertiary-font);
+    font-family: var(--font-ui);
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
@@ -18,10 +18,10 @@
     }
 
     &--light {
-        color: var(--text-muted);
+        color: var(--color-text-secondary);
     }
 
     &--dark {
-        color: var(--text-on-dark-muted);
+        color: var(--color-text-on-dark-muted);
     }
 }

@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The War of Three Kingdoms in Ireland — History Reconsidered</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2332;
+    --navy-light: #243044;
+    --gold: #c4973b;
+    --gold-light: #d4ab54;
+    --gold-faint: rgba(196, 151, 59, 0.08);
+    --burgundy: #8b2635;
+    --burgundy-light: #a63245;
+    --parchment: #f5f0e8;
+    --parchment-dark: #e8e0d2;
+    --text: #2d2d2d;
+    --text-light: #5a5a5a;
+    --text-muted: #8a8275;
+    --white: #fefcf9;
+    --shadow-sm: 0 1px 3px rgba(26,35,50,0.08);
+    --shadow-md: 0 4px 12px rgba(26,35,50,0.1);
+    --shadow-lg: 0 8px 30px rgba(26,35,50,0.12);
+    --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--text);
+    background: var(--parchment);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ========== READING PROGRESS BAR ========== */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--burgundy));
+    z-index: 1000;
+    transition: width 0.1s linear;
+  }
+
+  /* ========== HEADER ========== */
+  header {
+    position: fixed;
+    top: 3px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(254, 252, 249, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196, 151, 59, 0.12);
+    transition: var(--transition);
+  }
+  header.scrolled { box-shadow: var(--shadow-md); }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--navy);
+  }
+  .logo-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+  .logo-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  nav { display: flex; align-items: center; gap: 28px; }
+  nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-decoration: none;
+    position: relative;
+    padding: 4px 0;
+    transition: color var(--transition);
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width var(--transition);
+  }
+  nav a:hover { color: var(--gold); }
+  nav a:hover::after { width: 100%; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 200;
+  }
+  .hamburger span {
+    width: 22px;
+    height: 2px;
+    background: var(--navy);
+    transition: var(--transition);
+    display: block;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--white);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .mobile-nav.open { opacity: 1; pointer-events: all; }
+  .mobile-nav a {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--navy);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .mobile-nav a:hover { color: var(--gold); }
+
+  /* ========== ARTICLE HERO ========== */
+  .article-hero {
+    margin-top: 67px;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    padding: 80px 24px 72px;
+  }
+  .article-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(26,35,50,0.95) 0%, rgba(36,48,68,0.85) 50%, rgba(139,38,53,0.6) 100%);
+  }
+  .article-hero-texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+  }
+  .article-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .article-hero-breadcrumb {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 28px;
+  }
+  .article-hero-breadcrumb a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .article-hero-breadcrumb a:hover { color: var(--gold); }
+  .article-hero-breadcrumb span { margin: 0 8px; }
+
+  .article-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .article-hero-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    background: rgba(196,151,59,0.1);
+    padding: 4px 12px;
+    border: 1px solid rgba(196,151,59,0.2);
+  }
+
+  .article-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .article-hero-subtitle {
+    font-size: 20px;
+    font-style: italic;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+  .article-hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.5px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .article-hero-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .article-hero-meta svg { width: 14px; height: 14px; opacity: 0.6; }
+
+  /* ========== ARTICLE LAYOUT ========== */
+  .article-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    position: relative;
+  }
+
+  /* ========== TABLE OF CONTENTS (SIDEBAR) ========== */
+  .toc-sidebar {
+    position: relative;
+  }
+  .toc-inner {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 16px;
+  }
+  .toc-inner::-webkit-scrollbar { width: 2px; }
+  .toc-inner::-webkit-scrollbar-track { background: transparent; }
+  .toc-inner::-webkit-scrollbar-thumb { background: var(--parchment-dark); border-radius: 2px; }
+
+  .toc-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .toc-list {
+    list-style: none;
+    border-left: 1px solid var(--parchment-dark);
+    padding-left: 0;
+  }
+  .toc-list li { position: relative; }
+  .toc-list a {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 0 6px 16px;
+    line-height: 1.4;
+    transition: all var(--transition);
+    border-left: 2px solid transparent;
+    margin-left: -1px;
+  }
+  .toc-list a:hover {
+    color: var(--navy);
+  }
+  .toc-list a.active {
+    color: var(--burgundy);
+    font-weight: 600;
+    border-left-color: var(--gold);
+  }
+
+  .toc-list .toc-sub {
+    padding-left: 12px;
+  }
+  .toc-list .toc-sub a {
+    font-size: 11px;
+    padding: 4px 0 4px 16px;
+    color: var(--text-muted);
+    opacity: 0.8;
+  }
+
+  /* Mobile TOC toggle */
+  .toc-mobile-toggle {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 90;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    padding: 12px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+    border-left: 3px solid var(--gold);
+  }
+  .toc-mobile-toggle:hover { background: var(--navy-light); }
+  .toc-mobile-toggle svg { width: 14px; height: 14px; margin-right: 6px; vertical-align: -2px; }
+
+  .toc-mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,35,50,0.5);
+    z-index: 95;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .toc-mobile-overlay.open { opacity: 1; pointer-events: all; }
+
+  .toc-mobile-drawer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 60vh;
+    background: var(--white);
+    z-index: 96;
+    padding: 24px 24px 40px;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+  }
+  .toc-mobile-drawer.open { transform: translateY(0); }
+  .toc-mobile-drawer .toc-label { margin-bottom: 12px; }
+  .toc-mobile-drawer .toc-list a { font-size: 14px; padding: 10px 0 10px 16px; }
+
+  /* ========== ARTICLE CONTENT ========== */
+  .article-content {
+    max-width: 720px;
+  }
+
+  /* Section divider pattern */
+  .article-content .section-year {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800;
+    color: var(--navy);
+    margin: 56px 0 8px;
+    padding-top: 48px;
+    border-top: 1px solid var(--parchment-dark);
+    line-height: 1.2;
+    scroll-margin-top: 90px;
+  }
+  .article-content .section-year:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .article-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 2.5vw, 26px);
+    font-weight: 700;
+    color: var(--navy);
+    margin: 40px 0 6px;
+    line-height: 1.25;
+    scroll-margin-top: 90px;
+  }
+
+  .article-content h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    margin: 32px 0 4px;
+    scroll-margin-top: 90px;
+  }
+
+  .article-content p {
+    font-size: 19px;
+    line-height: 1.75;
+    color: var(--text);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+
+  /* Drop cap */
+  .article-content .drop-cap::first-letter {
+    float: left;
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 0.8;
+    margin: 4px 12px 0 0;
+    color: var(--burgundy);
+  }
+
+  /* Blockquote */
+  .article-content blockquote {
+    margin: 36px 0;
+    padding: 28px 32px;
+    background: var(--gold-faint);
+    border-left: 3px solid var(--gold);
+    position: relative;
+  }
+  .article-content blockquote p {
+    font-style: italic;
+    font-size: 20px;
+    color: var(--navy);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .article-content blockquote cite {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+  }
+
+  /* Timeline entry for the 80 Years War style */
+  .timeline-entry {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 16px;
+  }
+  .timeline-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .timeline-entry::after {
+    content: '';
+    position: absolute;
+    left: 3.5px;
+    top: 22px;
+    bottom: -12px;
+    width: 1px;
+    background: var(--parchment-dark);
+  }
+  .timeline-entry:last-child::after { display: none; }
+
+  .timeline-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--burgundy);
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .timeline-text {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  /* Image figure */
+  .article-figure {
+    margin: 40px -40px;
+    position: relative;
+  }
+  .article-figure img {
+    width: 100%;
+    display: block;
+    filter: sepia(15%) contrast(1.05);
+  }
+  .article-figure figcaption {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 12px 40px 0;
+    line-height: 1.5;
+  }
+
+  /* Section collapse/expand for very long articles */
+  .collapsible-section {
+    margin: 48px 0;
+    border: 1px solid var(--parchment-dark);
+    background: var(--white);
+  }
+  .collapsible-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    cursor: pointer;
+    transition: background var(--transition);
+    user-select: none;
+  }
+  .collapsible-header:hover { background: var(--gold-faint); }
+  .collapsible-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 0;
+  }
+  .collapsible-header .chevron {
+    width: 20px;
+    height: 20px;
+    color: var(--gold);
+    transition: transform var(--transition);
+    flex-shrink: 0;
+  }
+  .collapsible-section.open .collapsible-header .chevron { transform: rotate(180deg); }
+  .collapsible-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .collapsible-section.open .collapsible-body { max-height: 5000px; }
+  .collapsible-body-inner { padding: 0 24px 24px; }
+  .collapsible-body-inner p {
+    font-size: 17px;
+    margin-bottom: 16px;
+  }
+
+  /* Read time / word count callout */
+  .reading-callout {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--white);
+    border: 1px solid var(--parchment-dark);
+    margin-bottom: 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .reading-callout svg { width: 20px; height: 20px; color: var(--gold); flex-shrink: 0; }
+  .reading-callout strong { color: var(--navy); }
+
+  /* ========== REGIMENT LIST (for army compositions) ========== */
+  .regiment-card {
+    background: var(--white);
+    border: 1px solid var(--parchment-dark);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    transition: var(--transition);
+  }
+  .regiment-card:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); }
+  .regiment-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .regiment-flag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .regiment-service {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--burgundy);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .regiment-details {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-light);
+  }
+
+  /* ========== RELATED ARTICLES ========== */
+  .related-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
+    border-top: 1px solid var(--parchment-dark);
+  }
+  .related-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .related-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .related-card {
+    background: var(--white);
+    padding: 28px 24px;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--parchment-dark);
+    transition: var(--transition);
+  }
+  .related-card:hover {
+    border-color: var(--gold);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+  .related-card-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .related-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.3;
+    margin-bottom: 10px;
+    transition: color var(--transition);
+  }
+  .related-card:hover .related-card-title { color: var(--burgundy); }
+  .related-card-excerpt {
+    font-size: 15px;
+    color: var(--text-light);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    background: #131a24;
+    color: rgba(255,255,255,0.4);
+    padding: 48px 24px 28px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-inner .logo-title { color: var(--white); font-size: 16px; }
+  .footer-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 900px) {
+    .article-layout {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .toc-sidebar { display: none; }
+    .toc-mobile-toggle,
+    .toc-mobile-overlay,
+    .toc-mobile-drawer { display: block; }
+    .article-figure { margin: 32px 0; }
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .hamburger { display: flex; }
+    .mobile-nav { display: flex; }
+
+    .article-hero { padding: 56px 20px 48px; }
+    .article-hero h1 { font-size: 28px; }
+    .article-hero-subtitle { font-size: 17px; }
+
+    .article-content p { font-size: 17px; }
+    .article-content .section-year { font-size: 24px; margin: 40px 0 6px; padding-top: 36px; }
+    .article-content h3 { font-size: 20px; }
+    .article-content .drop-cap::first-letter { font-size: 56px; }
+
+    .related-grid { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  @media (max-width: 480px) {
+    .article-hero-meta { gap: 12px; }
+    .reading-callout { flex-direction: column; text-align: center; gap: 8px; }
+  }
+
+  /* ========== BACK TO TOP ========== */
+  .back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+    z-index: 80;
+  }
+  .back-to-top.visible { opacity: 1; pointer-events: all; }
+  .back-to-top:hover { background: var(--burgundy); }
+  .back-to-top svg { width: 18px; height: 18px; }
+
+  /* ========== DESIGN NOTE ========== */
+  .design-note {
+    position: fixed;
+    top: 80px;
+    right: 16px;
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    padding: 10px 16px;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    letter-spacing: 0.5px;
+    border-left: 3px solid var(--gold);
+    max-width: 220px;
+    line-height: 1.5;
+  }
+  .design-note strong { color: var(--gold); display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<!-- Reading progress -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span class="logo-title">History Reconsidered</span>
+      <span class="logo-subtitle">Military History & Research</span>
+    </a>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Articles</a>
+      <a href="#">Book</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <button class="hamburger" aria-label="Open menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#" onclick="toggleMenu()">Home</a>
+  <a href="#" onclick="toggleMenu()">Articles</a>
+  <a href="#" onclick="toggleMenu()">Book</a>
+  <a href="#" onclick="toggleMenu()">About</a>
+  <a href="#" onclick="toggleMenu()">Contact</a>
+</div>
+
+<main>
+
+<!-- ARTICLE HERO -->
+<section class="article-hero">
+  <div class="article-hero-texture"></div>
+  <div class="article-hero-content">
+    <div class="article-hero-breadcrumb">
+      <a href="#">Home</a><span>›</span><a href="#">Articles</a><span>›</span>Irish History
+    </div>
+    <div class="article-hero-tags">
+      <span class="article-hero-tag">Irish History</span>
+      <span class="article-hero-tag">17th Century</span>
+      <span class="article-hero-tag">War of Three Kingdoms</span>
+    </div>
+    <h1>The War of Three Kingdoms in Ireland, 1641–1648</h1>
+    <p class="article-hero-subtitle">The Irish rebellion, the Scottish Army of Ulster, and the tangled web of Catholic, Protestant, Royalist, and Parliamentary factions that tore Ireland apart.</p>
+    <div class="article-hero-meta">
+      <span>
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg>
+        By Lee Offen
+      </span>
+      <span>
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        ~45 min read
+      </span>
+      <span>
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        ~12,000 words
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<div class="article-layout">
+
+  <!-- TABLE OF CONTENTS SIDEBAR -->
+  <aside class="toc-sidebar" aria-label="Table of contents">
+    <div class="toc-inner">
+      <span class="toc-label">Contents</span>
+      <ul class="toc-list">
+        <li><a href="#background" class="active">Background</a></li>
+        <li class="toc-sub"><a href="#the-irish">The Irish</a></li>
+        <li class="toc-sub"><a href="#old-english">The Old English</a></li>
+        <li class="toc-sub"><a href="#antrim-scots">The Antrim Scots</a></li>
+        <li class="toc-sub"><a href="#new-english">New English & New Scots</a></li>
+        <li><a href="#1633-1641">1633–1641: The Buildup</a></li>
+        <li><a href="#1641">1641: The Rebellion</a></li>
+        <li><a href="#1642">1642</a></li>
+        <li><a href="#1643">1643</a></li>
+        <li><a href="#1644">1644</a></li>
+        <li><a href="#1645">1645</a></li>
+        <li><a href="#1646">1646</a></li>
+        <li><a href="#1647">1647</a></li>
+        <li><a href="#1648">1648</a></li>
+        <li><a href="#aftermath">Aftermath</a></li>
+        <li><a href="#conditions">Operational Conditions</a></li>
+        <li><a href="#significance">Significance of Army of Ulster</a></li>
+        <li><a href="#women">Role of Women</a></li>
+        <li><a href="#armies">Catholic Confederation Armies</a></li>
+        <li><a href="#regiments">Scottish Regiments</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <article class="article-content">
+
+    <div class="reading-callout">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div>This is a <strong>long-form research article</strong> (~12,000 words). Use the table of contents to navigate between sections, or read straight through. Estimated reading time: 45 minutes.</div>
+    </div>
+
+    <!-- BACKGROUND -->
+    <h2 class="section-year" id="background">Background</h2>
+
+    <h4 id="the-irish">The Irish</h4>
+    <p class="drop-cap">Ireland has been home to native Irish, Scots and English since the 12th century. The native Irish, referred to as "mere Irish" by the English, lived for the most part under the rule of a local chief or noble. The succession for the noble class was not assured a smooth transition so there were numerous struggles and conflicts with associated shifting alliances and no central ruler.</p>
+
+    <p>A relatively primitive form of agriculture and a semi-nomadic pastoral life following herds of cattle characterized the means of production in late medieval native Ireland with trade becoming more important in the early modern period. The native Irish retained their unique form of Catholicism that permitted divorce, trial marriage and married clergy after the Reformation and from the mid 16th century on looked to Spain and France for trade, clergy, and military assistance.</p>
+
+    <h4 id="old-english">The Old English</h4>
+    <p>The first Anglo-Norman settlements were established on the east coast in the 12th century and were militarily important to early England in order to control the sea which separated England and Ireland. As time went on, the English involved the Irish in their internal politics and continental adventures, occupying more and more land in an effort to civilize Ireland that did not include assimilation of the native Irish but rather insured their isolation.</p>
+
+    <p>The English who settled in Ireland were seen as more Irish and less English by those who remained in England. The English Protestant Reformation and the consequent inclination of the English in Ireland to remain Catholics only increased this division. These, then, were known as the "Old English."</p>
+
+    <h4 id="antrim-scots">The Antrim Scots</h4>
+    <p>Scottish mercenaries had served Irish nobles for several hundred years before they began to settle in Antrim in the 15th century. These were the "redshanks" of Clan Donald who were able to retain their lands in northern Antrim after the Lordship of the Western Isles was broken by Scotland in the 16th century.</p>
+
+    <blockquote>
+      <p>The shared Catholicism of the native Irish, Old English and Antrim Scots created a strong basis for political and military cooperation.</p>
+      <cite>— From the article</cite>
+    </blockquote>
+
+    <h4 id="new-english">The New English & New Scots</h4>
+    <p>The Desmond rebellion, 1579–83, was seen by many English soldiers and administrators familiar with Ireland as a chance to acquire large tracts of land at the expense of the Irish rebels, even before the rebels were defeated. The Desmond rebellion was also the first time the Papacy and Spain took an active role in supporting the Irish and Old English.</p>
+
+    <p>With the establishment of the Plantation of Munster, large numbers of English Protestant settlers began arriving at the end of the 16th century. The establishment of the Ulster plantation in 1610 resulted in large numbers of English and Scots settling in west and central Ulster.</p>
+
+    <!-- 1633-1641 -->
+    <h2 class="section-year" id="1633-1641">1633–1641: The Buildup</h2>
+
+    <p>The already tense situation in Ireland was exacerbated when Charles I's Lord Deputy, Thomas Wentworth, arrived in Dublin in 1633 with the objectives of increasing Crown revenue, reducing the influence of Catholics and enforcing religious conformity on the Protestants — all goals bound to increase disaffection in every part of Irish society.</p>
+
+    <p>The dissolution of the Irish Parliament in August of 1641 on the verge of approving the Graces after numerous attempts in previous Irish Parliaments made it clear that there was no intention on the part of the English administration to ever approve them.</p>
+
+    <!-- 1641 -->
+    <h2 class="section-year" id="1641">1641: The Rebellion</h2>
+
+    <p>The events of October 1641 in Ireland have been described as a "rising" or "rebellion" depending on the author's bias and perspective on the legitimacy of the event. The original conspiracy foresaw a rapid takeover of the government with Dublin Castle, the seat of English power, as a primary target.</p>
+
+    <p>A drinking bout in Dublin resulted in discovery of the attempt to be made on Dublin Castle and its subsequent failure on 22 October 1641. On the 23rd, Sir Philem O'Neil captured Charlemont and Dungannon. Within a few days the rebels controlled much of Ulster with the exception of Antrim, Carrickfergus, northern Down, Londonderry, Enniskillen and some isolated castles and forts.</p>
+
+    <p>The solution was found in the Scottish Army of the Solemn League. Led, and in many cases manned, by veterans of the 30 Years War and 80 Years War on the continent, it was a brutal force.</p>
+
+    <!-- Collapsible: Detailed 1641 events -->
+    <div class="collapsible-section">
+      <div class="collapsible-header" onclick="toggleCollapsible(this)">
+        <h3>Detailed Events of Late 1641</h3>
+        <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapsible-body">
+        <div class="collapsible-body-inner">
+          <p>By late November the threat from the rebels was sufficient to cause two columns to be sent out from Dublin. One was sent under the command of Sergeant Major Roper to reinforce Drogheda which was ambushed and routed at Julianstown bridge despite warnings that the enemy was near.</p>
+          <p>The expedition to Wicklow led by Sir Charles Coote garrisoned New Castle and relieved Wicklow Castle, with brutal force. The Government's loss at Julianstown, brutal victory at Wicklow and unwillingness to negotiate on the rights of Catholics led those remaining Old English Catholic and Irish into supporting the rebellion, in many cases reluctantly.</p>
+          <p>In an effort to relieve the pressure on besieged Drogheda, Sir Charles Coote, the Mayor of Dublin, was killed while routing rebels at Swords and Captain Armstrong scattered a rebel encampment at Rathcoole in December.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1642 -->
+    <h2 class="section-year" id="1642">1642</h2>
+
+    <p>The government's first major expedition took place on 1–3 February with the unopposed burning of Newcastle and plunder of Naas. The Scots Army of Ulster, paid for by the English Parliament, landed at Carrickfergus on 3 April and held its first muster on 7 April.</p>
+
+    <p>The Scottish expedition sent to Ireland was initially led by Alexander Leslie, a former General in the Swedish Army, who soon departed leaving it in the hands of Sir Robert Monro, past commander of the Swedish Green Brigade and a veteran of 10 years service on the Continent.</p>
+
+    <blockquote>
+      <p>On 7 July the Irish Catholic Confederation met at Kilkenny electing a General Assembly and Supreme Council. All members took an oath of allegiance to Charles I and to uphold Catholicism.</p>
+    </blockquote>
+
+    <p>On August 22, 1642, Charles I raised his standard and began the First Civil War. The impact on the Army of Ulster was an immediate halt of supplies from Parliament.</p>
+
+    <!-- 1643 -->
+    <h2 class="section-year" id="1643">1643</h2>
+
+    <p>In March, Ormond and Monck moved south to clear Wicklow and Wexford of Confederation forces. In April, the offensive capability of the Confederation forces was enhanced by the arrival of heavy siege artillery, courtesy of Spain and large subsidies from the Pope.</p>
+
+    <p>By September 1643 a year's cessation of arms between Royalists under Ormond and Irish Confederation was agreed to and signed. The Cessation was not recognized by Scots Army and by most of the Ulster Protestants.</p>
+
+    <!-- 1644 -->
+    <h2 class="section-year" id="1644">1644</h2>
+
+    <p>The cessation created an opportunity for both Ormond and the Catholic Earl of Antrim to reinforce Royalist forces in Scotland and England. In 1644 Ormond sent regiments to Bristol and Chester, which were destroyed at Naseby and Langport. The Earl of Antrim sent three regiments of Irish mercenaries to support the Marquis of Montrose in Scotland.</p>
+
+    <!-- 1645 -->
+    <h2 class="section-year" id="1645">1645</h2>
+
+    <p>November of 1645 saw the arrival of the Papal Nuncio Rinuccini with arms, ammunition and Papal financial support for the Confederation as well as instructions to expel all Protestants from Ireland and establish the primacy of the Catholic Church.</p>
+
+    <!-- 1646 -->
+    <h2 class="section-year" id="1646">1646: The Battle of Benburb</h2>
+
+    <p>Monro became aware of O'Neil's force on the 4th of June as he crossed the Bann. O'Neil established a position at Benburb, a river crossing site on the Blackwater. Monro attacked O'Neil's left flank late in the day but the attack stalled.</p>
+
+    <p>A standoff of at least two hours occurred until the Irish counter attacked, eventually breaking and pursuing Monro's force. Monro lost his siege train and baggage train to the rebels and perhaps as many as one in three of his men. From this point on, the Army of Ulster was reduced to a force only able to garrison Carrickfergus and Coleraine, lacking an offensive capability.</p>
+
+    <!-- 1647 -->
+    <h2 class="section-year" id="1647">1647</h2>
+
+    <p>On 7 June 1647 Colonel Michael Jones and regiments of the New Model Army arrived in Ireland. On the 19th of June Ormond turned Dublin over to Parliament and departed Ireland for France and exile.</p>
+
+    <!-- 1648 -->
+    <h2 class="section-year" id="1648">1648</h2>
+
+    <p>In May the Scottish Parliament voted in favor of war with Parliamentarian England. Robert Monro sent elements of his forces under the command of his nephew George Monro to reinforce the Duke of Hamilton and "the Engagers." The Engager army, having invaded England, was destroyed at Preston in August.</p>
+
+    <p>In September 1648 the remnants of the Army of Ulster refused to surrender Carrickfergus, Coleraine and Belfast. Carrickfergus was taken by treachery with Sir George Monro thrown in the Tower by Monck. The Scottish Army of Ulster was disbanded shortly thereafter.</p>
+
+    <!-- Aftermath -->
+    <h2 class="section-year" id="aftermath">Aftermath</h2>
+
+    <p>On 30 January 1649 Charles I was executed. In August of 1649, Ormond was threatening Dublin when he was surprised and defeated at Rathmines by Jones. This defeat set the stage for Cromwell's arrival with overwhelming force to eliminate all military opposition to the Parliamentarians in Ireland.</p>
+
+    <!-- Operational Conditions -->
+    <h2 class="section-year" id="conditions">Operational Conditions</h2>
+
+    <p>The conditions in which all the armies in Ireland operated had a direct, and usually adverse, impact on the conduct of military operations. The inability of the local agriculture and industry to support the arming, massing and movement of large formations forced all armies to rely on support external to Ireland.</p>
+
+    <p>It was not until Cromwell's campaign that the logistical and movement obstacles to military operations in Ireland were overcome. Cromwell used all the port facilities under his control to rearm, refit and re-supply his forces in Ireland.</p>
+
+    <!-- Significance -->
+    <h2 class="section-year" id="significance">Significance of the Army of Ulster</h2>
+
+    <p>The immediate effect of the arrival of the Scottish army of Ulster was the stabilization of Antrim and Down and the prevention of further rebel action there. The Army of Ulster was responsible for reinforcing the already considerable Scottish cultural foothold in Ulster by establishing first Irish Presbytery in 1641.</p>
+
+    <!-- Women -->
+    <h2 class="section-year" id="women">Role of Women</h2>
+
+    <p>At no time and in none of the cultures present in Ireland were women able to hold elective or appointed office. This did not however rule out the possibility of influencing events and people. In the Scots Presbyterian community, women and men were viewed as equal in household matters. Women were literate and expected to teach their children to read and wielded considerable influence in social and religious matters.</p>
+
+    <!-- Armies -->
+    <h2 class="section-year" id="armies">Catholic Confederation Armies</h2>
+
+    <p>Initially the forces of the Irish rebellion were local levies raised by local nobility. Unity of command in military operations was absolutely critical — and this was lacking in the strategic command structure of Confederation forces, characterized by infighting and dissention at the highest levels.</p>
+
+    <!-- Regiments -->
+    <h2 class="section-year" id="regiments">Scottish Regiments (Army of Ulster)</h2>
+
+    <div class="regiment-card">
+      <div class="regiment-name">Marquis of Argyle's Regiment</div>
+      <div class="regiment-flag">Yellow saltire on black background</div>
+      <div class="regiment-service">Ireland 1642–1644, 1645–1648 · Scotland 1644</div>
+      <div class="regiment-details">1642 — Invasion of Rathlin Island. Garrisoned at Dunluce Castle, Ballycastle, Ballymoney. 1644 — Expedition to Leinster, then Scotland. 1645 — Sent contingent to Scotland under Col Robert Home. 1648 — Commander and Major cashiered for opposition to Engagement. Disbanded by Monck after Robert Monro's capture.</div>
+    </div>
+
+    <div class="regiment-card">
+      <div class="regiment-name">Sir Mungo Campbell of Lawer's Regiment</div>
+      <div class="regiment-flag">White saltire on blue background</div>
+      <div class="regiment-service">Ireland 1642 – March 1644</div>
+      <div class="regiment-details">1642 — Coleraine Expedition. Garrisoned in the Coleraine area through its service in Ireland.</div>
+    </div>
+
+  </article>
+</div>
+
+<!-- RELATED ARTICLES -->
+<section class="related-section">
+  <div class="related-label">Continue Reading</div>
+  <div class="related-title">Related Articles</div>
+  <div class="related-grid">
+    <a href="#" class="related-card">
+      <span class="related-card-tag">European History</span>
+      <div class="related-card-title">The Eighty Years War (1568–1648)</div>
+      <p class="related-card-excerpt">The Dutch revolt against Spanish rule — a conflict spanning eight decades that reshaped European politics and created a new nation.</p>
+    </a>
+    <a href="#" class="related-card">
+      <span class="related-card-tag">Scottish History</span>
+      <div class="related-card-title">Scottish Military Traditions</div>
+      <p class="related-card-excerpt">From Highland clans to renowned regiments — the martial heritage that shaped Scotland and its role across European conflicts.</p>
+    </a>
+    <a href="#" class="related-card">
+      <span class="related-card-tag">Colonial History</span>
+      <div class="related-card-title">Colonial History of Ireland</div>
+      <p class="related-card-excerpt">The plantation system, English settlement, and the roots of centuries of conflict on the island of Ireland.</p>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="logo">
+      <span class="logo-title" style="color: #fff; font-size: 16px;">History Reconsidered</span>
+      <span class="logo-subtitle">Military History & Research</span>
+    </div>
+    <div class="footer-copy">© 2010–2026 History Reconsidered, LLC</div>
+  </div>
+</footer>
+
+<!-- MOBILE TOC -->
+<button class="toc-mobile-toggle" id="tocToggle" onclick="toggleTocDrawer()">
+  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h14"/></svg>
+  Contents
+</button>
+
+<div class="toc-mobile-overlay" id="tocOverlay" onclick="toggleTocDrawer()"></div>
+<div class="toc-mobile-drawer" id="tocDrawer">
+  <span class="toc-label">Table of Contents</span>
+  <ul class="toc-list">
+    <li><a href="#background" onclick="toggleTocDrawer()">Background</a></li>
+    <li><a href="#1633-1641" onclick="toggleTocDrawer()">1633–1641: The Buildup</a></li>
+    <li><a href="#1641" onclick="toggleTocDrawer()">1641: The Rebellion</a></li>
+    <li><a href="#1642" onclick="toggleTocDrawer()">1642</a></li>
+    <li><a href="#1643" onclick="toggleTocDrawer()">1643</a></li>
+    <li><a href="#1644" onclick="toggleTocDrawer()">1644</a></li>
+    <li><a href="#1645" onclick="toggleTocDrawer()">1645</a></li>
+    <li><a href="#1646" onclick="toggleTocDrawer()">1646: Battle of Benburb</a></li>
+    <li><a href="#1647" onclick="toggleTocDrawer()">1647</a></li>
+    <li><a href="#1648" onclick="toggleTocDrawer()">1648</a></li>
+    <li><a href="#aftermath" onclick="toggleTocDrawer()">Aftermath</a></li>
+    <li><a href="#conditions" onclick="toggleTocDrawer()">Operational Conditions</a></li>
+    <li><a href="#significance" onclick="toggleTocDrawer()">Significance</a></li>
+    <li><a href="#women" onclick="toggleTocDrawer()">Role of Women</a></li>
+    <li><a href="#armies" onclick="toggleTocDrawer()">Confederation Armies</a></li>
+    <li><a href="#regiments" onclick="toggleTocDrawer()">Scottish Regiments</a></li>
+  </ul>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0})" aria-label="Back to top">
+  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<div class="design-note">
+  <strong>Article Page Concept</strong>
+  Showing: sticky TOC sidebar, collapsible sections, reading progress, mobile drawer nav, regiment cards, related articles.
+</div>
+
+<script>
+  // Reading progress bar
+  window.addEventListener('scroll', () => {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (window.scrollY / docHeight) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+
+    // Header effect
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
+
+    // Back to top
+    document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 600);
+  });
+
+  // Active TOC highlight
+  const sections = document.querySelectorAll('.section-year, h4[id]');
+  const tocLinks = document.querySelectorAll('.toc-sidebar .toc-list a');
+
+  const tocObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(link => link.classList.remove('active'));
+        const activeLink = document.querySelector(`.toc-sidebar .toc-list a[href="#${entry.target.id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(section => tocObserver.observe(section));
+
+  // Collapsible sections
+  function toggleCollapsible(header) {
+    header.parentElement.classList.toggle('open');
+  }
+
+  // Mobile menu
+  function toggleMenu() {
+    document.querySelector('.hamburger').classList.toggle('active');
+    document.getElementById('mobileNav').classList.toggle('open');
+    document.body.style.overflow = document.getElementById('mobileNav').classList.contains('open') ? 'hidden' : '';
+  }
+
+  // Mobile TOC drawer
+  function toggleTocDrawer() {
+    const overlay = document.getElementById('tocOverlay');
+    const drawer = document.getElementById('tocDrawer');
+    const isOpen = drawer.classList.contains('open');
+
+    if (isOpen) {
+      overlay.classList.remove('open');
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+    } else {
+      overlay.classList.add('open');
+      drawer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+</script>
+
+</body>
+</html>

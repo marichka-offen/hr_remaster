@@ -1,12 +1,14 @@
+@use '@tokens/mixins' as *;
+
 .page-cta {
-    background: var(--white);
-    border-top: var(--border-thin) solid var(--parchment-dark);
+    background: var(--color-surface);
+    border-top: var(--border-thin) solid var(--color-border);
 
     &__container {
         max-width: var(--container-sm);
         margin: 0 auto;
         padding: var(--section-y) var(--gutter);
-        text-align: center;
+        @include centered;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -15,7 +17,7 @@
 
     &__subtext {
         font-size: var(--text-md);
-        color: var(--text-light);
+        color: var(--color-text-secondary);
         line-height: var(--leading-relaxed);
         margin-top: calc(-1 * var(--space-2));
     }

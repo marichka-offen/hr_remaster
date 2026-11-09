@@ -5,15 +5,17 @@ interface Props {
     href: string
     label: string
     active?: boolean
+    // true on the link's own page; false when active because the page is inside its section
+    exact?: boolean
 }
 
-const { href, label, active = false } = Astro.props
+const { href, label, active = false, exact = false } = Astro.props
 ---
 
 <a
     class={`nav-link${active ? ' nav-link--active' : ''}`}
     href={href}
-    aria-current={active ? 'page' : undefined}
+    aria-current={active ? (exact ? 'page' : 'true') : undefined}
 >
     {label}
 </a>

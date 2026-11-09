@@ -1,14 +1,13 @@
 .section-title {
-    font-family: var(--secondary-font);
     font-size: var(--text-2xl);
     font-weight: var(--weight-bold);
     line-height: var(--leading-tight);
 
     &--light {
-        color: var(--navy);
+        color: var(--color-text-strong);
     }
 
     &--dark {
-        color: var(--white);
+        color: var(--color-text-on-dark);
     }
 }

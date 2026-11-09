@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>History Reconsidered Tokens</title>
+<!-- Open this file in a browser from the repo; it reads the live token values -->
+<link rel="stylesheet" href="../src/design-tokens/tokens.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=Playfair+Display:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: a reference sheet. Short sticky index on wide screens, one column of token tables, every sample drawn with the real token. */
+/* Single light look on purpose: this page uses the site's own tokens, copied verbatim from src/design-tokens/tokens.css */
+:root {
+    color-scheme: light;
+
+    /* Site tokens come from ../src/design-tokens/tokens.css (linked above), so this page always shows current values */
+    /* ---- Short names used by this page's own chrome ---- */
+    --white: var(--color-surface);
+    --text: var(--color-text);
+    --text-muted: var(--color-text-secondary);
+    --accent: var(--color-accent);
+    --focus-ring: var(--color-focus);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background: var(--parchment);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: var(--space-8) var(--space-10);
+}
+
+.page {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: var(--space-8);
+}
+
+/* Index */
+.index {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + var(--space-6));
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.index a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    padding: var(--space-2) 0;
+    border-left: var(--border-rule) solid transparent;
+    padding-left: var(--space-3);
+}
+
+.index a:hover { color: var(--navy); border-left-color: var(--accent); }
+.index a:focus-visible, .copy:focus-visible { outline: var(--border-rule) solid var(--focus-ring); outline-offset: var(--space-1); }
+
+main { display: flex; flex-direction: column; gap: var(--space-10); min-width: 0; }
+
+header.top { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.eyebrow {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+}
+
+h1, h2, h3 { font-family: var(--font-display); color: var(--navy); margin: 0; text-wrap: balance; }
+h1 { font-size: var(--text-3xl); font-weight: var(--weight-extrabold); line-height: var(--leading-tight); }
+h2 { font-size: var(--text-2xl); font-weight: var(--weight-bold); line-height: var(--leading-tight); }
+h3 { font-size: var(--text-lg); font-weight: var(--weight-bold); line-height: var(--leading-tight); }
+
+.lede { font-family: var(--font-body); font-size: var(--text-prose); line-height: var(--leading-relaxed); max-width: var(--measure); margin: 0; }
+
+section { display: flex; flex-direction: column; gap: var(--space-6); scroll-margin-top: var(--space-6); }
+.sub { display: flex; flex-direction: column; gap: var(--space-4); }
+.note { font-size: var(--text-sm); color: var(--text-muted); margin: 0; max-width: 70ch; }
+.note strong { color: var(--text); font-weight: var(--weight-semibold); }
+
+code, .mono {
+    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.8125rem;
+}
+
+/* Swatches */
+.swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: var(--space-4);
+}
+
+.swatch {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: var(--border-thin) solid var(--parchment-dark);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.swatch__chip { height: 4.5rem; border-bottom: var(--border-thin) solid var(--parchment-dark); position: relative; }
+.swatch__chip--checker {
+    background-image: linear-gradient(45deg, #d9d2c5 25%, transparent 25%), linear-gradient(-45deg, #d9d2c5 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #d9d2c5 75%), linear-gradient(-45deg, transparent 75%, #d9d2c5 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+}
+.swatch__chip--checker > span { position: absolute; inset: 0; }
+.swatch__chip--dark { background: var(--navy); }
+.swatch__chip--dark > span { position: absolute; inset: 0; }
+
+.swatch__body { padding: var(--space-3); display: flex; flex-direction: column; gap: 2px; }
+.swatch__name { font-weight: var(--weight-semibold); color: var(--navy); font-size: var(--text-sm); }
+.swatch__value { color: var(--text-muted); }
+.swatch__ratio { font-size: var(--text-xs); color: var(--text-muted); font-variant-numeric: tabular-nums; display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: var(--space-1); }
+
+.pill {
+    font-size: 0.6875rem;
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: var(--radius-sm);
+    border: var(--border-thin) solid currentColor;
+}
+.pill--pass { color: #2f6b3a; }
+.pill--large { color: var(--gold-dark); }
+.pill--fail { color: var(--burgundy); }
+
+.gradients { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: var(--space-4); }
+.gradient { display: flex; flex-direction: column; gap: var(--space-2); }
+.gradient__chip { height: 5rem; border-radius: var(--radius-sm); }
+.gradient__chip--overlay { background-color: var(--parchment-dark); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: var(--border-thin) solid var(--parchment-dark); background: var(--white); border-radius: var(--radius-sm); }
+table { border-collapse: collapse; width: 100%; font-size: var(--text-sm); }
+th, td { text-align: left; padding: var(--space-3) var(--space-4); border-bottom: var(--border-thin) solid var(--parchment-dark); vertical-align: middle; }
+th { font-size: var(--text-xs); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-muted); background: var(--parchment); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text-muted); }
+td.tok { white-space: nowrap; }
+
+/* Fonts */
+.fonts { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--space-4); }
+.font-card { background: var(--white); border: var(--border-thin) solid var(--parchment-dark); border-radius: var(--radius-sm); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); }
+.font-card__sample { font-size: 2.25rem; line-height: 1.1; color: var(--navy); }
+.font-card__role { font-size: var(--text-sm); color: var(--text-muted); margin: 0; }
+.font-card__text { margin: 0; font-size: var(--text-md); line-height: var(--leading-relaxed); }
+
+.scale-sample { color: var(--navy); line-height: var(--leading-tight); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 32rem; }
+
+/* Spacing */
+.bar { height: 0.75rem; background: var(--gold); border-radius: 1px; }
+
+/* Layout widths */
+.width-row { display: flex; flex-direction: column; gap: var(--space-1); }
+.width-bar { height: 1.5rem; background: var(--gold-tint); border: var(--border-thin) solid var(--gold-border); border-radius: var(--radius-sm); max-width: 100%; }
+.width-label { font-size: var(--text-sm); display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+.width-label span:last-child { color: var(--text-muted); }
+
+.measure-demo { font-family: var(--font-body); font-size: var(--text-prose); line-height: var(--leading-relaxed); max-width: var(--measure); background: var(--white); border-left: var(--border-rule) solid var(--accent); padding: var(--space-4) var(--space-5); margin: 0; }
+
+/* Shadows */
+.shadows { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--space-6); }
+.shadow-box { height: 6rem; background: var(--white); border-radius: var(--radius-sm); display: flex; align-items: flex-end; padding: var(--space-3); }
+
+/* Motion */
+.motion-row { display: flex; flex-direction: column; gap: var(--space-2); }
+.track { position: relative; height: 2rem; background: var(--white); border: var(--border-thin) solid var(--parchment-dark); border-radius: var(--radius-sm); }
+.dot { position: absolute; top: 50%; left: 4px; width: 1.25rem; height: 1.25rem; margin-top: -0.625rem; background: var(--navy); border-radius: var(--radius-full); transition-property: left; transition-timing-function: var(--ease-standard); }
+.motion.go .dot { left: calc(100% - 1.25rem - 4px); }
+.button {
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--navy);
+    border: var(--border-thick) solid var(--navy);
+    padding: var(--space-3) var(--space-6);
+    min-height: var(--tap-target);
+    cursor: pointer;
+    align-self: flex-start;
+    border-radius: 0;
+}
+.button:hover { background: var(--navy-light); }
+.button:focus-visible { outline: var(--border-rule) solid var(--focus-ring); outline-offset: var(--space-1); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.chip { font-size: var(--text-sm); padding: var(--space-1) var(--space-3); background: var(--white); border: var(--border-thin) solid var(--parchment-dark); border-radius: var(--radius-sm); }
+
+/* Gaps list */
+.gaps { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: var(--space-4); }
+.gap-card { background: var(--white); border: var(--border-thin) solid var(--parchment-dark); border-top: 3px solid var(--burgundy); padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.gap-card h3 { font-size: var(--text-md); }
+.gap-card p { margin: 0; font-size: var(--text-sm); color: var(--text-muted); }
+
+.copy { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: left; }
+.copy:hover code { color: var(--burgundy); }
+.toast { position: fixed; bottom: calc(env(safe-area-inset-bottom, 0px) + var(--space-5)); left: 50%; transform: translateX(-50%); background: var(--navy); color: var(--white); font-size: var(--text-sm); padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm); }
+
+@media (max-width: 900px) {
+    .page { grid-template-columns: minmax(0, 1fr); }
+    .index { position: static; flex-direction: row; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+    .index a { border-left: 0; padding-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dot { transition-duration: 0s !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+    <nav class="index" aria-label="Sections">
+        <a href="#colour">Colour</a>
+        <a href="#type">Type</a>
+        <a href="#space">Spacing</a>
+        <a href="#layout">Layout</a>
+        <a href="#shape">Shape &amp; depth</a>
+        <a href="#motion">Motion</a>
+        <a href="#layers">Layers &amp; breakpoints</a>
+        <a href="#gaps">Rules</a>
+    </nav>
+
+    <main>
+        <header class="top">
+            <p class="eyebrow">Live from src/design-tokens/tokens.css</p>
+            <h1>History Reconsidered tokens</h1>
+            <p class="lede">Every sample on this page is drawn with the site's own token values. Contrast ratios are calculated live against parchment and navy. Select a token name to copy it.</p>
+        </header>
+
+        <section id="colour">
+            <h2>Colour</h2>
+
+            <div class="sub">
+                <h3>Palette</h3>
+                <p class="note">Contrast is the WCAG ratio. <strong>AA</strong> needs 4.5 for body text, <strong>AA large</strong> 3.0 for text 24px and up or bold 18.7px and up.</p>
+                <div class="swatches" id="palette"></div>
+            </div>
+
+            <div class="sub">
+                <h3>Roles</h3>
+                <p class="note">Components use these, never the palette directly. Palette names are only for brand decoration (gold rules, burgundy accents). Dark sections switch <code>--color-accent</code> and <code>--color-focus</code> to gold through the <code>on-dark</code> mixin.</p>
+                <div class="swatches" id="roles"></div>
+            </div>
+
+            <div class="sub">
+                <h3>Gold tints</h3>
+                <div class="swatches" id="tints"></div>
+            </div>
+
+            <div class="sub">
+                <h3>Gradients and overlays</h3>
+                <p class="note">Overlays are shown over a light surface; on the site they sit over photographs.</p>
+                <div class="gradients" id="gradients"></div>
+            </div>
+        </section>
+
+        <section id="type">
+            <h2>Type</h2>
+
+            <div class="sub">
+                <h3>Families</h3>
+                <div class="fonts">
+                    <div class="font-card">
+                        <button class="copy" data-copy="--font-display"><code>--font-display</code></button>
+                        <div class="font-card__sample" style="font-family: var(--font-display); font-weight: 800;">Playfair Display</div>
+                        <p class="font-card__role">Every heading level, h1 to h6, plus logo and drop cap. Set globally in base.css.</p>
+                    </div>
+                    <div class="font-card">
+                        <button class="copy" data-copy="--font-body"><code>--font-body</code></button>
+                        <div class="font-card__sample" style="font-family: var(--font-body);">Literata</div>
+                        <p class="font-card__text" style="font-family: var(--font-body);">In late September 1676, the ship Rebecca arrived in London with dispatches from Virginia.</p>
+                        <p class="font-card__role">Running text and form fields. Self-hosted with latin-ext for names like Žižka.</p>
+                    </div>
+                    <div class="font-card">
+                        <button class="copy" data-copy="--font-quote"><code>--font-quote</code></button>
+                        <div class="font-card__sample" style="font-family: var(--font-quote); font-style: italic; font-weight: 600;">Cormorant Garamond</div>
+                        <p class="font-card__text" style="font-family: var(--font-quote); font-style: italic; font-size: 1.375rem;">“The further backward you look, the further forward you can see.”</p>
+                        <p class="font-card__role">Italic only: quotes, subtitles, the 404 message.</p>
+                    </div>
+                    <div class="font-card">
+                        <button class="copy" data-copy="--font-ui"><code>--font-ui</code></button>
+                        <div class="font-card__sample" style="font-family: var(--font-ui); font-weight: 600;">DM Sans</div>
+                        <p class="font-card__text" style="font-family: var(--font-ui); font-size: var(--text-xs); font-weight: 600; letter-spacing: var(--tracking-wider); text-transform: uppercase; color: var(--accent);">Colonial History · 25 min read</p>
+                        <p class="font-card__role">Navigation, buttons, labels, metadata.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub">
+                <h3>Size scale</h3>
+                <p class="note">Fluid sizes grow between a 360px and a 1200px wide window. The <strong>Now</strong> column is the size at your current window width.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Token</th><th>Range</th><th>Now</th><th>Sample</th></tr></thead>
+                        <tbody id="scale"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="sub">
+                <h3>Leading, tracking, weight</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Token</th><th>Value</th><th>Sample</th></tr></thead>
+                        <tbody id="typeprops"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="space">
+            <h2>Spacing</h2>
+            <p class="note">A 4px base. The steps are not evenly named: <code>--space-5</code> is 24px, not 20px.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Token</th><th>Value</th><th style="width: 55%">Size</th></tr></thead>
+                    <tbody id="spacing"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="layout">
+            <h2>Layout</h2>
+
+            <div class="sub">
+                <h3>Line length</h3>
+                <p class="note"><code>--measure: 55ch</code> caps every paragraph, list item, quote and caption. 1ch is the width of “0”, so 55ch is about 66 real characters in Literata. This box is capped the same way:</p>
+                <p class="measure-demo">Acting with uncharacteristic speed, by 1 October King Charles II had resolved to send a thousand men to quell the mutineers. For the time, this was a major expedition incurring considerable cost for a government always short of money.</p>
+            </div>
+
+            <div class="sub">
+                <h3>Containers and page rhythm</h3>
+                <p class="note">Bars are drawn at true width and shrink to fit narrow screens.</p>
+                <div id="widths" style="display: flex; flex-direction: column; gap: var(--space-4);"></div>
+            </div>
+        </section>
+
+        <section id="shape">
+            <h2>Shape &amp; depth</h2>
+            <div class="sub">
+                <h3>Shadows</h3>
+                <div class="shadows" id="shadows"></div>
+            </div>
+            <div class="sub">
+                <h3>Radius, borders, icons</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Token</th><th>Value</th><th>Sample</th></tr></thead>
+                        <tbody id="shape-table"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="motion">
+            <h2>Motion</h2>
+            <p class="note">All three durations use <code>--ease-standard</code>. Reduced-motion settings switch transitions off site-wide.</p>
+            <div id="motion-rows" style="display: flex; flex-direction: column; gap: var(--space-4);"></div>
+            <button class="button" type="button" id="play">Play</button>
+        </section>
+
+        <section id="layers">
+            <h2>Layers &amp; breakpoints</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Name</th><th>Value</th><th>Where</th></tr></thead>
+                    <tbody>
+                        <tr><td class="tok"><button class="copy" data-copy="--z-sticky"><code>--z-sticky</code></button></td><td class="num">10</td><td>Sticky contents sidebar, back-to-top (phase 4)</td></tr>
+                        <tr><td class="tok"><button class="copy" data-copy="--z-progress"><code>--z-progress</code></button></td><td class="num">80</td><td>Reading-progress bar (phase 4)</td></tr>
+                        <tr><td class="tok"><button class="copy" data-copy="--z-nav"><code>--z-nav</code></button></td><td class="num">90</td><td>Mobile navigation drawer</td></tr>
+                        <tr><td class="tok"><button class="copy" data-copy="--z-header"><code>--z-header</code></button></td><td class="num">100</td><td>Site header</td></tr>
+                        <tr><td class="tok"><button class="copy" data-copy="--z-overlay"><code>--z-overlay</code></button></td><td class="num">200</td><td>Dimmed backdrop behind drawers</td></tr>
+                        <tr><td class="tok"><button class="copy" data-copy="--z-drawer"><code>--z-drawer</code></button></td><td class="num">210</td><td>Mobile contents drawer</td></tr>
+                        <tr><td class="tok"><button class="copy" data-copy="--z-skip-link"><code>--z-skip-link</code></button></td><td class="num">1000</td><td>Skip-to-content link when focused</td></tr>
+                        <tr><td class="tok"><code>$bp-sm</code></td><td class="num">480px</td><td>SCSS variable, used as max-width (desktop-first)</td></tr>
+                        <tr><td class="tok"><code>$bp-md</code></td><td class="num">768px</td><td>SCSS variable</td></tr>
+                        <tr><td class="tok"><code>$bp-lg</code></td><td class="num">1024px</td><td>SCSS variable</td></tr>
+                        <tr><td class="tok"><code>@mixin on-dark</code></td><td class="num">—</td><td>Switches accent and focus ring to gold on dark sections</td></tr>
+                        <tr><td class="tok"><code>@mixin centered</code></td><td class="num">—</td><td>Centres a block and the capped paragraphs inside it</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="gaps">
+            <h2>Rules</h2>
+            <p class="note">Every item from the token review in docs/PLAN.md is done. These are the rules that keep it that way.</p>
+            <div class="gaps">
+                <div class="gap-card"><h3>Roles, not palette</h3><p>Components colour things with <code>--color-*</code> roles. Palette names are for brand decoration only.</p></div>
+                <div class="gap-card"><h3>Headings set globally</h3><p>All h1 to h6 use <code>--font-display</code> from base.css. Components set size and weight only.</p></div>
+                <div class="gap-card"><h3>Text is capped</h3><p>Paragraphs, list items, quotes and captions stop at <code>--measure</code>. Centred blocks use the <code>centered</code> mixin.</p></div>
+                <div class="gap-card"><h3>Fallbacks are metric-matched</h3><p>Each web font has a scaled Georgia or Arial fallback, so text doesn't jump when fonts load.</p></div>
+                <div class="gap-card"><h3>Still open: breakpoints</h3><p>Media queries are desktop-first (max-width). New components should use min-width. (T13)</p></div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const css = getComputedStyle(document.documentElement);
+const v = (name) => css.getPropertyValue(name).trim();
+
+/* ---- Contrast ---- */
+function hexToRgb(hex) {
+    const h = hex.replace('#', '');
+    return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+}
+function lum(hex) {
+    const [r, g, b] = hexToRgb(hex).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+function ratio(a, b) {
+    const x = lum(a), y = lum(b);
+    return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+}
+function grade(r) {
+    if (r >= 4.5) return ['pass', 'AA'];
+    if (r >= 3) return ['large', 'AA large'];
+    return ['fail', 'Fail'];
+}
+
+function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+}
+function copyBtn(token) {
+    const b = el('button', 'copy');
+    b.dataset.copy = token;
+    b.append(el('code', null, token));
+    return b;
+}
+
+function swatch(token, opts = {}) {
+    const card = el('div', 'swatch');
+    const chip = el('div', 'swatch__chip' + (opts.checker ? ' swatch__chip--checker' : '') + (opts.dark ? ' swatch__chip--dark' : ''));
+    if (opts.checker || opts.dark) {
+        const s = el('span');
+        s.style.background = `var(${token})`;
+        chip.append(s);
+    } else {
+        chip.style.background = `var(${token})`;
+    }
+    const body = el('div', 'swatch__body');
+    const name = copyBtn(token);
+    name.classList.add('swatch__name');
+    body.append(name);
+    const resolved = { '--color-bg': '--parchment', '--color-surface': '--ivory', '--color-surface-dark': '--navy', '--color-surface-dark-hover': '--navy-light', '--color-surface-deep': '--ink', '--color-text': '--charcoal', '--color-text-secondary': '--stone', '--color-text-strong': '--navy', '--color-border': '--parchment-dark', '--color-border-strong': '--stone', '--color-accent': '--gold-dark', '--color-focus': '--navy' }[token];
+    const raw = resolved ? v(resolved) : v(token);
+    body.append(el('span', 'swatch__value mono', opts.label ? `${opts.label} · ${raw.startsWith('#') ? raw : ''}`.replace(/ · $/, '') : raw));
+    if (/^#[0-9a-f]{6}$/i.test(raw)) {
+        const row = el('div', 'swatch__ratio');
+        for (const [bgName, bg] of [['parchment', v('--parchment')], ['navy', v('--navy')]]) {
+            const r = ratio(raw, bg);
+            const [cls, label] = grade(r);
+            const item = el('span');
+            item.append(`${r.toFixed(1)} on ${bgName} `);
+            item.append(el('span', 'pill pill--' + cls, label));
+            row.append(item);
+        }
+        body.append(row);
+    }
+    if (opts.note) body.append(el('span', 'swatch__ratio', opts.note));
+    card.append(chip, body);
+    return card;
+}
+
+const palette = ['--navy', '--navy-light', '--ink', '--burgundy', '--burgundy-light', '--burgundy-dark', '--gold', '--gold-light', '--gold-dark', '--parchment', '--parchment-dark', '--ivory', '--charcoal', '--stone'];
+palette.forEach((t) => document.getElementById('palette').append(swatch(t)));
+
+const roles = [
+    ['--color-bg', { label: 'parchment', note: 'Page background' }],
+    ['--color-surface', { label: 'ivory', note: 'Cards, inputs, raised panels' }],
+    ['--color-surface-dark', { label: 'navy', note: 'Dark sections, solid buttons' }],
+    ['--color-surface-dark-hover', { label: 'navy-light', note: 'Hover on dark surfaces' }],
+    ['--color-surface-deep', { label: 'ink', note: 'Footer' }],
+    ['--color-text', { label: 'charcoal', note: 'Body text' }],
+    ['--color-text-secondary', { label: 'stone', note: 'Metadata, captions, labels' }],
+    ['--color-text-strong', { label: 'navy', note: 'Headings, titles, strong UI text' }],
+    ['--color-border', { label: 'parchment-dark', note: 'Decorative rules only' }],
+    ['--color-border-strong', { label: 'stone', note: 'Input and control edges (3:1+)' }],
+    ['--color-accent', { label: 'gold-dark, gold on dark', note: 'Links, eyebrows, rules' }],
+    ['--color-focus', { label: 'navy, gold on dark', note: 'Keyboard focus outline' }],
+    ['--color-text-on-dark', { label: 'ivory', dark: true }],
+    ['--color-text-on-dark-secondary', { label: 'ivory 85%', dark: true }],
+    ['--color-text-on-dark-muted', { label: 'ivory 70%', dark: true }],
+    ['--color-hairline-on-dark', { label: 'ivory 10%', dark: true }],
+    ['--color-surface-header', { label: 'ivory 92%', checker: true }],
+    ['--color-surface-overlay', { label: 'navy 75%', checker: true }],
+];
+roles.forEach(([t, o]) => document.getElementById('roles').append(swatch(t, o)));
+
+[['--gold-tint', 'gold 8%'], ['--gold-ghost', 'gold 12%'], ['--gold-border', 'gold 25%']].forEach(([t, l]) =>
+    document.getElementById('tints').append(swatch(t, { label: l, checker: true })));
+
+const grads = [
+    ['--gradient-book', 'Book covers'],
+    ['--gradient-burgundy', 'Burgundy panels'],
+    ['--gradient-article', 'Article placeholders'],
+    ['--gradient-featured', 'Featured article'],
+    ['--gradient-portrait', 'Author portrait placeholder'],
+    ['--overlay-hero', 'Home hero, over a photo'],
+    ['--overlay-author', 'Author section, over a photo'],
+];
+grads.forEach(([t, use]) => {
+    const g = el('div', 'gradient');
+    const chip = el('div', 'gradient__chip' + (t.startsWith('--overlay') ? ' gradient__chip--overlay' : ''));
+    chip.style.backgroundImage = `var(${t})`;
+    g.append(chip, copyBtn(t), el('span', 'note', use));
+    document.getElementById('gradients').append(g);
+});
+
+/* ---- Type scale ---- */
+const scale = [
+    ['--text-xs', '13px', 'ui'],
+    ['--text-sm', '14px', 'ui'],
+    ['--text-base', '16px', 'ui'],
+    ['--text-md', '18px', 'body'],
+    ['--text-prose', '18px', 'body'],
+    ['--text-lg', '20 → 24px', 'display'],
+    ['--text-xl', '24 → 32px', 'display'],
+    ['--text-2xl', '28 → 40px', 'display'],
+    ['--text-3xl', '32 → 52px', 'display'],
+    ['--text-display', '42 → 80px', 'display'],
+    ['--text-decor', '60 → 120px', 'display'],
+];
+const scaleBody = document.getElementById('scale');
+const probes = [];
+scale.forEach(([t, range, fam]) => {
+    const tr = el('tr');
+    const tok = el('td', 'tok'); tok.append(copyBtn(t));
+    const now = el('td', 'num');
+    const sample = el('td');
+    const s = el('div', 'scale-sample', fam === 'ui' ? 'Colonial History' : fam === 'body' ? 'The Call to Arms' : 'The Eighty Years War');
+    s.style.fontSize = `var(${t})`;
+    s.style.fontFamily = fam === 'ui' ? 'var(--font-ui)' : fam === 'body' ? 'var(--font-body)' : 'var(--font-display)';
+    if (fam === 'display') s.style.fontWeight = '700';
+    sample.append(s);
+    tr.append(tok, el('td', 'num', range), now, sample);
+    scaleBody.append(tr);
+    probes.push([s, now]);
+});
+function updateNow() {
+    probes.forEach(([s, cell]) => { cell.textContent = Math.round(parseFloat(getComputedStyle(s).fontSize) * 10) / 10 + 'px'; });
+}
+updateNow();
+window.addEventListener('resize', updateNow);
+
+const typeprops = [
+    ['--leading-none', 'lineHeight'], ['--leading-tight', 'lineHeight'], ['--leading-normal', 'lineHeight'], ['--leading-relaxed', 'lineHeight'],
+    ['--tracking-tight', 'letterSpacing'], ['--tracking-normal', 'letterSpacing'], ['--tracking-wide', 'letterSpacing'], ['--tracking-wider', 'letterSpacing'], ['--tracking-widest', 'letterSpacing'],
+    ['--weight-medium', 'fontWeight'], ['--weight-semibold', 'fontWeight'], ['--weight-bold', 'fontWeight'], ['--weight-extrabold', 'fontWeight'],
+];
+const tp = document.getElementById('typeprops');
+typeprops.forEach(([t, prop]) => {
+    const tr = el('tr');
+    const tok = el('td', 'tok'); tok.append(copyBtn(t));
+    const sample = el('td');
+    let s;
+    if (prop === 'lineHeight') {
+        s = el('div', null, 'Two lines of display type show how tight the leading sits');
+        s.style.cssText = `font-family: var(--font-display); font-size: 1.125rem; max-width: 16rem; color: var(--navy); line-height: var(${t});`;
+    } else if (prop === 'letterSpacing') {
+        s = el('div', null, 'Military history');
+        s.style.cssText = `font-family: var(--font-ui); font-size: var(--text-xs); font-weight: 600; text-transform: uppercase; color: var(--accent); letter-spacing: var(${t});`;
+    } else {
+        s = el('div', null, 'The Hussites');
+        s.style.cssText = `font-family: var(--font-display); font-size: 1.375rem; color: var(--navy); font-weight: var(${t});`;
+    }
+    sample.append(s);
+    tr.append(tok, el('td', 'num', v(t)), sample);
+    tp.append(tr);
+});
+
+/* ---- Spacing ---- */
+const sp = document.getElementById('spacing');
+for (let i = 1; i <= 10; i++) {
+    const t = `--space-${i}`;
+    const tr = el('tr');
+    const tok = el('td', 'tok'); tok.append(copyBtn(t));
+    const px = parseFloat(v(t)) * 16;
+    const bar = el('div', 'bar'); bar.style.width = `var(${t})`;
+    const cell = el('td'); cell.append(bar);
+    tr.append(tok, el('td', 'num', `${v(t)} · ${px}px`), cell);
+    sp.append(tr);
+}
+[['--gutter', '20 → 24px', 'Side padding on every page'], ['--section-y', '56 → 80px', 'Vertical padding of each section'], ['--page-top', '104 → 120px', 'Space above content, clears the fixed header'], ['--header-height', '72px', 'Fixed header'], ['--tap-target', '44px', 'Minimum size for anything tappable']].forEach(([t, range, use]) => {
+    const tr = el('tr');
+    const tok = el('td', 'tok'); tok.append(copyBtn(t));
+    const bar = el('div', 'bar'); bar.style.width = `min(var(${t}), 100%)`;
+    bar.style.background = 'var(--burgundy)';
+    const cell = el('td'); cell.append(bar, el('div', 'note', use));
+    cell.style.display = 'flex'; cell.style.flexDirection = 'column'; cell.style.gap = '4px';
+    tr.append(tok, el('td', 'num', range), cell);
+    sp.append(tr);
+});
+
+/* ---- Widths ---- */
+const widths = document.getElementById('widths');
+[['--container-sm', '640px', 'Call-to-action blocks'], ['--container-md', '800px', 'Contact form, philosophy block'], ['--container-book', '960px', 'Book detail page'], ['--container-lg', '1200px', 'Header, footer, grids']].forEach(([t, px, use]) => {
+    const row = el('div', 'width-row');
+    const label = el('div', 'width-label');
+    label.append(copyBtn(t), el('span', 'mono', px), el('span', null, use));
+    const bar = el('div', 'width-bar'); bar.style.width = `var(${t})`;
+    row.append(label, bar);
+    widths.append(row);
+});
+
+/* ---- Shadows ---- */
+['--shadow-sm', '--shadow-md', '--shadow-lg', '--shadow-hover', '--shadow-book'].forEach((t) => {
+    const b = el('div', 'shadow-box');
+    b.style.boxShadow = `var(${t})`;
+    b.append(copyBtn(t));
+    document.getElementById('shadows').append(b);
+});
+
+const shapeRows = [
+    ['--radius-sm', 'radius'], ['--radius-full', 'radius'],
+    ['--border-thin', 'border'], ['--border-thick', 'border'], ['--border-rule', 'border'],
+    ['--icon-sm', 'icon'], ['--icon-md', 'icon'],
+];
+const st = document.getElementById('shape-table');
+shapeRows.forEach(([t, kind]) => {
+    const tr = el('tr');
+    const tok = el('td', 'tok'); tok.append(copyBtn(t));
+    const s = el('div');
+    if (kind === 'radius') s.style.cssText = `width: 3rem; height: 3rem; background: var(--navy); border-radius: var(${t});`;
+    if (kind === 'border') s.style.cssText = `width: 8rem; border-top: var(${t}) solid var(--navy);`;
+    if (kind === 'icon') s.style.cssText = `width: var(${t}); height: var(${t}); background: var(--accent); border-radius: 2px;`;
+    const cell = el('td'); cell.append(s);
+    tr.append(tok, el('td', 'num', v(t)), cell);
+    st.append(tr);
+});
+
+/* ---- Motion ---- */
+const mr = document.getElementById('motion-rows');
+const motions = [['--duration-fast', 'Input borders, small colour changes'], ['--duration-base', 'Buttons, links, cards (via --transition)'], ['--duration-slow', 'Larger entrances']];
+motions.forEach(([t, use]) => {
+    const row = el('div', 'motion-row motion');
+    const label = el('div', 'width-label');
+    label.append(copyBtn(t), el('span', 'mono', v(t)), el('span', null, use));
+    const track = el('div', 'track');
+    const dot = el('div', 'dot');
+    dot.style.transitionDuration = `var(${t})`;
+    track.append(dot);
+    row.append(label, track);
+    mr.append(row);
+});
+document.getElementById('play').addEventListener('click', () => {
+    document.querySelectorAll('.motion').forEach((m) => m.classList.toggle('go'));
+});
+
+/* ---- Copy ---- */
+const toast = document.getElementById('toast');
+let toastTimer;
+document.addEventListener('click', async (e) => {
+    const b = e.target.closest('.copy');
+    if (!b) return;
+    const text = `var(${b.dataset.copy})`;
+    try {
+        await navigator.clipboard.writeText(text);
+        toast.textContent = `Copied ${text}`;
+    } catch {
+        const range = document.createRange();
+        range.selectNodeContents(b);
+        const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        toast.textContent = 'Selected. Press Cmd+C or Ctrl+C to copy';
+    }
+    toast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toast.hidden = true; }, 1800);
+});
+</script>
+</body>
+</html>

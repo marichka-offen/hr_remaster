@@ -1,6 +1,6 @@
 ---
 import MobileNav from '@components/composite/MobileNav/MobileNav'
-import Icon from '@components/base/Icon/Icon.astro'
+import SearchDialog from '@components/composite/SearchDialog/SearchDialog'
 import Logo from '@components/composite/Logo/Logo.astro'
 import NavLink from '@components/composite/NavLink/NavLink.astro'
 import './Header.scss'
@@ -17,7 +17,18 @@ interface Props {
 }
 
 const { logoTitle, logoSubtitle, navLinks } = Astro.props
-const currentPath = Astro.url.pathname
+
+// "/articles/" and "/articles" are the same page
+const normalise = (path: string) => (path.length > 1 ? path.replace(/\/+$/, '') : path)
+const currentPath = normalise(Astro.url.pathname)
+
+// A link is active on its own page and on every page below it, so Articles stays lit while reading
+// an article. Home only matches the home page itself
+const isActive = (href: string) => {
+    const target = normalise(href)
+    return target === '/' ? currentPath === '/' : currentPath === target || currentPath.startsWith(`${target}/`)
+}
+const activeHref = navLinks.find((link) => isActive(link.href))?.href
 ---
 
 <header class='header'>
@@ -25,33 +36,34 @@ const currentPath = Astro.url.pathname
         <div class='header__logo'>
             <Logo title={logoTitle} subtitle={logoSubtitle} size="lg" tone="light" />
         </div>
-        <nav class='header__nav'>
+        <nav class='header__nav' aria-label='Main'>
             {navLinks.map((link) => (
-                <NavLink href={link.href} label={link.label} active={currentPath === link.href} />
+                <NavLink
+                    href={link.href}
+                    label={link.label}
+                    active={link.href === activeHref}
+                    exact={normalise(link.href) === currentPath}
+                />
             ))}
-            <button class='header__nav-search' aria-label='Search the articles'
-                ><Icon name='search' size={20} /></button
-            >
         </nav>
-        <button
-            class='header__nav-mobile'
-            aria-label='Open mobile navigation'
-            data-mobile-nav-button
-        >
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+        <div class='header__actions'>
+            <SearchDialog client:idle />
+            <MobileNav client:load navLinks={navLinks} activeHref={activeHref} currentPath={currentPath} />
+        </div>
     </div>
 </header>
 
-<MobileNav client:only='react' navLinks={navLinks} />
-
 <script>
-    const mobileMenuButton = document.querySelector('[data-mobile-nav-button]')
-
-    mobileMenuButton?.addEventListener('click', () => {
-        mobileMenuButton.classList.toggle('header__nav-mobile--active')
-        document.dispatchEvent(new CustomEvent('toggle-mobile-nav'))
-    })
+    // Slim header once the page has scrolled. The attribute drives --header-offset in tokens.css,
+    // which the header, reading-progress bar and contents list all follow
+    const root = document.documentElement
+    let frame = 0
+    const update = () => {
+        frame = 0
+        root.toggleAttribute('data-scrolled', window.scrollY > 24)
+    }
+    update()
+    window.addEventListener('scroll', () => {
+        if (!frame) frame = requestAnimationFrame(update)
+    }, { passive: true })
 </script>

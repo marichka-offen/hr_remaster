@@ -1,18 +1,9 @@
 ---
-import SiteLayout from '@layouts/SiteLayout.astro'
-import PageSections from '@components/sections/PageSections/PageSections.astro'
-import { sanityClient } from '@lib/sanity/client'
-import { aboutQuery } from '@lib/sanity/queries'
+import PageView from '../views/PageView.astro'
+import { getPage } from '@lib/content'
+import { authorSchema } from '@lib/seo'
 
-const pageData = await sanityClient.fetch(aboutQuery)
-
-const sections = pageData?.sections ?? []
-const pageTitle = pageData?.title ?? 'About'
-const pageDescription = pageData?.description ?? ''
+const page = await getPage('about')
 ---
 
-<SiteLayout title={pageTitle} description={pageDescription}>
-    <main id="main">
-        <PageSections sections={sections} />
-    </main>
-</SiteLayout>
+<PageView page={page} jsonLd={authorSchema(Astro.site)} />

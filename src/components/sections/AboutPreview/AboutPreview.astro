@@ -4,12 +4,14 @@ import Eyebrow from '@components/base/Eyebrow/Eyebrow'
 import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
 import CoverFrame from '@components/composite/CoverFrame/CoverFrame.astro'
 import './AboutPreview.scss'
+import RichText from '@components/base/RichText/RichText.astro'
 import type { CTA } from '@app-types/cta'
+import type { RichText as RichTextType } from '@app-types/content'
 
 interface Props {
     name: string
     role?: string
-    bio?: any[]
+    bio?: RichTextType
     imageUrl?: string
     imageAlt?: string
     initials?: string
@@ -34,14 +36,9 @@ const { name, role, bio, imageUrl, imageAlt, initials, cta } = Astro.props
                 )}
             </CoverFrame>
             <div class="about-preview__text">
-                <h3 class="about-preview__name">{name}</h3>
+                <h2 class="about-preview__name">{name}</h2>
                 {role && <Eyebrow color="gold" size="sm" align="left">{role}</Eyebrow>}
-                {bio?.map((block: any) => {
-                    if (block._type === 'block') {
-                        const text = block.children?.map((c: any) => c.text).join('') ?? ''
-                        return <p>{text}</p>
-                    }
-                })}
+                <RichText blocks={bio} />
                 {cta?.text && (
                     <Button
                         variant='text'

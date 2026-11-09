@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>History Reconsidered — About & Book Pages</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2332;
+    --navy-light: #243044;
+    --gold: #c4973b;
+    --gold-light: #d4ab54;
+    --gold-faint: rgba(196, 151, 59, 0.08);
+    --burgundy: #8b2635;
+    --burgundy-light: #a63245;
+    --parchment: #f5f0e8;
+    --parchment-dark: #e8e0d2;
+    --text: #2d2d2d;
+    --text-light: #5a5a5a;
+    --text-muted: #8a8275;
+    --white: #fefcf9;
+    --shadow-sm: 0 1px 3px rgba(26,35,50,0.08);
+    --shadow-md: 0 4px 12px rgba(26,35,50,0.1);
+    --shadow-lg: 0 8px 30px rgba(26,35,50,0.12);
+    --shadow-hover: 0 12px 40px rgba(26,35,50,0.15);
+    --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--text);
+    background: var(--parchment);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ========== HEADER ========== */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(254, 252, 249, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196, 151, 59, 0.12);
+    transition: var(--transition);
+  }
+  header.scrolled { box-shadow: var(--shadow-md); }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--navy);
+  }
+  .logo-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+  .logo-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  nav { display: flex; align-items: center; gap: 28px; }
+  nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-decoration: none;
+    position: relative;
+    padding: 4px 0;
+    transition: color var(--transition);
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width var(--transition);
+  }
+  nav a:hover { color: var(--gold); }
+  nav a:hover::after { width: 100%; }
+  nav a.active { color: var(--burgundy); }
+  nav a.active::after { width: 100%; background: var(--burgundy); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 200;
+  }
+  .hamburger span {
+    width: 22px;
+    height: 2px;
+    background: var(--navy);
+    transition: var(--transition);
+    display: block;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--white);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .mobile-nav.open { opacity: 1; pointer-events: all; }
+  .mobile-nav a {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--navy);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .mobile-nav a:hover { color: var(--gold); }
+
+  /* ========== PAGE SWITCHER (for this demo) ========== */
+  .page-switcher {
+    position: fixed;
+    top: 80px;
+    right: 16px;
+    z-index: 200;
+    display: flex;
+    gap: 0;
+    background: var(--navy);
+    box-shadow: var(--shadow-lg);
+    border-left: 3px solid var(--gold);
+  }
+  .page-switcher button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+  }
+  .page-switcher button.active {
+    background: rgba(196,151,59,0.15);
+    color: var(--gold);
+  }
+  .page-switcher button:hover { color: var(--white); }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* =====================================================
+     ABOUT PAGE
+     ===================================================== */
+
+  /* About Hero */
+  .about-hero {
+    margin-top: 64px;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(26,35,50,0.96) 0%, rgba(36,48,68,0.88) 60%, rgba(139,38,53,0.5) 100%);
+  }
+  .about-hero-texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 256px;
+  }
+
+  .about-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 72px 24px 80px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .about-photo-wrapper {
+    position: relative;
+  }
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--burgundy) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-photo::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(196,151,59,0.2);
+    pointer-events: none;
+  }
+  /* Simulated photo with icons representing reenactor */
+  .about-photo-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(196,151,59,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .about-photo-icon svg { width: 36px; height: 36px; color: var(--gold); opacity: 0.6; }
+  .about-photo-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .about-hero-text {
+    color: var(--white);
+  }
+  .about-hero-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .about-hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .about-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 28px;
+  }
+  .about-hero-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 24px;
+  }
+  .about-hero-bio {
+    font-size: 19px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    max-width: 560px;
+  }
+  .about-hero-bio strong {
+    color: rgba(255,255,255,0.9);
+    font-weight: 600;
+  }
+
+  /* Credentials section */
+  .about-credentials {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+
+  .credentials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .credential-card {
+    background: var(--white);
+    padding: 32px 28px;
+    border: 1px solid var(--parchment-dark);
+    position: relative;
+    transition: var(--transition);
+  }
+  .credential-card:hover {
+    border-color: var(--gold);
+    box-shadow: var(--shadow-md);
+  }
+  .credential-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition);
+  }
+  .credential-card:hover::before { transform: scaleX(1); }
+
+  .credential-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--gold-faint);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .credential-icon svg { width: 20px; height: 20px; color: var(--gold); }
+
+  .credential-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .credential-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .credential-text {
+    font-size: 16px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  /* Mission statement */
+  .about-mission {
+    background: var(--white);
+    border-top: 1px solid var(--parchment-dark);
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+  .about-mission-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px;
+    text-align: center;
+  }
+  .about-mission-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    font-style: italic;
+    color: var(--navy);
+    line-height: 1.4;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .about-mission-quote::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.3;
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1;
+  }
+  .about-mission-text {
+    font-size: 18px;
+    color: var(--text-light);
+    line-height: 1.75;
+  }
+
+  /* Articles CTA from About */
+  .about-articles-cta {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 72px 24px;
+    text-align: center;
+  }
+  .about-articles-cta .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .about-articles-cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .about-articles-cta p {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 28px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--navy);
+    text-decoration: none;
+    padding: 14px 32px;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+  }
+  .cta-button:hover { background: var(--burgundy); }
+  .cta-button svg { width: 16px; height: 16px; transition: transform var(--transition); }
+  .cta-button:hover svg { transform: translateX(4px); }
+
+  /* =====================================================
+     BOOK PAGE
+     ===================================================== */
+
+  .book-hero {
+    margin-top: 64px;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+  .book-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(26,35,50,0.97) 0%, rgba(26,35,50,0.85) 40%, rgba(139,38,53,0.65) 100%);
+  }
+  .book-hero-texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 256px;
+  }
+  .book-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 24px 88px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 72px;
+    align-items: center;
+  }
+
+  /* Book cover mock */
+  .book-cover-display {
+    position: relative;
+  }
+  .book-cover-main {
+    background: linear-gradient(160deg, #2a1a14 0%, #4a2a1a 40%, #6a3a28 100%);
+    aspect-ratio: 2/3;
+    border-radius: 2px 6px 6px 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 12px 8px 40px rgba(0,0,0,0.4), -2px 0 8px rgba(0,0,0,0.1);
+  }
+  /* Spine effect */
+  .book-cover-main::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.3), rgba(0,0,0,0.05), rgba(255,255,255,0.05));
+  }
+  /* Inner border */
+  .book-cover-main::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(196,151,59,0.2);
+    pointer-events: none;
+  }
+
+  .book-cover-flag {
+    width: 64px;
+    height: 8px;
+    background: linear-gradient(90deg, var(--burgundy), var(--gold), var(--burgundy));
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+    opacity: 0.7;
+  }
+  .book-cover-pretitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    font-weight: 600;
+  }
+  .book-cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #f5f0e8;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .book-cover-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+    line-height: 1.4;
+  }
+  .book-cover-illustration {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(196,151,59,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .book-cover-illustration svg { width: 32px; height: 32px; color: var(--gold); opacity: 0.4; }
+  .book-cover-author {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Shadow under book */
+  .book-cover-shadow {
+    height: 20px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, transparent 70%);
+    margin-top: -4px;
+  }
+
+  .book-hero-text {
+    color: var(--white);
+  }
+  .book-hero-badge {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    background: rgba(196,151,59,0.1);
+    padding: 5px 14px;
+    border: 1px solid rgba(196,151,59,0.2);
+    margin-bottom: 20px;
+  }
+  .book-hero-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4.5vw, 46px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .book-hero-text .book-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 28px;
+  }
+  .book-hero-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 24px;
+  }
+  .book-hero-desc {
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.75;
+    margin-bottom: 32px;
+    max-width: 520px;
+  }
+
+  .book-buy-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .buy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 28px;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+  }
+  .buy-btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .buy-btn-primary:hover { background: var(--gold-light); }
+  .buy-btn-secondary {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    color: var(--white);
+  }
+  .buy-btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Book details */
+  .book-details {
+    background: var(--white);
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+  .book-details-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+  .book-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+
+  .book-about h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+  .book-about p {
+    font-size: 18px;
+    color: var(--text-light);
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+  .book-about blockquote {
+    margin: 28px 0;
+    padding: 24px 28px;
+    background: var(--gold-faint);
+    border-left: 3px solid var(--gold);
+  }
+  .book-about blockquote p {
+    font-style: italic;
+    font-size: 19px;
+    color: var(--navy);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .book-sidebar h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .book-meta-list {
+    list-style: none;
+    margin-bottom: 36px;
+  }
+  .book-meta-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--parchment-dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+  }
+  .book-meta-list li span:first-child {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .book-meta-list li span:last-child {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* Preview images placeholder */
+  .book-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .book-preview-item {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--parchment-dark);
+  }
+  .book-preview-item span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Second book section */
+  .book-second {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+  .book-second-inner {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    align-items: center;
+    background: var(--navy);
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .book-second-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  .book-second-cover {
+    background: linear-gradient(160deg, var(--burgundy) 0%, #5a1520 100%);
+    aspect-ratio: 2/3;
+    border-radius: 2px 4px 4px 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 8px 6px 24px rgba(0,0,0,0.3);
+  }
+  .book-second-cover::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.3), rgba(0,0,0,0.05));
+  }
+  .book-second-cover::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(196,151,59,0.2);
+  }
+  .book-second-cover .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .book-second-cover .cover-author {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    position: relative;
+    z-index: 1;
+  }
+
+  .book-second-info {
+    position: relative;
+    z-index: 1;
+    color: var(--white);
+  }
+  .book-second-info .book-hero-badge { margin-bottom: 16px; }
+  .book-second-info h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .book-second-info p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    background: #131a24;
+    color: rgba(255,255,255,0.4);
+    padding: 48px 24px 28px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-inner .logo-title { color: var(--white); font-size: 16px; }
+  .footer-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 900px) {
+    .about-hero-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 56px 24px 64px;
+    }
+    .about-photo-wrapper { max-width: 220px; }
+
+    .credentials-grid { grid-template-columns: 1fr; gap: 20px; }
+
+    .book-hero-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 56px 24px 64px;
+    }
+    .book-cover-display { max-width: 200px; margin: 0 auto; }
+
+    .book-details-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    .book-second-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+      padding: 36px 24px;
+    }
+    .book-second-cover { max-width: 160px; margin: 0 auto; }
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .hamburger { display: flex; }
+    .mobile-nav { display: flex; }
+    .page-switcher { right: 8px; top: 72px; }
+    .page-switcher button { padding: 8px 12px; font-size: 10px; }
+  }
+
+  @media (max-width: 480px) {
+    .about-hero-content { padding: 40px 20px 48px; }
+    .book-hero-content { padding: 40px 20px 48px; }
+    .book-buy-buttons { flex-direction: column; }
+    .buy-btn { justify-content: center; }
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span class="logo-title">History Reconsidered</span>
+      <span class="logo-subtitle">Military History & Research</span>
+    </a>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Articles</a>
+      <a href="#" id="navBook">Book</a>
+      <a href="#" id="navAbout" class="active">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <button class="hamburger" aria-label="Open menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#" onclick="toggleMenu()">Home</a>
+  <a href="#" onclick="toggleMenu()">Articles</a>
+  <a href="#" onclick="switchPage('book'); toggleMenu()">Book</a>
+  <a href="#" onclick="switchPage('about'); toggleMenu()">About</a>
+  <a href="#" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- PAGE SWITCHER -->
+<div class="page-switcher">
+  <button class="active" onclick="switchPage('about')">About Page</button>
+  <button onclick="switchPage('book')">Book Page</button>
+</div>
+
+<!-- ============================================
+     ABOUT PAGE
+     ============================================ -->
+<div class="page active" id="aboutPage">
+<main>
+
+  <section class="about-hero">
+    <div class="about-hero-bg"></div>
+    <div class="about-hero-texture"></div>
+    <div class="about-hero-content">
+      <div class="about-photo-wrapper">
+        <div class="about-photo">
+          <div class="about-photo-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          </div>
+          <div class="about-photo-note">Author photo placeholder</div>
+        </div>
+      </div>
+
+      <div class="about-hero-text">
+        <span class="about-hero-label">About the Author</span>
+        <h1 class="about-hero-name">Lee G. Offen</h1>
+        <p class="about-hero-title">Retired U.S. Army Major · Military Historian · Reenactor</p>
+        <div class="about-hero-divider"></div>
+        <p class="about-hero-bio">
+          Lee is a <strong>retired U.S. Army Major</strong> who resides in Springfield, Virginia. He is an <strong>Armored Cavalry Combat Veteran</strong>, former Airborne Infantryman and a recipient of the <strong>Bronze Star</strong>. He holds a Master's Degree in Government from Campbell University and was Assistant Professor of Military Science at <strong>Georgetown University</strong> and <strong>George Mason University</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credentials cards -->
+  <section class="about-credentials">
+    <div class="credentials-grid">
+      <div class="credential-card fade-in">
+        <div class="credential-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+        </div>
+        <span class="credential-label">Military Service</span>
+        <div class="credential-title">Combat Veteran & Bronze Star Recipient</div>
+        <p class="credential-text">Armored Cavalry Combat Veteran and former Airborne Infantryman. Retired as a U.S. Army Major after distinguished service.</p>
+      </div>
+
+      <div class="credential-card fade-in">
+        <div class="credential-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+        </div>
+        <span class="credential-label">Academic</span>
+        <div class="credential-title">Georgetown & George Mason University</div>
+        <p class="credential-text">Master's Degree in Government from Campbell University. Assistant Professor of Military Science at Georgetown University and George Mason University.</p>
+      </div>
+
+      <div class="credential-card fade-in">
+        <div class="credential-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+        </div>
+        <span class="credential-label">Research & Writing</span>
+        <div class="credential-title">Published Author & Reenactor</div>
+        <p class="credential-text">Author of "America's First Marines" — published by Westholme. A graduate of the U.S. Army Military History Instructors Course and an avid historical reenactor of 17th and 18th century history.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="about-mission">
+    <div class="about-mission-inner">
+      <div class="about-mission-quote fade-in">
+        History needs to be made accessible, supported with graphics and pictures when possible, while respecting the intelligence of the reader. No dumbing down here mislabeled as accessibility!
+      </div>
+      <p class="about-mission-text fade-in">
+        History Reconsidered examines significant historical decisions and actions that deserve another look — because they have never been examined, or have not been examined thoroughly. Sources matter too. Every article is documented with primary and secondary sources so readers can continue their journey through a subject.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA to Articles -->
+  <section class="about-articles-cta">
+    <div class="section-label fade-in">Start Reading</div>
+    <h2 class="fade-in">Explore the Articles</h2>
+    <p class="fade-in">From the Czechoslovak Legion to the War of Three Kingdoms — rigorous research into the overlooked corners of military history.</p>
+    <button class="cta-button fade-in">
+      Browse All Articles
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </section>
+
+</main>
+</div>
+
+<!-- ============================================
+     BOOK PAGE
+     ============================================ -->
+<div class="page" id="bookPage">
+<main>
+
+  <section class="book-hero">
+    <div class="book-hero-bg"></div>
+    <div class="book-hero-texture"></div>
+    <div class="book-hero-content">
+      <div class="book-cover-display">
+        <div class="book-cover-main">
+          <div class="book-cover-flag"></div>
+          <div class="book-cover-pretitle">America's First</div>
+          <div class="book-cover-title">Marines</div>
+          <div class="book-cover-subtitle">Gooch's American Regiment,<br>1740–1742</div>
+          <div class="book-cover-illustration">
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 3l1.664 1.664M21 21l-1.5-1.5m-5.488-1.052l-2.424.637.637-2.424m-3.44-3.44l5.862-5.863a2.121 2.121 0 113 3L8.29 16.22zM14.5 6.5L18 3"/></svg>
+          </div>
+          <div class="book-cover-author">Lee G. Offen</div>
+        </div>
+        <div class="book-cover-shadow"></div>
+      </div>
+
+      <div class="book-hero-text">
+        <div class="book-hero-badge">Published · Available Now</div>
+        <h1>America's First Marines</h1>
+        <p class="book-subtitle">Gooch's American Regiment, 1740–1742</p>
+        <div class="book-hero-divider"></div>
+        <p class="book-hero-desc">The first ever comprehensive regimental history of America's First Marines. Making extensive use of primary source material, this account reveals how these men formed a separate identity — becoming "Americans."</p>
+        <div class="book-buy-buttons">
+          <a href="#" class="buy-btn buy-btn-primary">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
+            Buy on Amazon
+          </a>
+          <a href="#" class="buy-btn buy-btn-secondary">
+            Read an Excerpt
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Book details -->
+  <section class="book-details">
+    <div class="book-details-inner">
+      <div class="book-details-grid">
+        <div class="book-about">
+          <h2>About the Book</h2>
+          <p>Gooch's Regiment was raised in nine North American colonies and placed on the British Army Establishment as a Regiment of Foot. Since the late 17th century, both Foot Regiments and Marine Regiments were responsible for shipboard operations such as ship-to-shore operations, boarding party operations, and assisting with the ship's guns.</p>
+
+          <blockquote>
+            <p>They were the first military formation described as such, since the first colonists landed in North America. It was a distinction worth noting because it was the first time it was made and clearly not the last.</p>
+          </blockquote>
+
+          <p>The identification of Gooch's Regiment as an "American Regiment" came from the leadership of the expedition, the men of the regiment and the media of the time. Had the Regiment been seen as a British Regiment, their hardships might have not been taken to heart by the American colonists and made the lasting impression they did.</p>
+        </div>
+
+        <div class="book-sidebar">
+          <h3>Book Details</h3>
+          <ul class="book-meta-list">
+            <li><span>Author</span><span>Lee G. Offen</span></li>
+            <li><span>Publisher</span><span>Westholme Publishing</span></li>
+            <li><span>Subject</span><span>American Military History</span></li>
+            <li><span>Period</span><span>1740–1742</span></li>
+            <li><span>Format</span><span>Hardcover & Paperback</span></li>
+            <li><span>Availability</span><span>Amazon</span></li>
+          </ul>
+
+          <h3>Preview Pages</h3>
+          <div class="book-preview-grid">
+            <div class="book-preview-item"><span>Map 1</span></div>
+            <div class="book-preview-item"><span>Map 2</span></div>
+            <div class="book-preview-item"><span>Interior 1</span></div>
+            <div class="book-preview-item"><span>Interior 2</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Second book -->
+  <section class="book-second">
+    <div class="book-second-inner">
+      <div class="book-second-cover">
+        <div class="cover-title">None Shall Pass Us by in Silence</div>
+        <div class="cover-author">Lee G. Offen</div>
+      </div>
+      <div class="book-second-info">
+        <div class="book-hero-badge">Forthcoming</div>
+        <h2>None Shall Pass Us by in Silence</h2>
+        <p>The full story of the Czechoslovak Legion, 1914–1920 — a military formation that fought across 4,000 miles of Russia, captured the imagination of Allied nations, and earned nationhood for the Czechoslovak people.</p>
+        <a href="#" class="buy-btn buy-btn-primary">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="logo">
+      <span class="logo-title" style="color: #fff; font-size: 16px;">History Reconsidered</span>
+      <span class="logo-subtitle">Military History & Research</span>
+    </div>
+    <div class="footer-copy">© 2010–2026 History Reconsidered, LLC</div>
+  </div>
+</footer>
+
+<script>
+  // Header scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.querySelector('.hamburger').classList.toggle('active');
+    document.getElementById('mobileNav').classList.toggle('open');
+    document.body.style.overflow = document.getElementById('mobileNav').classList.contains('open') ? 'hidden' : '';
+  }
+
+  // Page switcher
+  function switchPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.page-switcher button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+
+    if (page === 'about') {
+      document.getElementById('aboutPage').classList.add('active');
+      document.querySelector('.page-switcher button:nth-child(1)').classList.add('active');
+      document.getElementById('navAbout').classList.add('active');
+    } else {
+      document.getElementById('bookPage').classList.add('active');
+      document.querySelector('.page-switcher button:nth-child(2)').classList.add('active');
+      document.getElementById('navBook').classList.add('active');
+    }
+    window.scrollTo({ top: 0 });
+    // Re-trigger animations
+    setTimeout(initObserver, 100);
+  }
+
+  // Scroll-triggered animations
+  function initObserver() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.classList.remove('visible');
+      observer.observe(el);
+    });
+  }
+  initObserver();
+</script>
+
+</body>
+</html>

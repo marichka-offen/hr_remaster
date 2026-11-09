@@ -1,7 +1,9 @@
 :root {
-    /* Core colours */
+    /* ---- Palette: raw colours. Use these only through the roles below, or for brand decoration
+       (gold rules, burgundy accents, button variants) ---- */
     --navy: #1a2332;
     --navy-light: #243044;
+    --ink: #131a24;
     --gold: #c4973b;
     --gold-light: #d4ab54;
     --gold-dark: #7d5c17;
@@ -10,21 +12,34 @@
     --burgundy-dark: #5a1520;
     --parchment: #f5f0e8;
     --parchment-dark: #e8e0d2;
-    --text: #2d2d2d;
-    --text-light: #5a5a5a;
-    --text-muted: #675f53;
-    --white: #fefcf9;
-    --black: #131a24;
+    --ivory: #fefcf9;
+    --charcoal: #2d2d2d;
+    --stone: #675f53;
 
-    /* Colour roles. Dark surfaces override --accent and --focus-ring via the on-dark mixin */
-    --accent: var(--gold-dark);
-    --focus-ring: var(--navy);
-    --text-on-dark: var(--white);
-    --text-on-dark-secondary: color-mix(in srgb, var(--white) 85%, transparent);
-    --text-on-dark-muted: color-mix(in srgb, var(--white) 70%, transparent);
-    --hairline-on-dark: color-mix(in srgb, var(--white) 10%, transparent);
-    --surface-header: color-mix(in srgb, var(--white) 92%, transparent);
-    --surface-overlay: color-mix(in srgb, var(--navy) 75%, transparent);
+    /* ---- Colour roles: what components reach for. Contrast figures are against --color-bg ---- */
+    --color-bg: var(--parchment);
+    --color-surface: var(--ivory);              /* cards, inputs, raised panels */
+    --color-surface-dark: var(--navy);          /* dark sections, solid buttons */
+    --color-surface-dark-hover: var(--navy-light);
+    --color-surface-deep: var(--ink);           /* footer */
+
+    --color-text: var(--charcoal);              /* 12.1:1 */
+    --color-text-secondary: var(--stone);       /* 5.5:1 */
+    --color-text-strong: var(--navy);           /* headings, titles, emphasised UI text. 13.9:1 */
+
+    --color-border: var(--parchment-dark);      /* decorative rules only, 1.2:1 */
+    --color-border-strong: var(--stone);        /* edges of inputs and controls, needs 3:1 */
+
+    /* Dark surfaces override --color-accent and --color-focus via the on-dark mixin */
+    --color-accent: var(--gold-dark);           /* links, eyebrows, rules. 5.4:1 */
+    --color-focus: var(--navy);
+
+    --color-text-on-dark: var(--ivory);
+    --color-text-on-dark-secondary: color-mix(in srgb, var(--ivory) 85%, transparent);
+    --color-text-on-dark-muted: color-mix(in srgb, var(--ivory) 70%, transparent);
+    --color-hairline-on-dark: color-mix(in srgb, var(--ivory) 10%, transparent);
+    --color-surface-header: color-mix(in srgb, var(--ivory) 92%, transparent);
+    --color-surface-overlay: color-mix(in srgb, var(--navy) 75%, transparent);
 
     /* Gold tints */
     --gold-tint: color-mix(in srgb, var(--gold) 8%, transparent);
@@ -50,22 +65,25 @@
     );
 
     /* Shadows */
-    --shadow-sm: 0 1px 3px rgba(26, 35, 50, 0.08);
-    --shadow-md: 0 4px 12px rgba(26, 35, 50, 0.1);
-    --shadow-lg: 0 8px 30px rgba(26, 35, 50, 0.12);
-    --shadow-hover: 0 12px 40px rgba(26, 35, 50, 0.15);
-    --shadow-book: 8px 8px 30px color-mix(in srgb, var(--black) 30%, transparent);
+    --shadow-sm: 0 1px 3px color-mix(in srgb, var(--navy) 8%, transparent);
+    --shadow-md: 0 4px 12px color-mix(in srgb, var(--navy) 10%, transparent);
+    --shadow-lg: 0 8px 30px color-mix(in srgb, var(--navy) 12%, transparent);
+    --shadow-hover: 0 12px 40px color-mix(in srgb, var(--navy) 15%, transparent);
+    --shadow-book: 8px 8px 30px color-mix(in srgb, var(--ink) 30%, transparent);
 
-    /* Font families */
-    --primary-font: 'Cormorant Garamond', Georgia, serif;
-    --secondary-font: 'Playfair Display', serif;
-    --tertiary-font: 'DM Sans', sans-serif;
+    /* Font families, named by role */
+    --font-body: 'Literata', 'Literata Fallback', Georgia, serif;
+    --font-display: 'Playfair Display', 'Playfair Display Fallback', Georgia, serif;
+    --font-quote: 'Cormorant Garamond', 'Cormorant Garamond Fallback', Georgia, serif;
+    --font-ui: 'DM Sans', 'DM Sans Fallback', system-ui, sans-serif;
 
     /* Type scale. Fluid sizes run between 360px and 1200px viewports */
-    --text-xs: 0.75rem;
+    --text-xs: 0.8125rem; /* 13px: smallest size for uppercase tracked labels */
     --text-sm: 0.875rem;
     --text-base: 1rem;
     --text-md: 1.125rem;
+    /* Long-form reading size. Literata's x-height is larger than Georgia's, so 18px reads like Georgia at 19px */
+    --text-prose: 1.125rem;
     --text-lg: clamp(1.25rem, 1.143rem + 0.476vw, 1.5rem);
     --text-xl: clamp(1.5rem, 1.286rem + 0.952vw, 2rem);
     --text-2xl: clamp(1.75rem, 1.429rem + 1.429vw, 2.5rem);
@@ -101,13 +119,29 @@
     --space-9: 4rem;
     --space-10: 5rem;
 
+    /* Spacing roles: which step of the scale to use. Closer means more related (proximity).
+       Rule of thumb: a container's padding is at least as large as the biggest gap inside it */
+    --gap-related: var(--space-2);   /* 8px: a label and its control, a title and its meta line */
+    --gap-items: var(--space-4);     /* 16px: items in one group, e.g. form fields, list rows */
+    --gap-groups: var(--space-6);    /* 32px: distinct groups inside one component */
+    --inset-sm: var(--space-3);      /* 12px: chips, small buttons, table cells */
+    --inset-md: var(--space-4);      /* 16px: cards, callouts, list items */
+    --inset-lg: var(--space-5);      /* 24px: dialogs, panels, large cards */
+
     --section-y: clamp(3.5rem, 2.857rem + 2.857vw, 5rem);
     --gutter: clamp(1.25rem, 1.143rem + 0.476vw, 1.5rem);
     --page-top: clamp(6.5rem, 6.071rem + 1.905vw, 7.5rem);
     --header-height: 4.5rem;
+    --header-height-slim: 3.5rem;
+    /* Current header height: switches to slim once the page scrolls (see Header.astro) */
+    --header-offset: var(--header-height);
     --tap-target: 2.75rem;
 
     /* Layout */
+    /* Line length for running text. 1ch is the width of "0", which is wider than an average letter,
+       so 55ch is about 66 real characters in Literata and 68 in Cormorant (measured from the font files).
+       Bringhurst's range is 45-75, about 66 ideal */
+    --measure: 55ch;
     --container-sm: 40rem;
     --container-md: 50rem;
     --container-book: 60rem;
@@ -122,9 +156,14 @@
     --icon-sm: 0.875rem;
     --icon-md: 1rem;
 
-    /* Layers */
-    --z-nav: 90;
+    /* Layers, lowest to highest */
+    --z-sticky: 10;      /* sticky contents sidebar, back-to-top button */
+    --z-progress: 80;    /* reading-progress bar */
+    --z-nav: 90;         /* mobile navigation drawer */
     --z-header: 100;
+    --z-overlay: 200;    /* dimmed backdrop behind drawers */
+    --z-drawer: 210;     /* mobile contents drawer */
+    --z-skip-link: 1000; /* always on top when focused */
 
     /* Motion */
     --duration-fast: 150ms;
@@ -133,4 +172,8 @@
     --ease-standard: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition: var(--duration-base) var(--ease-standard);
     --transition-colors: color var(--transition), background-color var(--transition), border-color var(--transition);
+}
+
+:root[data-scrolled] {
+    --header-offset: var(--header-height-slim);
 }

@@ -1,0 +1,70 @@
+---
+import type { RichText } from '@app-types/content'
+import Figure from '@components/blocks/Figure/Figure.astro'
+import Callout from '@components/blocks/Callout/Callout.astro'
+import Timeline from '@components/blocks/Timeline/Timeline.astro'
+import FactCards from '@components/blocks/FactCards/FactCards.astro'
+import DataList from '@components/blocks/DataList/DataList.astro'
+import DataTable from '@components/blocks/DataTable/DataTable.astro'
+import { editableAttrs } from '@lib/storyblok/editable'
+import './RichText.scss'
+
+interface Props {
+    blocks?: RichText
+    // Class added to each paragraph, for sections that style their own copy
+    paragraphClass?: string
+}
+
+const { blocks = [], paragraphClass } = Astro.props
+---
+
+{blocks.map((block) => {
+    // Blocks inserted in the Storyblok editor get an outline wrapper in the preview; elsewhere Fragment adds nothing
+    const Wrapper = block._editable ? 'div' : Fragment
+    const attrs = block._editable ? { ...editableAttrs(block._editable), class: 'sb-blok' } : {}
+    return <Wrapper {...attrs}>{(() => { switch (block.type) {
+        case 'paragraph':
+            // html is produced by the CMS adapter from structured rich text, with escaped text and a fixed set of tags
+            return block.html ? <p class={paragraphClass} set:html={block.html} /> : <p class={paragraphClass}>{block.text}</p>
+        case 'heading':
+            return block.level === 2
+                ? <h2 id={block.id}>{block.text}</h2>
+                : <h3 id={block.id}>{block.text}</h3>
+        case 'quote':
+            return (
+                <blockquote>
+                    {block.html ? <p set:html={block.html} /> : <p>{block.text}</p>}
+                    {block.cite && <cite>{block.cite}</cite>}
+                </blockquote>
+            )
+        case 'list': {
+            const List = block.ordered ? 'ol' : 'ul'
+            return (
+                <List>
+                    {block.items.map((item) => (item.html ? <li set:html={item.html} /> : <li>{item.text}</li>))}
+                </List>
+            )
+        }
+        case 'figure':
+            return <Figure {...block} />
+        case 'callout':
+            return <Callout {...block} />
+        case 'collapsible':
+            return (
+                <details class="collapsible" open={block.open}>
+                    <summary class="collapsible__summary">{block.title}</summary>
+                    <div class="collapsible__body prose">
+                        <Astro.self blocks={block.blocks} />
+                    </div>
+                </details>
+            )
+        case 'timeline':
+            return <Timeline {...block} />
+        case 'factCards':
+            return <FactCards {...block} />
+        case 'dataList':
+            return <DataList {...block} />
+        case 'table':
+            return <DataTable {...block} />
+    } })()}</Wrapper>
+})}

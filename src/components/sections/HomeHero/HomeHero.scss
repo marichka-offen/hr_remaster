@@ -8,7 +8,7 @@
     position: relative;
     overflow: hidden;
     margin-top: var(--header-height);
-    background: var(--navy);
+    background: var(--color-surface-dark);
     @include on-dark;
 
     &__bg {
@@ -40,7 +40,7 @@
     &__content {
         position: relative;
         z-index: 2;
-        text-align: center;
+        @include centered;
         padding: var(--space-8) var(--gutter);
         max-width: var(--container-md);
     }
@@ -52,10 +52,9 @@
     }
 
     &__title {
-        font-family: var(--secondary-font);
         font-size: var(--text-display);
         font-weight: var(--weight-extrabold);
-        color: var(--white);
+        color: var(--color-text-on-dark);
         line-height: var(--leading-tight);
         letter-spacing: var(--tracking-tight);
         margin-bottom: var(--space-6);

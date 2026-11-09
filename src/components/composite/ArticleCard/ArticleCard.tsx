@@ -7,9 +7,11 @@ const DEFAULT_GRADIENT = 'var(--gradient-article)'
 
 interface Props {
     article: ArticleMetaType
+    // h3 under a section heading, h2 when the grid sits directly under the page's h1
+    titleAs?: 'h2' | 'h3'
 }
 
-export default function ArticleCard({ article }: Props) {
+export default function ArticleCard({ article, titleAs: Title = 'h3' }: Props) {
     const code = article.period ?? article.title.slice(0, 3).toUpperCase()
 
     const gradient = article.gradientFrom && article.gradientTo
@@ -31,7 +33,7 @@ export default function ArticleCard({ article }: Props) {
                 )}
             </div>
             <div className="card__body">
-                <h3 className="card__title">{article.title}</h3>
+                <Title className="card__title">{article.title}</Title>
                 {article.excerpt && (
                     <p className="card__excerpt">{article.excerpt}</p>
                 )}

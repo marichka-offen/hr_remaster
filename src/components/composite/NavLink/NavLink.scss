@@ -1,6 +1,6 @@
 .nav-link {
-    color: var(--navy);
-    font-family: var(--tertiary-font);
+    color: var(--color-text-strong);
+    font-family: var(--font-ui);
     font-size: var(--text-sm);
     font-weight: var(--weight-medium);
     line-height: var(--leading-relaxed);
@@ -19,13 +19,13 @@
         left: 0;
         width: 0;
         height: var(--border-rule);
-        background: var(--accent);
+        background: var(--color-accent);
         transition: width var(--transition);
     }
 
     &:hover,
     &--active {
-        color: var(--accent);
+        color: var(--color-accent);
 
         &::after {
             width: 100%;

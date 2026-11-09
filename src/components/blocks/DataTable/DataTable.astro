@@ -1,0 +1,28 @@
+---
+import type { TableBlock } from '@app-types/content'
+import './DataTable.scss'
+
+type Props = Omit<TableBlock, 'type'>
+
+const { caption, columns, rows, note } = Astro.props
+---
+
+<figure class="data-table">
+    {/* Scrolls sideways on narrow screens instead of squeezing the columns. Focusable so keyboard users can scroll it */}
+    <div class="data-table__scroll" tabindex="0" role="region" aria-label={caption}>
+        <table>
+            <caption>{caption}</caption>
+            <thead>
+                <tr>{columns.map((column) => <th scope="col">{column}</th>)}</tr>
+            </thead>
+            <tbody>
+                {rows.map((row) => (
+                    <tr>
+                        {row.map((cell, i) => (i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+    {note && <figcaption class="data-table__note">{note}</figcaption>}
+</figure>

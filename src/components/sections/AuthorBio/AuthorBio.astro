@@ -4,10 +4,11 @@ import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage
 import CoverFrame from '@components/composite/CoverFrame/CoverFrame.astro'
 import CredentialCard from '@components/composite/CredentialCard/CredentialCard.astro'
 import './AuthorBio.scss'
-import type { CTA } from '@app-types/cta'
+import RichText from '@components/base/RichText/RichText.astro'
+import type { CredentialIcon, RichText as RichTextType } from '@app-types/content'
 
 interface Credential {
-    icon: string
+    icon: CredentialIcon
     label: string
     title: string
     description?: string
@@ -17,7 +18,7 @@ interface Props {
     label?: string
     name: string
     role?: string
-    bio?: any[]
+    bio?: RichTextType
     imageUrl?: string
     imageAlt?: string
     initials?: string
@@ -44,15 +45,10 @@ const { label, name, role, bio, imageUrl, imageAlt, initials, credentials } = As
                 </CoverFrame>
                 <div class="author-bio__text">
                     {label && <Eyebrow color="gold" size="sm" align="left">{label}</Eyebrow>}
-                    <h2 class="author-bio__name">{name}</h2>
+                    <h1 class="author-bio__name">{name}</h1>
                     {role && <p class="author-bio__role">{role}</p>}
                     <div class="author-bio__divider"></div>
-                    {bio?.map((block: any) => {
-                        if (block._type === 'block') {
-                            const text = block.children?.map((c: any) => c.text).join('') ?? ''
-                            return text ? <p class="author-bio__bio">{text}</p> : null
-                        }
-                    })}
+                    <RichText blocks={bio} paragraphClass="author-bio__bio" />
                 </div>
             </div>
         </div>
@@ -64,7 +60,7 @@ const { label, name, role, bio, imageUrl, imageAlt, initials, credentials } = As
                 <div class="author-bio__cards">
                     {credentials.map((c) => (
                         <CredentialCard
-                            icon={c.icon as any}
+                            icon={c.icon}
                             label={c.label}
                             title={c.title}
                             description={c.description}

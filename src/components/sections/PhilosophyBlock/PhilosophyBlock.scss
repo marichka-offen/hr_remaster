@@ -1,13 +1,15 @@
+@use '@tokens/mixins' as *;
+
 .philosophy {
-    background: var(--parchment);
-    border-top: var(--border-thin) solid var(--parchment-dark);
-    border-bottom: var(--border-thin) solid var(--parchment-dark);
+    background: var(--color-bg);
+    border-top: var(--border-thin) solid var(--color-border);
+    border-bottom: var(--border-thin) solid var(--color-border);
 
     &__container {
         max-width: var(--container-md);
         margin: 0 auto;
         padding: var(--section-y) var(--gutter);
-        text-align: center;
+        @include centered;
     }
 
     &__quote-wrap {
@@ -17,9 +19,9 @@
 
     &__mark {
         display: block;
-        font-family: var(--secondary-font);
+        font-family: var(--font-display);
         font-size: var(--text-display);
-        color: var(--accent);
+        color: var(--color-accent);
         opacity: 0.3;
         line-height: 0.6;
         margin-bottom: var(--space-4);
@@ -27,10 +29,10 @@
     }
 
     &__quote {
-        font-family: var(--primary-font);
+        font-family: var(--font-quote);
         font-style: italic;
         font-size: var(--text-xl);
-        color: var(--navy);
+        color: var(--color-text-strong);
         line-height: var(--leading-normal);
         font-weight: var(--weight-semibold);
     }
@@ -38,7 +40,7 @@
     &__body {
         p {
             font-size: var(--text-md);
-            color: var(--text-light);
+            color: var(--color-text-secondary);
             line-height: var(--leading-relaxed);
             margin-bottom: var(--space-4);
 

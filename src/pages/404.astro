@@ -3,7 +3,7 @@ import SiteLayout from '@layouts/SiteLayout.astro'
 import Button from '@components/base/Button/Button'
 ---
 
-<SiteLayout title="Page Not Found" description="The page you're looking for doesn't exist.">
+<SiteLayout title="Page Not Found" description="The page you're looking for doesn't exist." noindex>
     <main id="main" class="not-found">
         <div class="not-found__bg"></div>
         <div class="not-found__content">
@@ -26,7 +26,7 @@ import Button from '@components/base/Button/Button'
         justify-content: center;
         position: relative;
         overflow: hidden;
-        background: var(--navy);
+        background: var(--color-surface-dark);
         @include on-dark;
 
         &__bg {
@@ -48,7 +48,7 @@ import Button from '@components/base/Button/Button'
         }
 
         &__eyebrow {
-            font-family: var(--secondary-font);
+            font-family: var(--font-display);
             font-size: var(--text-decor);
             font-weight: var(--weight-extrabold);
             color: var(--gold-ghost);
@@ -58,10 +58,9 @@ import Button from '@components/base/Button/Button'
         }
 
         &__title {
-            font-family: var(--secondary-font);
             font-size: var(--text-2xl);
             font-weight: var(--weight-bold);
-            color: var(--white);
+            color: var(--color-text-on-dark);
             line-height: var(--leading-tight);
         }
 
@@ -72,11 +71,10 @@ import Button from '@components/base/Button/Button'
         }
 
         &__message {
-            font-family: var(--primary-font);
+            font-family: var(--font-quote);
             font-style: italic;
             font-size: var(--text-lg);
-            color: var(--text-on-dark-muted);
-            max-width: 400px;
+            color: var(--color-text-on-dark-muted);
             line-height: var(--leading-relaxed);
         }
     }

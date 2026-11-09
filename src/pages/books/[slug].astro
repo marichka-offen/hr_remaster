@@ -1,38 +1,15 @@
 ---
-import SiteLayout from '@layouts/SiteLayout.astro'
-import { sanityClient } from '@lib/sanity/client'
-import { bookBySlugQuery, allBooksQuery } from '@lib/sanity/queries'
+import BookView from '../../views/BookView.astro'
+import { getBook, getBooks } from '@lib/content'
 
 export async function getStaticPaths() {
-    const books = await sanityClient.fetch(allBooksQuery)
-    return books.map((book: any) => ({ params: { slug: book.slug } }))
+    const books = await getBooks()
+    return books.map((book) => ({ params: { slug: book.slug } }))
 }
 
-const { slug } = Astro.params
-const book = await sanityClient.fetch(bookBySlugQuery, { slug })
-
+const book = await getBook(Astro.params.slug)
 if (!book) return Astro.redirect('/books')
+const otherBooks = (await getBooks()).filter((other) => other.slug !== book.slug)
 ---
 
-<SiteLayout title={book.title} description={book.excerpt ?? ''}>
-    <main id="main">
-        <section class="book-detail">
-            <div class="book-detail__container">
-                <p>Book detail — coming soon</p>
-            </div>
-        </section>
-    </main>
-</SiteLayout>
-
-<style lang="scss">
-    .book-detail {
-        background: var(--parchment);
-        min-height: 100vh;
-
-        &__container {
-            max-width: var(--container-book);
-            margin: 0 auto;
-            padding: var(--page-top) var(--gutter) var(--section-y);
-        }
-    }
-</style>
+<BookView book={book} otherBooks={otherBooks} />

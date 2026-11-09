@@ -2,22 +2,20 @@
 import BaseLayout from '@layouts/BaseLayout.astro'
 import Header from '@components/sections/Header/Header.astro'
 import Footer from '@components/sections/Footer/Footer.astro'
-import { sanityClient } from '@lib/sanity/client'
-import { siteSettingsQuery } from '@lib/sanity/queries'
+import { getSiteSettings } from '@lib/content'
+import type { ComponentProps } from 'astro/types'
 
-interface Props {
-    title: string
-    description: string
-}
+import type { SiteSettings } from '@app-types/content'
 
-const { title, description } = Astro.props
-const settings = await sanityClient.fetch(siteSettingsQuery)
+// Same options as BaseLayout (title, description, social image, structured data...), passed straight through.
+// settings can be passed in (the Visual Editor preview passes draft settings); otherwise they're fetched here
+type Props = ComponentProps<typeof BaseLayout> & { settings?: SiteSettings }
 
-const header = settings?.header ?? {}
-const footer = settings?.footer ?? {}
+const { settings, ...layoutProps } = Astro.props
+const { header, footer } = settings ?? (await getSiteSettings())
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout {...layoutProps}>
     <Header
         logoTitle={header.logoTitle}
         logoSubtitle={header.logoSubtitle}

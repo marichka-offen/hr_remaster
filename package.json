@@ -4,21 +4,35 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "og-image": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 --virtual-time-budget=3000 --screenshot=public/og-default.png scripts/og-default.html",
+    "tokens-doc": "python3 scripts/tokens-doc.py",
+    "storyblok:push": "node scripts/storyblok-push-components.mjs",
+    "storyblok:seed": "npx -y tsx@4 scripts/storyblok-seed.ts"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.13",
     "@astrojs/react": "^4.4.2",
-    "@sanity/client": "^7.17.0",
+    "@astrojs/sitemap": "^3.7.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "astro": "^5.17.1",
     "astro-icon": "^1.1.5",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "tslib": "^2.9.1"
   },
   "devDependencies": {
-    "sass": "^1.97.3"
+    "@astrojs/check": "^0.9.12",
+    "@emnapi/core": "^1.11.3",
+    "@emnapi/runtime": "^1.11.3",
+    "@types/node": "^22.20.5",
+    "pagefind": "^1.5.2",
+    "sass": "^1.97.3",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.158.0"
   }
 }

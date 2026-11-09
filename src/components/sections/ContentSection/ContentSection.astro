@@ -1,0 +1,25 @@
+---
+// A page section that holds any article content blocks (text, timeline, figure, callout, cards...),
+// so pages can use everything articles can, laid out in the same reading column
+import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
+import RichText from '@components/base/RichText/RichText.astro'
+import type { RichText as RichTextType } from '@app-types/content'
+import './ContentSection.scss'
+
+interface Props {
+    label?: string
+    heading?: string
+    blocks: RichTextType
+}
+
+const { label, heading, blocks } = Astro.props
+---
+
+<section class="content-section">
+    <div class="content-section__inner">
+        {(label || heading) && <SectionHeader label={label} heading={heading} align="left" />}
+        <div class="content-section__body prose">
+            <RichText blocks={blocks} />
+        </div>
+    </div>
+</section>

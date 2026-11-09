@@ -1,6 +1,6 @@
 ---
 import Button from '@components/base/Button/Button'
-import CoverFrame from '@components/composite/CoverFrame/CoverFrame.astro'
+import BookCover from '@components/composite/BookCover/BookCover.astro'
 import './BookPreview.scss'
 import type { CTA } from '@app-types/cta'
 
@@ -21,24 +21,24 @@ const { label, coverLabel, title, subtitle, coverImageUrl, coverImageAlt, descri
 <section class="book-preview">
     <div class="book-preview__container">
         <div class="book-preview__inner">
-            {coverImageUrl ? (
-                <img src={coverImageUrl} alt={coverImageAlt ?? title} class="book-preview__cover-img" />
-            ) : (
-                <CoverFrame inset={10} class="book-preview__cover">
-                    {coverLabel && <div class="book-preview__cover-label">{coverLabel}</div>}
-                    <div class="book-preview__cover-title">{title}</div>
-                    {subtitle && <div class="book-preview__cover-author">{subtitle}</div>}
-                </CoverFrame>
-            )}
+            <div class="book-preview__cover">
+                <BookCover
+                    title={title}
+                    subtitle={subtitle}
+                    label={coverLabel}
+                    imageUrl={coverImageUrl}
+                    imageAlt={coverImageAlt}
+                />
+            </div>
             <div class="book-preview__info">
                 {label && <div class="book-preview__info-label">{label}</div>}
-                <h3>{title}</h3>
+                <h2>{title}</h2>
                 {description && <p>{description}</p>}
                 {cta?.text && (
                     <Button
                         variant='solid-gold'
                         onTone='dark'
-                        href={cta.link ?? '/book'}
+                        href={cta.link ?? '/books'}
                         text={cta.text}
                         openInNewTab={cta.openInNewTab}
                     />

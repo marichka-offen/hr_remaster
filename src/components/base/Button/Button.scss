@@ -3,7 +3,7 @@
     align-items: center;
     gap: var(--space-3);
     min-height: var(--tap-target);
-    font-family: var(--tertiary-font);
+    font-family: var(--font-ui);
     font-weight: var(--weight-semibold);
     letter-spacing: var(--tracking-wider);
     text-transform: uppercase;
@@ -44,41 +44,41 @@
 
     // Variants
     &__variant--outline-gold {
-        color: var(--accent);
-        border: var(--border-thick) solid var(--accent);
+        color: var(--color-accent);
+        border: var(--border-thick) solid var(--color-accent);
         background: transparent;
 
         &:hover {
             background: var(--gold);
             border-color: var(--gold);
-            color: var(--navy);
+            color: var(--color-text-strong);
         }
     }
 
     &__variant--outline-navy {
-        color: var(--navy);
-        border: var(--border-thick) solid var(--navy);
+        color: var(--color-text-strong);
+        border: var(--border-thick) solid var(--color-text-strong);
         background: transparent;
 
         &:hover {
-            background: var(--navy);
-            color: var(--white);
+            background: var(--color-surface-dark);
+            color: var(--color-text-on-dark);
         }
     }
 
     &__variant--solid-navy {
-        color: var(--white);
-        background: var(--navy);
-        border: var(--border-thick) solid var(--navy);
+        color: var(--color-text-on-dark);
+        background: var(--color-surface-dark);
+        border: var(--border-thick) solid var(--color-surface-dark);
 
         &:hover {
-            background: var(--navy-light);
-            border-color: var(--navy-light);
+            background: var(--color-surface-dark-hover);
+            border-color: var(--color-surface-dark-hover);
         }
     }
 
     &__variant--solid-gold {
-        color: var(--navy);
+        color: var(--color-text-strong);
         background: var(--gold);
         border: var(--border-thick) solid var(--gold);
 
@@ -96,7 +96,7 @@
         padding-right: 0;
 
         &:hover {
-            color: var(--accent);
+            color: var(--color-accent);
         }
 
         svg {
@@ -111,7 +111,7 @@
     // Tone overrides
     &__tone--dark {
         &.button__variant--outline-gold {
-            color: var(--white);
+            color: var(--color-text-on-dark);
         }
 
         &.button__variant--text {

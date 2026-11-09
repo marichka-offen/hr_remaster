@@ -1,34 +1,75 @@
+@use '@tokens/mixins' as *;
+
 .mobile-nav {
     display: none;
-    position: fixed;
-    inset: 0;
-    background: var(--white);
-    z-index: var(--z-nav);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-6);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--duration-base) var(--ease-standard);
 
-    &--open {
+    @media (max-width: $bp-md) {
+        display: block;
+    }
+
+    &__toggle {
+        position: relative;
+        z-index: 1;
         display: flex;
-        opacity: 1;
-        pointer-events: all;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        width: var(--tap-target);
+        height: var(--tap-target);
+        cursor: pointer;
+
+        span {
+            display: block;
+            width: var(--space-5);
+            height: var(--border-rule);
+            background: var(--color-surface-dark);
+            transition: transform var(--transition), opacity var(--transition);
+        }
+
+        &--open {
+            span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            span:nth-child(2) { opacity: 0; }
+            span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        }
+    }
+
+    // Covers the page below the header, which stays visible with the close button
+    &__panel {
+        position: fixed;
+        inset: var(--header-offset) 0 0 0;
+        z-index: var(--z-nav);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-5);
+        background: var(--color-surface);
+        overflow-y: auto;
+
+        &[hidden] {
+            display: none;
+        }
     }
 
     &__link {
-        font-family: var(--secondary-font);
+        font-family: var(--font-display);
         font-size: var(--text-2xl);
-        color: var(--navy);
-        text-decoration: none;
-        letter-spacing: var(--tracking-normal);
-        transition: color var(--transition);
         font-weight: var(--weight-bold);
+        color: var(--color-text-strong);
+        min-height: var(--tap-target);
+        display: inline-flex;
+        align-items: center;
+        border-bottom: var(--border-rule) solid transparent;
+        transition: var(--transition-colors);
 
-        &:hover {
-            color: var(--accent);
+        &:hover,
+        &--active {
+            color: var(--color-accent);
+        }
+
+        &--active {
+            border-bottom-color: var(--color-accent);
         }
     }
 }

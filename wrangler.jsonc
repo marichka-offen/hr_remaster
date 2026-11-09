@@ -1,0 +1,18 @@
+// Cloudflare Workers configuration. The site is static files served by Cloudflare; the Worker only
+// runs for pages rendered on request (the Storyblok preview) and the contact form endpoint.
+// https://docs.astro.build/en/guides/integrations-guide/cloudflare/
+{
+    "name": "history-reconsidered",
+    "main": "./dist/_worker.js/index.js",
+    "compatibility_date": "2026-10-01",
+    // Node APIs used by the preview: AsyncLocalStorage (per-request drafts) and crypto (signature check)
+    "compatibility_flags": ["nodejs_compat"],
+    "assets": {
+        "binding": "ASSETS",
+        "directory": "./dist"
+    },
+    // Sends contact form messages to a verified address (Cloudflare Email Routing). The recipient and
+    // sender addresses are environment variables, not committed here
+    "send_email": [{ "name": "CONTACT_EMAIL" }],
+    "observability": { "enabled": true }
+}

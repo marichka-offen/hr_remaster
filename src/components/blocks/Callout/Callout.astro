@@ -1,0 +1,16 @@
+---
+import type { CalloutBlock } from '@app-types/content'
+import './Callout.scss'
+
+type Props = Omit<CalloutBlock, 'type'>
+
+const { variant, title, text } = Astro.props
+
+// Shown when no title is given, so the box always says what kind of aside it is
+const defaultTitle = { note: 'Note', insight: 'An open question', reading: 'How to read this article' }[variant]
+---
+
+<aside class={`callout callout--${variant}`}>
+    <p class="callout__title">{title ?? defaultTitle}</p>
+    <p class="callout__text">{text}</p>
+</aside>

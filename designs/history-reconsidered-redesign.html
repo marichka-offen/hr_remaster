@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>History Reconsidered — Redesign Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2332;
+    --navy-light: #243044;
+    --gold: #c4973b;
+    --gold-light: #d4ab54;
+    --burgundy: #8b2635;
+    --burgundy-light: #a63245;
+    --parchment: #f5f0e8;
+    --parchment-dark: #e8e0d2;
+    --text: #2d2d2d;
+    --text-light: #5a5a5a;
+    --text-muted: #8a8275;
+    --white: #fefcf9;
+    --shadow-sm: 0 1px 3px rgba(26,35,50,0.08);
+    --shadow-md: 0 4px 12px rgba(26,35,50,0.1);
+    --shadow-lg: 0 8px 30px rgba(26,35,50,0.12);
+    --shadow-hover: 0 12px 40px rgba(26,35,50,0.15);
+    --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--text);
+    background: var(--parchment);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ========== SKIP LINK ========== */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 16px;
+    background: var(--navy);
+    color: var(--white);
+    padding: 8px 16px;
+    z-index: 1000;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    border-radius: 0 0 4px 4px;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* ========== HEADER ========== */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(254, 252, 249, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196, 151, 59, 0.15);
+    transition: var(--transition);
+  }
+
+  header.scrolled {
+    box-shadow: var(--shadow-md);
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--navy);
+  }
+  .logo-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+  .logo-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-decoration: none;
+    position: relative;
+    padding: 4px 0;
+    transition: color var(--transition);
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width var(--transition);
+  }
+  nav a:hover { color: var(--gold); }
+  nav a:hover::after { width: 100%; }
+
+  .nav-search {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--navy);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    color: var(--navy);
+  }
+  .nav-search:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .nav-search svg { width: 16px; height: 16px; }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 200;
+  }
+  .hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--navy);
+    transition: var(--transition);
+    display: block;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* Mobile nav overlay */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--white);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .mobile-nav.open { opacity: 1; pointer-events: all; }
+  .mobile-nav a {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--navy);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color var(--transition);
+  }
+  .mobile-nav a:hover { color: var(--gold); }
+
+  /* ========== HERO ========== */
+  .hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 72px;
+    background: var(--navy);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(26,35,50,0.88) 0%, rgba(26,35,50,0.6) 50%, rgba(139,38,53,0.7) 100%),
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(196,151,59,0.06)" stroke-width="1"/></pattern></defs><rect width="400" height="400" fill="url(%23grid)"/></svg>');
+    background-size: cover, 200px 200px;
+  }
+
+  .hero-texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 48px 24px;
+    max-width: 800px;
+  }
+
+  .hero-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    font-weight: 600;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .hero-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.5vw, 24px);
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .hero-quote-author {
+    display: block;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--gold);
+    margin-top: 12px;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    border: 1.5px solid var(--gold);
+    padding: 14px 36px;
+    transition: var(--transition);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .hero-cta:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .hero-cta svg { width: 16px; height: 16px; transition: transform var(--transition); }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+  .scroll-indicator::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    margin: 0 auto;
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* ========== SECTION SHARED ========== */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .section-line {
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin: 20px auto 0;
+  }
+
+  /* ========== FEATURED ARTICLE ========== */
+  .featured {
+    background: var(--white);
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--navy);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+  }
+  .featured-card:hover { box-shadow: var(--shadow-hover); }
+
+  .featured-image {
+    position: relative;
+    min-height: 400px;
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--burgundy) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .featured-image-placeholder {
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    font-weight: 800;
+    color: rgba(196,151,59,0.1);
+    line-height: 1;
+    user-select: none;
+  }
+  .featured-image-overlay {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    background: rgba(26,35,50,0.8);
+    padding: 6px 14px;
+    backdrop-filter: blur(4px);
+  }
+
+  .featured-body {
+    padding: 56px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .featured-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .featured-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .featured-excerpt {
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .featured-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .featured-meta span { display: flex; align-items: center; gap: 6px; }
+  .featured-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  .featured-link svg { width: 16px; height: 16px; transition: transform var(--transition); }
+  .featured-link:hover { color: var(--gold-light); }
+  .featured-link:hover svg { transform: translateX(6px); }
+
+  /* ========== ARTICLES GRID ========== */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .article-card {
+    background: var(--white);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .article-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-4px);
+  }
+
+  .article-card-image {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+  .article-card-image-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s ease;
+  }
+  .article-card:hover .article-card-image-inner { transform: scale(1.05); }
+
+  .card-img-1 { background: linear-gradient(135deg, #2a3a52 0%, #4a3040 100%); }
+  .card-img-2 { background: linear-gradient(135deg, #3a4a32 0%, #2a3a52 100%); }
+  .card-img-3 { background: linear-gradient(135deg, #4a3040 0%, #3a2a20 100%); }
+  .card-img-4 { background: linear-gradient(135deg, #2a3040 0%, #3a4a52 100%); }
+  .card-img-5 { background: linear-gradient(135deg, #3a3040 0%, #2a4a52 100%); }
+  .card-img-6 { background: linear-gradient(135deg, #4a3a32 0%, #2a3040 100%); }
+
+  .article-card-image-inner span {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    font-weight: 800;
+    color: rgba(196,151,59,0.12);
+    user-select: none;
+  }
+
+  .article-card-category {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--white);
+    background: rgba(26,35,50,0.75);
+    padding: 4px 10px;
+    backdrop-filter: blur(4px);
+  }
+
+  .article-card-body { padding: 24px; }
+
+  .article-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.3;
+    margin-bottom: 12px;
+    transition: color var(--transition);
+  }
+  .article-card:hover .article-card-title { color: var(--burgundy); }
+
+  .article-card-excerpt {
+    font-size: 16px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .article-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-top: 16px;
+    border-top: 1px solid var(--parchment-dark);
+  }
+
+  /* ========== ABOUT SECTION ========== */
+  .about-section {
+    background: var(--white);
+    border-top: 1px solid var(--parchment-dark);
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .about-image {
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-image::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(196,151,59,0.2);
+  }
+  .about-image-initials {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    font-weight: 800;
+    color: rgba(196,151,59,0.15);
+    user-select: none;
+  }
+
+  .about-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .about-text .about-role {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .about-text p {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .about-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    text-decoration: none;
+    margin-top: 8px;
+    transition: var(--transition);
+  }
+  .about-link svg { width: 16px; height: 16px; transition: transform var(--transition); }
+  .about-link:hover { color: var(--gold); }
+  .about-link:hover svg { transform: translateX(6px); }
+
+  /* ========== BOOK CTA ========== */
+  .book-section {
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+  .book-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  }
+
+  .book-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 64px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .book-cover {
+    background: linear-gradient(135deg, var(--burgundy) 0%, #5a1520 100%);
+    aspect-ratio: 2/3;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 8px 8px 30px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .book-cover::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(196,151,59,0.25);
+  }
+  .book-cover-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .book-cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+    position: relative;
+    z-index: 1;
+  }
+  .book-cover-author {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .book-info {
+    color: var(--white);
+  }
+  .book-info .section-label { color: var(--gold); margin-bottom: 12px; }
+  .book-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+  .book-info p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .book-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--gold);
+    text-decoration: none;
+    padding: 14px 32px;
+    transition: var(--transition);
+  }
+  .book-cta:hover { background: var(--gold-light); }
+
+  /* ========== FOOTER ========== */
+  footer {
+    background: #131a24;
+    color: rgba(255,255,255,0.4);
+    padding: 56px 24px 32px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+  }
+  .footer-brand .logo-title { color: var(--white); font-size: 18px; }
+  .footer-brand .logo-subtitle { margin-bottom: 16px; }
+  .footer-brand p {
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 320px;
+  }
+  .footer-col h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .footer-col a {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    padding: 6px 0;
+    transition: color var(--transition);
+  }
+  .footer-col a:hover { color: var(--white); }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 1024px) {
+    .articles-grid { grid-template-columns: repeat(2, 1fr); }
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-image { min-height: 280px; }
+    .book-inner { grid-template-columns: 200px 1fr; gap: 40px; }
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .hamburger { display: flex; }
+    .mobile-nav { display: flex; }
+
+    .hero { min-height: 70vh; }
+    .hero-title { letter-spacing: 0; }
+
+    .section { padding: 56px 20px; }
+
+    .articles-grid { grid-template-columns: 1fr; gap: 24px; }
+    .article-card-image { height: 180px; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .about-image { max-width: 240px; aspect-ratio: 1; }
+
+    .book-inner { grid-template-columns: 1fr; text-align: center; }
+    .book-cover { max-width: 200px; margin: 0 auto; }
+
+    .featured-body { padding: 32px 24px; }
+
+    .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+
+  @media (max-width: 480px) {
+    .header-inner { height: 60px; }
+    .logo-title { font-size: 18px; }
+    .hero { margin-top: 60px; }
+    .featured-body { padding: 28px 20px; }
+  }
+
+  /* ========== DESIGN NOTE BADGE ========== */
+  .design-note {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    padding: 12px 20px;
+    border-radius: 2px;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    letter-spacing: 1px;
+    border-left: 3px solid var(--gold);
+    max-width: 280px;
+    line-height: 1.5;
+  }
+  .design-note strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span class="logo-title">History Reconsidered</span>
+      <span class="logo-subtitle">Military History &amp; Research</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#">Home</a>
+      <a href="#">Articles</a>
+      <a href="#">Book</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <button class="nav-search" aria-label="Search">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </nav>
+    <button class="hamburger" aria-label="Open menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#" onclick="toggleMenu()">Home</a>
+  <a href="#" onclick="toggleMenu()">Articles</a>
+  <a href="#" onclick="toggleMenu()">Book</a>
+  <a href="#" onclick="toggleMenu()">About</a>
+  <a href="#" onclick="toggleMenu()">Contact</a>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-texture"></div>
+  <div class="hero-content">
+    <div class="hero-label">Est. 2010 · Military History Journal</div>
+    <h1 class="hero-title">History<br>Reconsidered</h1>
+    <div class="hero-divider"></div>
+    <blockquote class="hero-quote">
+      "The further backward you look, the further forward you can see."
+      <span class="hero-quote-author">— Winston Churchill</span>
+    </blockquote>
+    <a href="#articles" class="hero-cta">
+      Explore Articles
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="scroll-indicator"></div>
+</section>
+
+<!-- FEATURED ARTICLE -->
+<section class="featured">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">Featured</div>
+      <h2 class="section-title">Latest Research</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="featured-card">
+      <div class="featured-image">
+        <span class="featured-image-placeholder">1914</span>
+        <div class="featured-image-overlay">Featured Article</div>
+      </div>
+      <div class="featured-body">
+        <span class="featured-tag">European Military History · WWI Era</span>
+        <h3 class="featured-title">The Czechoslovak Legion, 1914–1920</h3>
+        <p class="featured-excerpt">The extraordinary story of Czech and Slovak immigrants who formed a military organization under Russian officers — and earned nationhood for the Czechoslovak people through an epic 4,000-mile journey across Russia.</p>
+        <div class="featured-meta">
+          <span>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            15 min read
+          </span>
+          <span>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            By Lee Offen
+          </span>
+        </div>
+        <a href="#" class="featured-link">
+          Read Article
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLES GRID -->
+<section id="articles">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">Archive</div>
+      <h2 class="section-title">History Articles</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="articles-grid">
+      <a href="#" class="article-card">
+        <div class="article-card-image">
+          <div class="article-card-image-inner card-img-1"><span>1775</span></div>
+          <div class="article-card-category">American Revolution</div>
+        </div>
+        <div class="article-card-body">
+          <h3 class="article-card-title">Gooch's American Regiment, 1740–1742</h3>
+          <p class="article-card-excerpt">A reconsideration of one of the earliest American military formations and its significance in colonial military history.</p>
+          <div class="article-card-meta">
+            <span>8 min read</span>
+            <span>Kent Militia</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="article-card">
+        <div class="article-card-image">
+          <div class="article-card-image-inner card-img-2"><span>MD</span></div>
+          <div class="article-card-category">Colonial America</div>
+        </div>
+        <div class="article-card-body">
+          <h3 class="article-card-title">Maryland in the Colonial Era</h3>
+          <p class="article-card-excerpt">Exploring the rich military heritage of Maryland from its founding through the Revolutionary period.</p>
+          <div class="article-card-meta">
+            <span>10 min read</span>
+            <span>Colonial History</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="article-card">
+        <div class="article-card-image">
+          <div class="article-card-image-inner card-img-3"><span>IRL</span></div>
+          <div class="article-card-category">European History</div>
+        </div>
+        <div class="article-card-body">
+          <h3 class="article-card-title">Irish Military History</h3>
+          <p class="article-card-excerpt">The long and complex military tradition of Ireland, from ancient warriors to modern conflicts.</p>
+          <div class="article-card-meta">
+            <span>12 min read</span>
+            <span>Irish History</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="article-card">
+        <div class="article-card-image">
+          <div class="article-card-image-inner card-img-4"><span>NL</span></div>
+          <div class="article-card-category">European History</div>
+        </div>
+        <div class="article-card-body">
+          <h3 class="article-card-title">Dutch Military Heritage</h3>
+          <p class="article-card-excerpt">The Netherlands' often overlooked but significant contributions to European military history.</p>
+          <div class="article-card-meta">
+            <span>9 min read</span>
+            <span>Dutch History</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="article-card">
+        <div class="article-card-image">
+          <div class="article-card-image-inner card-img-5"><span>SCT</span></div>
+          <div class="article-card-category">British Isles</div>
+        </div>
+        <div class="article-card-body">
+          <h3 class="article-card-title">Scottish Military Traditions</h3>
+          <p class="article-card-excerpt">From Highland clans to renowned regiments — the martial heritage that shaped Scotland.</p>
+          <div class="article-card-meta">
+            <span>11 min read</span>
+            <span>Scottish History</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="article-card">
+        <div class="article-card-image">
+          <div class="article-card-image-inner card-img-6"><span>HUS</span></div>
+          <div class="article-card-category">Medieval History</div>
+        </div>
+        <div class="article-card-body">
+          <h3 class="article-card-title">The Hussites</h3>
+          <p class="article-card-excerpt">The revolutionary military tactics and religious fervor of the Hussite Wars in 15th century Bohemia.</p>
+          <div class="article-card-meta">
+            <span>14 min read</span>
+            <span>Medieval</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="section">
+    <div class="about-grid">
+      <div class="about-image">
+        <span class="about-image-initials">LO</span>
+      </div>
+      <div class="about-text">
+        <h3>Lee Offen</h3>
+        <span class="about-role">Military Historian &amp; Retired Soldier</span>
+        <p>A lifelong student of military history and a retired soldier, Lee brings both academic rigor and personal experience to his writing. Every article is thoroughly sourced, respecting the intelligence of the reader.</p>
+        <p>History Reconsidered examines significant historical decisions and actions that deserve another look — events that have never been examined or haven't been examined thoroughly enough.</p>
+        <a href="#" class="about-link">
+          Read Full Bio
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section class="book-section">
+  <div class="section">
+    <div class="book-inner">
+      <div class="book-cover">
+        <div class="book-cover-label">Forthcoming</div>
+        <div class="book-cover-title">None Shall Pass Us by in Silence</div>
+        <div class="book-cover-author">The Czechoslovak Legion, 1914–1920</div>
+      </div>
+      <div class="book-info">
+        <div class="section-label">Upcoming Book</div>
+        <h3>None Shall Pass Us by in Silence</h3>
+        <p>The full story of the Czechoslovak Legion — a military formation that fought across 4,000 miles of Russia, captured the imagination of Allied nations, and earned nationhood for the Czechoslovak people.</p>
+        <a href="#" class="book-cta">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">
+        <span class="logo-title">History Reconsidered</span>
+        <span class="logo-subtitle">Military History &amp; Research</span>
+      </div>
+      <p>Reconsidering significant historical decisions and actions with rigorous research and source-supported analysis.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <a href="#">Home</a>
+      <a href="#">Articles</a>
+      <a href="#">Book</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Topics</h4>
+      <a href="#">Colonial History</a>
+      <a href="#">European Wars</a>
+      <a href="#">British Isles</a>
+      <a href="#">Medieval</a>
+      <a href="#">World War I</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2010–2026 History Reconsidered, LLC</span>
+    <span>All rights reserved</span>
+  </div>
+</footer>
+
+<div class="design-note">
+  <strong>Redesign Concept</strong> — This is a prototype. Images shown as placeholders would be replaced with historical photographs.
+</div>
+
+<script>
+  // Header scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Mobile menu toggle
+  function toggleMenu() {
+    document.querySelector('.hamburger').classList.toggle('active');
+    document.getElementById('mobileNav').classList.toggle('open');
+    document.body.style.overflow = document.getElementById('mobileNav').classList.contains('open') ? 'hidden' : '';
+  }
+
+  // Simple scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.article-card, .featured-card, .about-grid, .book-inner').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>

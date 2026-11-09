@@ -6,10 +6,11 @@
     left: 0;
     right: 0;
     z-index: var(--z-header);
-    background: var(--surface-header);
+    background: var(--color-surface-header);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: var(--border-thin) solid var(--gold-border);
+    transition: box-shadow var(--transition);
 
     &__inner {
         max-width: var(--container-lg);
@@ -18,56 +19,43 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: var(--header-height);
+        height: var(--header-offset);
+        transition: height var(--transition);
     }
 
     &__nav {
         display: flex;
         align-items: center;
         gap: var(--space-6);
-
-        &-search {
-            width: var(--tap-target);
-            height: var(--tap-target);
-            transition: background-color var(--transition);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-        }
-
-        &-mobile {
-            display: none;
-        }
+        margin-left: auto;
 
         @media (max-width: $bp-md) {
             display: none;
-
-            &-mobile {
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-                width: var(--tap-target);
-                height: var(--tap-target);
-                justify-content: center;
-                align-items: center;
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: var(--space-1);
-
-                span {
-                    display: block;
-                    width: var(--space-5);
-                    height: var(--border-rule);
-                    background: var(--navy);
-                    transition: transform var(--transition), opacity var(--transition);
-                }
-
-                &--active {
-                    span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-                    span:nth-child(2) { opacity: 0; }
-                    span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-                }
-            }
         }
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-left: var(--space-5);
+    }
+
+    // Slim state: shorter bar, smaller logo, a soft shadow to lift it off the page
+    :root[data-scrolled] & {
+        box-shadow: var(--shadow-sm);
+
+        .logo__title {
+            font-size: var(--text-md);
+        }
+
+        .logo__subtitle {
+            font-size: 0.6875rem;
+        }
+    }
+
+    .logo__title,
+    .logo__subtitle {
+        transition: font-size var(--transition);
     }
 }

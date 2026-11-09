@@ -1,0 +1,155 @@
+@use '@tokens/mixins' as *;
+
+.toc {
+    font-family: var(--font-ui);
+
+    &__label {
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+        letter-spacing: var(--tracking-wider);
+        text-transform: uppercase;
+        color: var(--color-accent);
+        margin-bottom: var(--space-4);
+    }
+
+    &__list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        border-left: var(--border-thin) solid var(--color-border);
+    }
+
+    &__item {
+        max-inline-size: none;
+
+        &--level-3 .toc__link {
+            padding-left: var(--space-6);
+            font-size: var(--text-xs);
+        }
+    }
+
+    &__link {
+        display: block;
+        font-size: var(--text-sm);
+        line-height: var(--leading-tight);
+        color: var(--color-text-secondary);
+        padding: var(--space-2) var(--space-4);
+        margin-left: calc(-1 * var(--border-thin));
+        border-left: var(--border-rule) solid transparent;
+        transition: var(--transition-colors);
+
+        &:hover {
+            color: var(--color-text-strong);
+        }
+
+        &[aria-current='location'] {
+            color: var(--color-text-strong);
+            font-weight: var(--weight-semibold);
+            border-left-color: var(--color-accent);
+        }
+    }
+
+    // Desktop: sticky column beside the text
+    &--sidebar {
+        display: none;
+        position: sticky;
+        top: calc(var(--header-offset) + var(--space-6));
+        max-height: calc(100vh - var(--header-offset) - var(--space-8));
+        transition: top var(--transition);
+        overflow-y: auto;
+        z-index: var(--z-sticky);
+
+        @media (min-width: $bp-xl) {
+            display: block;
+        }
+    }
+
+    // Phones and tablets: a button that opens a drawer
+    &__toggle {
+        position: fixed;
+        left: var(--gutter);
+        bottom: calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
+        z-index: var(--z-sticky);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        min-height: var(--tap-target);
+        padding: 0 var(--space-5);
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+        letter-spacing: var(--tracking-wider);
+        text-transform: uppercase;
+        color: var(--color-text-on-dark);
+        background: var(--color-surface-dark);
+        box-shadow: var(--shadow-lg);
+        cursor: pointer;
+
+        svg {
+            width: var(--icon-md);
+            height: var(--icon-md);
+        }
+
+        @media (min-width: $bp-xl) {
+            display: none;
+        }
+    }
+
+    &__overlay {
+        position: fixed;
+        inset: 0;
+        z-index: var(--z-overlay);
+        background: var(--color-surface-overlay);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--transition);
+
+        &--open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
+
+    &--drawer {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: var(--z-drawer);
+        width: min(20rem, 85vw);
+        overflow-y: auto;
+        background: var(--color-bg);
+        padding: var(--space-5) var(--space-5) calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
+        box-shadow: var(--shadow-lg);
+
+        .toc__link {
+            min-height: var(--tap-target);
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &__drawer-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-2);
+
+        .toc__label {
+            margin-bottom: 0;
+        }
+    }
+
+    &__close {
+        width: var(--tap-target);
+        height: var(--tap-target);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-strong);
+        cursor: pointer;
+
+        svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    }
+}

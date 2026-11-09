@@ -1,0 +1,31 @@
+---
+import type { FactCardsBlock } from '@app-types/content'
+import './FactCards.scss'
+
+type Props = Omit<FactCardsBlock, 'type'>
+
+const { cards } = Astro.props
+---
+
+<ul class="fact-cards">
+    {cards.map((card) => (
+        <li class="fact-card">
+            <div class="fact-card__head">
+                {card.badge && <span class="fact-card__badge">{card.badge}</span>}
+                <p class="fact-card__title">{card.title}</p>
+                {card.meta && <p class="fact-card__meta">{card.meta}</p>}
+            </div>
+            {card.rows?.length ? (
+                <dl class="fact-card__rows">
+                    {card.rows.map((row) => (
+                        <div class="fact-card__row">
+                            <dt>{row.label}</dt>
+                            <dd>{row.value}</dd>
+                        </div>
+                    ))}
+                </dl>
+            ) : null}
+            {card.text && <p class="fact-card__text">{card.text}</p>}
+        </li>
+    ))}
+</ul>

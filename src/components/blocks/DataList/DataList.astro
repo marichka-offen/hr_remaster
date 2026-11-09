@@ -1,0 +1,41 @@
+---
+import type { DataListBlock } from '@app-types/content'
+import './DataList.scss'
+
+type Props = Omit<DataListBlock, 'type'>
+
+const { title, note, bars = false, rows, total } = Astro.props
+
+const format = (value: string | number) => (typeof value === 'number' ? value.toLocaleString('en-US') : value)
+
+// Bars are scaled to the largest numeric value in the list
+const max = Math.max(0, ...rows.map((row) => (typeof row.value === 'number' ? row.value : 0)))
+const width = (value: string | number) => (typeof value === 'number' && max > 0 ? `${(value / max) * 100}%` : '0%')
+---
+
+<figure class="data-list">
+    <figcaption class="data-list__title">{title}</figcaption>
+    <dl class="data-list__rows">
+        {rows.map((row) => (
+            <div class={`data-list__row${bars ? ' data-list__row--bar' : ''}`}>
+                <dt class="data-list__label">
+                    {row.label}
+                    {row.detail && <span class="data-list__detail">{row.detail}</span>}
+                </dt>
+                <dd class="data-list__value">{format(row.value)}</dd>
+                {bars && (
+                    <div class="data-list__bar" aria-hidden="true">
+                        <span style={`width: ${width(row.value)}`} />
+                    </div>
+                )}
+            </div>
+        ))}
+        {total && (
+            <div class="data-list__row data-list__row--total">
+                <dt class="data-list__label">{total.label}</dt>
+                <dd class="data-list__value">{format(total.value)}</dd>
+            </div>
+        )}
+    </dl>
+    {note && <p class="data-list__note">{note}</p>}
+</figure>

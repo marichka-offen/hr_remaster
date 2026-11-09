@@ -2,7 +2,7 @@
 
 .author-bio {
     &__hero {
-        background: var(--navy);
+        background: var(--color-surface-dark);
         @include on-dark;
         position: relative;
         overflow: hidden;
@@ -63,19 +63,18 @@
     }
 
     &__name {
-        font-family: var(--secondary-font);
         font-size: var(--text-3xl);
         font-weight: var(--weight-bold);
-        color: var(--white);
+        color: var(--color-text-on-dark);
         line-height: var(--leading-tight);
         margin-bottom: var(--space-2);
     }
 
     &__role {
-        font-family: var(--primary-font);
+        font-family: var(--font-quote);
         font-style: italic;
         font-size: var(--text-md);
-        color: var(--text-on-dark-muted);
+        color: var(--color-text-on-dark-muted);
         margin-bottom: var(--space-5);
     }
 
@@ -88,13 +87,13 @@
 
     &__bio {
         font-size: var(--text-md);
-        color: var(--text-on-dark-secondary);
+        color: var(--color-text-on-dark-secondary);
         line-height: var(--leading-relaxed);
         margin-bottom: var(--space-4);
     }
 
     &__credentials {
-        background: var(--parchment);
+        background: var(--color-bg);
         padding: var(--section-y) 0;
     }
 
