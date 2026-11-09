@@ -92,6 +92,7 @@
         margin-block: var(--space-6);
 
         p {
+            white-space: pre-line;
             font-family: var(--font-quote);
             font-style: italic;
             font-size: var(--text-lg);
