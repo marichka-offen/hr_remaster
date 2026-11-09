@@ -2,6 +2,7 @@
 import '@tokens/tokens.css'
 import '@tokens/base.css'
 import '@tokens/print.css'
+import { isProductionSite } from '@lib/seo'
 
 const SITE_NAME = 'History Reconsidered'
 
@@ -32,6 +33,7 @@ const {
 // "Page — History Reconsidered", except on the home page, whose title is already the site name
 const fullTitle = title === SITE_NAME ? title : `${title} — ${SITE_NAME}`
 const canonical = new URL(Astro.url.pathname, Astro.site).href
+const hideFromSearch = noindex || !isProductionSite(Astro.site)
 const imageUrl = new URL(ogImage, Astro.site).href
 ---
 
@@ -42,7 +44,7 @@ const imageUrl = new URL(ogImage, Astro.site).href
         <title>{fullTitle}</title>
         <meta name='description' content={description} />
         <link rel='canonical' href={canonical} />
-        {noindex && <meta name='robots' content='noindex, nofollow' />}
+        {hideFromSearch && <meta name='robots' content='noindex, nofollow' />}
         <link rel='sitemap' href='/sitemap-index.xml' />
         <link rel='icon' href='/favicon.svg' type='image/svg+xml' />
 
