@@ -43,7 +43,9 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 
 ### After launch
 
-- [ ] Move the domain's DNS to Cloudflare, add it to the Worker as a custom domain, and update `SITE_URL`
+- [x] Move historiesreconsidered.com's DNS to Cloudflare (done 2026-11-08; Squarespace still holds the registration)
+- [ ] Launch: add historiesreconsidered.com and www to the Worker as custom domains, redirect www to the bare domain, set `SITE_URL` to `https://historiesreconsidered.com` and redeploy. Until then every page is marked noindex (see `isProductionSite` in src/lib/seo.ts)
+- [ ] Transfer both domains from Squarespace to Cloudflare Registrar in December or early January (they expire in February); turn off Squarespace auto-renew once each transfer completes
 - [ ] Contact form: enable Email Routing, verify the receiving address, set `CONTACT_FROM` and `CONTACT_TO`, then send a test message
 - [ ] Add the site to Google Search Console and Bing Webmaster Tools; submit `sitemap-index.xml`
 - [ ] Test a few articles and a book in Google's Rich Results Test

@@ -7,6 +7,14 @@ import type { Book } from '@app-types/book'
 
 const SITE_NAME = 'History Reconsidered'
 
+// The real domain. On any other address (the workers.dev preview, localhost) every page asks search
+// engines not to index it, so placeholder content can't end up in search results under a temporary
+// address. This switches itself off once SITE_URL is set to the domain at launch
+const PRODUCTION_HOST = 'historiesreconsidered.com'
+
+export const isProductionSite = (site: URL | undefined) =>
+    site?.hostname === PRODUCTION_HOST || site?.hostname === `www.${PRODUCTION_HOST}`
+
 const absolute = (path: string, site: URL | undefined) => new URL(path, site).href
 
 const organization = (site: URL | undefined) => ({
