@@ -16,6 +16,16 @@
     --charcoal: #2d2d2d;
     --stone: #675f53;
 
+    /* Period colours: one per era, for article headers, card bands and reading paths.
+       Each passes 4.5:1 with ivory text on top */
+    --era-1400: #4f6d7a;  /* 1400s */
+    --era-1500: #7d5c17;  /* 1500s */
+    --era-1600: #2b3f63;  /* 1600-1649 */
+    --era-1650: #8b2635;  /* 1650-1699 */
+    --era-1700: #5a1520;  /* 1700s and 1800s */
+    --era-1900: #243044;  /* 1900s */
+    --color-era-text: #f0d9a8;  /* years printed on a period band */
+
     /* ---- Colour roles: what components reach for. Contrast figures are against --color-bg ---- */
     --color-bg: var(--parchment);
     --color-surface: var(--ivory);              /* cards, inputs, raised panels */
@@ -74,7 +84,9 @@
     /* Font families, named by role */
     --font-body: 'Literata', 'Literata Fallback', Georgia, serif;
     --font-display: 'Playfair Display', 'Playfair Display Fallback', Georgia, serif;
-    --font-quote: 'Cormorant Garamond', 'Cormorant Garamond Fallback', Georgia, serif;
+    /* Discarded in the redesign: quotes now use Literata italic. Kept as an alias until every component
+       refers to --font-body directly */
+    --font-quote: var(--font-body);
     --font-ui: 'DM Sans', 'DM Sans Fallback', system-ui, sans-serif;
 
     /* Type scale. Fluid sizes run between 360px and 1200px viewports */
@@ -99,6 +111,7 @@
     --tracking-tight: -0.02em;
     --tracking-normal: 0;
     --tracking-wide: 0.08em;
+    /* Discarded in the redesign (spaced uppercase labels): remove once the last components move off them */
     --tracking-wider: 0.16em;
     --tracking-widest: 0.3em;
 

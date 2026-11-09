@@ -1,0 +1,140 @@
+@use '@tokens/mixins' as *;
+
+.books-section {
+    &__inner {
+        max-width: var(--container-lg);
+        margin: 0 auto;
+        padding: var(--section-y) var(--gutter);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+    }
+
+    &__feature {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        background: var(--navy);
+        @include on-dark;
+        color: var(--color-text-on-dark);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+
+        @media (max-width: $bp-md) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    &__feature-cover {
+        background: var(--navy-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-7);
+    }
+
+    &__feature-body {
+        padding: var(--space-8) var(--space-7);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--space-3);
+
+        @media (max-width: $bp-md) {
+            padding: var(--space-6) var(--gutter);
+        }
+    }
+
+    &__feature-label {
+        font-family: var(--font-ui);
+        font-size: var(--text-sm);
+        font-weight: var(--weight-semibold);
+        color: var(--gold);
+    }
+
+    &__feature-title {
+        font-size: var(--text-2xl);
+        line-height: var(--leading-tight);
+        color: var(--color-text-on-dark);
+    }
+
+    &__feature-subtitle {
+        font-style: italic;
+        color: var(--color-text-on-dark-secondary);
+    }
+
+    &__feature-text {
+        font-size: var(--text-md);
+        line-height: var(--leading-relaxed);
+        color: var(--color-text-on-dark-secondary);
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+        gap: var(--space-5);
+    }
+
+    &__card {
+        display: flex;
+        flex-direction: column;
+        background: var(--color-surface);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+
+    &__card-cover {
+        background: var(--color-border);
+        padding: var(--space-6);
+        display: flex;
+        justify-content: center;
+
+        .book-cover {
+            width: 8rem;
+        }
+    }
+
+    &__card-body {
+        padding: var(--space-5);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        flex: 1;
+    }
+
+    &__card-label {
+        font-family: var(--font-ui);
+        font-size: var(--text-sm);
+        font-weight: var(--weight-semibold);
+        color: var(--color-accent);
+    }
+
+    &__card-title {
+        font-size: var(--text-lg);
+        color: var(--color-text-strong);
+    }
+
+    &__card-subtitle {
+        font-style: italic;
+        font-size: var(--text-sm);
+        color: var(--color-text-secondary);
+    }
+
+    &__link {
+        margin-top: auto;
+        align-self: flex-start;
+        padding: var(--space-2) 0;
+        font-family: var(--font-ui);
+        font-size: var(--text-base);
+        font-weight: var(--weight-semibold);
+        color: var(--color-text-strong);
+        text-decoration: underline;
+        text-decoration-color: var(--gold);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 6px;
+
+        &--dark {
+            color: var(--color-text-on-dark);
+        }
+    }
+}

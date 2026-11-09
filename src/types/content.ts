@@ -2,6 +2,7 @@
 // so components never see a CMS-specific format.
 
 import type { ArticleMeta } from './article'
+import type { BookMeta } from './book'
 import type { CTA } from './cta'
 
 // Set only in Storyblok draft content: lets the Visual Editor outline a block and open it on click
@@ -130,14 +131,18 @@ export type CredentialIcon = 'star' | 'graduation-cap' | 'book-open' | 'shield' 
 export type Section = Editable & (
     | {
           _type: 'hero'
+          // Short line above the title, e.g. "Military history from the sources"
           label?: string
           title: string
-          quote?: string
-          quoteAuthor?: string
+          text?: string
           imageUrl?: string
           imageAlt?: string
+          imageCaption?: string
           cta?: CTA
+          secondaryCta?: CTA
       }
+    // Groups of articles that follow one story across decades, each read in date order
+    | { _type: 'readingPaths'; heading?: string; intro?: string; paths: { title: string; articles: ArticleMeta[] }[] }
     | { _type: 'featured'; label?: string; heading?: string; article: ArticleMeta }
     | {
           _type: 'articleGrid'
@@ -149,14 +154,20 @@ export type Section = Editable & (
       }
     | {
           _type: 'authorCard'
+          label?: string
           name: string
           role?: string
           bio?: RichText
           imageUrl?: string
           imageAlt?: string
           initials?: string
+          imageCaption?: string
+          // Short lines such as "Retired U.S. Army Major", shown as a list
+          credentials?: string[]
           cta?: CTA
       }
+    // The forthcoming book as a feature, then the published books
+    | { _type: 'books'; heading?: string; cta?: CTA; books: BookMeta[] }
     | {
           _type: 'bookPromo'
           label?: string

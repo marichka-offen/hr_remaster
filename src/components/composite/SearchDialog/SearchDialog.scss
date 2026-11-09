@@ -1,24 +1,55 @@
 @use '@tokens/mixins' as *;
 
+// A labelled box on wide screens ("Search the archive"), an icon button on phones
 .search-trigger {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: var(--tap-target);
-    height: var(--tap-target);
-    border-radius: var(--radius-full);
-    color: var(--color-text-strong);
+    gap: var(--space-3);
+    min-height: var(--tap-target);
+    min-width: 14rem;
+    padding: 0 var(--space-4);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg);
+    color: var(--color-text-secondary);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
     cursor: pointer;
     transition: var(--transition-colors);
 
     svg {
-        width: 1.25rem;
-        height: 1.25rem;
+        flex: none;
+        width: 1.125rem;
+        height: 1.125rem;
     }
 
     &:hover {
-        background: var(--color-surface-dark);
-        color: var(--color-text-on-dark);
+        border-color: var(--color-border-strong);
+        color: var(--color-text-strong);
+    }
+
+    @media (max-width: $bp-md) {
+        min-width: 0;
+        width: var(--tap-target);
+        padding: 0;
+        justify-content: center;
+        border-color: transparent;
+        background: transparent;
+        color: var(--color-text-strong);
+
+        svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        &__label {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
     }
 }
 

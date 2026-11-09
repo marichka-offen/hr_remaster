@@ -1,0 +1,49 @@
+---
+// Groups of articles that follow one story across decades, each listed in date order with a coloured edge
+// for the period it starts in
+import SectionHeading from '@components/composite/SectionHeading/SectionHeading.astro'
+import { eraColor, span } from '@lib/period'
+import './ReadingPaths.scss'
+import type { ArticleMeta } from '@app-types/article'
+
+interface Props {
+    heading?: string
+    intro?: string
+    paths: { title: string; articles: ArticleMeta[] }[]
+}
+
+const { heading, intro, paths } = Astro.props
+// Show at most four articles per path; the rest are counted
+const SHOWN = 4
+const ordered = paths
+    .filter((path) => path.articles.length)
+    .map((path) => ({ ...path, articles: [...path.articles].sort((a, b) => (a.startYear ?? Infinity) - (b.startYear ?? Infinity)) }))
+---
+
+<section class="reading-paths" aria-labelledby="reading-paths-heading">
+    <div class="reading-paths__inner">
+        <SectionHeading heading={heading} intro={intro} id="reading-paths-heading" />
+        <div class="reading-paths__grid">
+            {ordered.map((path) => {
+                const color = eraColor(path.articles[0].startYear)
+                const first = path.articles[0]
+                return (
+                    <article class="reading-path" style={`--path-color: ${color}`}>
+                        <p class="reading-path__span">{span(path.articles)} · {path.articles.length} articles</p>
+                        <h3 class="reading-path__title">{path.title}</h3>
+                        <ol class="reading-path__list">
+                            {path.articles.slice(0, SHOWN).map((article) => (
+                                <li class="reading-path__item">
+                                    <span class="reading-path__year">{article.startYear}</span>
+                                    <a href={`/articles/${article.slug}`}>{article.title}</a>
+                                </li>
+                            ))}
+                            {path.articles.length > SHOWN && <li class="reading-path__more">and {path.articles.length - SHOWN} more</li>}
+                        </ol>
+                        <a class="reading-path__start" href={`/articles/${first.slug}`} aria-label={`Start reading: ${first.title}`}>Start reading</a>
+                    </article>
+                )
+            })}
+        </div>
+    </div>
+</section>

@@ -8,15 +8,13 @@ const bySlug = (slug: string) => {
     return article
 }
 
-const forthcoming = books[1]
 
 
 export const siteSettings: SiteSettings = {
     header: {
         logoTitle: 'History Reconsidered',
-        logoSubtitle: 'Military History & Research',
+        logoSubtitle: 'Military history by Lee G. Offen',
         navigation: [
-            { label: 'Home', href: '/' },
             { label: 'Articles', href: '/articles' },
             { label: 'Books', href: '/books' },
             { label: 'About', href: '/about' },
@@ -47,51 +45,73 @@ export const home: Page = {
     sections: [
         {
             _type: 'hero',
-            label: 'Est. 2010 · Military History Journal',
-            title: 'History Reconsidered',
-            quote: 'The further backward you look, the further forward you can see.',
-            quoteAuthor: 'Winston Churchill',
-            cta: { text: 'Explore Articles', link: '/articles' },
+            // Draft wording for Lee to approve (see the "For Lee" list on the design canvas)
+            label: 'Military history from the sources',
+            title: 'Wars, regiments and campaigns, 1419–1920',
+            text: `${articles.length} researched articles on Europe and colonial America by Lee G. Offen, retired U.S. Army Major. Every article is documented with primary and secondary sources.`,
+            imageUrl: 'https://raw.githubusercontent.com/marichka-offen/history-reconsidered/master/src/assets/images/DutchHistory/heiligerlee.jpg',
+            imageAlt: 'Etching of the Battle of Heiligerlee, 1568',
+            imageCaption: 'The Battle of Heiligerlee, 1568. Etching, Museum Boijmans Van Beuningen, Rotterdam. From The Eighty Years War',
+            cta: { text: 'Browse the archive', link: '/articles' },
+            secondaryCta: { text: 'About Lee', link: '/about' },
+        },
+        {
+            _type: 'readingPaths',
+            heading: 'Read in order',
+            intro: 'Several articles follow one story across decades. Read them in sequence.',
+            paths: [
+                {
+                    title: 'Ireland at war',
+                    articles: ['oneils-rebellion', 'war-of-three-kingdoms-ireland', 'ireland-1652-1688', 'irish-military-establishment', 'williamite-war'].map(bySlug),
+                },
+                {
+                    title: 'Colonial Maryland and Virginia',
+                    articles: ['military-history-of-maryland', 'battle-of-the-severn', 'british-military-presence-america', 'british-regulars-virginia', 'maryland-forces-1754-1764', 'virginia-ranger-companies'].map(bySlug),
+                },
+                {
+                    title: 'Scotland and the Stuarts',
+                    articles: ['house-of-stuart', 'mackays-regiment', 'dumbartons-regiment'].map(bySlug),
+                },
+            ],
         },
         {
             _type: 'featured',
-            label: 'Featured',
-            heading: 'Latest Research',
+            heading: 'Latest research',
             article: bySlug('czechoslovak-legion'),
         },
         {
             _type: 'articleGrid',
-            label: 'Archive',
-            heading: 'History Articles',
+            heading: 'From the archive',
             showCategoryFilter: true,
-            articles: articles.filter((a) => a.slug !== 'czechoslovak-legion').slice(0, 6),
-            cta: { text: 'View All Articles', link: '/articles' },
+            articles: ['eighty-years-war', 'williamite-war', 'war-of-three-kingdoms-ireland', 'the-hussites', 'british-regulars-virginia', 'dumbartons-regiment'].map(bySlug),
+            cta: { text: `All ${articles.length} articles`, link: '/articles' },
         },
         {
             _type: 'authorCard',
+            label: 'The author',
             name: 'Lee G. Offen',
-            role: 'Military Historian & Retired Soldier',
-            initials: 'LO',
+            imageUrl: '/images/lee-and-kathleen.webp',
+            imageAlt: 'Lee G. Offen and Kathleen in historical reenactment dress',
+            imageCaption: 'Lee and Kathleen in reenactment dress',
             bio: [
-                {
-                    type: 'paragraph',
-                    text: 'A lifelong student of military history and a retired soldier, Lee brings both academic rigor and personal experience to his writing. Every article is thoroughly sourced, respecting the intelligence of the reader.',
-                },
                 {
                     type: 'paragraph',
                     text: 'History Reconsidered examines significant historical decisions and actions that deserve another look — events that have never been examined or haven’t been examined thoroughly enough.',
                 },
             ],
-            cta: { text: 'Read Full Bio', link: '/about' },
+            credentials: [
+                'Retired U.S. Army Major; Armored Cavalry combat veteran, Bronze Star',
+                'Assistant Professor of Military Science at Georgetown and George Mason',
+                'Master’s Degree in Government, Campbell University',
+                'Author of America’s First Marines (Westholme)',
+            ],
+            cta: { text: 'Full biography', link: '/about' },
         },
         {
-            _type: 'bookPromo',
-            label: 'Upcoming Book',
-            coverLabel: forthcoming.coverLabel,
-            title: forthcoming.title,
-            subtitle: forthcoming.subtitle,
-            description: forthcoming.excerpt,
-            cta: { text: 'Learn More', link: `/books/${forthcoming.slug}` },
+            _type: 'books',
+            heading: 'Books',
+            cta: { text: 'All books', link: '/books' },
+            books,
         },
     ],
 }

@@ -1,7 +1,7 @@
 ---
+// A selection of articles with an optional topic filter; the link to the full archive sits beside the heading
 import ArticleCardGrid from '@components/composite/ArticleCardGrid/ArticleCardGrid'
-import Button from '@components/base/Button/Button'
-import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
+import SectionHeading from '@components/composite/SectionHeading/SectionHeading.astro'
 import './ArticlesSection.scss'
 import type { ArticleMeta } from '@app-types/article'
 import type { CTA } from '@app-types/cta'
@@ -14,28 +14,12 @@ interface Props {
     cta?: CTA
 }
 
-const { label, heading, articles, showCategoryFilter, cta } = Astro.props
+const { heading, articles, showCategoryFilter, cta } = Astro.props
 ---
 
-<section id="articles">
+<section id="articles" class="articles">
     <div class="articles__container">
-        <div class="articles__header">
-            <SectionHeader label={label} heading={heading} align="center" />
-        </div>
-
+        <SectionHeading heading={heading} link={cta} />
         <ArticleCardGrid client:load articles={articles} showCategoryFilter={showCategoryFilter} />
-
-        {cta?.text && cta?.link && (
-            <div class="articles__cta">
-                <Button
-                    variant='outline-navy'
-                    onTone='light'
-                    icon={false}
-                    href={cta.link}
-                    text={cta.text}
-                    openInNewTab={cta.openInNewTab}
-                />
-            </div>
-        )}
     </div>
 </section>

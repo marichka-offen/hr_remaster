@@ -1,99 +1,121 @@
 @use '@tokens/mixins' as *;
 
 .featured {
-    background: var(--color-surface);
-    border-bottom: var(--border-thin) solid var(--color-border);
-
     &__container {
         max-width: var(--container-lg);
         margin: 0 auto;
-        padding: var(--section-y) var(--gutter);
-    }
-
-    &__header {
-        text-align: center;
-        margin-bottom: var(--space-8);
+        padding: var(--space-9) var(--gutter) var(--space-6);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
     }
 
     &__card {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        background: var(--color-surface-dark);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        background: var(--burgundy-dark);
         @include on-dark;
+        color: var(--color-text-on-dark);
         border-radius: var(--radius-sm);
         overflow: hidden;
         box-shadow: var(--shadow-lg);
-        transition: box-shadow var(--transition);
-
-        &:hover {
-            box-shadow: var(--shadow-hover);
-        }
 
         @media (max-width: $bp-lg) {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
         }
+    }
+
+    &__media {
+        min-height: 20rem;
+        background: var(--band);
+        display: flex;
+        align-items: flex-end;
+        padding: var(--space-6);
+        position: relative;
     }
 
     &__image {
-        position: relative;
-        min-height: 400px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-
-        @media (max-width: $bp-lg) {
-            min-height: 280px;
-        }
-    }
-
-    &__image-img {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        position: absolute;
-        top: 0;
-        left: 0;
     }
 
-    &__image-overlay {
-        position: absolute;
-        top: var(--space-5);
-        left: var(--space-5);
+    &__years {
+        font-family: var(--font-display);
+        font-weight: var(--weight-extrabold);
+        font-size: var(--text-3xl);
+        line-height: 1;
+        color: var(--color-era-text);
     }
 
     &__body {
-        padding: var(--space-9) var(--space-8);
+        padding: var(--space-8) var(--space-7);
         display: flex;
         flex-direction: column;
         justify-content: center;
+        gap: var(--space-4);
 
         @media (max-width: $bp-md) {
             padding: var(--space-6) var(--gutter);
         }
     }
 
-    &__body .eyebrow {
-        margin-bottom: var(--space-4);
+    &__topic {
+        font-family: var(--font-ui);
+        font-size: var(--text-sm);
+        font-weight: var(--weight-semibold);
+        color: var(--color-era-text);
     }
 
     &__title {
-        font-size: var(--text-xl);
-        font-weight: var(--weight-bold);
-        color: var(--color-text-on-dark);
+        font-size: var(--text-2xl);
         line-height: var(--leading-tight);
-        margin-bottom: var(--space-5);
+
+        a {
+            color: var(--color-text-on-dark);
+            text-decoration: none;
+
+            // The whole card is the link target for pointer users
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+            }
+        }
+    }
+
+    &__card {
+        position: relative;
     }
 
     &__excerpt {
         font-size: var(--text-md);
-        color: var(--color-text-on-dark-secondary);
         line-height: var(--leading-relaxed);
-        margin-bottom: var(--space-6);
+        color: var(--color-text-on-dark-secondary);
     }
 
     &__meta {
-        margin-bottom: var(--space-6);
+        font-family: var(--font-ui);
+        font-size: var(--text-sm);
+        color: var(--color-text-on-dark-muted);
     }
 
+    &__link {
+        align-self: flex-start;
+        font-family: var(--font-ui);
+        font-size: var(--text-base);
+        font-weight: var(--weight-semibold);
+        color: var(--color-text-on-dark);
+        text-decoration: underline;
+        text-decoration-color: var(--gold);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 6px;
+        padding-block: var(--space-2);
+    }
+
+    &__card:hover &__link {
+        color: var(--gold-light);
+    }
 }

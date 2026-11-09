@@ -1,64 +1,39 @@
 ---
-import Button from '@components/base/Button/Button'
-import Eyebrow from '@components/base/Eyebrow/Eyebrow'
-import SectionHeader from '@components/composite/SectionHeader/SectionHeader.astro'
-import PlaceholderImage from '@components/base/PlaceholderImage/PlaceholderImage'
-import CategoryChip from '@components/base/CategoryChip/CategoryChip'
-import ArticleMeta from '@components/base/ArticleMeta/ArticleMeta'
+// One article given prominence: a burgundy card with the article's image (or its years on a period band)
+import SectionHeading from '@components/composite/SectionHeading/SectionHeading.astro'
+import { cardMeta, eraColor, years } from '@lib/period'
 import './FeaturedArticle.scss'
-import type { ArticleMeta as ArticleMetaType } from '@app-types/article'
+import type { ArticleMeta } from '@app-types/article'
 
 interface Props {
     label?: string
     heading?: string
-    article: ArticleMetaType
+    article: ArticleMeta
 }
 
-const { label, heading, article } = Astro.props
-const articleUrl = `/articles/${article.slug}`
-const tagLine = article.subtitle
-const gradient = article.gradientFrom && article.gradientTo
-    ? `linear-gradient(135deg, ${article.gradientFrom} 0%, ${article.gradientTo} 100%)`
-    : 'var(--gradient-featured)'
-const code = article.period ?? ''
-const overlayCategory = article.tags ? article.tags[0] : 'Featured Article'
+const { heading, article } = Astro.props
+const meta = cardMeta(article)
+const span = years(article)
 ---
 
-<section class='featured'>
-    <div class='featured__container'>
-        <div class='featured__header'>
-            <SectionHeader label={label} heading={heading} align="center" />
-        </div>
-
-        <div class='featured__card'>
-            <div class='featured__image'>
+<section class="featured">
+    <div class="featured__container">
+        <SectionHeading heading={heading} />
+        <article class="featured__card">
+            <div class="featured__media" style={`--band: ${eraColor(article.startYear)}`}>
                 {article.imageUrl ? (
-                    <img src={article.imageUrl} alt={article.imageAlt ?? article.title} class='featured__image-img' />
+                    <img src={article.imageUrl} alt={article.imageAlt ?? ''} class="featured__image" />
                 ) : (
-                    <PlaceholderImage gradient={gradient} code={code} aspect="landscape" />
+                    <span class="featured__years" aria-hidden="true">{span}</span>
                 )}
-                <div class='featured__image-overlay'>
-                    <CategoryChip label={overlayCategory} variant="overlay" />
-                </div>
             </div>
-            <div class='featured__body'>
-                {tagLine && <Eyebrow color="gold" size="sm" align="left">{tagLine}</Eyebrow>}
-                <h3 class='featured__title'>{article.title}</h3>
-                {
-                    article.excerpt && (
-                        <p class='featured__excerpt'>{article.excerpt}</p>
-                    )
-                }
-                <div class='featured__meta'>
-                    <ArticleMeta readTime={article.readTime} tag={article.tags?.[0]} tone="dark" />
-                </div>
-                <Button
-                    variant='text'
-                    onTone='dark'
-                    href={articleUrl}
-                    text='Read Article'
-                />
+            <div class="featured__body">
+                <p class="featured__topic">{article.category}{span && ` · ${span}`}</p>
+                <h3 class="featured__title"><a href={`/articles/${article.slug}`}>{article.title}</a></h3>
+                {article.excerpt && <p class="featured__excerpt">{article.excerpt}</p>}
+                {meta && <p class="featured__meta">{meta}</p>}
+                <a class="featured__link" href={`/articles/${article.slug}`} aria-hidden="true" tabindex="-1">Read the article</a>
             </div>
-        </div>
+        </article>
     </div>
 </section>

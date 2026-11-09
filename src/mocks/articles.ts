@@ -39,6 +39,11 @@ export const topics: Record<string, { category: string; topicSlug: string; gradi
     'world-war-i': { category: 'World War I', topicSlug: 'world-war-i', gradientFrom: '#1a2332', gradientTo: '#8b2635' },
 }
 
+// Old-site images (rights still to check) and public-domain images from Wikimedia Commons, for cards
+const OLD = 'https://raw.githubusercontent.com/marichka-offen/history-reconsidered/master/src/assets/images/'
+const JENA_CODEX_ZIZKA = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Jensky_kodex_Zizka.jpg/960px-Jensky_kodex_Zizka.jpg'
+const WHITE_MOUNTAIN = 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/The_Battle_of_White_Mountain_%28by_Peter_Snayers%29.jpg/1280px-The_Battle_of_White_Mountain_%28by_Peter_Snayers%29.jpg'
+
 // Hand-written details that override the imported ones
 const curated: Record<string, Partial<Article>> = {
     // From the designs/ mocks
@@ -46,6 +51,8 @@ const curated: Record<string, Partial<Article>> = {
         title: 'The Czechoslovak Legion, 1914–1920',
         subtitle: 'European Military History · WWI Era',
         tags: ['WWI'],
+        imageUrl: `${OLD}CzechoslovakLegion/img1.jpg`,
+        imageAlt: 'Czechoslovak legionnaires beside a railway carriage, from Lee’s collection',
         excerpt:
             'The extraordinary story of Czech and Slovak immigrants who formed a military organization under Russian officers — and earned nationhood for the Czechoslovak people through an epic 4,000-mile journey across Russia.',
     },
@@ -62,6 +69,8 @@ const curated: Record<string, Partial<Article>> = {
     },
     'eighty-years-war': {
         title: 'The Eighty Years War',
+        imageUrl: `${OLD}DutchHistory/william.jpg`,
+        imageAlt: 'William of Orange, portrait by Adriaen Thomasz. Key, c. 1579',
         subtitle: 'Early Modern Europe',
         excerpt:
             'The Dutch revolt against Hapsburg Spain — a conflict spanning eight decades that birthed a nation, transformed European warfare, and reshaped the balance of power across the continent.',
@@ -69,6 +78,9 @@ const curated: Record<string, Partial<Article>> = {
     'the-hussites': {
         subtitle: '15th Century Bohemia',
         startYear: 1419,
+        endYear: 1434,
+        imageUrl: JENA_CODEX_ZIZKA,
+        imageAlt: 'Jan Žižka leading a Hussite army, from the Jena Codex',
         excerpt: 'The revolutionary military tactics and religious fervor of the Hussite Wars in 15th century Bohemia.',
     },
     'british-military-presence-america': {
@@ -80,15 +92,36 @@ const curated: Record<string, Partial<Article>> = {
     // Placeholders: these articles open without a usable first paragraph. To be rewritten by Lee
     'williamite-war': {
         excerpt: 'An order of battle for the Williamite War: the regiments of both armies and the engagements each one fought.',
+        imageUrl: `${OLD}IrishHistory/boyne.jpg`,
+        imageAlt: 'The Battle of the Boyne',
     },
     'maryland-forces-1754-1764': {
         excerpt: "A chronology of Maryland's provincial forces from 1754 to 1764, with quotations from contemporary sources.",
     },
-    'dumbartons-regiment': { title: "Dumbarton's Regiment" },
+    'dumbartons-regiment': {
+        title: "Dumbarton's Regiment",
+        startYear: 1620,
+        endYear: 1688,
+        imageUrl: WHITE_MOUNTAIN,
+        imageAlt: 'The Battle of White Mountain, 1620, painted by Peter Snayers',
+    },
+    'battle-of-the-severn': {
+        imageUrl: `${OLD}severn-map.jpeg`,
+        imageAlt: 'Hand-drawn map of the Battle of the Severn by Kathleen McLaughlin',
+    },
+    'dutch-military-new-netherland': { endYear: 1664 },
 }
 
 // Old titles use hyphens for ranges ("1677-82"); use an en dash, as elsewhere on the site
 const tidyTitle = (title: string) => title.replace(/(\d{4})\s*-\s*(\d{2,4})/g, '$1–$2').replace(/\s+/g, ' ').trim()
+
+// Last year in a title: "1660-1720" gives 1720, "1641-48" gives 1648; undefined when the title has no range
+function endYearFromTitle(title: string): number | undefined {
+    const range = title.match(/(\d{4})\s*[-–]\s*(\d{2,4})/)
+    if (!range) return undefined
+    const [, start, end] = range
+    return Number(end.length === 2 ? start.slice(0, 2) + end : end)
+}
 
 // Articles without a year in the title sort by the earliest year in their chronology
 function earliestYear(body: RichText): number | undefined {
@@ -104,6 +137,7 @@ export const articles: Article[] = (imported as ImportedArticle[]).map((item) =>
         title: tidyTitle(item.title),
         slug: item.slug,
         startYear: item.startYear ?? earliestYear(item.body),
+        endYear: endYearFromTitle(item.title),
         ...topic,
         excerpt: item.excerpt,
         body: item.body,

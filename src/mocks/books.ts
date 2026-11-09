@@ -10,6 +10,9 @@ export const books: Book[] = [
         subtitle: "Gooch's American Regiment, 1740–1742",
         author: 'Lee G. Offen',
         coverLabel: 'Available Now',
+        // The real cover, from the old site's preview images
+        coverImageUrl: 'https://raw.githubusercontent.com/marichka-offen/history-reconsidered/master/src/assets/images/book/book-ss1.png',
+        coverImageAlt: 'Cover of America’s First Marines',
         status: 'Published · Available Now',
         excerpt:
             "The first ever comprehensive regimental history of America's First Marines. Making extensive use of primary source material, this account reveals how these men formed a separate identity — becoming “Americans.”",

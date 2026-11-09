@@ -40,6 +40,7 @@ Contrast is the WCAG ratio against parchment and navy. Body text needs 4.5, larg
 
 | Token | Value | Note | On parchment | On navy |
 |---|---|---|---|---|
+| `--color-era-text` | `#f0d9a8` | years printed on a period band | 1.2 | 11.4 |
 | `--color-bg` | `var(--parchment)` | | 1.0 | 13.9 |
 | `--color-surface` | `var(--ivory)` | cards, inputs, raised panels | 1.1 | 15.4 |
 | `--color-surface-dark` | `var(--navy)` | dark sections, solid buttons | 13.9 | 1.0 |
@@ -65,7 +66,7 @@ Contrast is the WCAG ratio against parchment and navy. Body text needs 4.5, larg
 |---|---|---|
 | `--font-body` | `'Literata', 'Literata Fallback', Georgia, serif` | |
 | `--font-display` | `'Playfair Display', 'Playfair Display Fallback', Georgia, serif` | |
-| `--font-quote` | `'Cormorant Garamond', 'Cormorant Garamond Fallback', Georgia, serif` | |
+| `--font-quote` | `var(--font-body)` | |
 | `--font-ui` | `'DM Sans', 'DM Sans Fallback', system-ui, sans-serif` | |
 | `--text-xs` | `0.8125rem` | 13px: smallest size for uppercase tracked labels |
 | `--text-sm` | `0.875rem` | |
