@@ -23,3 +23,7 @@
 
 # Removed pages: send old links to the archive
 /kent-militia  /articles/  301
+
+# Renamed pages
+/books/none-shall-pass-us-by-in-silence  /books/they-shall-not-pass-by-us-in-silence/  301
+/books/none-shall-pass-us-by-in-silence/  /books/they-shall-not-pass-by-us-in-silence/  301

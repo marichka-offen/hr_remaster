@@ -25,6 +25,15 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 - [ ] Topics he's known for, used in the site's author data: currently "Military history, Colonial American military history, Early modern European warfare"
 - [ ] A start year for Scottish Military Traditions, so it sorts correctly by period (currently sorts last)
 - [ ] Check the copy written as placeholders: listing page descriptions (Articles, Books, Contact) in `src/mocks/pages.ts`
+- [ ] From his November 2026 documents (also on the canvas checklist):
+  - Maryland flag caption: the revision says "Conjectural Flag of Maryland Colonial Forces", his older email "The Colors of the Colony of Maryland". The site uses the revision
+  - Czechoslovak Legion: his index lists it only as a book. Remove the article (old links go to the book page)?
+  - Group names for the three articles his index lists on their own: "British History" (British Military Presence, House of Stuart) and "Bohemian History" (Hussites)
+  - Hostile Frontier: cover image, publication year, page count, ISBN-13 (978-0-578-95096-9?), and the source of the forest photo
+  - Legion cover: the site uses one rebuilt from his draft (real photos, Larousse map); confirm or send the final
+  - Byline: his documents say "Major Lee Offen, U.S. Army, Retired"; the site says "Lee G. Offen, Military Historian & Retired Soldier"
+  - Battle of the Severn: Peden (the participants list's source) isn't in the Sources; typos: "named William as Stone Governor", "arrived … arrived", "rather die like men that live like slaves", "Captian", "Robeert", Durant/Durand; the sentence "Stone took the six men captive and three escaped back to Providence and continued north"
+  - Maryland timeline: the September 1754 entry appears twice; "October 1757" (Innes) sits among 1754 entries; "General Shirley at Boston 5 March 1754" answers a January 1756 letter; the 20 May and 30 June 1756 "red caps" entries are identical; Hopkins/Hawkins in one notice; Grants/Grant's, Bouquets/Bouquet's, Beal/Beall, Mc Ilwaine; the "Proceeds of the Council" source title
 
 ### Storyblok trial (30 minutes, before the integration is built)
 
@@ -40,6 +49,8 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 - [ ] One pass in a real browser: contents list highlighting, contents drawer, back-to-top, mobile menu, slim header on scroll, search (`npm run build` then `npm run preview`, press `/`), printing an article
 - [ ] Decide whether to keep or delete the parked `feat/storyblok` branch (local WIP commit, not pushed)
 - [ ] Set up the free Storyblok space for the trial with Lee
+
+- [ ] After merging Lee's revisions: turn off the Storyblok webhook, run `npm run storyblok:seed`, turn it back on and publish once. Then delete by hand the stories the seed no longer uses: topics `colonial-history` and `medieval`, book `none-shall-pass-us-by-in-silence`
 
 ### After launch
 
@@ -66,7 +77,8 @@ Everything still open, grouped by who acts on it. Details and history are in [do
 - [ ] Importer: in the Williamite War order of battle, each regiment is a bold paragraph followed by a paragraph of engagements and coat colours separated by line breaks. Import them as a table: regiment, engagements, coat and facings. See the canvas mockup.
 - [ ] Importer: the "Scottish Regiments (Army of Ulster)" list in the War of Three Kingdoms came through as alternating loose paragraphs (name, then details). Import it as one block per regiment.
 - [ ] Importer: in "A Brief Military History of the Colony of Maryland" the old collapsible county sections came through as h2 headings ending in "▾", each with all its units run together in one paragraph. Import them as collapsible blocks, one per county, with one list item per unit. Splitting before each leading year ("1634-47 …", "1642 …") works.
-- [ ] Fix two copy-paste captions from the old site: the Maryland Forces flag reads "Flag of the Dutch West Indies Company" (it is the Calvert arms with the King's Colours). The militia photo had the same caption, but that page is being removed.
+- [x] Maryland Forces flag caption: replaced by Lee's revised article (see the question for Lee above)
+- [ ] Word import (`scripts/import-word.py`): used for Lee's revised Severn and Maryland timeline articles. Revisions live in `src/mocks/imported/word/` and replace the old-site text; the JSON has a few hand fixes (figure descriptions, the 1756 proclamation quote), so re-running the script overwrites them
 - [ ] Source links: change sources from plain text to text plus an optional link; show the link on the article and in print; add the confirmed links:
   - Cannon: <https://archive.org/details/cihm_48340>
   - Hamilton Vol. I: <https://archive.org/details/originhistoryfi00hamigoog>
