@@ -9,9 +9,13 @@ import { articles } from '../src/mocks/articles'
 import { books } from '../src/mocks/books'
 import * as pages from '../src/mocks/pages'
 import { managementApi } from './storyblok-mapi.mjs'
+import { collectImageUrls, prepareAssets } from './storyblok-assets'
 
 const api = managementApi()
 const uid = () => randomUUID()
+
+// Images first: upload any the asset library doesn't have yet, then image fields point at Storyblok's copies
+const assetField = await prepareAssets(api, collectImageUrls(articles, books, pages))
 
 // ---------------------------------------------------------------- Rich text: our blocks -> Storyblok
 
@@ -79,7 +83,7 @@ function toNode(block: RichTextBlock): unknown[] {
                 },
             ]
         case 'figure':
-            return [blok('figure', { alt: block.alt, caption: block.caption ?? '', credit: block.credit ?? '', aspect: block.aspect ?? 'landscape' })]
+            return [blok('figure', { image: assetField(block.src, block.alt), alt: block.alt, caption: block.caption ?? '', credit: block.credit ?? '', aspect: block.aspect ?? 'landscape' })]
         case 'callout':
             return [blok('callout', { variant: block.variant, title: block.title ?? '', text: block.text })]
         case 'collapsible':
@@ -195,6 +199,7 @@ for (const article of [...articles].reverse()) {
         period: article.period ?? '',
         startYear: article.startYear ? String(article.startYear) : '',
         endYear: article.endYear ? String(article.endYear) : '',
+        image: assetField(article.imageUrl, article.imageAlt),
         excerpt: article.excerpt ?? '',
         seoDescription: article.seoDescription ?? '',
         readTime: article.readTime ?? '',
@@ -213,6 +218,8 @@ for (const book of [...books].reverse()) {
         subtitle: book.subtitle ?? '',
         author: book.author ?? '',
         coverLabel: book.coverLabel ?? '',
+        coverImage: assetField(book.coverImageUrl, book.title),
+        previewPages: (book.previewPages ?? []).map((p) => assetField(p.src, p.alt)).filter((a) => 'id' in a),
         status: book.status ?? '',
         excerpt: book.excerpt ?? '',
         description: toStoryblokRichText(book.description),
@@ -238,6 +245,7 @@ function toBlok(section: Section): Record<string, unknown> | undefined {
                 label: section.label ?? '',
                 title: section.title,
                 text: section.text ?? '',
+                image: assetField(section.imageUrl, section.imageAlt),
                 imageCaption: section.imageCaption ?? '',
                 ...ctaFields(section.cta),
                 secondaryCtaText: section.secondaryCta?.text ?? '',
@@ -272,6 +280,7 @@ function toBlok(section: Section): Record<string, unknown> | undefined {
                 label: section.label ?? '',
                 name: section.name,
                 initials: section.initials ?? '',
+                image: assetField(section.imageUrl, section.imageAlt),
                 imageCaption: section.imageCaption ?? '',
                 credentials: (section.credentials ?? []).join('\n'),
                 bio: toStoryblokRichText(section.bio),
@@ -289,6 +298,7 @@ function toBlok(section: Section): Record<string, unknown> | undefined {
                 name: section.name,
                 role: section.role ?? '',
                 initials: section.initials ?? '',
+                image: assetField(section.imageUrl, section.imageAlt),
                 bio: toStoryblokRichText(section.bio),
                 credentials: (section.credentials ?? []).map((c) => ({ _uid: uid(), component: 'credential', icon: c.icon, label: c.label, title: c.title, description: c.description ?? '' })),
             }
@@ -329,6 +339,7 @@ await upsert('settings', 'Site settings', {
     authorName: authorSource?.name ?? '',
     authorRole: authorSource?.role ?? '',
     authorInitials: authorSource?.initials ?? '',
+    authorImage: assetField(authorSource?.imageUrl, authorSource?.name),
     authorBio: toStoryblokRichText(authorSource?.bio),
 })
 
