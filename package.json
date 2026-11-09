@@ -11,7 +11,8 @@
     "og-image": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 --virtual-time-budget=3000 --screenshot=public/og-default.png scripts/og-default.html",
     "tokens-doc": "python3 scripts/tokens-doc.py",
     "storyblok:push": "node scripts/storyblok-push-components.mjs",
-    "storyblok:seed": "npx -y tsx@4 scripts/storyblok-seed.ts"
+    "storyblok:seed": "npx -y tsx@4 scripts/storyblok-seed.ts",
+    "storyblok:assets": "npx -y tsx@4 scripts/storyblok-assets.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.13",
