@@ -27,7 +27,7 @@ ARTICLES = {
     'ColonialHistory/MarylandForces.vue': ('maryland-forces-1754-1764', '/colonial-history/maryland-forces', 'colonial-history'),
     'ColonialHistory/VARangers.vue': ('virginia-ranger-companies', '/colonial-history/va-rangers', 'colonial-history'),
     'ColonialHistory/Severn.vue': ('battle-of-the-severn', '/colonial-history/severn-battle', 'colonial-history'),
-    'KentMilitia/KentMilitia.vue': ('kent-county-militia', '/kent-militia', 'colonial-history'),
+    # KentMilitia/KentMilitia.vue is left out on purpose: Lee asked to remove the page (the group no longer exists)
     'Maryland/Maryland.vue': ('military-history-of-maryland', '/maryland', 'colonial-history'),
     'CzechoSlovakLegion/CzechoslovakLegion.vue': ('czechoslovak-legion', '/czechoslovak-legion', 'world-war-i'),
     'DutchHistory/EightyYearsWar.vue': ('eighty-years-war', '/dutch-history/eighty-years-war', 'dutch-history'),
